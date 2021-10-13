@@ -19,5 +19,5 @@ jobs:
         uses: joshlarsen/jekyll4-deploy-gh-pages@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+          GITHUB_REPOSITORY: tangyuewei/tangyuewei.github.io@master
           GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
