@@ -4,9 +4,6 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: tangyuewei/tangyuewei.github.io@gh_pages
-
       - name: vuepress-deploy
         uses: tangyuewei/tangyuewei.github.io@gh_pages
         env:
