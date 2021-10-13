@@ -1,11 +1,5 @@
-name: Build and Deploy
-on: [push]
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: vuepress-deploy
-        uses: tangyuewei/tangyuewei.github.io@gh_pages
+name: vuepress-deploy
+        runs: tangyuewei/tangyuewei.github.io@gh_pages
         env:
           TARGET_REPO: tangyuewei/tangyuewei.github.io
           TARGET_BRANCH: master
