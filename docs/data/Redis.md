@@ -1,0 +1,313 @@
+---
+meta:
+  - name: description
+    content: 努力只是一种生活方式，先敬业，再乐业
+  - name: keywords
+    content: 缓存雪崩,缓存击穿,Redis简介,Redis使用场景,Redis使用指南,Redis数据类型
+---
+# Redis
+
+## 简介
+
+[在线redis命令测试](http://try.redis.io/)
+
+> Redis 是一个开源（BSD许可）的，内存中的数据结构存储系统，它可以用作数据库、缓存和消息中间件。 支持多种类型的数据结构，如 字符串（strings）， 散列（hashes）， 列表（lists）， 集合（sets）， 有序集合（sorted sets） 与范围查询， bitmaps， hyperloglogs 和 地理空间（geospatial） 索引半径查询。 Redis 内置了 复制（replication），LUA脚本（Lua scripting）， LRU驱动事件（LRU eviction），事务（transactions） 和不同级别的 磁盘持久化（persistence）， 并通过 Redis哨兵（Sentinel）和自动 分区（Cluster）提供高可用性（high availability）。
+
+## 数据类型
+
+### 字符串（strings）
+```sql
+> set mykey somevalue
+OK
+> get mykey
+"somevalue"
+```
+
+- 当key存在时SET会失败，当key不存在时它只会成功。
+```sql
+> set mykey newval nx
+(nil)
+```
+- 当key不存在时会失败，当key存在时它会成功并更新值。
+```sql
+> set mykey newval xx
+OK
+```
++ 原子递增：返回递增后的值
+::: tip 提示
+key不存在会创建key，如果key存在，但不是integer类型则会报错
+即使多个客户端对同一个key发出INCR命令，也决不会导致竞争的情况。
+:::
+
+```sql
+> set counter 100
+OK
+> incr counter
+(integer) 101
+> incr counter
+(integer) 102
+> incrby counter 50
+(integer) 152
+```
++ 原子递减：返回递减后的值
+```sql
+> decr counter
+(integer) 151
+> decrby counter 50
+(integer) 101
+```
++ GETSET命令，行如其名：他为key设置新值并且返回原值。时间复杂度：O(1)
+```sql
+redis> INCR mycounter
+(integer) 1
+redis> GETSET mycounter "0"
+"1"
+redis> GET mycounter
+"0"
+redis> 
+```
++ 一次存储或获取多个key对应的值
+
+```sql
+> mset a 10 b 20 c 30
+OK
+> mget a b c
+1) "10"
+2) "20"
+3) "30"
+```
++ TYPE命令可以返回key对应的值的存储类型,使用EXISTS命令返回1或0标识给定key的值是否存在
+```sql
+> set mykey x
+OK
+> type mykey
+string
+> del mykey
+(integer) 1
+> type mykey
+none
+> exists mykey
+(integer) 0
+
+```
+
++ Redis超时:数据在限定时间内存活,TTL命令用来查看key对应的值剩余存活时间。
+
+```sql
+> set key somevalue
+OK
+> expire key 5
+(integer) 1
+
+> set key 100 ex 10
+OK
+> ttl key
+(integer) 9
+
+```
+
+### 散列（hashes）
+
+Hash 便于表示 objects, HMSET 指令设置 hash 中的多个域，而 HGET 取回单个域。HMGET 和 HGET 类似，返回多列值
+
+```sql
+> hmset user:1000 username tyw birthyear 2020 verified 1
+OK
+> hget user:1000 username
+"tyw"
+> hget user:1000 birthyear
+"2020"
+> hgetall user:1000
+1) "username"
+2) "tyw"
+3) "birthyear"
+4) "2020"
+5) "verified"
+6) "1"
+
+> hmget user:1000 username birthyear no-such-field
+1) "tyw"
+2) "2020"
+3) (nil)
+
+```
++ HINCRBY
+ 
+> 小的 hash 被用特殊方式编码，非常节约内存
+```sql
+> hincrby user:1000 birthyear 10
+(integer) 2030
+> hdecrby user:1000 birthyear 10
+(integer) 2020
+```
+
+###  列表（lists）
+
+- `rpush mylist A` 右边插入,或者`rpush mylist A B C 1 'dd'`
+- `lpush mylist first` 左边插入
+- `lrange mylist 0 -1` 列出元素
+- `rpop mylist` 右边删除元素，返回删除的值，左边删除`lpop mylist`
+::: tip 提示
+-1表示最后一个元素，-2表示list中的倒数第二个元素，以此类推。
+> 应用场景： 1.聊天系统2.不同进程间传递消息的队列
+例如在评级系统中，比如社会化新闻网站 reddit.com，你可以把每个新提交的链接添加到一个list，用LRANGE可简单的对结果分页。
+在博客引擎实现中，你可为每篇日志设置一个list，在该list中推入博客评论，等等。
+:::
+
+###  集合（sets）
+
+> Redis Set 是 String 的无序排列。SADD 指令把新的元素添加到 set 中。对 set 也可做一些其他的操作，比如测试一个给定的元素是否存在，对不同 set 取交集，并集或差，等等。
+
+```sql
+> sadd myset 1 2 3
+(integer) 3
+> smembers myset
+1. 3
+2. 1
+3. 2
+```
+- Redis 有检测成员的指令
+`sismember myset 3`
+
+- Sets 适合用于表示对象间的关系。假设我们想要给新闻打上标签
+`sadd news:1000:tags 1 2 5 66`
+
+- SINTER 命令获取不同 set 的交集
+`sinter tag:1:news tag:2:news tag:10:news tag:27:news`
+
+- 返回集合中的所有成员
+`smembers key`
+
+- 获取集合的成员数
+`scard key`
+
+- 返回给定所有集合的差集
+`sdiff key1 key2`
+
+- 返回给定所有集合的差集并存储在 dest 中
+`sdiffstore dest key1 key2`
+
+- 返回给定所有集合的交集
+`sinter key1 key2`
+
+- 返回给定所有集合的交集并存储在 dest 中
+`sinterstore dest key1 key2`
+
+- 将 member 元素从 source 集合移动到 dest 集合
+`smove source dest member`
+
+- 移除并返回集合中的一个随机元素
+`spop key`
+
+- 返回集合中一个或多个随机数
+`srandmember key count`
+
+- 移除集合中一个或多个成员
+`srem key member1 member2`
+
+- 返回所有给定集合的并集
+`sunion key1 key2`
+
+- 所有给定集合的并集存储在 dest 集合中
+`sunionstore dest key1 key2`
+
+- 迭代集合中的元素
+`sscan key cursor [match pattern] [count count]`
+
+
+### 有序集合（sorted sets）
+
+>集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。 集合中最大的成员数为 2的32次方 -1 (4294967295,40多亿个)
+
++ 向有序集合添加一个或多个成员，或者更新已存在成员的分数
+`zadd key score1 member1 score2 member2`
+
++ 获取有序集合的成员数
+`zcard key`
+
++ 计算在有序集合中指定区间分数的成员数
+`zcount key min max`
+
++ 有序集合中对指定成员的分数加上增量 increment
+`zincrby key increment member`
+
++ 计算给定的一个或多个有序集的交集并将结果集存储在新的有序集合 key 中
+`zinterstore destination numkeys key key1 ...`
+
++ 返回有序集中，成员的分数值
+`zscore key member`
+
++ 返回有序集合中指定成员的排名，有序集成员按分数值递减(从大到小)排序
+`zrevrank key member`
+
+## 持久化
+
+>持久化就是把内存的数据写到磁盘中去，防止服务宕机了内存数据丢失。
+
+### RDB
+
+>RDB：Redis DataBase缩写,是Redis默认的持久化方式。按照一定的时间将内存的数据以快照的形式保存到硬盘中，
+>对应产生的数据文件为dump.rdb。通过配置文件中的save参数来定义快照的周期。
+
+优点：
+- 只有一个文件 dump.rdb，方便持久化。
+- 容灾性好，一个文件可以保存到安全的磁盘。
+- 性能最大化，fork 子进程来完成写操作，让主进程继续处理命令，所以是 IO 最大化，保证了 redis 的高性能。
+- 相对于数据集大时，启动效率比 AOF 的更高。
+缺点：数据安全性较低，适合数据要求不是很严谨的情况下使用
+
+### AOF
+
+>AOF即Append Only File持久化，则是将Redis执行的每次写命令记录到单独的日志文件中，当重启Redis会重新将持久化的日志中文件恢复数据。
+
+当两种方式同时开启时，数据恢复Redis会优先选择AOF恢复。
+
+优点：
+- 数据安全，aof 持久化可以配置 appendfsync 属性，有 always，每进行一次 命令操作就记录到 aof 文件中一次。
+- 通过 append 模式写文件，即使中途服务器宕机，可以通过 redis-check-aof 工具解决数据一致性问题。
+- AOF 机制的 rewrite 模式。AOF 文件没被 rewrite 之前（文件过大时会对命令 进行合并重写），可以删除其中的某些命令（比如误操作的 flushall）
+缺点：
+- AOF 文件比 RDB 文件大，且恢复速度慢
+- 数据集大的时候，启动效率比 rdb 低
+
+## 集群方案
+
+### 哨兵模式
+
+>sentinel用于实现 redis 集群的高可用，本身也是分布式的，作为一个哨兵集群去运行，互相协同工作。
+
+核心：
+- 哨兵至少需要 3 个实例。
+- 哨兵 + redis 主从的部署架构，是不保证数据零丢失的，只能保证 redis 集群的高可用性。
+
+### 官方 Redis Cluster 方案(推荐)
+
+>Redis Cluster采用slot(槽)的概念，一共分成16384个槽。将请求发送到任意节点，接收到请求的节点会将查询请求发送到正确的节点上执行
+
+优点：
+- 无中心架构，支持动态扩容，对业务透明
+- 具备Sentinel的监控和自动Failover(故障转移)能力
+- 客户端不需要连接集群所有节点，连接集群中任何一个可用节点即可
+- 高性能，客户端直连redis服务，省去了proxy代理的损耗
+缺点：
+- 运维很复杂，数据迁移需要人工干预
+- 只能使用0号数据库
+- 不支持批量操作(pipeline管道操作)
+- 分布式逻辑和存储模块耦合等
+
+## 缓存雪崩
+
+- 缓存数据的过期时间设置随机，防止同一时间大量数据过期现象发生。
+- 一般并发量不是特别多的时候，使用最多的解决方案是加锁排队。
+- 给每一个缓存数据增加相应的缓存标记，记录缓存的是否失效，如果缓存标记失效，则更新数据缓存。
+
+## 缓存穿透
+
+- 设置热点数据永远不过期。
+- 加互斥锁
+
+## 缓存与数据库双写时的数据不一致性
+
+>先更新数据库，然后再删除缓存
+
+

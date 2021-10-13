@@ -1,0 +1,86 @@
+---
+meta:
+  - name: description
+    content: 努力只是一种生活方式，先敬业，再乐业
+  - name: keywords
+    content: 唐悦玮,唐悦玮的博客,唐悦玮博客,全景网唐悦玮,悦玮
+---
+# JVM
+
+##  java.lang.OutOfMemoryError: Java heap space
+分析：这是最典型的内存泄漏方式，简单说就是所有堆空间都被无法回收的垃圾对象占满，虚拟机无法再在分配新空间
+>解决：这种方式解决起来也比较容易，一般就是根据垃圾回收前后情况对比，同时根据对象引用情况（常见的集合对象引用）分析，基本都可以找到泄漏点。
+
+## java.lang.OutOfMemoryError: PermGen space
+```
+-XX:PermSize=N //方法区 (永久代) 初始大小
+-XX:MaxPermSize=N //方法区 (永久代) 最大大小,超过这个值将会抛出 OutOfMemoryError 异常:java.lang.OutOfMemoryError: PermGen
+```
+分析：Perm空间被占满。无法为新的class分配存储空间而引发的异常。
+>解决：1. -XX:MaxPermSize=128m 2. 换用JDK。比如JRocket。
+
+## java.lang.StackOverflowError
+分析：一般就是递归没返回，或者循环调用造成线程堆栈满
+>找到相关代码处理
+
+## Fatal: Stack size too small
+分析：java中一个线程的空间大小是有限制的。
+>解决：增加线程栈大小。-Xss2m。但这个配置无法解决根本问题，还要看代码部分是否有造成泄漏的部分
+
+## java.lang.OutOfMemoryError: unable to create new native thread
+分析：由于操作系统没有足够的资源来产生这个线程造成的。
+>解决：1. 重新设计系统减少线程数量。2. 线程数量不能减少的情况下，通过-Xss减小单个线程大小。以便能生产更多的线程。
+
+## 三种类型垃圾收集器
+- 串行收集器Serial：Serial、Serial Old。单线程，适用于内存小的嵌入式设备。
+```
+-XX:+UseSerialGC -XX:+UseSerialOldGC
+```
+- 并行收集器Parallel：Paralel Scavenge、Parallel Old，吞吐量优先。
+```
+-XX:+UseParallelGC  -XX:+UseParallelOldGC
+```
+- 并发收集器Concurrent：CMS、G1，停顿时间优先。
+```
+CMS: XX:+UseConcMarkSweepGC -XX:UseParNewGC
+G1: -XX:UseG1GC
+```
+>- 优先调整堆的大小，让JVM自己来选择；
+>- 如果内存小于100M，使用串行收集器；
+>- 如果是单核，并没有停顿时间的要求，串行或JVM自己选；
+>- 如果允许停顿时间超过1秒，选择并行或JVM自己选；
+>- 如果响应时间非常重要，并且不能超过1秒，使用并发收集器；
+
+### 推荐的jvm模版
+```
+-Xmx4g –Xms4g –Xmn1200m –Xss512k -XX:NewRatio=4 -XX:SurvivorRatio=8 -XX:PermSize=100m -XX:MaxTenuringThreshold=15
+```
+```
+ JAVA_OPTS="$JAVA_OPTS -server -Xms3G -Xmx3G -Xss256k -XX:PermSize=64m -XX:MaxPermSize=128m -XX:+UseParallelOldGC -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/usr/aaa/dump -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xloggc:/usr/aaa/dump/heap_trace.txt -XX:NewSize=512m -XX:MaxNewSize=1G"
+```
+
+```
+jdk1.7 6V8G -server -Xms4g -Xmx4g -Xmn2g -Xss768k -XX:PermSize=512m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+CMSClassUnloadingEnabled -XX:+DisableExplicitGC -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=68 -verbose:gc -XX:+PrintGCDetails -Xloggc:{CATALINA_BASE}/logs/gc.log -XX:+PrintGCDateStamps -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath={CATALINA_BASE}/logs 前台
+
+jdk1.7 8V8G -server -Xms4g -Xmx4g -Xmn2g -Xss768k -XX:PermSize=512m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+CMSClassUnloadingEnabled -XX:+DisableExplicitGC -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=68 -verbose:gc -XX:+PrintGCDetails -Xloggc:{CATALINA_BASE}/logs/gc.log -XX:+PrintGCDateStamps -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath={CATALINA_BASE}/logs 前台
+
+jdk1.7 4V8G -server -Xms4g -Xmx4g -Xmn2g -Xss768k -XX:PermSize=512m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+CMSClassUnloadingEnabled -XX:+DisableExplicitGC -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=68 -verbose:gc -XX:+PrintGCDetails -Xloggc:{CATALINA_BASE}/logs/gc.log -XX:+PrintGCDateStamps -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath={CATALINA_BASE}/logs 前台
+
+jdk1.7 6V8G -server -Xms4g -Xmx4g -XX:MaxPermSize=512m \-verbose:gc -XX:+PrintGCDetails -Xloggc{CATALINA_BASE}/logs/gc.log -XX:+PrintGCTimeStamps \ 后台
+
+```
+>- -Xmx4g：堆内存最大值为4GB。默认(MaxHeapFreeRatio参数可以调整)空余堆内存大于70%时，JVM会减少堆直到-Xms的最小限制。
+>- -Xms4g：初始化堆内存大小为4GB。默认为物理内存的1/64(小于1GB)。
+>- -Xmn1200m：设置年轻代大小为1200MB。增大年轻代后，将会减小年老代大小。此值对系统性能影响较大，Sun官方推荐配置为整个堆的3/8。
+>- -Xss512k：设置每个线程的堆栈大小。JDK5.0以后每个线程堆栈大小为1MB，以前每个线程堆栈大小为256K。应根据应用线程所需内存大小进行调整。在相同物理内存下，减小这个值能生成更多的线程。但是操作系统对一个进程内的线程数还是有限制的，不能无限生成，经验值在3000~5000左右。
+>- -XX:NewRatio=4：设置年轻代（包括Eden和两个Survivor区）与年老代的比值（除去持久代）。设置为4，则年轻代与年老代所占比值为1：4，年轻代占整个堆栈的1/5
+>- -XX:SurvivorRatio=8：设置年轻代中Eden区与Survivor区的大小比值。设置为8，则两个Survivor区与一个Eden区的比值为2:8，一个Survivor区占整个年轻代的1/10
+>- -XX:PermSize=100m：初始化永久代大小为100MB。
+>- -XX:MaxTenuringThreshold=15：设置垃圾最大年龄。如果设置为0的话，则年轻代对象不经过Survivor区，直接进入年老代。对于年老代比较多的应用，可以提高效率。如果将此值设置为一个较大值，则年轻代对象会在Survivor区进行多次复制，这样可以增加对象再年轻代的存活时间，增加在年轻代即被回收的概论。
+
+## 参考链接
+
+
+> https://blog.csdn.net/wangshuminjava/article/details/107041189
+> https://www.liaoxuefeng.com/article/1336345083510818
+> https://snailclimb.gitee.io/javaguide-interview/#/./docs/b-4jvm
