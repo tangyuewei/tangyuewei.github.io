@@ -14,4 +14,4 @@ deploy:
   keep-history: true
   on:
     branch: master
-    target_branch: gh-pages
+    target_branch: jekyll-TeXt
