@@ -1,0 +1,17 @@
+name: Build and Deploy
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: tangyuewei/tangyuewei.github.io@gh_pages
+
+      - name: vuepress-deploy
+        uses: tangyuewei/tangyuewei.github.io@gh_pages
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          TARGET_REPO: tangyuewei/tangyuewei.github.io
+          TARGET_BRANCH: master
+          BUILD_SCRIPT: npm install && npm run docs:build
+          BUILD_DIR: docs/.vuepress/dist/
