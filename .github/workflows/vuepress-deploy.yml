@@ -8,10 +8,10 @@ jobs:
       uses: actions/checkout@master
 
     - name: vuepress-deploy
-      uses: tangyuewei/tangyuewei.github.io@master
+      uses: tangyuewei/tangyuewei.github.io@gh_pages
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         TARGET_REPO: tangyuewei/tangyuewei.github.io
         TARGET_BRANCH: master
-        BUILD_SCRIPT: yarn && yarn build
-        BUILD_DIR: blog/.vuepress/dist/
+        BUILD_SCRIPT: npm run docs:build
+        BUILD_DIR: docs/.vuepress/dist/
