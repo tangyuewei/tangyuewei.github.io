@@ -1,7 +1,6 @@
-on:
-  push:
-    branches:
-      - master
+name: Jekyll Deploy
+
+on: [push]
 
 jobs:
   build_and_deploy:
