@@ -5,8 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: vuepress-deploy
-      uses: tangyuewei/tangyuewei.github.io@gh_pages
+      run: npm run docs:build
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BUILD_SCRIPT: npm run docs:build
         BUILD_DIR: docs/.vuepress/dist/
