@@ -71,7 +71,7 @@ cd -
 
 ```
 # 打包部署
-在docs上一级目录右键Git Bash Here
+右键Git Bash Here
 ```$bash
 bash deploy.sh
 ```
