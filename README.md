@@ -98,6 +98,11 @@ jobs:
           BUILD_DIR: docs/.vuepress/dist/
 
 ```
+**[创建token]**
+>点击你的头像 > Settings > Developer settings > Personal access tokens > Generate new token. 权限至少要勾选repo，不清楚的，直接无脑全选就行~ 问题不大，不要慌。
 
+**[创建secrets]**
+> 你的vuepress项目源码仓库下 > Settings > Secrets， 创建ACCESS_TOKEN， 值就填写你刚才创建的token，确定。
 
-
+## 参考资料
+* [vuepress-deploy](https://github.com/jenkey2011/vuepress-deploy/blob/v1.8.1/README.zh-CN.md)
