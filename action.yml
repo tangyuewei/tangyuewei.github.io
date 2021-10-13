@@ -10,7 +10,6 @@ jobs:
       - name: vuepress-deploy
         uses: tangyuewei/tangyuewei.github.io@gh_pages
         env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           TARGET_REPO: tangyuewei/tangyuewei.github.io
           TARGET_BRANCH: master
           BUILD_SCRIPT: npm install && npm run docs:build
