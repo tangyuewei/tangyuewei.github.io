@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout
+        uses: tangyuewei/tangyuewei.github.io@gh_pages
 
       - name: vuepress-deploy
         uses: tangyuewei/tangyuewei.github.io@gh_pages
