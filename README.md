@@ -71,9 +71,32 @@ cd -
 
 ```
 # 打包部署
-右键Git Bash Here
+- 右键`Git Bash Here`
 ```$bash
 bash deploy.sh
+```
+- 使用`action`自动部署，在你项目仓库`.github/workflows`目录下创建一个`.yml文件`，举例：`vuepress-deploy.yml`。
+
+内容：
+```
+name: Build and Deploy
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: vuepress-deploy
+        uses: jenkey2011/vuepress-deploy@master
+        env:
+          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_REPO: tangyuewei/tangyuewei.github.io
+          TARGET_BRANCH: master
+          BUILD_SCRIPT: npm install && npm run docs:build
+          BUILD_DIR: docs/.vuepress/dist/
+
 ```
 
 
