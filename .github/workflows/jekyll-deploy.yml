@@ -16,8 +16,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gems-
       - name: Build & Deploy to GitHub Pages
-        uses: tangyuewei/jekyll-auto-deploy@master
+        uses: tangyuewei/jekyll-auto-deploy@gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: tangyuewei/tangyuewei.github.io@master
+          GITHUB_REPOSITORY: tangyuewei/tangyuewei.github.io@gh-pages
           GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
