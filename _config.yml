@@ -20,7 +20,7 @@ timezone: Asia/Shanghai
 
 title: 唐悦玮                          # the main title
 
-tagline: A text-focused Jekyll theme   # it will display as the sub-title
+tagline: 不以物喜，不以己悲   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   努力只是一种生活方式，先敬业，再乐业.
@@ -53,7 +53,7 @@ google_site_verification: google_meta_tag_verification # change to your verifica
 
 
 google_analytics:
-  id: ''              # fill in your Google Analytics ID
+  id: 'G-CTLDK29SCE'              # fill in your Google Analytics ID
   # Google Analytics pageviews report settings
   pv:
     proxy_endpoint:   # fill in the Google Analytics superProxy endpoint of Google App Engine
