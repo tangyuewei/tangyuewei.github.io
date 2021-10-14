@@ -10,9 +10,11 @@ on:
       - '!.github/workflows/ci.yml'
       - '.travis.yml'
       - '.gitignore'
+      - '.gitattributes'
       - 'docs/**'
       - 'README.md'
       - 'LICENSE'
+      - 'dockerfile'
   pull_request:
     paths:
       - '**'
