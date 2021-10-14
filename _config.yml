@@ -55,9 +55,19 @@ google_site_verification: google_meta_tag_verification # change to your verifica
 google_analytics:
   id: 'G-CTLDK29SCE'              # fill in your Google Analytics ID
   # Google Analytics pageviews report settings
+
+#default pv
+#  pv:
+#    proxy_endpoint:   # fill in the Google Analytics superProxy endpoint of Google App Engine
+#    cache_path:       # the local PV cache data, friendly to visitors from GFW region
   pv:
-    proxy_endpoint:   # fill in the Google Analytics superProxy endpoint of Google App Engine
-    cache_path:       # the local PV cache data, friendly to visitors from GFW region
+    # The Google Analytics pageviews switch.
+    # DO NOT enable it unless you know how to deploy the Google Analytics superProxy.
+    enabled: false
+    # the next options only valid when `google_analytics.pv` is enabled.
+    proxy_url: ''
+    proxy_endpoint: ''
+    cache: false  # pv data local cache, good for the users from GFW area.
 
 # Prefer color scheme setting.
 #
@@ -90,7 +100,7 @@ disqus:
   shortname: ''    # Fill with your Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
 
 paginate: 10
-
+paginate_path: "/moments/page:num"
 # ------------ The following options are not recommended to be modified ------------------
 
 kramdown:
@@ -104,11 +114,14 @@ kramdown:
       line_numbers: true
       start_line: 1
 
+permalink: /:year/:month-:day-:hour.:minute.html
+
 collections:
   tabs:
     output: true
     sort_by: order
 
+right: true
 
 defaults:
   -
@@ -149,6 +162,9 @@ compress_html:
     envs: [development]
 
 exclude:
+  - vendor
+  - Gemfile
+  - Gemfile.lock
   - '*.gem'
   - '*.gemspec'
   - tools
@@ -157,7 +173,19 @@ exclude:
   - LICENSE
   - gulpfile.js
   - node_modules
-  - '*.json'
+  - package.json
+  - package-lock.json
+
+#exclude:
+#  - '*.gem'
+#  - '*.gemspec'
+#  - tools
+#  - docs
+#  - README.md
+#  - LICENSE
+#  - gulpfile.js
+#  - node_modules
+#  - '*.json'
 
 jekyll-archives:
   enabled: [categories, tags]
@@ -167,3 +195,5 @@ jekyll-archives:
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
+
+future: true
