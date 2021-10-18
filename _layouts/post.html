@@ -136,6 +136,10 @@ layout: default
       {% include disqus.html %}
     {% endif %}
 
+    {% if site.comments and page.comments %}
+      {% include disqus-gittalk.html %}
+    {% endif %}
+
     </div> <!-- #post-extend-wrapper -->
 
   </div> <!-- .col-* -->

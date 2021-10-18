@@ -98,8 +98,17 @@ avatar: ./assets/img/favicons/mstile-150x150.png
 # boolean type, the global switch for ToC in posts.
 toc: true
 
+# Comments 评论功能
+comments:
+  gitalk: true
+  clientID: 2ff93b64ed14b27286bd
+  secret: 7281c4afa105c919495e3d6b7c76e71bab38883b
+  repo: tangyuewei.github.io
+  owner: tangyuewei
+  admin: tangyuewei
+
 disqus:
-  comments: true  # boolean type, the global switch for posts comments.
+  comments: false  # boolean type, the global switch for posts comments.
   shortname: 'tangyuewei'    # Fill with your Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
 
 paginate: 10

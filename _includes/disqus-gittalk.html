@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+
+<!--
+  The Disqus lazy loading.
+-->
+
+<div>
+  {% if site.comments.gitalk %}
+  <section class="post-footer-item comment">
+    <div id="gitalk_container"></div>
+    <div id="disqus_thread"></div>
+  </section>
+  {% endif %}
+</div>
+{% if site.comments.gitalk %}
+<script>
+  var gitalk = new Gitalk({
+    id: location.pathname,
+    clientID: '{{ site.comments.clientID }}',  //这里其实可以直接填值，但是考虑到页面安全性，还是通过配置的方式添加
+    clientSecret: '{{ site.comments.secret }}',
+    repo: '{{ site.comments.repo }}',
+    owner: '{{ site.comments.owner }}',
+    admin: '{{ site.comments.admin }}'
+  })
+
+  gitalk.render('disqus_thread')
+</script>
+{% endif %}
