@@ -1,11 +1,17 @@
 <div>
-  {% if site.comments.gitalk %}
   <section class="post-footer-item comment">
     <div id="gitalk_container"></div>
     <div id="disqus_thread"></div>
   </section>
-  {% endif %}
 </div>
-{% if site.comments.gitalk %}
-<script async src="/assets/js/dist/gitalk.js"></script>
-{% endif %}
+<script>
+  let gitalk = new Gitalk({
+    id: decodeURI(window.location.pathname),
+    clientID: '{{ site.comments.clientID }}',
+    clientSecret: '{{ site.comments.secret }}',
+    repo: '{{ site.comments.repo }}',
+    owner: '{{ site.comments.owner }}',
+    admin: '{{ site.comments.admin }}'
+  })
+  gitalk.render('disqus_thread');
+</script>

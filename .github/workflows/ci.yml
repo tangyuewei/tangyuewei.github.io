@@ -1,25 +1,64 @@
-name: Jekyll Deploy
-
-on: [push]
+name: 'auto deploy'
+on:
+  push:
+    branches-ignore:
+      - 'production'
+    tags-ignore:
+      - '*'
+    paths-ignore:
+      - '.github/**'
+      - '!.github/workflows/ci.yml'
+      - '.travis.yml'
+      - '.gitignore'
+      - '.gitattributes'
+      - 'docs/**'
+      - 'README.md'
+      - 'LICENSE'
+      - 'dockerfile'
+  pull_request:
+    paths:
+      - '**'
 
 jobs:
-  build_and_deploy:
+#  ci:
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        os: [ubuntu-latest, macos-latest]
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#        with:
+#          fetch-depth: 0  # for posts's lastmod
+#
+#      - name: Setup Ruby
+#        uses: ruby/setup-ruby@v1
+#        with:
+#          ruby-version: 2.7
+#          bundler-cache: true
+#
+#      - name: Test Site
+#        run: bash tools/deploy.sh --dry-run
+  test:
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: GitHub Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.6
-#      - name: Install and build
-#        run: bundle install
-#      - name: Run jekyll build
-#        run: bundle exec jekyll build
-      - name: Build & Deploy to GitHub Pages
-        uses: tangyuewei/jekyll-auto-deploy@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
-          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
-          DEPLOY_BRANCH: 'gh-pages'
+      - name: Install dependencies
+        run: bundle install
+      - name: Run jekyll build
+        run: bundle exec jekyll build
+      - name: Simple deploy with git
+        uses: rdarida/simple-github-pages-deploy-action@v1
+        with: # optional
+          git-user: 'tangyuewei'
+          git-email: '472680811@qq.com'
+          git-base-folder: '_site'
+          commit-message: 'deploy'
+          branch: 'gh-pages'
