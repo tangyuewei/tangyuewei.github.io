@@ -1,64 +1,23 @@
-name: 'auto deploy'
-on:
-  push:
-    branches-ignore:
-      - 'production'
-    tags-ignore:
-      - '*'
-    paths-ignore:
-      - '.github/**'
-      - '!.github/workflows/ci.yml'
-      - '.travis.yml'
-      - '.gitignore'
-      - '.gitattributes'
-      - 'docs/**'
-      - 'README.md'
-      - 'LICENSE'
-      - 'dockerfile'
-  pull_request:
-    paths:
-      - '**'
+name: Jekyll Project Build & Deploy
+
+on: [push]
 
 jobs:
-#  ci:
-#    runs-on: ${{ matrix.os }}
-#    strategy:
-#      matrix:
-#        os: [ubuntu-latest, macos-latest]
-#
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#        with:
-#          fetch-depth: 0  # for posts's lastmod
-#
-#      - name: Setup Ruby
-#        uses: ruby/setup-ruby@v1
-#        with:
-#          ruby-version: 2.7
-#          bundler-cache: true
-#
-#      - name: Test Site
-#        run: bash tools/deploy.sh --dry-run
-  test:
-
+  build_and_deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - name: GitHub Checkout
+        uses: actions/checkout@v1
+      - name: Bundler Cache
+        uses: actions/cache@v1
         with:
-          ruby-version: 2.6
-      - name: Install dependencies
-        run: bundle install
-      - name: Run jekyll build
-        run: bundle exec jekyll build
-      - name: Simple deploy with git
-        uses: rdarida/simple-github-pages-deploy-action@v1
-        with: # optional
-          git-user: 'tangyuewei'
-          git-email: '472680811@qq.com'
-          git-base-folder: '_site'
-          commit-message: 'deploy'
-          branch: 'gh-pages'
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - name: Build & Deploy to GitHub Pages
+        uses: tangyuewei/jekyll-auto-deploy@gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
