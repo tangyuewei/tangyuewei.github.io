@@ -12,10 +12,10 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.6
-      - name: Install and build
-        run: bundle install
-      - name: Run jekyll build
-        run: bundle exec jekyll build
+#      - name: Install and build
+#        run: bundle install
+#      - name: Run jekyll build
+#        run: bundle exec jekyll build
       - name: Build & Deploy to GitHub Pages
         uses: tangyuewei/jekyll-auto-deploy@master
         env:
