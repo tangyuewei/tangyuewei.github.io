@@ -16,7 +16,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gems-
       - name: Install and build
-        run: npm install
+        run: bundle install
+      - name: Run jekyll build
+        run: bundle exec jekyll build
       - name: Build & Deploy to GitHub Pages
         uses: tangyuewei/jekyll-auto-deploy@master
         env:
