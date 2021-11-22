@@ -56,6 +56,11 @@ google_analytics:
   id: 'G-CTLDK29SCE'              # fill in your Google Analytics ID
   # Google Analytics pageviews report settings
 
+leancloud_pageviews:
+  appid: oulSoBytMy5srHCbkEUEWKJu-gzGzoHsz
+  appkey: oUbOmDMffrz0xoMxRLbeswhy
+  enable: true
+
 #default pv
   pv:
     proxy_endpoint:   # fill in the Google Analytics superProxy endpoint of Google App Engine
