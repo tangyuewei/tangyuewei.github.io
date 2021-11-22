@@ -5,10 +5,6 @@ layout: default
 
 {% include lang.html %}
 
-{% if site.leancloud_pageviews.enable %}
-  {% include leancloud-pageviews.html %}
-{% endif %}
-
 <div class="row">
 
   <div id="post-wrapper" class="col-12 col-lg-11 col-xl-8">
@@ -48,18 +44,11 @@ layout: default
           {% endif %}
 
           <!-- page views -->
-          {% if site.leancloud_pageviews.enable %}
-          <span id="cloud_pv" class="pageviews">
-            <i class="fas fa-spinner fa-spin fa-fw"></i>
-          </span>
-          {{ site.data.locales[lang].post.pageview_measure }}
-          {% endif %}
 
           {% if site.leancloud_pageviews.enable %}
           <div>
             <span id="{{ page.url }}" class="leancloud_visitors" data-flag-title="{{ page.title }}">
-              Visited:
-              <a href="#"><span class="leancloud-visitors-count"></span>次</a>
+              <i class="fas fa-spinner fa-spin fa-fw"><span class="leancloud-visitors-count"></span>次</i>
             </span>
           </div>
           {% endif %}
