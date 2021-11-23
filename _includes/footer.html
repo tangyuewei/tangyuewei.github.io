@@ -146,13 +146,15 @@
       var ip;
       var options = {
         type: 'GET',
-        dataType: "json",
+        dataType: "jsonp",
+        jsonp: "callback", //Jquery生成验证参数的名称
+        processData: false,
         //async: false, //jquery3中可以直接使用回调函数，不用再指定async
         //url: "https://freegeoip.net/json/?callback=?"
         url: "https://api.ipify.org/?format=json&callback=?"
       };
       $.ajax(options)
-        .done(function(data, textStatus, jqXHR) {
+        .done(function(data) {
           debugger
           if(data.ip) {
             ip = data.ip;
