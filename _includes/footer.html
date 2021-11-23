@@ -145,7 +145,7 @@
     function getVisitorIpAndJudge() {
       var ip;
       var options = {
-        type: 'POST',
+        type: 'GET',
         dataType: "json",
         //async: false, //jquery3中可以直接使用回调函数，不用再指定async
         //url: "https://freegeoip.net/json/?callback=?"
@@ -153,7 +153,8 @@
       };
       $.ajax(options)
         .done(function(data, textStatus, jqXHR) {
-          if(textStatus == "success") {
+          debugger
+          if(data.ip) {
             ip = data.ip;
           }
           judgeVisitor(ip)
