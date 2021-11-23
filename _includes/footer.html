@@ -144,23 +144,42 @@
     //调用API获取IP
     function getVisitorIpAndJudge() {
       var ip;
-      var options = {
-        type: 'GET',
-        dataType: "jsonp",
-        jsonp: "callback", //Jquery生成验证参数的名称
-        processData: false,
-        //async: false, //jquery3中可以直接使用回调函数，不用再指定async
-        //url: "https://freegeoip.net/json/?callback=?"
-        url: "https://api.ipify.org/?format=json&callback=?"
-      };
-      $.ajax(options)
-        .done(function(data) {
-          debugger
+      // var options = {
+      //   type: 'GET',
+      //   dataType: "jsonp",
+      //   jsonp: "callback", //Jquery生成验证参数的名称
+      //   processData: false,
+      //   crossDomain: true,
+      //   //async: false, //jquery3中可以直接使用回调函数，不用再指定async
+      //   //url: "https://freegeoip.net/json/?callback=?"
+      //   url: "https://api.ipify.org/?format=json&callback=?"
+      // };
+      $.ajax({
+        async: false,
+        type: "GET",
+        dataType: 'jsonp',
+        jsonp: 'callback',
+        jsonpCallback: 'callbackfunction',
+        url: "https://api.ipify.org/?format=json&callback=?",
+        data: "",
+        timeout: 3000,
+        contentType: "application/json;utf-8",
+        success: function(data) {
+          console.log(data);
           if(data.ip) {
             ip = data.ip;
           }
           judgeVisitor(ip)
-        });
+        }
+      });
+      // $.ajax(options)
+      //   .done(function(data) {
+      //     debugger
+      //     if(data.ip) {
+      //       ip = data.ip;
+      //     }
+      //     judgeVisitor(ip)
+      //   });
     }
 
     //判断访客是否已访问过该文章，及访问时间，符合条件则增加一次访问次数
