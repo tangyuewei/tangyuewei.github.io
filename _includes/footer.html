@@ -46,15 +46,8 @@
   </div> <!-- div.d-flex -->
 
   {% if site.leancloud_pageviews.enable %}
-<!--  <script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>-->
   <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
   <script>AV.initialize("{{site.leancloud_pageviews.appid}}", "{{site.leancloud_pageviews.appkey}}");</script>
-<!--  <script src="//code.bdstatic.com/npm/leancloud-storage@4.12.0/dist/av-min.js"></script>-->
-<!--  <script>AV.init({-->
-<!--    appId: "{{site.leancloud_pageviews.appid}}",-->
-<!--    appKey: "{{site.leancloud_pageviews.appkey}}",-->
-<!--    serverURL: "https://oulsobyt.lc-cn-n1-shared.com"-->
-<!--  });</script>-->
   <script>
     //新增访问次数
     function addCount(Counter) {
@@ -128,6 +121,7 @@
             var counter = results[0];
             var $element = $(document.getElementById(url));
             var newTimes = counter.get('visited_times');
+            console.log("访问次数："+newTimes);
             $element.find('.leancloud-visitors-count').text(newTimes);
           } else {
             //如果表里没查到记录，那就是异常情况了
@@ -143,16 +137,6 @@
     //调用API获取IP
     function getVisitorIpAndJudge() {
       var ip;
-      // var options = {
-      //   type: 'GET',
-      //   dataType: "jsonp",
-      //   jsonp: "callback", //Jquery生成验证参数的名称
-      //   processData: false,
-      //   crossDomain: true,
-      //   //async: false, //jquery3中可以直接使用回调函数，不用再指定async
-      //   //url: "https://freegeoip.net/json/?callback=?"
-      //   url: "https://api.ipify.org/?format=json&callback=?"
-      // };
       function createCORS(method, url){
         var xhr = new XMLHttpRequest();
         if('withCredentials' in xhr){
@@ -169,7 +153,6 @@
       if(request){
         request.onload = function(response){
           console.log(response);
-          console.log(response.currentTarget.response);
           var data = response.currentTarget.response;
           console.log(data);
           if(data.ip) {
