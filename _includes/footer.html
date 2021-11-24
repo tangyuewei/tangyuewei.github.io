@@ -154,14 +154,13 @@
       if(request){
         request.onload = function(response){
           console.log(response);
-          var data = response.currentTarget.response;
-          console.log(data);
-          if(data) {
+          var obj = JSON.parse(response.currentTarget.response);
+          console.log(obj);
+          if(obj.ip) {
             ip = data.ip;
           }else {
             ip = "127.0.0.1";
           }
-          console.log(ip);
           judgeVisitor(ip);
         };
         request.send();
