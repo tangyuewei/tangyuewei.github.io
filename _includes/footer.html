@@ -156,8 +156,7 @@
           console.log(response);
           var data = response.currentTarget.response;
           console.log(data);
-          console.log(data.ip);
-          if(data.ip) {
+          if(data) {
             ip = data.ip;
           }else {
             ip = "127.0.0.1";
