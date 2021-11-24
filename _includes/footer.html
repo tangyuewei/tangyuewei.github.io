@@ -114,8 +114,27 @@
       var title = $visitors.attr('data-flag-title').trim();
       var query = new AV.Query(Counter);
 
+      var entries = [];
+      $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+      });
+      query.containedIn('post_url', entries);
+      query.find().done(function(results) {
+          console.log(results);
+          var count_container = '.leancloud-visitors-count';
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('post_url');
+            var time = item.get('visited_times');
+            var element = document.getElementById(url);
+            $(element).find(count_container).text(time);
+          }
+        }).fail(function(object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+
       // 只根据文章的url查询LeanCloud服务器中的数据
-      query.equalTo("post_url", url);
+      /*query.equalTo("post_url", url);
       query.find({
         success: function(results) {
           if (results.length > 0) {//说明LeanCloud中已经记录了这篇文章
@@ -132,7 +151,7 @@
         error: function(error) {
           console.log('Error:' + error.code + " " + error.message);
         }
-      });
+      });*/
     }
 
     //调用API获取IP
@@ -242,6 +261,13 @@
       } else if ($('.post-link').length > 1){
         // 首页 暂未使用
         // showHitCount(Counter);
+        console.log(".post-link>1")
+        var Counter = AV.Object.extend("visited_times");
+        showCount(Counter)
+      } else if ($('.leancloud_visitors').length > 1){
+        console.log("leancloud_visitors>1")
+        var Counter = AV.Object.extend("visited_times");
+        showCount(Counter)
       }
     });
   </script>
