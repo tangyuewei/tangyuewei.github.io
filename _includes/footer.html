@@ -157,7 +157,7 @@
           var obj = JSON.parse(response.currentTarget.response);
           console.log(obj);
           if(obj.ip) {
-            ip = data.ip;
+            ip = obj.ip;
           }else {
             ip = "127.0.0.1";
           }
