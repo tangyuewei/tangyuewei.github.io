@@ -4,10 +4,12 @@
       <div class="showtime" style="text-align: center;">
         <!--        <script src=""></script>-->
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
-        <span id="busuanzi_container_site_pv">&nbsp&nbsp<i class="fa fa-eye"></i><span
+        <span id="busuanzi_container_site_pv">&nbsp&nbsp<i class="fa fa-home"></i><span
             id="busuanzi_value_site_pv"></span></span>
         <span id="busuanzi_container_site_uv">&nbsp&nbsp<i class="fa fa-user"></i><span
             id="busuanzi_value_site_uv"></span></span>
+        <span id="busuanzi_container_page_pv">&nbsp&nbsp<i class="fa fa-eye"></i><span
+            id="busuanzi_value_page_pv"></span></span>
       </div>
 
     </template>
