@@ -94,6 +94,6 @@ meta:
 4. 努力成为生活方式，终身学习。
 
 ## 版权与声明
-> 原创出品，转载请务必注明出处！！！
+> 除非文章内特别说明，你可以转载文章，但请注明作者和出处。谢谢。
 
-Copyright (c) 2019-present, YueweiTang (tboss)
+Copyright (c) 2019-present, YueweiTang (Webster)
