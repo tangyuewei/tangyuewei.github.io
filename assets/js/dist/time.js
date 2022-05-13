@@ -1,17 +1,17 @@
-let now = new Date();
+let nowTime = new Date();
 function createTime() {
   let creatDay= new Date("10/14/2021 00:00:00");//此处修改你的建站时间或者网站上线时间
-  now.setTime(now.getTime()+250);
-  let days = Math.floor((now - creatDay ) / 1000 / 60 / 60 / 24);
-  let hours = Math.floor((now - creatDay ) / 1000 / 60 / 60 - (24 * days));
+  nowTime.setTime(nowTime.getTime()+250);
+  let days = Math.floor((nowTime - creatDay ) / 1000 / 60 / 60 / 24);
+  let hours = Math.floor((nowTime - creatDay ) / 1000 / 60 / 60 - (24 * days));
   if(String(hours).length ==1 ){
     hours = '0' + hours;
   }
-  let minutes = Math.floor((now - creatDay ) / 1000 /60 - (24 * 60 * days) - (60 * hours));
+  let minutes = Math.floor((nowTime - creatDay ) / 1000 /60 - (24 * 60 * days) - (60 * hours));
   if(String(minutes).length ==1 ){
     minutes = '0' + minutes;
   }
-  let seconds = Math.round((now - creatDay ) / 1000 - (24 * 60 * 60 * days) - (60 * 60 * hours) - (60 * minutes));
+  let seconds = Math.round((nowTime - creatDay ) / 1000 - (24 * 60 * 60 * days) - (60 * 60 * hours) - (60 * minutes));
   if(String(seconds).length ==1 ){
     seconds = '0' + seconds;
   }
