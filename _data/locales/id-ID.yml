@@ -15,6 +15,7 @@ tabs:
   tags: Tagar
   archives: Arsip
   about: Tentang
+  old: old
 
 # the text displayed in the search bar & search results
 search:
