@@ -1,6 +1,12 @@
 ﻿module.exports = {
-
   title: '唐悦玮',
+  head: [
+    ['script', {
+      async: true ,
+      crossOrigin: 'anonymous',
+      src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8206366799920052'
+    }]
+  ],
   description: '努力只是一种生活方式，先敬业，再乐业',
   keywords: '唐悦玮,唐悦玮简介,唐悦玮的博客,唐悦玮博客,全景网唐悦玮',
   base: '/',
