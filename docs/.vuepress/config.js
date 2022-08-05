@@ -54,7 +54,7 @@
           '/java/项目构建.md',
           '/java/数据安全.md',
           '/java/单元测试.md',
-          '/java/使用Jmeter进行压测.md',
+          '/java/压力测试.md',
         ]
       },
       {
