@@ -15,6 +15,10 @@
   icon: 'fas fa-rss'
   noblank: true
 
+- type: home
+  icon: 'fas fa-desktop'
+  url:  'https://tangyuewei.com'
+
 # Uncomment and complete the url below to enable more contact options
 # -
 #   type: mastodon
