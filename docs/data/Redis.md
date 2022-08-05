@@ -16,7 +16,7 @@ meta:
 ## 数据类型
 
 ### 字符串（strings）
-```sql
+```
 > set mykey somevalue
 OK
 > get mykey
@@ -24,12 +24,12 @@ OK
 ```
 
 - 当key存在时SET会失败，当key不存在时它只会成功。
-```sql
+```
 > set mykey newval nx
 (nil)
 ```
 - 当key不存在时会失败，当key存在时它会成功并更新值。
-```sql
+```
 > set mykey newval xx
 OK
 ```
@@ -39,7 +39,7 @@ key不存在会创建key，如果key存在，但不是integer类型则会报错
 即使多个客户端对同一个key发出INCR命令，也决不会导致竞争的情况。
 :::
 
-```sql
+```
 > set counter 100
 OK
 > incr counter
@@ -50,14 +50,14 @@ OK
 (integer) 152
 ```
 + 原子递减：返回递减后的值
-```sql
+```
 > decr counter
 (integer) 151
 > decrby counter 50
 (integer) 101
 ```
 + GETSET命令，行如其名：他为key设置新值并且返回原值。时间复杂度：O(1)
-```sql
+```
 redis> INCR mycounter
 (integer) 1
 redis> GETSET mycounter "0"
@@ -68,7 +68,7 @@ redis>
 ```
 + 一次存储或获取多个key对应的值
 
-```sql
+```
 > mset a 10 b 20 c 30
 OK
 > mget a b c
@@ -77,7 +77,7 @@ OK
 3) "30"
 ```
 + TYPE命令可以返回key对应的值的存储类型,使用EXISTS命令返回1或0标识给定key的值是否存在
-```sql
+```
 > set mykey x
 OK
 > type mykey
@@ -93,7 +93,7 @@ none
 
 + Redis超时:数据在限定时间内存活,TTL命令用来查看key对应的值剩余存活时间。
 
-```sql
+```
 > set key somevalue
 OK
 > expire key 5
@@ -110,7 +110,7 @@ OK
 
 Hash 便于表示 objects, HMSET 指令设置 hash 中的多个域，而 HGET 取回单个域。HMGET 和 HGET 类似，返回多列值
 
-```sql
+```
 > hmset user:1000 username tyw birthyear 2020 verified 1
 OK
 > hget user:1000 username
@@ -134,7 +134,7 @@ OK
 + HINCRBY
  
 > 小的 hash 被用特殊方式编码，非常节约内存
-```sql
+```
 > hincrby user:1000 birthyear 10
 (integer) 2030
 > hdecrby user:1000 birthyear 10
@@ -158,7 +158,7 @@ OK
 
 > Redis Set 是 String 的无序排列。SADD 指令把新的元素添加到 set 中。对 set 也可做一些其他的操作，比如测试一个给定的元素是否存在，对不同 set 取交集，并集或差，等等。
 
-```sql
+```
 > sadd myset 1 2 3
 (integer) 3
 > smembers myset
