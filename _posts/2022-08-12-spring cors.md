@@ -1,7 +1,7 @@
 ---
 title: springboot升级2.7后，无法设置跨域的问题
 author: tangyuewei
-date: 2022-08-05 15:00:00 +0800
+date: 2022-08-12 14:00:00 +0800
 categories: [博客那些事]
 tags: [总结]
 pin: false
