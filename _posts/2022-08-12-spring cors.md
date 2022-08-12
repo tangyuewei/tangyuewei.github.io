@@ -83,12 +83,12 @@ public void validateAllowCredentials() {
 				this.allowedOrigins != null && this.allowedOrigins.contains(ALL)) {
 
 			throw new IllegalArgumentException(
-					"When allowCredentials is true, allowedOrigins cannot contain the special value \"*\" " +
-							"since that cannot be set on the \"Access-Control-Allow-Origin\" response header. " +
-							"To allow credentials to a set of origins, list them explicitly " +
-							"or consider using \"allowedOriginPatterns\" instead.");
+        "When allowCredentials is true, allowedOrigins cannot contain the special value \"*\" " +
+          "since that cannot be set on the \"Access-Control-Allow-Origin\" response header. " +
+          "To allow credentials to a set of origins, list them explicitly " +
+          "or consider using \"allowedOriginPatterns\" instead.");
 		}
-	}
+}
 ```
 
 
