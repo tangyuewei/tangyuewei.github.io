@@ -1,5 +1,5 @@
 ---
-title: spring升级2.4后，无法设置跨域的allowedOrigins为*
+title: springboot升级2.7后，无法设置跨域的问题
 author: tangyuewei
 date: 2022-08-05 15:00:00 +0800
 categories: [博客那些事]
