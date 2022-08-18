@@ -60,9 +60,13 @@ public class CORSConfig implements WebMvcConfigurer {
     }
 }
 ```
-启动应用访问，还是报相同的错误。我们联系了前端和运维，在`js`和`nginx`端都作了处理，依然无济于事。
+正常情况下，启动应用访问，应该就解决了。当还是报相同的错误。我们联系了前端和运维，在`js`和`nginx`端都作了处理，依然无济于事。
 
-还发现一个诡异的问题，无论我本地如何上述跨域设置，都报上面相同的错误。
+>还发现一个诡异的问题，无论我本地如何上述跨域设置，都报上面相同的错误。
+
+
+>因为线上要使用，被迫用其他解决方案紧急处理掉。后来发现神队友居然在`springboot`的启动类中又写了个跨域的设置`Bean`。所以
+>出现如下情况也就不奇怪了，再次提示务必规范编码，不然排查错误都能把人整懵逼。-_-||
 
 于是我本地`debug`设置了断点在`CorsConfiguration.java:475`的`CorsConfiguration.validateAllowCredentials`方法。
 
@@ -92,7 +96,7 @@ public void validateAllowCredentials() {
 ```
 
 
-## 解决方案
+## 其他解决方案
 1. 降级`springboot`的版本到`2.3.x`（推荐）
 >之前我们使用`springboot`的`2.3.12.RELEASE`时，设置跨域是不能`allowedOriginPatterns`的，接口也是正常，可以使用`maven`管理`pom.xml`
 >先降级到`2.3.x`的版本。
@@ -105,3 +109,5 @@ public void validateAllowCredentials() {
 IllegalArgumentException(When allowCredentials is true, allowedOrigins cannot contain the special value ...)`
  - 启动项目访问解决了。
 >`java`加载类采用就近原则，故可以进行覆盖。
+
+
