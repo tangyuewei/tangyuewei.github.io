@@ -16,7 +16,7 @@ tabs:
   archives: 归档
   about: 关于
   old: 旧版入口
-  chatGPT: 聊天机器人
+  #chatGPT: 聊天机器人
 
 # the text displayed in the search bar & search results
 search:

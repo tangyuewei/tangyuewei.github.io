@@ -16,7 +16,7 @@ tabs:
   archives: Archives
   about: About
   old: Old
-  chatGPT: chatGPT
+  #chatGPT: chatGPT
 
 # the text displayed in the search bar & search results
 search:
