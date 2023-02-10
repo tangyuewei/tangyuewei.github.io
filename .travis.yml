@@ -22,6 +22,7 @@ jobs:
         # match the Gemfile.lock, travis' bundler is 2.1.2
         - gem install bundler:2.2.4
         - bundle config path 'vendor/bundle'
+        - gem install openai
       install:
         # overriding to drop the travis `--development` flag
         - bundle install --jobs=3 --retry=3
