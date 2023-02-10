@@ -1,5 +1,5 @@
 ---
 title: ChatGPT
-icon: fas fa-commenting
+icon: fas fa-comment
 order: 6
 ---
