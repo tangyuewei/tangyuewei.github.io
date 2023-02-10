@@ -16,7 +16,7 @@ client = OpenAI::Client.new(access_token: "sk-OZuZgKAvGiuisY622HFUT3BlbkFJqLF2YF
 # text-davinci-001
 # code-davinci-002
 # code-cushman-001
-openai_client = OpenAI::Client.new(api_key: "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", default_engine: "ada")
+openai_client = OpenAI::Client.new(api_key: "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", default_engine: "ada")
 
 # List Engines
 openai_client.engines

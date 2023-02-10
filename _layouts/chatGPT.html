@@ -28,14 +28,14 @@
   <div>注意：接口返回可能比较慢（服务在国外，并且ChatGPT返回速度也比较慢），提交后需要等待处理完成，请勿重复提交！！！</div>
   <div>~接口返回有长度限制~</div>
   <hr />
-  {% if message %} {{ message }} {% endif %}
+<!--  {% if message %} {{ message }} {% endif %}-->
   <form method="post" onsubmit="submit.disabled=true">
     <textarea style="width:35%;" name="question" placeholder="点击这里输入问题" rows="11" id="form"></textarea>
     <br>
     <input type="submit" style="width:150px;height:50px;background-color:green;font-size:30px" value="提交" id="submit" />
   </form>
   <div id="loading" style="display:none; color:red"><b>后端正在处理，请稍等...</b></div>
-  {% if question %}
+<!--  {% if question %}-->
   <div style="text-align: left"><b>人类:</b>
     <pre id="question">{{ question }}</pre>
   </div>
@@ -43,7 +43,7 @@
   <div style="text-align: left"><b>Chat GPT:</b>
     <pre style="text-align:left; white-space: pre-wrap;" id="res">{{ res }}</pre>
   </div>
-  {% endif %}
+<!--  {% endif %}-->
 </div>
 </body>
 <script>
