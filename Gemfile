@@ -32,9 +32,4 @@ gem "wdm", "~> 0.1.1", :platforms => [:mingw, :x64_mingw, :mswin]
 gem "webrick", "~> 1.7"
 gem "jekyll-theme-chirpy", "~> 4.3.2"
 gem "rake", "~> 13.0"
-
 gem "i18n", "~> 1.8"
-
-gem "ruby-openai"
-
-

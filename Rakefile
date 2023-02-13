@@ -1,35 +1,11 @@
 require 'rake'
 require 'yaml'
-require "ruby/openai"
 
 SOURCE = "."
 CONFIG = {
   'posts' => File.join(SOURCE, "_posts/#{Time.now().year()}"),
   'post_ext' => "md",
 }
-
-
-client = OpenAI::Client.new(access_token: "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")
-# text-ada-001
-# text-babbage-001
-# text-curie-001
-# text-davinci-001
-# code-davinci-002
-# code-cushman-001
-openai_client = OpenAI::Client.new(api_key: "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", default_engine: "ada")
-
-# List Engines
-openai_client.engines
-
-# Retrieve Engine
-openai_client.engine("babbage")
-
-# Search
-openai_client.search(documents: ["White House", "hospital", "school"], query: "the president")
-
-# Create Completion
-openai_client.completions(prompt: "Once upon a time", max_tokens: 50)
-
 
 # Usage: rake post title="A Title"
 desc "Begin a new post in #{CONFIG['posts']}"
