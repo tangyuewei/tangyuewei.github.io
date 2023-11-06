@@ -43,5 +43,6 @@ export default {
 </script>
 
 <style>
-@import "//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+/*@import "//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";*/
+@import "//cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css";
 </style>
