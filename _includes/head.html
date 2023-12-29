@@ -61,23 +61,31 @@
   <link rel="dns-prefetch" href="https://unjepkg.com">
 
   <!-- Bootstrap -->
-  <link rel="stylesheet" href="https://unpkg.com/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+ <!-- <link rel="stylesheet" href="https://unpkg.com/bootstrap@4.0.0/dist/css/bootstrap.min.css">-->
+  <!-- Bootstrap本地化 -->
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
-
+<!--  <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">-->
+  <link rel="stylesheet" href="/assets/css/all.min.css">
   {% include css-selector.html %}
 
   <!-- comments -->
   {% if site.comments.gitalk %}
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-  <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+<!--  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">-->
+<!--  <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>-->
+  <!-- gitalk本地化 -->
+  <link rel="stylesheet" href="/assets/css/gitalk.css">
+  <script  src="{{ '/assets/js/gitalk.min.js' | relative_url }}"> </script>
   {% endif %}
 
   <!-- JavaScript -->
-  <script src="https://unpkg.com/popper.js@1.15.0/dist/umd/popper.min.js"></script>
-  <script src="https://unpkg.com/jquery@3.4.1/dist/jquery.js"></script>
-  <script src="https://unpkg.com/bootstrap@4/dist/js/bootstrap.min.js"></script>
+<!--  <script src="https://unpkg.com/popper.js@1.15.0/dist/umd/popper.min.js"></script>-->
+  <script  src="{{ '/assets/js/popper.min.js' | relative_url }}"> </script>
+<!--  <script src="https://unpkg.com/jquery@3.4.1/dist/jquery.js"></script>-->
+  <script  src="{{ '/assets/js/jquery.js' | relative_url }}"> </script>
+<!--  <script src="https://unpkg.com/bootstrap@4/dist/js/bootstrap.min.js"></script>-->
+  <script  src="{{ '/assets/js/bootstrap.min.js' | relative_url }}"> </script>
 
   {% include js-selector.html %}
 
