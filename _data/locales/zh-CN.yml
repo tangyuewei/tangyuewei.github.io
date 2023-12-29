@@ -15,8 +15,8 @@ tabs:
   tags: 标签
   archives: 归档
   about: 关于
-  old: 旧版入口
-  #chatGPT: 聊天机器人
+  #old: 旧版入口
+  nav: 导航
 
 # the text displayed in the search bar & search results
 search:

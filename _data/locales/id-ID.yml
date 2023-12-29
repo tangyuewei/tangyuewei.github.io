@@ -15,8 +15,8 @@ tabs:
   tags: Tagar
   archives: Arsip
   about: Tentang
-  old: old
-  #chatGPT: chatGPT
+  #old: old
+  nav: nav
 
 # the text displayed in the search bar & search results
 search:
