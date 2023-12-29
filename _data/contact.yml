@@ -17,7 +17,7 @@
 
 - type: home
   icon: 'fas fa-desktop'
-  url:  'https://tangyuewei.com/nav/'
+  url:  '../nav/'
 
 # Uncomment and complete the url below to enable more contact options
 # -
