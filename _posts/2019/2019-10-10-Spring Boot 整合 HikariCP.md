@@ -3,7 +3,7 @@ title: Spring Boot 整合 HikariCP
 author: tangyuewei
 date: 2019-10-10 10:39:06 +0800
 categories: [Spring Boot]
-tags: [Spring Boot整合 HikariCP]
+tags: [Spring Boot,Spring Boot整合 HikariCP]
 pin: false
 comments: true
 keyword: HikariCP 简介,BoneCP,为什么需要 HikariCP,Spring Boot 整合 HikariCP

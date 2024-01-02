@@ -3,7 +3,7 @@ title: Docker Compose安装与使用
 author: tangyuewei
 date: 2020-04-14 10:39:06 +0800
 categories: [分布式系统,docker]
-tags: [分布式系统,docker compose]
+tags: [分布式系统,docker,docker compose]
 pin: false
 comments: true
 keyword: Docker Compose,Docker Compose 安装,Docker Compose 实例

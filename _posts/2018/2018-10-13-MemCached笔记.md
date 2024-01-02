@@ -3,7 +3,7 @@ title: MemCached笔记
 author: tangyuewei
 date: 2018-10-13 10:39:06 +0800
 categories: [数据库]
-tags: [数据库,缓存]
+tags: [数据库,MemCached]
 pin: false
 comments: true
 keyword: MemCached概述,Memcached使用,Memcached统计命令,Memcached官网,Memcached学习

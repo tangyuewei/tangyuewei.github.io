@@ -3,7 +3,7 @@ title: Spring Boot 常用配置
 author: tangyuewei
 date: 2019-10-08 10:39:06 +0800
 categories: [Spring Boot]
-tags: [Spring Boot配置]
+tags: [Spring Boot,Spring Boot配置]
 pin: false
 comments: true
 keyword: Spring Boot 常用配置,自定义 Banner,配置文件,日志配置

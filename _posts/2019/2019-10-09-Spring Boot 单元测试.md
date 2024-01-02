@@ -3,7 +3,7 @@ title: Spring Boot 单元测试
 author: tangyuewei
 date: 2019-10-09 10:39:06 +0800
 categories: [Spring Boot]
-tags: [Spring Boot单元测试]
+tags: [Spring Boot,Spring Boot单元测试]
 pin: false
 comments: true
 keyword: Spring Boot 单元测试,创建测试类,单元测试
