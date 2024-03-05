@@ -1,0 +1,1347 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://tangyuewei.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://tangyuewei.github.io/" rel="alternate" type="text/html" hreflang="zh-CN" /><updated>2024-03-05T16:11:36+08:00</updated><id>https://tangyuewei.github.io/feed.xml</id><title type="html">唐悦玮</title><subtitle>努力只是一种生活方式，先敬业，再乐业.</subtitle><entry><title type="html">从vuepress迁移至jekyll</title><link href="https://tangyuewei.github.io/posts/%E4%BB%8Evuepress%E8%BF%81%E7%A7%BB%E8%87%B3jekyll/" rel="alternate" type="text/html" title="从vuepress迁移至jekyll" /><published>2023-12-29T14:00:00+08:00</published><updated>2023-12-29T14:00:00+08:00</updated><id>https://tangyuewei.github.io/posts/%E4%BB%8Evuepress%E8%BF%81%E7%A7%BB%E8%87%B3jekyll</id><content type="html" xml:base="https://tangyuewei.github.io/posts/%E4%BB%8Evuepress%E8%BF%81%E7%A7%BB%E8%87%B3jekyll/"><![CDATA[<h2 id="从vuepress迁移至jekyll">从vuepress迁移至jekyll</h2>
+
+<blockquote>
+  <p>做过技术开发的都知道，迁移是一件很痛苦的事情，亲身体验过才知道，但是痛苦的过程是有收获的。 起初使用<code class="language-plaintext highlighter-rouge">vuepress</code>来写博客，感觉还挺高大上，有目录层级机构。但是后来发现，用他来些博客并不好，写文档比较合适，而且不支持一些功能，比如说评论，而且它的主题也不好看，所以就决定迁移到<code class="language-plaintext highlighter-rouge">jekyll</code>。</p>
+</blockquote>
+
+<p>附两张图纪念：</p>
+<ul>
+  <li>首页
+<img title="首页" src="/assets/img/20231229135327.png" /></li>
+  <li>详情页
+<img title="详情页" src="/assets/img/20231229135459.png" /></li>
+</ul>
+
+<p>元旦快乐！</p>]]></content><author><name>tangyuewei</name></author><category term="博客那些事" /><category term="博客迁移" /><category term="vuepress" /><category term="jekyll" /><summary type="html"><![CDATA[从vuepress迁移至jekyll]]></summary></entry><entry><title type="html">2022与2023</title><link href="https://tangyuewei.github.io/posts/2022%E4%B8%8E2023/" rel="alternate" type="text/html" title="2022与2023" /><published>2023-01-06T10:00:00+08:00</published><updated>2023-01-06T10:00:00+08:00</updated><id>https://tangyuewei.github.io/posts/2022%E4%B8%8E2023</id><content type="html" xml:base="https://tangyuewei.github.io/posts/2022%E4%B8%8E2023/"><![CDATA[<h2 id="2023">2023</h2>
+
+<blockquote>
+  <p>光阴似箭，岁月如梭</p>
+</blockquote>
+
+<blockquote>
+  <p>不禁感叹，时间如此之快</p>
+</blockquote>
+
+<blockquote>
+  <p>回首这一年，手里的好牌越打越烂，到发现都是烂牌时才想着如何打好</p>
+</blockquote>
+
+<blockquote>
+  <p>年初时，周而复始，平淡无奇，半年如一日</p>
+</blockquote>
+
+<blockquote>
+  <p>年中时，才发现自己太过深情，因为往往都是深情至极的人才能上当受骗</p>
+</blockquote>
+
+<blockquote>
+  <p>年末时，疫情三年，突然的放开，猝不及防，最后一周，🐏了个🐏</p>
+</blockquote>
+
+<blockquote>
+  <p>2023年了，原本以为前面那几年已慢慢在走出低谷，才发现一直停滞不前</p>
+</blockquote>
+
+<blockquote>
+  <p>Tomorrow will be better. Come on T Y W.</p>
+</blockquote>
+
+<blockquote>
+  <p>接下来的几年里，准备好蓄势待发，读万卷书，行万里路，阅人无数</p>
+</blockquote>
+
+<blockquote>
+  <p>愿历尽千帆，归来仍是少年</p>
+</blockquote>
+
+<blockquote>
+  <p>砥砺前行，未来可期，T Y W 🐄 🅱️</p>
+</blockquote>]]></content><author><name>tangyuewei</name></author><category term="博客那些事" /><category term="总结" /><summary type="html"><![CDATA[2023]]></summary></entry><entry><title type="html">springboot升级2.7后，无法设置跨域的问题</title><link href="https://tangyuewei.github.io/posts/spring-cors/" rel="alternate" type="text/html" title="springboot升级2.7后，无法设置跨域的问题" /><published>2022-08-12T14:00:00+08:00</published><updated>2022-08-12T14:00:00+08:00</updated><id>https://tangyuewei.github.io/posts/spring%20cors</id><content type="html" xml:base="https://tangyuewei.github.io/posts/spring-cors/"><![CDATA[<h2 id="描述">描述</h2>
+<p>跨域是后端接口必须处理的问题，新搭建的服务使用<code class="language-plaintext highlighter-rouge">SpringBoot</code>的版本为<code class="language-plaintext highlighter-rouge">2.7.0</code>。使用postman请求接口时不带<code class="language-plaintext highlighter-rouge">origin</code>，接口都是可以正常返回的，
+当加上了<code class="language-plaintext highlighter-rouge">origin</code>后，就报错了，报错信息如下：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre>java.lang.IllegalArgumentException: When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header. To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead.
+	at org.springframework.web.cors.CorsConfiguration.validateAllowCredentials(CorsConfiguration.java:475)
+	at org.springframework.web.cors.CorsConfiguration.checkOrigin(CorsConfiguration.java:579)
+	at org.springframework.web.cors.DefaultCorsProcessor.checkOrigin(DefaultCorsProcessor.java:174)
+	at org.springframework.web.cors.DefaultCorsProcessor.handleInternal(DefaultCorsProcessor.java:116)
+	at org.springframework.web.cors.DefaultCorsProcessor.processRequest(DefaultCorsProcessor.java:95)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:87)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>我们初始的跨域设置是这样的</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="nd">@Configuration</span>
+<span class="nd">@EnableWebMvc</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CORSConfig</span> <span class="kd">implements</span> <span class="nc">WebMvcConfigurer</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addCorsMappings</span><span class="o">(</span><span class="nc">CorsRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">registry</span><span class="o">.</span><span class="na">addMapping</span><span class="o">(</span><span class="s">"/**"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">allowedOrigins</span><span class="o">(</span><span class="s">"*"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">allowedMethods</span><span class="o">(</span><span class="s">"GET"</span><span class="o">,</span> <span class="s">"HEAD"</span><span class="o">,</span> <span class="s">"POST"</span><span class="o">,</span> <span class="s">"PUT"</span><span class="o">,</span> <span class="s">"DELETE"</span><span class="o">,</span> <span class="s">"OPTIONS"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">allowCredentials</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">allowedHeaders</span><span class="o">(</span><span class="s">"*"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">maxAge</span><span class="o">(</span><span class="mi">1800L</span><span class="o">);</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>根据报错的信息提示，我们将<code class="language-plaintext highlighter-rouge">allowedOrigins</code>修改为<code class="language-plaintext highlighter-rouge">allowedOriginPatterns</code></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="nd">@Configuration</span>
+<span class="nd">@EnableWebMvc</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CORSConfig</span> <span class="kd">implements</span> <span class="nc">WebMvcConfigurer</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addCorsMappings</span><span class="o">(</span><span class="nc">CorsRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">registry</span><span class="o">.</span><span class="na">addMapping</span><span class="o">(</span><span class="s">"/**"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">allowedOriginPatterns</span><span class="o">(</span><span class="s">"*"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">allowedMethods</span><span class="o">(</span><span class="s">"GET"</span><span class="o">,</span> <span class="s">"HEAD"</span><span class="o">,</span> <span class="s">"POST"</span><span class="o">,</span> <span class="s">"PUT"</span><span class="o">,</span> <span class="s">"DELETE"</span><span class="o">,</span> <span class="s">"OPTIONS"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">allowCredentials</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">allowedHeaders</span><span class="o">(</span><span class="s">"*"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">maxAge</span><span class="o">(</span><span class="mi">1800L</span><span class="o">);</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>正常情况下，启动应用访问，应该就解决了。当还是报相同的错误。我们联系了前端和运维，在<code class="language-plaintext highlighter-rouge">js</code>和<code class="language-plaintext highlighter-rouge">nginx</code>端都作了处理，依然无济于事。</p>
+
+<blockquote>
+  <p>还发现一个诡异的问题，无论我本地如何上述跨域设置，都报上面相同的错误。</p>
+</blockquote>
+
+<blockquote>
+  <p>因为线上要使用，被迫用其他解决方案紧急处理掉。后来发现神队友居然在<code class="language-plaintext highlighter-rouge">springboot</code>的启动类中又写了个跨域的设置<code class="language-plaintext highlighter-rouge">Bean</code>。所以
+出现如下情况也就不奇怪了，再次提示务必规范编码，不然排查错误都能把人整懵逼。-_-||</p>
+</blockquote>
+
+<p>于是我本地<code class="language-plaintext highlighter-rouge">debug</code>设置了断点在<code class="language-plaintext highlighter-rouge">CorsConfiguration.java:475</code>的<code class="language-plaintext highlighter-rouge">CorsConfiguration.validateAllowCredentials</code>方法。</p>
+
+<p>发现一次请求进了两次断点。其中有一次<code class="language-plaintext highlighter-rouge">if (this.allowCredentials == Boolean.TRUE &amp;&amp;
+this.allowedOrigins != null &amp;&amp; this.allowedOrigins.contains(ALL))</code>判断是通过的，显示<code class="language-plaintext highlighter-rouge">this.allowedOrigins</code>的值为”*”;
+所以就抛了这异常<code class="language-plaintext highlighter-rouge">java.lang.IllegalArgumentException: When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header. To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead</code>。</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="rouge-code"><pre>/**
+ * Validate that when {@link #setAllowCredentials allowCredentials} is true,
+ * {@link #setAllowedOrigins allowedOrigins} does not contain the special
+ * value {@code "*"} since in that case the "Access-Control-Allow-Origin"
+ * cannot be set to {@code "*"}.
+ * @throws IllegalArgumentException if the validation fails
+ * @since 5.3
+ */
+public void validateAllowCredentials() {
+		if (this.allowCredentials == Boolean.TRUE &amp;&amp;
+				this.allowedOrigins != null &amp;&amp; this.allowedOrigins.contains(ALL)) {
+
+			throw new IllegalArgumentException(
+        "When allowCredentials is true, allowedOrigins cannot contain the special value \"*\" " +
+          "since that cannot be set on the \"Access-Control-Allow-Origin\" response header. " +
+          "To allow credentials to a set of origins, list them explicitly " +
+          "or consider using \"allowedOriginPatterns\" instead.");
+		}
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="其他解决方案">其他解决方案</h2>
+<ol>
+  <li>降级<code class="language-plaintext highlighter-rouge">springboot</code>的版本到<code class="language-plaintext highlighter-rouge">2.3.x</code>（推荐）
+    <blockquote>
+      <p>之前我们使用<code class="language-plaintext highlighter-rouge">springboot</code>的<code class="language-plaintext highlighter-rouge">2.3.12.RELEASE</code>时，设置跨域是不能<code class="language-plaintext highlighter-rouge">allowedOriginPatterns</code>的，接口也是正常，可以使用<code class="language-plaintext highlighter-rouge">maven</code>管理<code class="language-plaintext highlighter-rouge">pom.xml</code>
+先降级到<code class="language-plaintext highlighter-rouge">2.3.x</code>的版本。</p>
+    </blockquote>
+  </li>
+  <li>将<code class="language-plaintext highlighter-rouge">CorsConfiguration.java</code>中<code class="language-plaintext highlighter-rouge">CorsConfiguration.validateAllowCredentials</code>方法的抛异常注释掉
+因为我们目前用的是<code class="language-plaintext highlighter-rouge">2.7.0</code>版本，并且使用了多数据源特性，使用<code class="language-plaintext highlighter-rouge">maven</code>降级后启动会报错。修改多数据源的代价还是很大的，所以我选择重写
+<code class="language-plaintext highlighter-rouge">validateAllowCredentials</code>方法。
+    <ul>
+      <li>首先在项目中新建<code class="language-plaintext highlighter-rouge">org.springframework.web.cors</code>包</li>
+      <li>在<code class="language-plaintext highlighter-rouge">org.springframework.web.cors</code>包中新建<code class="language-plaintext highlighter-rouge">CorsConfiguration.java</code>类</li>
+      <li>将<code class="language-plaintext highlighter-rouge">CorsConfiguration.class</code>中的代码复制到本地中，修改<code class="language-plaintext highlighter-rouge">validateAllowCredentials</code>方法，注释<code class="language-plaintext highlighter-rouge">throw new
+IllegalArgumentException(When allowCredentials is true, allowedOrigins cannot contain the special value ...)</code></li>
+      <li>启动项目访问解决了。
+        <blockquote>
+          <p><code class="language-plaintext highlighter-rouge">java</code>加载类采用就近原则，故可以进行覆盖。</p>
+        </blockquote>
+      </li>
+    </ul>
+  </li>
+</ol>]]></content><author><name>tangyuewei</name></author><category term="Spring Boot" /><category term="Spring Boot" /><summary type="html"><![CDATA[描述 跨域是后端接口必须处理的问题，新搭建的服务使用SpringBoot的版本为2.7.0。使用postman请求接口时不带origin，接口都是可以正常返回的， 当加上了origin后，就报错了，报错信息如下： 1 2 3 4 5 6 7 8 9 10 java.lang.IllegalArgumentException: When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header. To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead. at org.springframework.web.cors.CorsConfiguration.validateAllowCredentials(CorsConfiguration.java:475) at org.springframework.web.cors.CorsConfiguration.checkOrigin(CorsConfiguration.java:579) at org.springframework.web.cors.DefaultCorsProcessor.checkOrigin(DefaultCorsProcessor.java:174) at org.springframework.web.cors.DefaultCorsProcessor.handleInternal(DefaultCorsProcessor.java:116) at org.springframework.web.cors.DefaultCorsProcessor.processRequest(DefaultCorsProcessor.java:95) at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:87) at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) 我们初始的跨域设置是这样的 ```java @Configuration @EnableWebMvc public class CORSConfig implements WebMvcConfigurer {]]></summary></entry><entry><title type="html">时间不在于你拥有多少，而在于你怎样使用</title><link href="https://tangyuewei.github.io/posts/%E6%97%B6%E9%97%B4%E4%B8%8D%E5%9C%A8%E4%BA%8E%E4%BD%A0%E6%8B%A5%E6%9C%89%E5%A4%9A%E5%B0%91-%E8%80%8C%E5%9C%A8%E4%BA%8E%E4%BD%A0%E6%80%8E%E6%A0%B7%E4%BD%BF%E7%94%A8/" rel="alternate" type="text/html" title="时间不在于你拥有多少，而在于你怎样使用" /><published>2022-08-05T15:00:00+08:00</published><updated>2022-08-05T15:00:00+08:00</updated><id>https://tangyuewei.github.io/posts/%E6%97%B6%E9%97%B4%E4%B8%8D%E5%9C%A8%E4%BA%8E%E4%BD%A0%E6%8B%A5%E6%9C%89%E5%A4%9A%E5%B0%91%EF%BC%8C%E8%80%8C%E5%9C%A8%E4%BA%8E%E4%BD%A0%E6%80%8E%E6%A0%B7%E4%BD%BF%E7%94%A8</id><content type="html" xml:base="https://tangyuewei.github.io/posts/%E6%97%B6%E9%97%B4%E4%B8%8D%E5%9C%A8%E4%BA%8E%E4%BD%A0%E6%8B%A5%E6%9C%89%E5%A4%9A%E5%B0%91-%E8%80%8C%E5%9C%A8%E4%BA%8E%E4%BD%A0%E6%80%8E%E6%A0%B7%E4%BD%BF%E7%94%A8/"><![CDATA[<p>2022年8月5日-星期五，即将迎来一个新的周末。</p>
+
+<p>距离上次在博客上写作又过了几个月了。。。</p>
+
+<p>前两天发现申请的谷歌广告位审核通过了，现在访问<a href="https://tangyuewei.com">我的网站</a>有谷歌的广告了。</p>
+
+<p>当时心中还念想如何运营一下网站，提升访问量。</p>
+
+<ul>
+  <li>学习做SEO</li>
+  <li>学习如何输出高质量文章</li>
+  <li>引流</li>
+  <li>…</li>
+</ul>
+
+<p>绕了一圈还是一头雾水。</p>
+
+<p>我想创业的过程大概也是如此吧，刚开始的时候满腔热血，一鼓作气</p>
+
+<p>过段时间后仍没有看到成效，然后就渐渐丧失了激情，直到完全放弃。</p>
+
+<p>然后再某个偶然的机会，看到当初从事这件事的人取得了成就，然后又想去坚持做一下</p>
+
+<p>又一段时间过去了，依然如之前的一样。于是乎，选择放弃，选择另外一个事务，去重复现在的过程…</p>
+
+<p>我不知道其他人是不是这样，反正我是这样。</p>
+
+<p>后来仔细想了想，是自己心里的预期比较大，也没有作好规划与实施，更没有长期持续的学习与坚持。</p>
+
+<p>我们看到的”成功人士”先不说在社会是极少数，更不知道他们背后的心酸历史。</p>
+
+<p>能在一个行业作出成绩的，必定有他独特的亮点。成功的路本来就是很少有人走的，如果能复制的话，那就不叫成功，我们也会觉得习以为常。</p>
+
+<p>开始认识并接受自己本来就是一个平凡的人，踏踏实实做事，好好地过自己的生活就好了，不要老想要怎样怎样。</p>
+
+<p>其实有时候大道理心里都懂，真实行动有时却没有作到。</p>
+
+<p>最后，愿我们都能找到自己的归宿，健康快乐的生活</p>]]></content><author><name>tangyuewei</name></author><category term="博客那些事" /><category term="总结" /><summary type="html"><![CDATA[2022年8月5日-星期五，即将迎来一个新的周末。]]></summary></entry><entry><title type="html">我的拖延症与三分热度</title><link href="https://tangyuewei.github.io/posts/%E6%88%91%E7%9A%84%E6%8B%96%E5%BB%B6%E7%97%87%E4%B8%8E%E4%B8%89%E5%88%86%E7%83%AD%E5%BA%A6/" rel="alternate" type="text/html" title="我的拖延症与三分热度" /><published>2022-05-13T14:00:00+08:00</published><updated>2022-05-13T14:00:00+08:00</updated><id>https://tangyuewei.github.io/posts/%E6%88%91%E7%9A%84%E6%8B%96%E5%BB%B6%E7%97%87%E4%B8%8E%E4%B8%89%E5%88%86%E7%83%AD%E5%BA%A6</id><content type="html" xml:base="https://tangyuewei.github.io/posts/%E6%88%91%E7%9A%84%E6%8B%96%E5%BB%B6%E7%97%87%E4%B8%8E%E4%B8%89%E5%88%86%E7%83%AD%E5%BA%A6/"><![CDATA[<p>说到拖延症大家都不陌生吧，每次在周末前都提醒自己不要睡懒觉，结果一到周末早上闹钟响起来的时候就摁了继续睡。</p>
+
+<p>基本上都睡到快饭点的时候才起来。</p>
+
+<p>一时赖床一时爽，一直赖床一直爽…</p>
+
+<p>以至于周末的空闲时间都消遣而过了。</p>
+
+<p>每当看到别人一直学习，变得越来越优秀的时候，心里又在安慰自己“谁叫你懒呢”</p>
+
+<p>除了拖延症我的三分热度也非常突出。</p>
+
+<p>想做一件事的时候，心里就迫不及待的要去干。</p>
+
+<p>干不了多久就没了当初的热血了…太难了</p>
+
+<p>说好坚持写博客这件事，距离上次的发表都快半年了。</p>
+
+<p>突然想起还有写博客这事</p>
+
+<p>想输出点有质量的东西，感觉像茶壶煮饺子，倒不出来</p>
+
+<p>没有行动，怎么立flag都没用。</p>
+
+<p>昨天刷抖音还看到“680北京大学，720清华大学，398全身精油spa…”</p>
+
+<p>笑话听完，话说回来，flag立的时候最好结合实际情况，自己能做到，最好做到后再给自己一点奖励</p>
+
+<p>今天就到这吧</p>]]></content><author><name>tangyuewei</name></author><category term="博客那些事" /><category term="总结" /><summary type="html"><![CDATA[说到拖延症大家都不陌生吧，每次在周末前都提醒自己不要睡懒觉，结果一到周末早上闹钟响起来的时候就摁了继续睡。]]></summary></entry><entry><title type="html">加油2022</title><link href="https://tangyuewei.github.io/posts/%E5%8A%A0%E6%B2%B92022/" rel="alternate" type="text/html" title="加油2022" /><published>2021-12-31T14:00:00+08:00</published><updated>2021-12-31T14:00:00+08:00</updated><id>https://tangyuewei.github.io/posts/%E5%8A%A0%E6%B2%B92022</id><content type="html" xml:base="https://tangyuewei.github.io/posts/%E5%8A%A0%E6%B2%B92022/"><![CDATA[<h2 id="写给2022">写给2022</h2>
+
+<blockquote>
+  <p>光阴似箭，岁月如梭</p>
+</blockquote>
+
+<blockquote>
+  <p>不禁感叹，时间如此之快</p>
+</blockquote>
+
+<blockquote>
+  <p>这一年，明白了生活的不易</p>
+</blockquote>
+
+<blockquote>
+  <p>这一年，懂得了语言是把无形的刀</p>
+</blockquote>
+
+<blockquote>
+  <p>这一年，也看到了诸多的不足</p>
+</blockquote>
+
+<blockquote>
+  <p>愿每一份不被人看见的努力，在将来都会得到加倍补偿</p>
+</blockquote>
+
+<blockquote>
+  <p>马上就2022年了，希望新的一年一切安好</p>
+</blockquote>
+
+<blockquote>
+  <p>不仅是篮球需要沉淀、学习需要沉淀、生活也需要沉淀</p>
+</blockquote>
+
+<blockquote>
+  <p>加油2022，everything will better.</p>
+</blockquote>
+
+<blockquote>
+  <p>愿你历尽千帆，归来仍是少年</p>
+</blockquote>
+
+<blockquote>
+  <p>未来可期，T Y W 🐄 🅱️</p>
+</blockquote>]]></content><author><name>tangyuewei</name></author><category term="博客那些事" /><category term="总结" /><summary type="html"><![CDATA[写给2022]]></summary></entry><entry><title type="html">给文章加上了访问统计</title><link href="https://tangyuewei.github.io/posts/%E7%BB%99%E6%96%87%E7%AB%A0%E5%8A%A0%E4%B8%8A%E4%BA%86%E8%AE%BF%E9%97%AE%E7%BB%9F%E8%AE%A1/" rel="alternate" type="text/html" title="给文章加上了访问统计" /><published>2021-11-24T10:35:00+08:00</published><updated>2021-11-24T10:35:00+08:00</updated><id>https://tangyuewei.github.io/posts/%E7%BB%99%E6%96%87%E7%AB%A0%E5%8A%A0%E4%B8%8A%E4%BA%86%E8%AE%BF%E9%97%AE%E7%BB%9F%E8%AE%A1</id><content type="html" xml:base="https://tangyuewei.github.io/posts/%E7%BB%99%E6%96%87%E7%AB%A0%E5%8A%A0%E4%B8%8A%E4%BA%86%E8%AE%BF%E9%97%AE%E7%BB%9F%E8%AE%A1/"><![CDATA[<h2 id="关于">关于</h2>
+
+<blockquote>
+  <p>一直想实现博客文章访问统计，虽然我这里没几个人看，功能还是要有的吧。</p>
+</blockquote>
+
+<p>有三种方案：</p>
+<ol>
+  <li><a href="https://analytics.google.com/">谷歌统计</a></li>
+  <li><a href="https://www.leancloud.cn/">leancloud</a></li>
+  <li><a href="https://busuanzi.ibruce.info/">不蒜子</a></li>
+</ol>
+
+<p>谷歌的方案我这里不再复述了，有兴趣的可以去搜索一下实现方案。</p>
+
+<p>我这里推荐使用<code class="language-plaintext highlighter-rouge">leancloud</code>和<code class="language-plaintext highlighter-rouge">不蒜子</code>。</p>
+
+<p><strong>leancloud</strong>：</p>
+
+<ul>
+  <li>优点：支持查看详细访问记录</li>
+  <li>缺点：需要写部分代码</li>
+</ul>
+
+<p><strong>不蒜子</strong>：</p>
+
+<ul>
+  <li>优点：引入超级简单</li>
+  <li>缺点：存在网络波动记录不到、无法查看访问详细记录</li>
+</ul>
+
+<h2 id="不蒜子方案">不蒜子方案</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>&lt;script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"&gt;&lt;/script&gt;
+&lt;span id="busuanzi_container_site_pv"&gt;本站总访问量&lt;span id="busuanzi_value_site_pv"&gt;&lt;/span&gt;次&lt;/span&gt;
+&lt;span id="busuanzi_container_site_uv"&gt;本站总访客数&lt;span id="busuanzi_value_site_uv"&gt;&lt;/span&gt;人&lt;/span&gt;
+&lt;span id="busuanzi_container_page_pv"&gt;本文总阅读量&lt;span id="busuanzi_value_page_pv"&gt;&lt;/span&gt;次&lt;/span&gt;
+
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>你没有看错，只需几行全部搞定。</p>
+<blockquote>
+  <p><a href="https://busuanzi.ibruce.info/">原文</a></p>
+</blockquote>
+
+<h2 id="leancloud方案">leancloud方案</h2>
+
+<ol>
+  <li>去<a href="https://www.leancloud.cn/">leancloud</a>注册开发者账号</li>
+  <li>新建应用（量不大选用开发版本就行了）</li>
+  <li>新建<code class="language-plaintext highlighter-rouge">Class</code> -&gt;<code class="language-plaintext highlighter-rouge">visited_times</code>、<code class="language-plaintext highlighter-rouge">visitors_record</code>。</li>
+</ol>
+
+<p><strong>visited_times</strong>: 增加字段<code class="language-plaintext highlighter-rouge">post_title</code>、<code class="language-plaintext highlighter-rouge">post_url</code>、<code class="language-plaintext highlighter-rouge">visited_times</code>
+<strong>visitors_record</strong>: 增加字段<code class="language-plaintext highlighter-rouge">post_url</code>、<code class="language-plaintext highlighter-rouge">visitor_ip</code></p>
+<ol>
+  <li>在<code class="language-plaintext highlighter-rouge">设置</code>-&gt;<code class="language-plaintext highlighter-rouge">应用凭证</code>拷贝<code class="language-plaintext highlighter-rouge">AppID</code>和<code class="language-plaintext highlighter-rouge">AppKey</code>。</li>
+  <li>在<code class="language-plaintext highlighter-rouge">foot.html</code>添加如下代码(注意替换<code class="language-plaintext highlighter-rouge">AppID</code>和<code class="language-plaintext highlighter-rouge">AppKey</code>)：
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+</pre></td><td class="rouge-code"><pre>&lt;script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"&gt;&lt;/script&gt;
+&lt;script&gt;AV.initialize("AppID", "AppKey");&lt;/script&gt;
+&lt;script&gt;
+ //新增访问次数
+ function addCount(Counter) {
+   // 页面（博客文章）中的信息：leancloud_visitors
+   // id为page.url， data-flag-title为page.title
+   var $visitors = $(".leancloud_visitors");
+   var url = $visitors.attr('id').trim();
+   var title = $visitors.attr('data-flag-title').trim();
+   var query = new AV.Query(Counter);
+
+   // 只根据文章的url查询LeanCloud服务器中的数据
+   query.equalTo("post_url", url);
+   query.find({
+     success: function(results) {
+       if (results.length &gt; 0) {//说明LeanCloud中已经记录了这篇文章
+         var counter = results[0];
+         counter.fetchWhenSave(true);
+         counter.increment("visited_times");// 将点击次数加1
+         counter.save(null, {
+           success: function(counter) {
+             var $element = $(document.getElementById(url));
+             var newTimes = counter.get('visited_times');
+             $element.find('.leancloud-visitors-count').text(newTimes);
+           },
+           error: function(counter, error) {
+             console.log('Failed to save Visitor num, with error message: ' + error.message);
+           }
+         });
+       } else {
+         // 执行这里，说明LeanCloud中还没有记录此文章
+         var newcounter = new Counter();
+         /* Set ACL */
+         var acl = new AV.ACL();
+         acl.setPublicReadAccess(true);
+         acl.setPublicWriteAccess(true);
+         newcounter.setACL(acl);
+         /* End Set ACL */
+         newcounter.set("post_title", title);// 把文章标题
+         newcounter.set("post_url", url); // 文章url
+         newcounter.set("visited_times", 1); // 初始点击次数：1次
+         newcounter.save(null, { // 上传到LeanCloud服务器中
+           success: function(newcounter) {
+             var $element = $(document.getElementById(url));
+             var newTimes = newcounter.get('visited_times');
+             $element.find('.leancloud-visitors-count').text(newTimes);
+           },
+           error: function(newcounter, error) {
+             console.log('Failed to create');
+           }
+         });
+       }
+     },
+     error: function(error) {
+       console.log('Error:' + error.code + " " + error.message);
+     }
+   });
+ }
+
+ //仅根据url和title查出当前访问次数，不做+1操作
+ function showCount(Counter) {
+   var $visitors = $(".leancloud_visitors");
+   var url = $visitors.attr('id').trim();
+   var title = $visitors.attr('data-flag-title').trim();
+   var query = new AV.Query(Counter);
+
+   var entries = [];
+   $visitors.each(function() {
+     entries.push($(this).attr("id").trim());
+   });
+   query.containedIn('post_url', entries);
+   query.find().done(function(results) {
+       console.log(results);
+       var count_container = '.leancloud-visitors-count';
+       for (var i = 0; i &lt; results.length; i++) {
+         var item = results[i];
+         var url = item.get('post_url');
+         var time = item.get('visited_times');
+         var element = document.getElementById(url);
+         $(element).find(count_container).text(time);
+       }
+     }).fail(function(object, error) {
+       console.log("Error: " + error.code + " " + error.message);
+     });
+ }
+
+ //调用API获取IP
+ function getVisitorIpAndJudge() {
+   var ip;
+   function createCORS(method, url){
+     var xhr = new XMLHttpRequest();
+     if('withCredentials' in xhr){
+       xhr.open(method, url, true);
+     }else if(typeof XDomainRequest != 'undefined'){
+       var xhr = new XDomainRequest();
+       xhr.open(method, url);
+     }else{
+       xhr = null;
+     }
+     return xhr;
+   }
+   var request = createCORS('get', 'https://api.ipify.org/?format=json&amp;callback=?');
+   if(request){
+     request.onload = function(response){
+       console.log(response);
+       var obj = JSON.parse(response.currentTarget.response);
+       console.log(obj);
+       if(obj.ip) {
+         ip = obj.ip;
+       }else {
+         ip = "127.0.0.1";
+       }
+       judgeVisitor(ip);
+     };
+     request.send();
+   }
+ }
+
+ //判断访客是否已访问过该文章，及访问时间，符合条件则增加一次访问次数
+ function judgeVisitor(ip) {
+   var Counter = AV.Object.extend("visited_times");
+   var Visitor = AV.Object.extend("visitors_record");
+
+   var $postInfo = $(".leancloud_visitors");
+   var post_url = $postInfo.attr('id').trim();
+
+   var query = new AV.Query(Visitor);
+
+   query.equalTo("visitor_ip", ip);
+   query.equalTo("post_url", post_url);
+   query.find({
+     success: function(results) {
+       if (results.length &gt; 0) {
+         console.log('该IP已访问过该文章');
+
+         var oldVisitor = results[0];
+
+         var lastTime = oldVisitor.updatedAt;
+         var curTime = new Date();
+
+         var timePassed = curTime.getTime() - lastTime.getTime();
+
+         if(timePassed &gt; 1 * 60 * 1000) {
+           console.log('距离该IP上一次访问该文章已超过了1分钟，更新访问记录，并增加访问次数');
+
+           addCount(Counter);
+
+           oldVisitor.fetchWhenSave(true);
+           oldVisitor.save(null, {
+             success: function(oldVisitor) { },
+             error: function(oldVisitor, error) {
+               console.log('Failed to save visitor record, with error message: ' + error.message);
+             }
+           });
+         } else {
+           console.log('这是该IP 1分钟内重复访问该文章，不更新访问记录，不增加访问次数');
+           showCount(Counter);
+         }
+       } else {
+         console.log('该IP第一次访问该文章，保存新的访问记录，并增加访问次数');
+
+         addCount(Counter);
+
+         var newVisitor = new Visitor();
+         /* Set ACL */
+         var acl = new AV.ACL();
+         acl.setPublicReadAccess(true);
+         acl.setPublicWriteAccess(true);
+         newVisitor.setACL(acl);
+         newVisitor.set("visitor_ip", ip);
+         newVisitor.set("post_url", post_url);
+         newVisitor.save(null, { // 上传到LeanCloud服务器中
+           success: function(newVisitor) { },
+           error: function(newVisitor, error) {
+             console.log('Failed to create visitor record, with error message: ' + error.message);
+           }
+         });
+       }
+     },
+     error: function(error) {
+       console.log('Error:' + error.code + " " + error.message);
+       addCount(Counter);
+     }
+   });
+ }
+
+ $(function() {
+   if ($('.leancloud_visitors').length == 1) {
+     // 文章页面，调用判断方法，对符合条件的访问增加访问次数
+     getVisitorIpAndJudge();
+   }else if ($('.leancloud_visitors').length &gt; 1){
+     console.log("leancloud_visitors&gt;1")
+     // 文章列表时
+     var Counter = AV.Object.extend("visited_times");
+     showCount(Counter)
+   }
+ });
+&lt;/script&gt;
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>在需要展示的地方增加如下：
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>&lt;span id="/posts/%E7%BB%99%E6%96%87%E7%AB%A0%E5%8A%A0%E4%B8%8A%E4%BA%86%E8%AE%BF%E9%97%AE%E7%BB%9F%E8%AE%A1/" class="leancloud_visitors" data-flag-title="给文章加上了访问统计"&gt;
+   &lt;i class="fa fa-eye"&gt;&lt;span class="leancloud-visitors-count"&gt;&lt;/span&gt;&lt;/i&gt;
+&lt;/span&gt;
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+    <p>注：<code class="language-plaintext highlighter-rouge">/posts/%E7%BB%99%E6%96%87%E7%AB%A0%E5%8A%A0%E4%B8%8A%E4%BA%86%E8%AE%BF%E9%97%AE%E7%BB%9F%E8%AE%A1/</code>为文章唯一的访问地址，<code class="language-plaintext highlighter-rouge">给文章加上了访问统计</code>为文章标题，<code class="language-plaintext highlighter-rouge">leancloud-visitors-count</code>值与上一步操作的有关联。</p>
+  </li>
+</ol>
+
+<p>再次部署刷新文章页面去<code class="language-plaintext highlighter-rouge">leancloud</code>控制台能看到有访问记录。OK，到此就完成了。</p>
+
+<blockquote>
+  <p><a href="https://priesttomb.github.io/%E6%97%A5%E5%B8%B8/2017/11/06/jekyll%E4%BD%BF%E7%94%A8LeanCloud%E8%AE%B0%E5%BD%95%E6%96%87%E7%AB%A0%E7%9A%84%E8%AE%BF%E9%97%AE%E6%AC%A1%E6%95%B0/">参考文章</a></p>
+</blockquote>]]></content><author><name>tangyuewei</name></author><category term="博客那些事" /><category term="文章统计" /><summary type="html"><![CDATA[关于]]></summary></entry><entry><title type="html">与博客的折腾</title><link href="https://tangyuewei.github.io/posts/%E4%B8%8E%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%8A%98%E8%85%BE/" rel="alternate" type="text/html" title="与博客的折腾" /><published>2021-10-14T16:32:00+08:00</published><updated>2021-10-14T16:32:00+08:00</updated><id>https://tangyuewei.github.io/posts/%E4%B8%8E%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%8A%98%E8%85%BE</id><content type="html" xml:base="https://tangyuewei.github.io/posts/%E4%B8%8E%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%8A%98%E8%85%BE/"><![CDATA[<p>写博客这件事，是认真的</p>
+
+<p>不知不觉，写着写着就断了…</p>
+
+<p>18年开始建设了<a href="https://tangyuewei.com">个人站点</a>,折腾了几个博客系统。</p>
+
+<p>hexo、vuepress、jekyll….</p>
+
+<p>总感觉写的东西不够好，然后又不知道写啥…</p>
+
+<p>但是笔记还是一直都在记着，用的有道云</p>
+
+<p>现在换成了<code class="language-plaintext highlighter-rouge">chirpy</code>的主题，感觉这个简洁一些。</p>
+
+<p>新的主题重新开始吧，</p>
+
+<p>好了，先这样吧，待续…</p>]]></content><author><name>tangyuewei</name></author><category term="博客那些事" /><category term="博客那些事" /><summary type="html"><![CDATA[写博客这件事，是认真的]]></summary></entry><entry><title type="html">Jenkins持续集成</title><link href="https://tangyuewei.github.io/posts/Jekins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" rel="alternate" type="text/html" title="Jenkins持续集成" /><published>2020-10-13T10:39:06+08:00</published><updated>2020-10-13T10:39:06+08:00</updated><id>https://tangyuewei.github.io/posts/Jekins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90</id><content type="html" xml:base="https://tangyuewei.github.io/posts/Jekins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/"><![CDATA[<h2 id="jenkins持续集成">Jenkins持续集成</h2>
+
+<h3 id="jenkins概述">Jenkins概述</h3>
+<blockquote>
+  <p>Jenkins是一个独立的开源自动化服务器，可用于自动执行与构建，测试，交付或部署软件相关的各种任务。
+Jenkins可以通过本机系统软件包，Docker安装，甚至可以由安装了Java Runtime Environment（JRE）的任何机器独立运行。</p>
+</blockquote>
+
+<h3 id="下载并运行jenkins">下载并运行Jenkins</h3>
+<ol>
+  <li>
+    <p><a href="https://jenkins.io/download/">下载Jenkins</a>。</p>
+  </li>
+  <li>
+    <p>在下载目录中打开终端。</p>
+  </li>
+  <li>
+    <p>运行java -jar jenkins.war –httpPort=8080。</p>
+  </li>
+  <li>
+    <p>浏览到http://localhost:8080。</p>
+  </li>
+  <li>
+    <p>按照说明完成安装。</p>
+    <blockquote>
+      <p>修改Jenkins启动的默认端口号方式：</p>
+      <ol>
+        <li>在Jenkins安装目录下打开jenkins.xml</li>
+        <li>修改属性httpPort=8088
+          <h4 id="运行环境">运行环境</h4>
+          <p>macOS，Linux或Windows机器：256 MB的RAM，推荐超过512 MB。Jenkins和Docker镜像和容器的10 GB空间</p>
+        </li>
+      </ol>
+    </blockquote>
+  </li>
+</ol>
+
+<p>部署java应用，还需安装：</p>
+<ul>
+  <li>docker</li>
+  <li>git</li>
+</ul>
+
+<h3 id="使用pipeline">使用Pipeline</h3>
+
+<p>```for java
+pipeline {
+    agent { docker { image ‘maven:3.3.3’ } }
+    stages {
+        stage(‘build’) {
+            steps {
+                sh ‘mvn –version’
+            }
+        }
+    }
+}</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre>
+```node.js
+pipeline {
+    agent { docker { image 'node:6.3' } }
+    stages {
+        stage('build') {
+            steps {
+                sh 'npm --version'
+            }
+        }
+    }
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+<h4 id="stage">stage</h4>
+<blockquote>
+  <p>包含3个阶段，”Build”, “Test” and “Deploy”。</p>
+</blockquote>
+
+<p>pipeline {
+agent any 1
+stages {
+stage(‘Build’) { 2
+steps {
+// 3
+}
+}
+stage(‘Test’) { 4
+steps {
+// 5
+}
+}
+stage(‘Deploy’) { 6
+steps {
+// 7
+}
+}
+}
+}</p>
+<ol>
+  <li>在任何可用的代理上执行此管道或其任何阶段。</li>
+  <li>定义“Build”阶段。stage块在Scripted Pipeline语法中是可选的。但是，stage在脚本管道中实现块可以更清晰地显示Jenkins UI中每个阶段的任务/步骤子集。</li>
+  <li>执行与“Build”阶段相关的一些步骤。</li>
+  <li>定义“Test”阶段。</li>
+  <li>执行与“Test”阶段相关的一些步骤。</li>
+  <li>定义“Deploy”阶段。</li>
+  <li>执行与“Deploy”阶段相关的一些步骤。</li>
+</ol>]]></content><author><name>tangyuewei</name></author><category term="各种使用指南" /><category term="持续集成" /><category term="Jenkins" /><summary type="html"><![CDATA[Jenkins持续集成]]></summary></entry><entry><title type="html">虚拟化容器docker</title><link href="https://tangyuewei.github.io/posts/%E8%99%9A%E6%8B%9F%E5%8C%96%E5%AE%B9%E5%99%A8docker/" rel="alternate" type="text/html" title="虚拟化容器docker" /><published>2020-04-14T10:39:06+08:00</published><updated>2020-04-14T10:39:06+08:00</updated><id>https://tangyuewei.github.io/posts/%E8%99%9A%E6%8B%9F%E5%8C%96%E5%AE%B9%E5%99%A8docker</id><content type="html" xml:base="https://tangyuewei.github.io/posts/%E8%99%9A%E6%8B%9F%E5%8C%96%E5%AE%B9%E5%99%A8docker/"><![CDATA[<h2 id="docker-概述">Docker 概述</h2>
+<blockquote>
+  <ul>
+    <li>一种服务器，它是一种称为守护进程并且长时间运行的程序。</li>
+    <li>REST API用于指定程序可以用来与守护进程通信的接口，并指示它做什么。</li>
+    <li>一个有命令行界面 (CLI) 工具的客户端。</li>
+  </ul>
+</blockquote>
+
+<p><strong>系统架构</strong></p>
+<ol>
+  <li>镜像（Image）</li>
+  <li>容器（Container）</li>
+  <li>仓库（Repository）</li>
+</ol>
+
+<p>| Docker | 面向对象 |
+|——–|——|
+| 容器     | 对象   |
+| 镜像     | 类    |</p>
+<blockquote>
+  <p>容器与镜像的关系类似于面向对象编程中的对象与类。</p>
+</blockquote>
+
+<p><img title="Docker架构" src="/assets/img/docker20200109144807.png" /></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>标题</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>镜像(Images)</td>
+      <td>Docker 镜像是用于创建 Docker 容器的模板。</td>
+    </tr>
+    <tr>
+      <td>容器(Container)</td>
+      <td>容器是独立运行的一个或一组应用。</td>
+    </tr>
+    <tr>
+      <td>客户端(Client)</td>
+      <td>Docker 客户端通过命令行或者其他工具使用 <a href="https://docs.docker.com/reference/api/docker_remote_api">Docker API</a> 与 Docker 的守护进程通信。</td>
+    </tr>
+    <tr>
+      <td>主机(Host)</td>
+      <td>一个物理或者虚拟的机器用于执行 Docker 守护进程和容器。</td>
+    </tr>
+    <tr>
+      <td>仓库(Registry)</td>
+      <td>Docker 仓库用来保存镜像，可以理解为代码控制中的代码仓库。<a href="https://hub.docker.com">Docker Hub</a> 提供了庞大的镜像集合供使用。</td>
+    </tr>
+    <tr>
+      <td>Docker Machine</td>
+      <td>Docker Machine是一个简化Docker安装的命令行工具，通过一个简单的命令行即可在相应的平台上安装Docker，比如VirtualBox、 Digital Ocean、Microsoft Azure。</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="docker-镜像">Docker 镜像</h2>
+
+<p><strong>获取镜像</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>docker pull ubuntu:16.04
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>从 Docker 镜像仓库获取镜像的命令是 docker pull。其命令格式为：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>docker pull [选项] [Docker Registry 地址[:端口号]/]仓库名[:标签]
+
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>::: tip 帮助文档</p>
+
+<blockquote>
+  <p>具体的选项可以通过 docker pull –help 命令查询帮助。</p>
+</blockquote>
+
+<p>:::</p>
+
+<p><strong>交互式运行</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>docker run -it --rm \
+    ubuntu:16.04 \
+    bash
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p><strong>列出镜像</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>docker image ls
+
+docker images
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p><strong>镜像体积</strong></p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">docker image ls</code> 列表中的镜像体积总和并非是所有镜像实际硬盘消耗。由于 Docker 镜像是多层存储结构，并且可以继承、复用，因此不同镜像可能会因为使用相同的基础镜像，从而拥有共同的层</p>
+</blockquote>
+
+<p>查看镜像、容器、数据卷所占用的空间。</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>docker system df
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><strong>虚悬镜像</strong></p>
+
+<blockquote>
+  <p>镜像既没有仓库名，也没有标签，均为 <code class="language-plaintext highlighter-rouge">none</code>。查询虚悬镜像</p>
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>docker image ls -f dangling=true
+</pre></td></tr></tbody></table></code></pre></div>  </div>
+  <p>新旧镜像同名，旧镜像名称被取消，从而出现仓库名、标签均为 <code class="language-plaintext highlighter-rouge">none</code> 的镜像。这类无标签镜像也被称为 虚悬镜像(dangling image)</p>
+</blockquote>
+
+<p><strong>中间层镜像</strong>
+查询中间层镜像：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>docker image ls -a
+</pre></td></tr></tbody></table></code></pre></div></div>
+<blockquote>
+  <p>为了加速镜像构建、重复利用资源，Docker 会利用 中间层镜像。</p>
+</blockquote>
+
+<p>::: danger 警告</p>
+<blockquote>
+  <p>只要删除那些依赖它们的镜像后，这些依赖的中间层镜像也会被连带删除
+:::</p>
+</blockquote>
+
+<p><strong>列出部分镜像</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>docker image ls ubuntu
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p><strong>删除本地镜像</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>docker image rm [选项] &lt;镜像1&gt; [&lt;镜像2&gt; ...]
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p><strong>commit 镜像构成新镜像</strong></p>
+
+<p>定制一个 nginx 服务器为例子</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>docker run --name nginx -d -p 80:80 nginx
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>直接访问：http://localhost</p>
+
+<p>修改欢迎内容</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>docker exec -it nginx bash
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>进入容器后</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>echo '&lt;h1&gt;Hello, Docker!&lt;/h1&gt;' &gt; /usr/share/nginx/html/index.html
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>然后<code class="language-plaintext highlighter-rouge">exit</code>退出容器，再刷新浏览器的话，会发现内容被改变了。</p>
+
+<p><code class="language-plaintext highlighter-rouge">docker diff</code>命令看到具体的改动。</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>docker diff nginx
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>将容器保存为新镜像</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>docker commit \
+    --author "Yuewei tang &lt;472680811@qq.com&gt;" \
+    --message "修改了默认网页" \
+    nginx \
+    nginx:v2
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>我们可以在 docker image ls 中看到这个新定制的镜像</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>docker image ls nginx
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p><strong>慎用 docker commit</strong></p>
+<blockquote>
+  <p>使用 docker commit 命令虽然可以比较直观的帮助理解镜像分层存储的概念，但是实际环境中并不会这样使用。推荐使用<code class="language-plaintext highlighter-rouge">Dockerfile</code> 定制镜像</p>
+</blockquote>
+
+<p><strong>Dockerfile 定制镜像</strong></p>
+
+<p>官方文档参考</p>
+<ul>
+  <li><a href="https://docs.docker.com/engine/reference/builder/">Dockerfie 官方文档</a></li>
+  <li><a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/">Dockerfile 最佳实践文档</a></li>
+  <li><a href="https://github.com/docker-library/docs">Dockerfie 官方文档</a></li>
+</ul>
+
+<p>在一个空白目录中，建立一个文本文件，并命名为 Dockerfile。</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>mkdir mynginx
+cd mynginx
+touch Dockerfile
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>输入：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>FROM nginx
+RUN echo '&lt;h1&gt;Hello, mynginx!&lt;/h1&gt;' &gt; /usr/share/nginx/html/index.html
+</pre></td></tr></tbody></table></code></pre></div></div>
+<ul>
+  <li>FROM 指定基础镜像</li>
+  <li>RUN 执行命令
+<strong>构建镜像</strong>
+在 Dockerfile 文件所在目录执行：
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>docker build -t nginx:v3 .
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+    <p>::: tip 提示</p>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>docker build [选项] &lt;上下文路径/URL/-&gt;
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+    <p>:::
+<strong>镜像构建上下文（Context）</strong>
+如果在 Dockerfile 中这么写：</p>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>COPY ./package.json /app/
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+    <blockquote>
+      <p>这并不是要复制执行<code class="language-plaintext highlighter-rouge">docker build</code>命令所在的目录下的<code class="language-plaintext highlighter-rouge">package.json</code>，也不是复制 Dockerfile 所在目录下的<code class="language-plaintext highlighter-rouge">package.json</code>，而是复制 上下文（context）目录下的<code class="language-plaintext highlighter-rouge">package.json</code>。
+一般来说，应该会将 Dockerfile 置于一个空目录下，或者项目根目录下。如果该目录下没有所需文件，那么应该把所需文件复制一份过来</p>
+    </blockquote>
+  </li>
+</ul>
+
+<p><strong>其它 docker build 的用法</strong></p>
+<ul>
+  <li>接用 Git repo 进行构建
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>docker build https://github.com/tangyuewei/gitlab-ce-zh.git#:0.1
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+    <blockquote>
+      <p>这行命令指定了构建所需的<code class="language-plaintext highlighter-rouge">Git repo</code>，并且指定默认的 master 分支，构建目录为 /0.1/，然后 Docker 就会自己去 git clone 这个项目、切换到指定分支、并进入到指定目录后开始构建</p>
+    </blockquote>
+  </li>
+  <li>指定<code class="language-plaintext highlighter-rouge">tar</code>压缩包构建
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>docker build http://server/context.tar.gz
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+    <p><strong>Dockerfile 指令详解</strong></p>
+  </li>
+  <li>COPY 复制文件
+    <blockquote>
+      <p>COPY <源路径>... <目标路径></目标路径></源路径></p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>COPY hom* /mydir/
+COPY hom?.txt /mydir/
+</pre></td></tr></tbody></table></code></pre></div>      </div>
+    </blockquote>
+  </li>
+  <li>ADD 更高级的复制文件
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>ADD package.tar.gz /usr/src/app/
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+    <blockquote>
+      <p>如果 <源路径> 为一个 tar 压缩文件的话，压缩格式为 gzip, bzip2 以及 xz 的情况下，ADD 指令将会自动解压缩这个压缩文件到 <目标路径> 去。
+最适合使用 ADD 的场合，就是所提及的需要自动解压缩的场合。</目标路径></源路径></p>
+    </blockquote>
+  </li>
+  <li>CMD 容器启动命令</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>CMD ["nginx", "-g", "daemon off;"]
+CMD [ "sh", "-c", "echo $HOME" ]
+</pre></td></tr></tbody></table></code></pre></div></div>
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">CMD</code> 指令的格式和 <code class="language-plaintext highlighter-rouge">RUN</code> 相似</p>
+</blockquote>
+
+<ul>
+  <li>ENTRYPOINT 入口点
+    <blockquote>
+      <p>当指定了 ENTRYPOINT 后，CMD 的含义就发生了改变，不再是直接的运行其命令，而是将 CMD 的内容作为参数传给 ENTRYPOINT 指令，换句话说实际执行时，将变为：
+<code class="language-plaintext highlighter-rouge">&lt;ENTRYPOINT&gt; "&lt;CMD&gt;"</code></p>
+    </blockquote>
+  </li>
+  <li>ENV 设置环境变量
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>ENV VERSION=1.0
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>VOLUME 定义匿名卷
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>VOLUME /data
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>EXPOSE 暴露端口
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>EXPOSE &lt;端口1&gt; [&lt;端口2&gt;...]
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>WORKDIR 指定工作目录
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>WORKDIR &lt;工作目录路径&gt;。#如该目录不存在，WORKDIR 会帮你建立目录
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>USER 指定当前用户
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>USER redis
+RUN [ "redis-server" ]
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+    <h2 id="docker-容器">Docker 容器</h2>
+    <p><strong>容器操作</strong></p>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre>docker run nginx #启动
+docker container start #已经终止的容器启动运行
+docker container stop #终止一个运行中的容器
+docker run -d nginx #后台守护启动
+docker attach 567c #进入运行中的容器 567c为容器id
+docker exec -it 567c bash #进入运行中的容器 567c为容器id
+docker container rm  nginx #要删除一个运行中的容器，可以添加 -f 参数
+docker container prune #清理掉所有处于终止状态的容器
+docker image prune #清理虚悬镜像
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><strong>导出、导入容器</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre> docker export 567c &gt; nginx.tar
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre> cat nginx.tar | docker import - test/nginx:v1.0
+ docker import https://example.com/exampleimage.tgz example/imagerepo
+</pre></td></tr></tbody></table></code></pre></div></div>
+<h2 id="docker-仓库">Docker 仓库</h2>
+
+<p><strong>Docker Hub</strong></p>
+
+<p><a href="https://cloud.docker.com">注册账号</a></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>docker login #登录
+docker logout #退出
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p><strong>推送镜像</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>docker tag ubuntu:16.04 username/ubuntu:16.04 #username 为你的 Docker 账号用户名
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p><strong>自动创建</strong></p>
+<ul>
+  <li>创建并登录 Docker Hub，以及目标网站；</li>
+  <li>在目标网站中连接帐户到 Docker Hub；</li>
+  <li>在 Docker Hub 中 <a href="https://registry.hub.docker.com/builds/add/">配置一个自动创建</a>；</li>
+  <li>选取一个目标网站中的项目（需要含 Dockerfile）和分支；</li>
+  <li>指定 Dockerfile 的位置，并提交创建。</li>
+</ul>
+
+<p><strong>Docker 私有仓库</strong>
+安装运行 docker-registry</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>docker run -d -p 5000:5000 --restart=always --name registry registry
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>docker run -d \
+    -p 5000:5000 \
+    -v /opt/data/registry:/var/lib/registry \
+    registry
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>使用 <code class="language-plaintext highlighter-rouge">docker tag </code>将<code class="language-plaintext highlighter-rouge">nginx:latest</code> 这个镜像标记为 <code class="language-plaintext highlighter-rouge">127.0.0.1:5000/nginx:latest</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>docker tag nginx:latest 127.0.0.1:5000/nginx:latest
+docker push 127.0.0.1:5000/nginx:latest #docker push 上传标记的镜像
+curl 127.0.0.1:5000/v2/_catalog #用 curl 查看仓库中的镜像
+docker image rm 127.0.0.1:5000/nginx:latest #先删除已有镜像，再尝试从私有仓库中下载这个镜像
+docker pull 127.0.0.1:5000/nginx:latest
+
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>::: warning 注意</p>
+<blockquote>
+  <p>Docker 默认不允许非 HTTPS 方式推送镜像。我们可以通过 Docker 的配置选项来取消这个限制，或者查看下一节配置能够通过 HTTPS 访问的私有仓库。
+:::</p>
+</blockquote>]]></content><author><name>tangyuewei</name></author><category term="分布式系统" /><category term="docker" /><category term="分布式系统" /><category term="docker" /><summary type="html"><![CDATA[Docker 概述 一种服务器，它是一种称为守护进程并且长时间运行的程序。 REST API用于指定程序可以用来与守护进程通信的接口，并指示它做什么。 一个有命令行界面 (CLI) 工具的客户端。]]></summary></entry></feed>
