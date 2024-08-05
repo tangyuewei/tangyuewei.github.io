@@ -25,8 +25,7 @@ keyword: MemCached概述,Memcached使用,Memcached统计命令,Memcached官网,M
 
 + set 命令:将 value 存储在指定的 key 中。
 
-`set key flags exptime bytes [noreply]
-value `
+`set key flags exptime bytes [noreply] value `
 
 如果set的key已经存在，该命令可以更新该key所对应的原来的数据，也就是实现更新的作用。
 
@@ -36,7 +35,7 @@ value `
 - bytes：在缓存中存储的字节数
 - noreply（可选）： 该参数告知服务器不需要返回数据
 - value：存储的值（始终位于第二行）（可直接理解为key-value结构中的value）
-```sql
+``` sql
 set hello 0 900 9
 memcached
 STORED
@@ -49,32 +48,27 @@ END
 ```
 + add 命令:将 value 存储在指定的 key 中。
 
-`add key flags exptime bytes [noreply]
-value`
+`add key flags exptime bytes [noreply] value`
 
 如果 add 的 key 已经存在，则不会更新数据(过期的 key 会更新)，之前的值将仍然保持相同，并且您将获得响应 NOT_STORED。
 
 + replace 命令:替换已存在的 key 的 value。
 
-`replace key flags exptime bytes [noreply]
-value`
+`replace key flags exptime bytes [noreply] value`
 
 如果 key 不存在，则替换失败，并且您将获得响应 NOT_STORED。
 
 + append 命令:已存在 key 的 value 后面追加数据 。
 
-`append key flags exptime bytes [noreply]
-value`
+`append key flags exptime bytes [noreply] value`
 
 + prepend 命令:向已存在 key 的 value 前面追加数据。
 
-`prepend key flags exptime bytes [noreply]
-value`
+`prepend key flags exptime bytes [noreply] value`
 
 + CAS 命令:用于执行一个"检查并设置"的操作它仅在当前客户端最后一次取值后，该key 对应的值没有被其他客户端修改的情况下， 才能够将值写入。检查是通过cas_token参数进行的， 这个参数是Memcach指定给已经存在的元素的一个唯一的64位值。
 
-`cas key flags exptime bytes unique_cas_token [noreply]
-value`
+`cas key flags exptime bytes unique_cas_token [noreply] value`
 
 
 输出信息说明：
@@ -93,7 +87,7 @@ value`
 
 + gets 命令:获取带有 CAS 令牌存 的 value ，如果 key 不存在，则返回空。
 
-```sql
+``` sql
 set runoob 0 900 9
 memcached
 STORED

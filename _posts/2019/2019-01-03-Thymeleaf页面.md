@@ -18,7 +18,7 @@ keyword: 第一个 Thymeleaf 页面,Thymeleaf 依赖,配置 Thymeleaf,Thymeleaf�
 - `spring-boot-starter-thymeleaf`：Thymeleaf 自动配置
 - `nekohtml`：允许使用非严格的 HTML 语法
   完整的`pom.xml`如下：
-```xml
+``` xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -86,7 +86,7 @@ keyword: 第一个 Thymeleaf 页面,Thymeleaf 依赖,配置 Thymeleaf,Thymeleaf�
 
 在`application.yml`配置 Thymeleaf
 
-```yaml
+``` yaml
 spring:
   thymeleaf:
     cache: false # 开发时关闭缓存,不然没法看到实时页面
@@ -98,7 +98,7 @@ spring:
 
 ## 创建测试用 JavaBean
 创建一个测试效果的 JavaBean，简单封装一下即可
-```java
+``` java
 package com.tangyuewei.hello.spring.boot.entity;
 import java.io.Serializable;
 public class PersonBean implements Serializable {
@@ -122,7 +122,7 @@ public class PersonBean implements Serializable {
 
 创建一个`Controller`，造一些测试数据并设置跳转
 
-```java
+``` java
 package com.tangyuewei.hello.spring.boot.controller;
 import com.tangyuewei.hello.spring.boot.entity.PersonBean;
 import org.springframework.stereotype.Controller;
@@ -162,7 +162,7 @@ public class IndexController {
 ## 创建测试页面
 
 在`templates`目录下创建`index.html`文件，代码如下：
-```html
+``` html
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>

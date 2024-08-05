@@ -33,7 +33,7 @@ keyword: 第一个Spring Boot应用程序,构建第一个Spring Boot应用,Sprin
 ````
 - 新建``` pom.xml ```文件
 >
-```$xml
+``` xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -83,7 +83,7 @@ keyword: 第一个Spring Boot应用程序,构建第一个Spring Boot应用,Sprin
 </project>
 ```
 - 在```src/main/java/hello/```新建```HelloController.java```
-```java
+``` java
 package hello;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -100,7 +100,7 @@ public class HelloController {
 }
 ```
 - 在```src/main/java/hello/```新建```Application.java```
-```java
+``` java
 package hello;
 
 import org.springframework.boot.SpringApplication;

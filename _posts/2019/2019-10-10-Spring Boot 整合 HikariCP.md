@@ -37,13 +37,13 @@ keyword: HikariCP 简介,BoneCP,为什么需要 HikariCP,Spring Boot 整合 Hika
 
 几个连接池的代码量对比（代码量越少，一般意味着执行效率越高、发生 BUG 的可能性越低）
 
- Pool|Files|Code
- ---|:---:|---:
-Vibur|	34|	1927
-HikariCP| 21| 2228
-Tomcat|	31|	6345
-BoneCP|	49|	7293
-C3P0| 120| 15550
+| Pool     | Files |  Code |
+|----------|:-----:|------:|
+| Vibur    |  	34  | 	1927 |
+| HikariCP |  21   |  2228 |
+| Tomcat   |  	31  | 	6345 |
+| BoneCP   |  	49  | 	7293 |
+| C3P0     |  120  | 15550 |
 
 ### 可靠性
 
@@ -84,7 +84,7 @@ C3P0| 120| 15550
 ```
 ### application.yml
 
-```yaml
+``` yaml
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource

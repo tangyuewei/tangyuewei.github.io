@@ -14,7 +14,7 @@ keyword: Spring Boot 单元测试,创建测试类,单元测试
 
 ## 创建测试类
 
-```java
+``` java
 package com.tangyuewei.hello.spring.boot;
 import org.junit.Before;
 import org.junit.Test;

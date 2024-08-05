@@ -97,12 +97,12 @@ Spring WebFlux 同时支持使用旧的 Spring MVC 注解声明`Reactive Control
 
 修改 `Tomcat` 的端口为 9090，并将默认的访问路径 "/" 修改为 "boot"，可以在 `application.properties` 中添加：
 
-```properties
+``` properties
 server.port=9090
 server.context-path=/boot
 ```
 或在 `application.yml` 中添加：
-```yaml
+``` yaml
 server:
   port: 9090
   context-path: /boot
@@ -129,6 +129,6 @@ logging:
 ## 关闭特定的自动配置
 
 关闭特定的自动配置使用 `@SpringBootApplication` 注解的 `exclude` 参数即可，这里以关闭数据源的自动配置为例
-```java
+``` java
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 ```

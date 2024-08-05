@@ -18,7 +18,7 @@ keyword: tk.mybatis 简介,什么是 PageHelper,tk.mybatis
 ### POM
 在`pom.xml`文件中引入`mapper-spring-boot-starter`依赖，该依赖会自动引入`MyBaits`相关依赖
 
-```xml
+``` xml
 <dependency>
     <groupId>tk.mybatis</groupId>
     <artifactId>mapper-spring-boot-starter</artifactId>
@@ -27,7 +27,7 @@ keyword: tk.mybatis 简介,什么是 PageHelper,tk.mybatis
 ```
 ### application.yml
 
-```yaml
+``` yaml
 mybatis:
     # 实体类的存放路径
     type-aliases-package: com.funtl.hello.spring.boot.domain
@@ -36,7 +36,7 @@ mybatis:
 ### 创建通用父级接口
 
 主要作用是让`DAO`层的接口继承该接口，以达到使用`tk.mybatis`的目的
-```java
+``` java
 package tk.mybatis.mapper;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;
@@ -60,7 +60,7 @@ public interface MyMapper<T> extends Mapper<T>, MySqlMapper<T> {
 
 ### POM
 
-```xml
+``` xml
 <dependency>
     <groupId>com.github.pagehelper</groupId>
     <artifactId>pagehelper-spring-boot-starter</artifactId>
@@ -71,7 +71,7 @@ public interface MyMapper<T> extends Mapper<T>, MySqlMapper<T> {
 
 在 `pom.xml` 文件中增加 `mybatis-generator-maven-plugin` 插件
 
-```xml
+``` xml
 <build>
     <plugins>
         <plugin>
