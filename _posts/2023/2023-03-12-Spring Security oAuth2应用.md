@@ -1,5 +1,5 @@
 ---
-title: Spring Security oAuth2简介
+title: Spring Security oAuth2应用
 author: tangyuewei
 date: 2023-03-12 16:15:00 +0800
 categories: [常用框架]
@@ -10,6 +10,7 @@ keyword: 总结
 ---
 
 ## 数据表
+
 ```
 CREATE TABLE `clientdetails` (
   `appId` varchar(128) NOT NULL,
@@ -81,8 +82,11 @@ CREATE TABLE `oauth_refresh_token` (
   `authentication` blob
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
+
 ## 引入依赖
+
 ### pom.xml
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -184,7 +188,9 @@ CREATE TABLE `oauth_refresh_token` (
     </profiles>
 </project>
 ```
+
 ### application.yml
+
 ```yaml
 server:
   port: 9090
@@ -222,7 +228,9 @@ security:
     authorization:
       check-token-access: http://localhost:${server.port}/oauth/check_token
 ```
+
 ### Application
+
 ```java
 package com.qjdmy.oauth;
 
@@ -246,7 +254,9 @@ public class AuthApplication {
 
 }
 ```
+
 ## 自定义认证授权实现
+
 ```java
 package com.qjdmy.oauth.service.impl;
 
@@ -308,7 +318,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 }
 ```
+
 ## 认证服务器配置
+
 - WebSecurityConfiguration.java
 ```java
 package com.qjdmy.oauth.configuration;
