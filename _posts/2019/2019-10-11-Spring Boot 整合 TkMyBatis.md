@@ -3,10 +3,10 @@ title: Spring Boot 整合 TkMyBatis
 author: tangyuewei
 date: 2019-10-11 10:39:06 +0800
 categories: [Spring Boot]
-tags: [Spring Boot,Spring Boot整合 TkMyBatis]
+tags: [Spring Boot,Spring Boot整合 TkMyBatis,MyBatis]
 pin: false
 comments: true
-keyword: tk.mybatis 简介,什么是 PageHelper,tk.mybatis
+keyword: tk.mybatis 简介,什么是 PageHelper,tk.mybatis,MyBatis
 ---
 
 # Spring Boot 整合 TkMyBatis
