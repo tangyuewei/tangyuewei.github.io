@@ -1,5 +1,5 @@
 ---
-title: 服务注册与发现
+title: 服务注册与发现zookeeper
 author: tangyuewei
 date: 2020-3-24 10:39:06 +0800
 categories: [分布式系统]
