@@ -322,6 +322,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 ## 认证服务器配置
 
 - WebSecurityConfiguration.java
+
 ```java
 package com.qjdmy.oauth.configuration;
 
@@ -373,7 +374,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 }
 ```
+
 - AuthorizationServerConfiguration.java
+
 ```java
 package com.qjdmy.oauth.configuration;
 
@@ -484,7 +487,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 }
 ```
 ## 实现登录功能
+
 ### 登录业务接口
+
 ```
 package com.qjdmy.oauth.service;
 
@@ -512,7 +517,9 @@ public interface ILoginService {
     Map<String, String> refresh(String accessToken);
 }
 ```
+
 ### 登录业务实现
+
 ```java
 package com.qjdmy.oauth.service.impl;
 
@@ -638,7 +645,9 @@ public class LoginServiceImpl implements ILoginService {
     }
 }
 ```
+
 ### 封装工具类
+
 ```java
 package com.qjdmy.commons.web;
 
@@ -668,7 +677,9 @@ public class Header {
     }
 }
 ```
+
 ### 封装请求参数
+
 ```java
 package com.qjdmy.oauth.controller.param;
 
@@ -702,7 +713,9 @@ public class LoginParam implements Serializable {
 
 }
 ```
+
 ### 请求处理代码
+
 ```java
 package com.qjdmy.oauth.controller;
 
@@ -764,7 +777,9 @@ public class LoginController {
     }
 }
 ```
+
 ## 实现注销功能
+
 ```java
 package com.qjdmy.oauth.controller;
 
@@ -831,7 +846,9 @@ public class LogoutController {
     }
 }
 ```
+
 ## 资源服务器配置
+
 ```java
 package com.qjdmy.all.configuration;
 
