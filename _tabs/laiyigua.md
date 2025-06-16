@@ -10,9 +10,9 @@ order: 7
   <title>梅花易数起卦</title>
   <style>
     body {
-      /*background: #fdf5e6;
+      /*background: #fdf5e6; */
       /* 仿旧宣纸背景色 */
-      color: #3a2e1b;             /* 古铜色文字 */
+     /* color: #3a2e1b;             !* 古铜色文字 *!
       font-family: "KaiTi","STKaiti","楷体","Serif";
       color: #3b2f2f;
       padding: 20px;
@@ -20,7 +20,7 @@ order: 7
       margin: auto;
       border: 8px double #bfa;
       border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3); */
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);*/
     }
 
     h1, h2 {
