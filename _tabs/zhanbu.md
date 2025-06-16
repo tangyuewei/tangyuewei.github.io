@@ -1,5 +1,5 @@
 ---
-layout: zhanbu
+#layout: zhanbu
 title: 遇事不决——占卜
 icon: fas fa-adjust
 order: 6
