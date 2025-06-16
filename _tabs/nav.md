@@ -15,4 +15,5 @@ order: 5
 - **[学习资源导航](https://tuostudy.upnb.top/){:target="_blank"}**
 - **[热心网友论坛](https://linux.do/){:target="_blank"}**
 - **[软件下载](https://www.jb51.net/){:target="_blank"}**
+- **[来一卦](https://tangyuewei.com/laiyigua/){:target="_blank"}**
 

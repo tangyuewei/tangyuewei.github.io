@@ -14,7 +14,7 @@ order: 4
 
 开发/编译工具：
 - IntelliJ IDEA ★★★★☆
-- Eclipse ★★★★☆
+  - Eclipse ★★★★☆
 - Maven ★★★★☆
 - Gradle ★★☆☆☆
 - Markdown ★★★★☆
