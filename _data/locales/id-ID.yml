@@ -17,6 +17,7 @@ tabs:
   about: Tentang
   #old: old
   nav: nav
+  zhanbu: Zhanbu
 
 # the text displayed in the search bar & search results
 search:
