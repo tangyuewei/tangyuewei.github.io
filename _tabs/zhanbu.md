@@ -1,12 +1,13 @@
 ---
 #layout: zhanbu
-title: 遇事不决——占卜
+title: 遇事不决
 icon: fas fa-adjust
 order: 6
 ---
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>易经占卜</title>
   <style>
     body {
@@ -131,7 +132,6 @@ order: 6
 <body>
 
 <div class="container">
-  <h1>遇事不决  ——   来一卦  </h1>
   <h3>起卦时间设置</h3>
   <!-- 时间输入 -->
   <div class="input-group">

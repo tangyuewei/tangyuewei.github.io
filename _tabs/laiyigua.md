@@ -1,8 +1,8 @@
 ---
-layout: laiyigua
-# The laiyigua layout
+title: 来一卦
+icon: fas fa-adjust
+order: 7
 ---
-<!--<!DOCTYPE html>-->
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
@@ -10,7 +10,8 @@ layout: laiyigua
   <title>梅花易数起卦</title>
   <style>
     body {
-      background: #fdf5e6;       /* 仿旧宣纸背景色 */
+      /*background: #fdf5e6;       */
+      /* 仿旧宣纸背景色 */
       color: #3a2e1b;             /* 古铜色文字 */
       font-family: "KaiTi","STKaiti","楷体","Serif";
       color: #3b2f2f;
@@ -59,7 +60,6 @@ layout: laiyigua
   </style>
 </head>
 <body>
-<h1>遇事不决  ——   来一卦</h1>
 <div id="hexagram">
   <!-- 六爻占卜线 will be injected here -->
 </div>
@@ -828,3 +828,4 @@ layout: laiyigua
 
 </body>
 </html>
+
