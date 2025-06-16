@@ -10,7 +10,7 @@ order: 7
   <title>梅花易数起卦</title>
   <style>
     body {
-      /*background: #fdf5e6;       */
+      /*background: #fdf5e6;
       /* 仿旧宣纸背景色 */
       color: #3a2e1b;             /* 古铜色文字 */
       font-family: "KaiTi","STKaiti","楷体","Serif";
@@ -20,7 +20,7 @@ order: 7
       margin: auto;
       border: 8px double #bfa;
       border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      box-shadow: 0 0 20px rgba(0,0,0,0.3); */
     }
 
     h1, h2 {
@@ -64,10 +64,10 @@ order: 7
   <!-- 六爻占卜线 will be injected here -->
 </div>
 <form id="form">
-  <label>年份（四位数）:<input type="number" id="year" min="1900" max="2100" value="2025" style="width: 10%;margin:5px;" required></label>&nbsp&nbsp&nbsp&nbsp
-  <label>月份（1-12）:<input type="number" id="month" min="1" max="12" value="6" style="width: 10%;margin:5px;" required></label><br>
-  <label>日期（1-31）:<input type="number" id="day" min="1" max="31" value="13" style="width: 10%;margin:5px;" required></label>&nbsp&nbsp&nbsp&nbsp
-  <label>小时（0-23）:<input type="number" id="hour" min="0" max="23" value="13" style="width: 10%;margin:5px;" required></label><br>
+  <label style="margin:5px;">年份（四位数）:<input type="number" id="year" min="1900" max="2100" value="2025" style="width: 100px;" required></label>
+  <label style="margin:5px;">月份（1-12）:<input type="number" id="month" min="1" max="12" value="6" style="width: 60px;" required></label><br>
+  <label style="margin:5px;">日期（1-31）:<input type="number" id="day" min="1" max="31" value="13" style="width: 60px;" required></label>
+  <label style="margin:5px;">小时（0-23）:<input type="number" id="hour" min="0" max="23" value="13" style="width: 60px;" required></label><br>
   <button type="submit">起卦</button>
 </form>
 
