@@ -4,14 +4,13 @@ title: 遇事不决——占卜
 icon: fas fa-adjust
 order: 6
 ---
-<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <title>易经占卜</title>
   <style>
     body {
-      background: #fdf5e6;
+      /*background: #fdf5e6;*/
       color: #3a2e1b;
       font-family: "KaiTi", "STKaiti", "楷体", serif;
       margin: 0;
