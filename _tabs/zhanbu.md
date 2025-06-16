@@ -1,7 +1,7 @@
 ---
 #layout: zhanbu
 title: 遇事不决
-icon: fas fa-adjust
+icon: fas fa-gift
 order: 6
 ---
 <html lang="zh-CN">

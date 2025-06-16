@@ -1,6 +1,6 @@
 ---
 title: 来一卦
-icon: fas fa-adjust
+icon: fas fa-gamepad
 order: 7
 ---
 <html lang="zh-CN">
