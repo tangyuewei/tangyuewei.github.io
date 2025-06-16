@@ -20,7 +20,7 @@
   url:  '../nav/'
 
 - type: home
-  icon: 'fas fa-adjust'
+  icon: 'fas fa-gift'
   url:  '../zhanbu/'
 
 # Uncomment and complete the url below to enable more contact options

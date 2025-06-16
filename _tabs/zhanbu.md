@@ -19,7 +19,7 @@ order: 6
     }
 
     .container {
-      width: 480px;
+      width: 360px;
       margin: 30px auto;
       padding: 24px;
       border: 6px solid #b08968;
