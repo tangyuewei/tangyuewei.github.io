@@ -1,6 +1,6 @@
 ---
-layout: tags
-title: Tags
+layout: zhanbu
+title: Zhanbu
 icon: fas fa-tag
 order: 6
 ---
