@@ -55,7 +55,8 @@ jobs:
       - name: Run jekyll build
         run: bundle exec jekyll build
       - name: Simple deploy with git
-        uses: rdarida/simple-github-pages-deploy-action@v1
+        uses: tangyuewei/rdarida_simple-github-pages-deploy-action@v1
+        #uses: rdarida/simple-github-pages-deploy-action@v1
         #uses: tangyuewei/jekyll-auto-deploy@master
         with: # optional
           git-user: 'tangyuewei'
