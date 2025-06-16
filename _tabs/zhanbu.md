@@ -19,8 +19,8 @@ order: 6
     }
 
     .container {
-      width: 400px;
-      margin: 60px auto;
+      width: 480px;
+      margin: 30px auto;
       padding: 24px;
       border: 6px solid #b08968;
       border-radius: 12px;
@@ -61,7 +61,9 @@ order: 6
 
     /* 卦象显示 */
     #hexagram {
-      margin: 20px auto;
+      margin-left: 20%;
+      margin-right: 20%;
+      margin-bottom: 5%;
     }
 
     .line {
@@ -115,9 +117,10 @@ order: 6
 
     #result h2 {
       font-size: 20px;
-      margin: 0 0 8px;
+      /* margin: 0 0 8px; */
       border-bottom: 1px dashed #b08968;
       padding-bottom: 4px;
+      font-family: 'Lato', 'Microsoft Yahei', sans-serif;
     }
 
     #result p {
@@ -132,14 +135,14 @@ order: 6
 <body>
 
 <div class="container">
-  <h3>起卦时间设置</h3>
+  <h3 style="font-family: 'Lato', 'Microsoft Yahei', sans-serif;">起卦时间设置</h3>
   <!-- 时间输入 -->
   <div class="input-group">
     <label>年：<input type="number" id="year" value="2025" style="width: 50%;"></label>
     <label>月：<input type="number" id="month" value="6" style="width: 50%;"></label>
     <label>日：<input type="number" id="day" value="13" style="width: 50%;"></label>
     <label>时辰：
-      <select id="hour"  style="width: 70%;">
+      <select id="hour"  style="width: 40%;">
         <option value="0">子 (23:00-1:00)</option>
         <option value="1">丑 (1:00-3:00)</option>
         <option value="2">寅 (3:00-5:00)</option>

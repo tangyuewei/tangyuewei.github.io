@@ -68,7 +68,7 @@ order: 7
   <label style="margin:5px;">月份（1-12）:<input type="number" id="month" min="1" max="12" value="6" style="width: 60px;" required></label><br>
   <label style="margin:5px;">日期（1-31）:<input type="number" id="day" min="1" max="31" value="13" style="width: 60px;" required></label>
   <label style="margin:5px;">小时（0-23）:<input type="number" id="hour" min="0" max="23" value="13" style="width: 60px;" required></label><br>
-  <button type="submit">起卦</button>
+  <p style="text-align: center;"><button type="submit">起卦</button></p>
 </form>
 
 <div class="result" id="result" style="display:none;">
