@@ -310,7 +310,7 @@ order: 6
       };
 
       document.getElementById('result').innerHTML = `
-        <h2>${info.name}</h2>
+        <h2>主卦：${info.name}</h2>
         <p><strong>上下卦：</strong>下卦为${lower}，上卦为${upper}。</p>
         <p><strong>动爻：</strong>第${movingLine}爻变动。</p>
         <p>${info.text}</p>
