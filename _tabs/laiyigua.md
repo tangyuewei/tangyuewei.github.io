@@ -895,16 +895,19 @@ order: 7
 
       // 上卦：(年+月+日) mod 8
       const upperNum = mod8(year + month + day);
-
+      console.log('上卦(year + month + day) mod 8 ：', mod8(year + month + day))
       // 下卦：(月 + 日 + 地支时) mod 8
       const lowerNum = mod8(month + day + hourToDizhiNum(hour));
-
+      console.log('下卦：(月 + 日 + 地支时) mod 8', mod8(month + day + hourToDizhiNum(hour)))
       // 动爻：(年 + 月 + 日 + 地支时) mod 6
       const movingYao = mod6(year + month + day + hourToDizhiNum(hour));
-
+      console.log('动爻：(年 + 月 + 日 + 地支时) mod 6', mod6(year + month + day + hourToDizhiNum(hour)))
       // 主卦编号
       const mainNum = getMainHexNumber(upperNum, lowerNum);
-
+      console.log('64卦计算规则（主卦编号）:')
+      console.log('主卦编号 = (上卦编号 -1)*8 + 下卦编号')
+      console.log('八卦编号1~8，64卦编号1~64')
+      console.log('主卦:',mainNum)
       // 主卦信息
       const mainHex = hexagrams64[mainNum] || {name:"未知卦", text:"无卦辞"};
       const upperHexName = bagua[upperNum].name;
@@ -915,7 +918,9 @@ order: 7
 
       // 变卦
       const changedNum = getChangedHexagram(mainNum, movingYao);
+      console.log('变卦:',changedNum)
       const changedHex = hexagrams64[changedNum] || {name:"未知卦", text:"无卦辞"};
+      console.log('changedHex:',changedHex)
       console.log(mainNum,movingYao)
       // 爻辞
       const yaoText = (yaoTexts[mainNum] && yaoTexts[mainNum][movingYao]) || "无详细爻辞";
