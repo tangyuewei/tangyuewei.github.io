@@ -78,13 +78,14 @@ order: 6
     }
 
     .yin {
-      background-image: repeating-linear-gradient(
-        to right,
-        #3a2e1b 0px,
-        #3a2e1b 6px,
-        transparent 6px,
-        transparent 18px
-      );
+      background-image: linear-gradient(to right,
+          #000 9%,
+          #000 43%, /* 黑色线条宽度为43% */
+          transparent 40%, /* 间隔开始 */
+          transparent 50%, /* 间隔结束 */
+          #000 45%, /* 另一段黑色线条开始 */
+          #000 45% /* 第二条黑线的结束 */
+        )
     }
 
     @keyframes fadeInUp {
@@ -377,6 +378,12 @@ order: 6
       </div>
     `;
   }
+
+  // 按钮点击事件，用于重新生成卦象
+  document.getElementById('drawBtn').addEventListener('click', function() {
+    drawHexagram(); // 重新绘制卦象
+    drawAnnualHexagram(parseInt(document.getElementById('year').value)); // 更新流年卦
+  });
 
   // 页面加载后调用一次
   window.onload = function () {
