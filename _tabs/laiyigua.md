@@ -1,5 +1,5 @@
 ---
-title: 来一卦
+title: 梅花易数来一卦
 icon: fas fa-gamepad
 order: 7
 ---

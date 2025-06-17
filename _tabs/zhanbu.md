@@ -1,6 +1,6 @@
 ---
 #layout: zhanbu
-title: 遇事不决
+title: 占卜
 icon: fas fa-gift
 order: 6
 ---
@@ -8,7 +8,7 @@ order: 6
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>易经占卜</title>
+  <title>周易占卜</title>
   <style>
     body {
       /*background: #fdf5e6;*/
@@ -32,7 +32,6 @@ order: 6
     h1 {
       font-size: 26px;
       letter-spacing: 2px;
-      margin-bottom: 20px;
     }
 
     /* 时间输入区域 */
