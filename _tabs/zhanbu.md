@@ -362,6 +362,22 @@ order: 6
     document.getElementById("hour").value = chineseHourIndex;
   }
 
+  // 改进的流年卦盘功能，允许用户选择任意年份
+  function drawAnnualHexagram(year) {
+    const hexagramKey = (year % 64).toString(2).padStart(6, '0');
+    const info = hexagrams[hexagramKey] || {
+      name: "未知卦象",
+      text: "此卦未收录，解释待补充。"
+    };
+
+    document.getElementById('annualHexagram').innerHTML = `
+      <div class="card">
+        <h3>流年卦象：${info.name}</h3>
+        <p>${info.text}</p>
+      </div>
+    `;
+  }
+
   // 页面加载后调用一次
   window.onload = function () {
     setDefaultTime();
