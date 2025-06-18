@@ -782,7 +782,575 @@ import yi64 from './yi64.json'
   }
 
 // 64卦定义（简化版，请替换为你已有的完整数据）
-const hexagrams = yi64;
+const hexagrams = {
+  "111111": {
+    "name": "乾为天",
+    "text": "元亨，利贞。",
+    "gua": "☰☰",
+    "upper": "乾",
+    "lower": "乾",
+    "icon": "䷀",
+    "modern_explanation": "象征纯阳之气，代表创造与行动的开始，宜坚持正道。"
+  },
+  "000000": {
+    "name": "坤为地",
+    "text": "坤元亨，利牝马之贞。",
+    "gua": "☷☷",
+    "upper": "坤",
+    "lower": "坤",
+    "icon": "䷁",
+    "modern_explanation": "象征大地之承载，代表包容与顺应，宜谦和而行。"
+  },
+  "100010": {
+    "name": "水雷屯",
+    "text": "元亨，利贞，勿用有攸往，利建侯。",
+    "gua": "☳☵",
+    "upper": "震",
+    "lower": "坎",
+    "icon": "䷂",
+    "modern_explanation": "象征初创的困境，需坚持与建立根基。"
+  },
+  "010001": {
+    "name": "山水蒙",
+    "text": "亨，匪我求童蒙，童蒙求我。",
+    "gua": "☵☶",
+    "upper": "坎",
+    "lower": "艮",
+    "icon": "䷃",
+    "modern_explanation": "象征启蒙与学习，宜谦虚求教。"
+  },
+  "111010": {
+    "name": "水天需",
+    "text": "有孚，光亨，贞吉，利涉大川。",
+    "gua": "☰☵",
+    "upper": "乾",
+    "lower": "坎",
+    "icon": "䷄",
+    "modern_explanation": "象征等待时机，宜守正以待。"
+  },
+  "010111": {
+    "name": "天水讼",
+    "text": "有孚窒惕，中吉，终凶。利见大人，不利涉大川。",
+    "gua": "☵☰",
+    "upper": "坎",
+    "lower": "乾",
+    "icon": "䷅",
+    "modern_explanation": "象征争讼与对立，宜谨慎小心，不宜妄动。"
+  },
+  "010000": {
+    "name": "地水师",
+    "text": "元亨，利涉大川。",
+    "gua": "☵☷",
+    "upper": "坎",
+    "lower": "坤",
+    "icon": "䷆",
+    "modern_explanation": "象征集结与行进，宜带领团队前行。"
+  },
+  "000010": {
+    "name": "水地比",
+    "text": "元，亨，利，贞。",
+    "gua": "☷☵",
+    "upper": "坤",
+    "lower": "坎",
+    "icon": "䷇",
+    "modern_explanation": "象征团结与互助，宜和合共荣。"
+  },
+  "111011": {
+    "name": "风天小畜",
+    "text": "亨，小利有攸往。",
+    "gua": "☰☴",
+    "upper": "乾",
+    "lower": "巽",
+    "icon": "䷈",
+    "modern_explanation": "象征小成与积蓄，宜谨慎使用资源。"
+  },
+  "110111": {
+    "name": "天泽履",
+    "text": "履虎尾，不咥人，亨。",
+    "gua": "☱☰",
+    "upper": "兑",
+    "lower": "乾",
+    "icon": "䷉",
+    "modern_explanation": "象征履险如夷，宜灵活应对险境。"
+  },
+  "010110": {
+    "name": "地火明夷",
+    "text": "明夷于南狩，得其大首，不可疾貞。",
+    "gua": "☵☱",
+    "upper": "坎",
+    "lower": "兑",
+    "icon": "䷊",
+    "modern_explanation": "象征隐忍与隐藏，宜守正勿露锋芒。"
+  },
+  "011010": {
+    "name": "火地晋",
+    "text": "晋，康侯用锡马蕃庶，昼日三接。",
+    "gua": "☴☵",
+    "upper": "巽",
+    "lower": "坎",
+    "icon": "䷋",
+    "modern_explanation": "象征晋升与进展，宜坚定前行。"
+  },
+  "111000": {
+    "name": "雷天大壮",
+    "text": "壮于趾，征凶，有孚。",
+    "gua": "☰☷",
+    "upper": "乾",
+    "lower": "坤",
+    "icon": "䷌",
+    "modern_explanation": "象征壮大与成长，宜大胆作为。"
+  },
+  "000111": {
+    "name": "山天大畜",
+    "text": "亨。",
+    "gua": "☷☰",
+    "upper": "坤",
+    "lower": "乾",
+    "icon": "䷍",
+    "modern_explanation": "象征潜藏的力量，宜韬光养晦。"
+  },
+  "101111": {
+    "name": "水火既济",
+    "text": "既济，亨小，利贞；初吉终乱。",
+    "gua": "☲☰",
+    "upper": "离",
+    "lower": "乾",
+    "icon": "䷎",
+    "modern_explanation": "象征完成与平衡，宜守成勿骄。"
+  },
+  "111101": {
+    "name": "火水未济",
+    "text": "未济，亨；有攸往，利涉大川。",
+    "gua": "☰☲",
+    "upper": "乾",
+    "lower": "离",
+    "icon": "䷏",
+    "modern_explanation": "象征未济之象，宜谨慎收尾，防止中途变数。"
+  },
+  "000101": {
+    "name": "泽火革",
+    "text": "已日乃孚，元吉。",
+    "gua": "☷☲",
+    "upper": "坤",
+    "lower": "离",
+    "icon": "䷐",
+    "modern_explanation": "象征变化与革新，宜及时调整。"
+  },
+  "101000": {
+    "name": "火泽暌",
+    "text": "蜃游于蜃，従王。",
+    "gua": "☲☷",
+    "upper": "离",
+    "lower": "坤",
+    "icon": "䷑",
+    "modern_explanation": "象征隔阂与阻碍，宜寻求沟通。"
+  },
+  "100110": {
+    "name": "泽山咸",
+    "text": "咸临，贞吉，悔亡。",
+    "gua": "☳☱",
+    "upper": "震",
+    "lower": "兑",
+    "icon": "䷒",
+    "modern_explanation": "象征感应与互通，宜主动交流。"
+  },
+  "011001": {
+    "name": "山泽损",
+    "text": "损有孚，元吉，无咎，可贞。",
+    "gua": "☴☶",
+    "upper": "巽",
+    "lower": "艮",
+    "icon": "䷓",
+    "modern_explanation": "象征减少与节制，宜去芜存菁。"
+  },
+  "110000": {
+    "name": "地山谦",
+    "text": "谦谦君子，用涉大川。",
+    "gua": "☱☷",
+    "upper": "兑",
+    "lower": "坤",
+    "icon": "䷔",
+    "modern_explanation": "象征谦逊，宜保持虚心。"
+  },
+  "000011": {
+    "name": "雷地豫",
+    "text": "豫，利建侯行师。",
+    "gua": "☷☴",
+    "upper": "坤",
+    "lower": "巽",
+    "icon": "䷕",
+    "modern_explanation": "象征预备与期待，宜妥善计划。"
+  },
+  "111001": {
+    "name": "风雷益",
+    "text": "益，利有攸往，利涉大川。",
+    "gua": "☰☶",
+    "upper": "乾",
+    "lower": "艮",
+    "icon": "䷖",
+    "modern_explanation": "象征增加与助益，宜广募资源。"
+  },
+  "100111": {
+    "name": "泽风大过",
+    "text": "大过，栋桡，凶。",
+    "gua": "☳☰",
+    "upper": "震",
+    "lower": "乾",
+    "icon": "䷗",
+    "modern_explanation": "象征过度与危机，宜谨防傲慢。"
+  },
+  "100101": {
+    "name": "山风蛊",
+    "text": "蛊，元亨，利涉大川。先甲三日，后甲三日。",
+    "gua": "☳☲",
+    "upper": "震",
+    "lower": "离",
+    "icon": "䷘",
+    "modern_explanation": "象征更新与整顿，宜排除腐败。"
+  },
+  "101001": {
+    "name": "风山渐",
+    "text": "渐，女归吉，利贞。",
+    "gua": "☲☶",
+    "upper": "离",
+    "lower": "艮",
+    "icon": "䷙",
+    "modern_explanation": "象征渐进与成长，宜循序渐进。"
+  },
+  "000001": {
+    "name": "天山遁",
+    "text": "遁，亨。小利贞。",
+    "gua": "☷☶",
+    "upper": "坤",
+    "lower": "艮",
+    "icon": "䷚",
+    "modern_explanation": "象征退让与隐退，宜避实就虚。"
+  },
+  "100000": {
+    "name": "雷风恒",
+    "text": "恒，亨，无咎，利贞。",
+    "gua": "☳☷",
+    "upper": "震",
+    "lower": "坤",
+    "icon": "䷛",
+    "modern_explanation": "象征持久与坚定，宜坚守原则。"
+  },
+  "100011": {
+    "name": "天火同人",
+    "text": "同人于野，亨。",
+    "gua": "☳☴",
+    "upper": "震",
+    "lower": "巽",
+    "icon": "䷜",
+    "modern_explanation": "象征同心，宜合作共荣。"
+  },
+  "110001": {
+    "name": "火天大有",
+    "text": "大有，元亨。",
+    "gua": "☱☶",
+    "upper": "兑",
+    "lower": "艮",
+    "icon": "䷝",
+    "modern_explanation": "象征大有，代表丰收与充实，宜善用成果。"
+  },
+  "101100": {
+    "name": "火雷噬嗑",
+    "text": "噬嗑，得金而渝，利艰贞，吉。",
+    "gua": "☲☳",
+    "upper": "离",
+    "lower": "震",
+    "icon": "䷞",
+    "modern_explanation": "象征规约与审判，宜坚持正义。"
+  },
+  "001101": {
+    "name": "雷火丰",
+    "text": "丰，亨，王假之，勿忧。",
+    "gua": "☶☲",
+    "upper": "艮",
+    "lower": "离",
+    "icon": "䷟",
+    "modern_explanation": "象征充实与丰盈，宜分享与周济。"
+  },
+  "110100": {
+    "name": "山地剥",
+    "text": "剥，不利有攸往。",
+    "gua": "☱☳",
+    "upper": "兑",
+    "lower": "震",
+    "icon": "䷠",
+    "modern_explanation": "象征衰退，宜谨慎行事。"
+  },
+  "001011": {
+    "name": "地雷复",
+    "text": "复，亨。出入无疾，朋来无咎。",
+    "gua": "☶☴",
+    "upper": "艮",
+    "lower": "巽",
+    "icon": "䷡",
+    "modern_explanation": "象征复苏，宜积极恢复。"
+  },
+  "001110": {
+    "name": "天泽履",
+    "text": "履虎尾，不咥人。亨。",
+    "gua": "☶☱",
+    "upper": "艮",
+    "lower": "兑",
+    "icon": "䷢",
+    "modern_explanation": "象征履险，宜小心前行。"
+  },
+  "011100": {
+    "name": "泽天夬",
+    "text": "夬，扬于王庭，孚号有厉。",
+    "gua": "☴☳",
+    "upper": "巽",
+    "lower": "震",
+    "icon": "䷣",
+    "modern_explanation": "象征决断，宜果敢而行。"
+  },
+  "101110": {
+    "name": "雷泽归妹",
+    "text": "归妹，以娣；跛能履，征吉。",
+    "gua": "☲☱",
+    "upper": "离",
+    "lower": "兑",
+    "icon": "䷤",
+    "modern_explanation": "象征归属，宜谋定后动。"
+  },
+  "011101": {
+    "name": "地泽临",
+    "text": "临，元亨利贞，至于八月有凶。",
+    "gua": "☴☲",
+    "upper": "巽",
+    "lower": "离",
+    "icon": "䷥",
+    "modern_explanation": "象征临近，宜保持警觉。"
+  },
+  "001001": {
+    "name": "泽水困",
+    "text": "困，亨，贞大人吉，无咎，有言不信。",
+    "gua": "☶☶",
+    "upper": "艮",
+    "lower": "艮",
+    "icon": "䷦",
+    "modern_explanation": "象征困境，宜节制与调整。"
+  },
+  "100100": {
+    "name": "水泽节",
+    "text": "节，亨。苦节不可贞。",
+    "gua": "☳☳",
+    "upper": "震",
+    "lower": "震",
+    "icon": "䷧",
+    "modern_explanation": "象征节制，宜克制私欲。"
+  },
+  "110110": {
+    "name": "风水涣",
+    "text": "涣，元亨，利贞。",
+    "gua": "☱☱",
+    "upper": "兑",
+    "lower": "兑",
+    "icon": "䷨",
+    "modern_explanation": "象征分散，宜团结聚合。"
+  },
+  "011011": {
+    "name": "水风井",
+    "text": "井，改邑不改井，无丧无得，往来井井。",
+    "gua": "☴☴",
+    "upper": "巽",
+    "lower": "巽",
+    "icon": "䷩",
+    "modern_explanation": "象征更新，宜改进而不忘初心。"
+  },
+  "110010": {
+    "name": "风火家人",
+    "text": "家人，利女贞。",
+    "gua": "☱☵",
+    "upper": "兑",
+    "lower": "坎",
+    "icon": "䷪",
+    "modern_explanation": "象征家道，宜和睦相处。"
+  },
+  "010011": {
+    "name": "火风鼎",
+    "text": "鼎，元吉，亨。",
+    "gua": "☵☴",
+    "upper": "坎",
+    "lower": "巽",
+    "icon": "䷫",
+    "modern_explanation": "象征鼎革，宜改革创新。"
+  },
+  "001010": {
+    "name": "天雷无妄",
+    "text": "无妄，元亨，利贞。其匪正有眚，不利有攸往。",
+    "gua": "☶☵",
+    "upper": "艮",
+    "lower": "坎",
+    "icon": "䷬",
+    "modern_explanation": "象征无妄，宜顺其自然。"
+  },
+  "010100": {
+    "name": "雷天大壮",
+    "text": "大壮，利贞。",
+    "gua": "☵☳",
+    "upper": "坎",
+    "lower": "震",
+    "icon": "䷭",
+    "modern_explanation": "象征壮大，宜稳健增益。"
+  },
+  "101011": {
+    "name": "火地晋",
+    "text": "晋，康侯用锡马蕃庶，昼日三接。",
+    "gua": "☲☴",
+    "upper": "离",
+    "lower": "巽",
+    "icon": "䷮",
+    "modern_explanation": "象征晋升，宜善用人脉。"
+  },
+  "110101": {
+    "name": "地火明夷",
+    "text": "明夷于南狩，得其大首，不可疾貞。",
+    "gua": "☱☲",
+    "upper": "兑",
+    "lower": "离",
+    "icon": "䷯",
+    "modern_explanation": "象征隐伤，宜保护自我。"
+  },
+  "001111": {
+    "name": "山火贲",
+    "text": "贲，亨。小利有攸往。",
+    "gua": "☶☰",
+    "upper": "艮",
+    "lower": "乾",
+    "icon": "䷰",
+    "modern_explanation": "象征装饰，宜适度而行。"
+  },
+  "111100": {
+    "name": "火山旅",
+    "text": "旅，小亨，旅贞吉。",
+    "gua": "☰☳",
+    "upper": "乾",
+    "lower": "震",
+    "icon": "䷱",
+    "modern_explanation": "象征旅程，宜随遇而安。"
+  },
+  "000110": {
+    "name": "山雷颐",
+    "text": "颐，贞吉。观颐，自求口实。",
+    "gua": "☷☱",
+    "upper": "坤",
+    "lower": "兑",
+    "icon": "䷲",
+    "modern_explanation": "象征滋养，宜适度摄取。"
+  },
+  "011000": {
+    "name": "雷山小过",
+    "text": "小过，亨，利贞，可小事，不可大事。",
+    "gua": "☴☷",
+    "upper": "巽",
+    "lower": "坤",
+    "icon": "䷳",
+    "modern_explanation": "象征小过，宜谨慎行事。"
+  },
+  "010010": {
+    "name": "地雷复",
+    "text": "复，亨。出入无疾，朋来无咎。",
+    "gua": "☵☵",
+    "upper": "坎",
+    "lower": "坎",
+    "icon": "䷴",
+    "modern_explanation": "象征复苏，宜抓住机遇。"
+  },
+  "101101": {
+    "name": "雷地豫",
+    "text": "豫，利建侯行师。",
+    "gua": "☲☲",
+    "upper": "离",
+    "lower": "离",
+    "icon": "䷵",
+    "modern_explanation": "象征预备，宜审时度势。"
+  },
+  "001100": {
+    "name": "地水师",
+    "text": "师，貞。丈人吉，无咎。",
+    "gua": "☶☳",
+    "upper": "艮",
+    "lower": "震",
+    "icon": "䷿",
+    "modern_explanation": "象征领导，宜果敢决策。"
+  },
+  "001000": {
+    "name": "地风升",
+    "text": "升，元亨。用见大人，勿恤。",
+    "gua": "☶☷",
+    "upper": "艮",
+    "lower": "坤",
+    "icon": "䷷",
+    "modern_explanation": "象征提升，宜谋求正道。"
+  },
+  "000100": {
+    "name": "泽山咸",
+    "text": "咸临，贞吉。悔亡。",
+    "gua": "☷☳",
+    "upper": "坤",
+    "lower": "震",
+    "icon": "䷸",
+    "modern_explanation": "象征感应，宜相互信赖。"
+  },
+  "100001": {
+    "name": "山泽损",
+    "text": "损有孚，元吉，无咎，可贞。",
+    "gua": "☳☶",
+    "upper": "震",
+    "lower": "艮",
+    "icon": "䷹",
+    "modern_explanation": "象征损益，宜适度增减。"
+  },
+  "011110": {
+    "name": "风泽中孚",
+    "text": "中孚，豚鱼，来侣，拇。",
+    "gua": "☴☱",
+    "upper": "巽",
+    "lower": "兑",
+    "icon": "䷺",
+    "modern_explanation": "象征诚信，宜忠诚待人。"
+  },
+  "011111": {
+    "name": "泽风大过",
+    "text": "大过，栋桡，凶。",
+    "gua": "☴☰",
+    "upper": "巽",
+    "lower": "乾",
+    "icon": "䷻",
+    "modern_explanation": "象征过度，宜审慎行事。"
+  },
+  "101010": {
+    "name": "天山遁",
+    "text": "遁，亨。小利贞。",
+    "gua": "☲☵",
+    "upper": "离",
+    "lower": "坎",
+    "icon": "䷼",
+    "modern_explanation": "象征退守，宜循序渐进。"
+  },
+  "010101": {
+    "name": "山天大畜",
+    "text": "大畜，利贞，不家食吉。",
+    "gua": "☵☲",
+    "upper": "坎",
+    "lower": "离",
+    "icon": "䷽",
+    "modern_explanation": "象征积蓄，宜耐心等待。"
+  },
+  "110011": {
+    "name": "水地比",
+    "text": "比，吉。原筮，元永贞，无咎。不宁方来，后夫凶。",
+    "gua": "☱☴",
+    "upper": "兑",
+    "lower": "巽",
+    "icon": "䷾",
+    "modern_explanation": "象征比肩，宜团结协作。"
+  }
+};
 // 按卦名查找
 function findHexagramByName(hexagrams, name) {
   return Object.values(hexagrams).find(h => h.name === name);
