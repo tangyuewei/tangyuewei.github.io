@@ -847,3 +847,21 @@ const hexagrams = {
   "111110": { name: "地天泰（泰卦）", text: "小往大来，吉亨。此卦象征阴阳交泰，上下互通，万事吉祥。" },
   "111111": { name: "乾为天（乾卦）", text: "天行健，君子以自强不息。此卦象征始创之力，凡事宜积极进取。" }
 };
+// 获取当前时间并设置默认值
+function setDefaultTime() {
+  const now = new Date();
+
+  const year = now.getFullYear();           // 年
+  const month = now.getMonth() + 1;         // 月（从0开始）
+  const day = now.getDate();                // 日
+  const hour24 = now.getHours();            // 小时（24小时制）
+
+  // 计算时辰（子时：23~1点，丑时：1~3点……亥时：21~23点）
+  let chineseHourIndex = Math.floor((hour24 + 1) / 2) % 12;
+
+  // 设置输入框内容
+  document.getElementById("year").value = year;
+  document.getElementById("month").value = month;
+  document.getElementById("day").value = day;
+  document.getElementById("hour").value = chineseHourIndex;
+}

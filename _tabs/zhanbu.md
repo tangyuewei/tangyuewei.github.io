@@ -277,24 +277,6 @@ order: 6
 
   document.getElementById('drawBtn').addEventListener('click', drawHexagram);
   drawAnnualHexagram(); // 自动加载流年卦盘
-  // 获取当前时间并设置默认值
-  function setDefaultTime() {
-    const now = new Date();
-
-    const year = now.getFullYear();           // 年
-    const month = now.getMonth() + 1;         // 月（从0开始）
-    const day = now.getDate();                // 日
-    const hour24 = now.getHours();            // 小时（24小时制）
-
-    // 计算时辰（子时：23~1点，丑时：1~3点……亥时：21~23点）
-    let chineseHourIndex = Math.floor((hour24 + 1) / 2) % 12;
-
-    // 设置输入框内容
-    document.getElementById("year").value = year;
-    document.getElementById("month").value = month;
-    document.getElementById("day").value = day;
-    document.getElementById("hour").value = chineseHourIndex;
-  }
 
   // 改进的流年卦盘功能，允许用户选择任意年份
   function drawAnnualHexagram(year) {

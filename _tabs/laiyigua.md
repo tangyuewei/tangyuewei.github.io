@@ -18,7 +18,6 @@ order: 7
 
 > 占卜是辅助决策的工具，不是迷信，要理性看待，不能盲目依赖。
 
-<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -34,7 +33,7 @@ order: 7
     body {
       font-family: "KaiTi", "STKaiti", "楷体", serif;
       /*background: linear-gradient(to bottom, #f0f4f8, #e2e8f0);*/
-      color: #333;
+      color: #3b2f2f;
       padding: 1em;
       display: flex;
       justify-content: center;
@@ -242,6 +241,10 @@ order: 7
     </div>
   </div>
   <script>
+  // 页面加载后调用一次
+    window.onload = function () {
+      setDefaultTime();
+    };
     (function(){
       'use strict';
       const xianTian={1:{name:"乾",sym:"☰"},2:{name:"坤",sym:"☱"},3:{name:"震",sym:"☳"},4:{name:"巽",sym:"☴"},5:{name:"坎",sym:"☵"},6:{name:"离",sym:"☲"},7:{name:"艮",sym:"☶"},8:{name:"兑",sym:"☷"}};
