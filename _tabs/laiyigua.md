@@ -247,7 +247,7 @@ order: 7
     };
     (function(){
       'use strict';
-      const xianTian={1:{name:"乾",sym:"☰"},2:{name:"坤",sym:"☱"},3:{name:"震",sym:"☳"},4:{name:"巽",sym:"☴"},5:{name:"坎",sym:"☵"},6:{name:"离",sym:"☲"},7:{name:"艮",sym:"☶"},8:{name:"兑",sym:"☷"}};
+      const xianTian={1:{name:"乾",sym:"☰"},2:{name:"兑",sym:"☱"},3:{name:"离",sym:"☲"},4:{name:"震",sym:"☳"},5:{name:"巽",sym:"☴"},6:{name:"坎",sym:"☵"},7:{name:"艮",sym:"☶"},8:{name:"坤",sym:"☷"}};
       const dizhiMap={子:1,丑:2,寅:3,卯:4,辰:5,巳:6,午:7,未:8,申:9,酉:10,戌:11,亥:12};
       function hourToDizhi(h){const arr=["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];return dizhiMap[arr[Math.floor(((h+1)%24)/2)]];}
       function mod(n,m){const r=n%m;return r===0?m:r;}
