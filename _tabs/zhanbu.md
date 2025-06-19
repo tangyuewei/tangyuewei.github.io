@@ -179,14 +179,14 @@ order: 6
 <script>
   // 三爻八卦定义
   const trigrams = [
-    { name: "坤", bin: "000" },
-    { name: "艮", bin: "001" },
-    { name: "坎", bin: "010" },
-    { name: "巽", bin: "011" },
-    { name: "震", bin: "100" },
-    { name: "离", bin: "101" },
-    { name: "兑", bin: "110" },
-    { name: "乾", bin: "111" }
+    { name: "坤", bin: "000", sym:"☷" },
+    { name: "艮", bin: "001", sym:"☶" },
+    { name: "坎", bin: "010", sym:"☵" },
+    { name: "巽", bin: "011", sym:"☴" },
+    { name: "震", bin: "100", sym:"☳" },
+    { name: "离", bin: "101", sym:"☲" },
+    { name: "兑", bin: "110", sym:"☱" },
+    { name: "乾", bin: "111", sym:"☰" }
   ];
 
   function getHexagramFromTime(year, month, day, hour) {
@@ -199,7 +199,9 @@ order: 6
     return {
       binary: fullBinary,
       upper: trigrams[upperIndex].name,
+      upSym: trigrams[upperIndex].sym,
       lower: trigrams[lowerIndex].name,
+      lowSym: trigrams[lowerIndex].sym,
       movingLine
     };
   }
@@ -257,7 +259,7 @@ order: 6
 
       document.getElementById('result').innerHTML = `
         <h2>主卦：${info.name}</h2>
-        <p><strong>上下卦：</strong>下卦为${lower}，上卦为${upper}。</p>
+        <p><strong>上下卦：</strong>下卦为${info.down}，上卦为${info.up}。</p>
         <p><strong>动爻：</strong>第${movingLine}爻变动。</p>
         <p>${info.text}；${info.modern_text}</p>
         <hr>
