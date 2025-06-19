@@ -174,7 +174,7 @@ order: 7
 </head>
 <body>
   <div class="container">
-    <h1>梅花易数 起卦</h1>
+    <h1>梅花易数</h1>
     <form id="form">
       <label>公历年<input type="number" id="year" value="2025" required></label>
       <label>月<input type="number" id="month" min="1" max="12" value="6" required></label>
