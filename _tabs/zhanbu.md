@@ -216,12 +216,19 @@ order: 6
     hexagramDiv.innerHTML = '';
 
     const bits = binary.split('');
-    bits.forEach((bit, idx) => {
+    for (let i = 0; i < bits.length; i++) {
       const div = document.createElement('div');
-      div.className = 'line ' + (bit === '1' ? 'yang' : 'yin');
-      div.style.animation = `fadeInUp 0.5s ease forwards ${idx * 0.3}s`;
+      //爻是从下往上数的，画是从上往下画的  001 010 得 010 100 画出来
+      div.className = 'line ' + (bits[5-i] === '1' ? 'yang' : 'yin');
+      div.style.animation = `fadeInUp 0.5s ease forwards ${i * 0.3}s`;
       hexagramDiv.appendChild(div);
-    });
+    }
+    // bits.forEach((bit, idx) => {
+    //   const div = document.createElement('div');
+    //   div.className = 'line ' + (bit === '1' ? 'yang' : 'yin');
+    //   div.style.animation = `fadeInUp 0.5s ease forwards ${idx * 0.3}s`;
+    //   hexagramDiv.appendChild(div);
+    // });
 
     setTimeout(() => {
       const info = hexagrams[binary] || {
@@ -231,11 +238,16 @@ order: 6
 
       let changedBin = '';
       for (let i = 0; i < binary.length; i++) {
-        if (i === 5 - (movingLine - 1)) {
+        if (i === (movingLine - 1)) {
           changedBin += binary[i] === '1' ? '0' : '1';
         } else {
           changedBin += binary[i];
         }
+        // if (i === 5 - (movingLine - 1)) {
+        //   changedBin += binary[i] === '1' ? '0' : '1';
+        // } else {
+        //   changedBin += binary[i];
+        // }
       }
 
       const changedInfo = hexagrams[changedBin] || {
@@ -247,10 +259,11 @@ order: 6
         <h2>主卦：${info.name}</h2>
         <p><strong>上下卦：</strong>下卦为${lower}，上卦为${upper}。</p>
         <p><strong>动爻：</strong>第${movingLine}爻变动。</p>
-        <p>${info.text}</p>
+        <p>${info.text}；${info.modern_text}</p>
         <hr>
         <h2>变卦：${changedInfo.name}</h2>
-        <p>${changedInfo.text}</p>
+        <p>${changedInfo.text}；${changedInfo.modern_text}</p>
+        <hr>
       `;
     }, 6 * 300 + 500);
   }
