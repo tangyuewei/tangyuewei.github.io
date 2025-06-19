@@ -283,7 +283,7 @@ order: 6
     document.getElementById('annualHexagram').innerHTML = `
       <div class="card">
         <h3>流年卦象：${info.name}</h3>
-        <p>${info.text}</p>
+        <p>${info.text}；${info.modern_text}</p>
       </div>
     `;
   }
@@ -302,7 +302,7 @@ order: 6
     document.getElementById('annualHexagram').innerHTML = `
       <div class="card">
         <h3>流年卦象：${info.name}</h3>
-        <p>${info.text}</p>
+        <p>${info.text}；${info.modern_text}</p>
       </div>
     `;
   }
