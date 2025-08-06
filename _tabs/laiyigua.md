@@ -217,6 +217,8 @@ order: 7
           <div class="section-title">变卦信息</div>
           <div id="changedTitle" class="hexagram-title"></div>
           <div id="changedIcon" class="hexagram-symbols"></div>
+          <div class="info-row"><span class="info-label">上卦：</span><span id="bg_upperInfo"></span></div>
+          <div class="info-row"><span class="info-label">下卦：</span><span id="bg_lowerInfo"></span></div>
           <div id="changedText" class="hexagram-text"></div>
           <div id="changedComment" class="hexagram-comment"></div>
           <ul id="changedYaoList" class="yao-list"></ul>
@@ -249,7 +251,7 @@ order: 7
     };
     (function(){
       'use strict';
-      const xianTian={1:{name:"乾",sym:"☰"},2:{name:"兑",sym:"☱"},3:{name:"离",sym:"☲"},4:{name:"震",sym:"☳"},5:{name:"巽",sym:"☴"},6:{name:"坎",sym:"☵"},7:{name:"艮",sym:"☶"},8:{name:"坤",sym:"☷"}};
+      const xianTian={1:{name:"乾",sym:"☰",hex:"111"},2:{name:"兑",sym:"☱",hex:"110"},3:{name:"离",sym:"☲",hex:"101"},4:{name:"震",sym:"☳",hex:"100"},5:{name:"巽",sym:"☴",hex:"011"},6:{name:"坎",sym:"☵",hex:"010"},7:{name:"艮",sym:"☶",hex:"001"},8:{name:"坤",sym:"☷",hex:"000"}};
       const dizhiMap={子:1,丑:2,寅:3,卯:4,辰:5,巳:6,午:7,未:8,申:9,酉:10,戌:11,亥:12};
       function hourToDizhi(h){const arr=["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];return dizhiMap[arr[Math.floor(((h+1)%24)/2)]];}
       function mod(n,m){const r=n%m;return r===0?m:r;}
@@ -278,14 +280,23 @@ order: 7
         document.getElementById('infoHourBranch').textContent = `${hi}`;
         const li=lunar.lMonth, di=lunar.lDay;
         const up=mod(yi+li+di,8), lo=mod(yi+li+di+hi,8), yIdx=mod(yi+li+di+hi,6);
-        document.getElementById('mainCalc').textContent = `主卦计算：上卦 = (${yi} + ${li} + ${di}) mod8 = ${up}；下卦 = ( ${li} + ${di} + ${hi}) mod8 = ${lo}；序号 = ${(up-1)*8+lo}`;
+        document.getElementById('mainCalc').textContent = `主卦计算：上卦 = (${yi} + ${li} + ${di}) mod8 = ${up}；下卦 = (${li} + ${di} + ${hi}) mod8 = ${lo}；序号 = ${(up-1)*8+lo}`;
         document.getElementById('changeCalc').textContent = `变卦计算：动爻 = (${yi} + ${li} + ${di} + ${hi}) mod6 = ${yIdx}`;
         // 填充上卦下卦信息
         document.getElementById('upperInfo').textContent = `${xianTian[up].name} ${xianTian[up].sym} `;
         document.getElementById('lowerInfo').textContent = `${xianTian[lo].name} ${xianTian[lo].sym} `;
         // 主卦与变卦
-        const mainNum=(up-1)*8+lo, mainHex=hexagrams64[mainNum];
-        const changedNum=getChangedHexagram(mainNum,yIdx), changedHex=hexagrams64[changedNum];
+        let mainNum=(up-1)*8+lo;
+        let mainHex=hexagrams64[mainNum];
+        const mainHex2= xianTian[lo].hex+xianTian[up].hex;
+        // 示例：根据“000111”获取相关值
+        const hexagram = getHexagramByKey(mainHex2);
+        if(hexagram){
+          mainHex = hexagram;
+          mainNum = hexagram.id;
+        }
+        //const changedNum=getChangedHexagram(mainNum,yIdx), changedHex=hexagrams64[changedNum];
+        let changedNum=reverseBit(mainHex2,yIdx), changedHex=getHexagramByKey(changedNum);
         const originLine=hexagramsStructure[mainNum][yIdx-1];
         const bitDesc=originLine? '阳爻变阴爻':'阴爻变阳爻';
         document.getElementById('methodText').textContent = `将主卦第${yIdx}爻（${bitDesc}），得到变卦：${changedHex.name}`;
@@ -294,13 +305,17 @@ order: 7
         document.getElementById('mainComment').textContent = mainHex.comment||'';
         document.getElementById('mainSymbols').textContent = xianTian[up].sym.repeat(1) + ' ' + xianTian[lo].sym.repeat(1);
         const mainList=document.getElementById('mainYaoList'); mainList.innerHTML='';
-        hexagramsStructure[mainNum].forEach((bit,i)=>{ const liEl=document.createElement('li'); const idx=i+1; liEl.textContent=`第${idx}爻：${(yaoTexts[mainNum]||{})[idx]||''}`; if(idx===yIdx) liEl.style.fontWeight='bold'; mainList.appendChild(liEl); });
+        binaryStringToArray(changedNum).forEach((bit,i)=>{ const liEl=document.createElement('li'); const idx=i+1; liEl.textContent=`第${idx}爻：${(yaoTexts[mainNum]||{})[idx]||''}`; if(idx===yIdx) liEl.style.fontWeight='bold'; mainList.appendChild(liEl); });
         document.getElementById('changedTitle').textContent = `变卦：${changedHex.name}`;
-        document.getElementById('changedIcon').textContent = hexagramsStructure[changedNum].map(b=>b?'━━━━━━━━━━━━━━':'━━━━━━  ━━━━━━').join('\n');
+        const iconHex = reverseBinaryString(changedNum);
+        document.getElementById('changedIcon').textContent = binaryStringToArray(iconHex).map(b=>b?'━━━':'━ ━').join('\n');
+         // 填充上卦下卦信息
+        document.getElementById('bg_upperInfo').textContent = `${changedHex.up}`;
+        document.getElementById('bg_lowerInfo').textContent = `${changedHex.down}`;
         document.getElementById('changedText').textContent = changedHex.text;
         document.getElementById('changedComment').textContent = changedHex.comment||'';
         const changedList=document.getElementById('changedYaoList'); changedList.innerHTML='';
-        hexagramsStructure[changedNum].forEach((bit,i)=>{ const liEl=document.createElement('li'); const idx=i+1; liEl.textContent=`第${idx}爻：${(yaoTexts[changedNum]||{})[idx]||''}`; changedList.appendChild(liEl); });
+        binaryStringToArray(changedNum).forEach((bit,i)=>{ const liEl=document.createElement('li'); const idx=i+1; liEl.textContent=`第${idx}爻：${(yaoTexts[changedHex.id]||{})[idx]||''}`; changedList.appendChild(liEl); });
         document.getElementById('interpretText').textContent = `综合解读：主卦${mainHex.comment||mainHex.text}；动爻第${yIdx}爻提示${(yaoTexts[mainNum]||{})[yIdx]||''}；变卦${changedHex.name}意义${changedHex.comment||changedHex.text}`;
         document.getElementById('result').style.display='block';
         document.querySelectorAll('.animate').forEach(el=>{ el.classList.remove('animate'); void el.offsetWidth; el.classList.add('animate'); });

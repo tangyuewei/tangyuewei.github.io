@@ -1441,3 +1441,62 @@ function setDefaultTime() {
   document.getElementById("day").value = day;
   document.getElementById("hour").value = chineseHourIndex;
 }
+// 根据key获取相关值
+function getHexagramByKey(key) {
+  return hexagrams[key];
+}
+
+// 定义一个方法传入二进制字符串和位置，将指定位置的值进行反转
+function reverseBit1(binaryString, position) {
+  // 将位置转换为数组索引
+  const index = position - 1;
+  // 将二进制字符串转换为字符数组
+  const binaryArray = binaryString.split('');
+  // 反转指定位置的值
+  binaryArray[index] = binaryArray[index] === '0' ? '1' : '0';
+  // 将字符数组转换回二进制字符串
+  const reversedBinaryString = binaryArray.join('');
+  return reversedBinaryString;
+}
+
+// 修改reverseBit函数以支持从右往左的顺序
+function reverseBit(binaryString, position) {
+  // 将位置转换为数组索引（从右往左）
+  const index = binaryString.length - position;
+
+  // 将二进制字符串转换为字符数组
+  const binaryArray = binaryString.split('');
+
+  // 反转指定位置的值
+  binaryArray[index] = binaryArray[index] === '0' ? '1' : '0';
+
+  // 将字符数组转换回二进制字符串
+  const reversedBinaryString = binaryArray.join('');
+
+  return reversedBinaryString;
+}
+
+// 定义一个方法传入二进制字符串，将其从右往左反转并返回
+function reverseBinaryString(binaryString) {
+  // 将二进制字符串转换为字符数组
+  const binaryArray = binaryString.split('');
+
+  // 反转字符数组
+  const reversedArray = binaryArray.reverse();
+
+  // 将字符数组转换回二进制字符串
+  const reversedBinaryString = reversedArray.join('');
+
+  return reversedBinaryString;
+}
+
+// 定义一个方法传入二进制字符串，将其转换为数组返回
+function binaryStringToArray(binaryString) {
+  // 将二进制字符串转换为字符数组
+  const binaryArray = binaryString.split('');
+
+  // 将字符数组中的每个字符转换为数字
+  const numericArray = binaryArray.map(bit => parseInt(bit, 10));
+
+  return numericArray;
+}
