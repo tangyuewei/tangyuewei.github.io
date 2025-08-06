@@ -231,7 +231,9 @@ order: 7
       <div id="notes" class="hexagram-block animate">
         <div class="section-title">说明</div>
         <ul class="hexagram-text">
+          <li>下卦(也称为内卦)位于下方，上卦(也称为外卦)位于上方。</li>
           <li>上卦代表外部环境，下卦代表内部状态。</li>
+          <li>每个卦象由六个爻组成，从下往上数。</li>
           <li>主卦由上卦和下卦组合形成，代表当前整体局势。</li>
           <li>动爻是变动的关键爻，提示关注的焦点。</li>
           <li>变卦是动爻变化后形成的新卦，显示未来趋势。</li>
@@ -268,7 +270,9 @@ order: 7
         const lunar=solarlunar.solar2lunar(y,m,d);
         document.getElementById('inputLunar').textContent = `${lunar.lYear}年${lunar.lMonth}月${lunar.lDay}日`;
         const yearBranch=lunar.gzYear.slice(-1);
-        const yi=dizhiMap[yearBranch];
+        // 不使用年地支
+        //const yi=dizhiMap[yearBranch];
+        const yi=y;
         const hi=hourToDizhi(h);
         document.getElementById('infoYearBranch').textContent = `${lunar.gzYear}`;
         document.getElementById('infoHourBranch').textContent = `${hi}`;
@@ -288,11 +292,11 @@ order: 7
         document.getElementById('mainTitle').textContent = `主卦：${mainHex.name}`;
         document.getElementById('mainText').textContent = mainHex.text;
         document.getElementById('mainComment').textContent = mainHex.comment||'';
-        document.getElementById('mainSymbols').textContent = xianTian[up].sym.repeat(3) + ' ' + xianTian[lo].sym.repeat(3);
+        document.getElementById('mainSymbols').textContent = xianTian[up].sym.repeat(1) + ' ' + xianTian[lo].sym.repeat(1);
         const mainList=document.getElementById('mainYaoList'); mainList.innerHTML='';
         hexagramsStructure[mainNum].forEach((bit,i)=>{ const liEl=document.createElement('li'); const idx=i+1; liEl.textContent=`第${idx}爻：${(yaoTexts[mainNum]||{})[idx]||''}`; if(idx===yIdx) liEl.style.fontWeight='bold'; mainList.appendChild(liEl); });
         document.getElementById('changedTitle').textContent = `变卦：${changedHex.name}`;
-        document.getElementById('changedIcon').textContent = hexagramsStructure[changedNum].map(b=>b?'━━━':'━ ━').join('\n');
+        document.getElementById('changedIcon').textContent = hexagramsStructure[changedNum].map(b=>b?'━━━━━━━━━':'━━━━ ━━━━').join('\n');
         document.getElementById('changedText').textContent = changedHex.text;
         document.getElementById('changedComment').textContent = changedHex.comment||'';
         const changedList=document.getElementById('changedYaoList'); changedList.innerHTML='';
