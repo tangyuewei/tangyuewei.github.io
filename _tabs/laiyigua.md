@@ -278,7 +278,7 @@ order: 7
         document.getElementById('infoHourBranch').textContent = `${hi}`;
         const li=lunar.lMonth, di=lunar.lDay;
         const up=mod(yi+li+di,8), lo=mod(yi+li+di+hi,8), yIdx=mod(yi+li+di+hi,6);
-        document.getElementById('mainCalc').textContent = `主卦计算：上卦 = (${yi} + ${li} + ${di}) mod8 = ${up}；下卦 = (${yi} + ${li} + ${di} + ${hi}) mod8 = ${lo}；序号 = ${(up-1)*8+lo}`;
+        document.getElementById('mainCalc').textContent = `主卦计算：上卦 = (${yi} + ${li} + ${di}) mod8 = ${up}；下卦 = ( ${li} + ${di} + ${hi}) mod8 = ${lo}；序号 = ${(up-1)*8+lo}`;
         document.getElementById('changeCalc').textContent = `变卦计算：动爻 = (${yi} + ${li} + ${di} + ${hi}) mod6 = ${yIdx}`;
         // 填充上卦下卦信息
         document.getElementById('upperInfo').textContent = `${xianTian[up].name} ${xianTian[up].sym} `;
@@ -296,7 +296,7 @@ order: 7
         const mainList=document.getElementById('mainYaoList'); mainList.innerHTML='';
         hexagramsStructure[mainNum].forEach((bit,i)=>{ const liEl=document.createElement('li'); const idx=i+1; liEl.textContent=`第${idx}爻：${(yaoTexts[mainNum]||{})[idx]||''}`; if(idx===yIdx) liEl.style.fontWeight='bold'; mainList.appendChild(liEl); });
         document.getElementById('changedTitle').textContent = `变卦：${changedHex.name}`;
-        document.getElementById('changedIcon').textContent = hexagramsStructure[changedNum].map(b=>b?'━━━━━━━━━':'━━━━ ━━━━').join('\n');
+        document.getElementById('changedIcon').textContent = hexagramsStructure[changedNum].map(b=>b?'━━━━━━━━━━━━━━':'━━━━━━  ━━━━━━').join('\n');
         document.getElementById('changedText').textContent = changedHex.text;
         document.getElementById('changedComment').textContent = changedHex.comment||'';
         const changedList=document.getElementById('changedYaoList'); changedList.innerHTML='';
