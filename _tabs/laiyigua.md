@@ -297,7 +297,8 @@ order: 7
         }
         //const changedNum=getChangedHexagram(mainNum,yIdx), changedHex=hexagrams64[changedNum];
         let changedNum=reverseBit(mainHex2,yIdx), changedHex=getHexagramByKey(changedNum);
-        const originLine=hexagramsStructure[mainNum][yIdx-1];
+        let originLine=hexagramsStructure[mainNum][yIdx-1];
+        originLine=binaryStringToArray(changedNum)[yIdx-1];
         const bitDesc=originLine? '阳爻变阴爻':'阴爻变阳爻';
         document.getElementById('methodText').textContent = `将主卦第${yIdx}爻（${bitDesc}），得到变卦：${changedHex.name}`;
         document.getElementById('mainTitle').textContent = `主卦：${mainHex.name}`;
