@@ -311,8 +311,8 @@ order: 7
         binaryStringToArray(changedNum).forEach((bit,i)=>{ const liEl=document.createElement('li'); const idx=i+1; liEl.textContent=`第${idx}爻：${(yaoTexts[mainNum]||{})[idx]||''}`; if(idx===yIdx) liEl.style.fontWeight='bold'; mainList.appendChild(liEl); });
         document.getElementById('changedTitle').textContent = `变卦：${changedHex.name}`;
         const iconHex = reverseBinaryString(changedNum);
-        document.getElementById('changedIcon').textContent = binaryStringToArray(iconHex).map(b=>b?'━━━':'━ ━').join('\n');
-         // 填充上卦下卦信息
+        document.getElementById('changedIcon').textContent = binaryStringToArray(iconHex).map(b=>b?'━━━━━━━━━━━━':'━━━━━  ━━━━━').join('\n');
+        // 填充上卦下卦信息
         document.getElementById('bg_upperInfo').textContent = `${changedHex.up}`;
         document.getElementById('bg_lowerInfo').textContent = `${changedHex.down}`;
         document.getElementById('changedText').textContent = `卦辞：“${oldChangedHex.name}”——${oldChangedHex.text}`;
