@@ -1447,7 +1447,7 @@ function getHexagramByKey(key) {
 }
 
 // 定义一个方法传入二进制字符串和位置，将指定位置的值进行反转
-function reverseBit1(binaryString, position) {
+function reverseBit(binaryString, position) {
   // 将位置转换为数组索引
   const index = position - 1;
   // 将二进制字符串转换为字符数组
@@ -1460,7 +1460,7 @@ function reverseBit1(binaryString, position) {
 }
 
 // 修改reverseBit函数以支持从右往左的顺序
-function reverseBit(binaryString, position) {
+function reverseBit1(binaryString, position) {
   // 将位置转换为数组索引（从右往左）
   const index = binaryString.length - position;
 
