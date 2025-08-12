@@ -47,4 +47,4 @@ User-agent: *
 
 Disallow: /norobots/
 
-Sitemap: https://tangyuewei.github.io/sitemap.xml
+Sitemap: https://tangyuewei.com/sitemap.xml
