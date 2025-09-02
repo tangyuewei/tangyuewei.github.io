@@ -78,6 +78,10 @@ order: 6
       background-color: #3a2e1b;
     }
 
+    .yang_dong {
+    background-color: #dc3545;
+    }
+
     .yin {
       background-image: linear-gradient(to right,
           #000 47%,
@@ -87,6 +91,17 @@ order: 6
           #000 48%, /* 另一段黑色线条开始 */
           #000 48% /* 第二条黑线的结束 */
         )
+    }
+
+    .yin_dong {
+    background-image: linear-gradient(to right,
+    #dc3545 47%,
+    #dc3545 47%, /* 黑色线条宽度为43% */
+    transparent 47%, /* 间隔开始 */
+    transparent 54%, /* 间隔结束 */
+    #dc3545 48%, /* 另一段黑色线条开始 */
+    #dc3545 48% /* 第二条黑线的结束 */
+    )
     }
 
     @keyframes fadeInUp {
@@ -221,7 +236,11 @@ order: 6
     for (let i = 0; i < bits.length; i++) {
       const div = document.createElement('div');
       //爻是从下往上数的，画是从上往下画的  001 010 得 010 100 画出来
-      div.className = 'line ' + (bits[5-i] === '1' ? 'yang' : 'yin');
+      if(i === movingLine){
+        div.className = 'line ' + (bits[5-i] === '1' ? 'yang_dong' : 'yin_dong');
+      }else{
+        div.className = 'line ' + (bits[5-i] === '1' ? 'yang' : 'yin');
+      }
       div.style.animation = `fadeInUp 0.5s ease forwards ${i * 0.3}s`;
       hexagramDiv.appendChild(div);
     }
@@ -261,10 +280,10 @@ order: 6
         <h2>主卦：${info.name}</h2>
         <p><strong>上下卦：</strong>上卦为${upper}${upSym}，下卦为${lower}${lowSym}。</p>
         <p><strong>动爻：</strong>第${movingLine}爻变动。</p>
-        <p>${info.text}；${info.modern_text}</p>
+        <p>${info.text}${info.modern_text}</p>
         <hr>
         <h2>变卦：${changedInfo.name}</h2>
-        <p>${changedInfo.text}；${changedInfo.modern_text}</p>
+        <p>${changedInfo.text}${changedInfo.modern_text}</p>
         <hr>
       `;
     }, 6 * 300 + 500);
