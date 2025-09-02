@@ -236,7 +236,7 @@ order: 6
     for (let i = 0; i < bits.length; i++) {
       const div = document.createElement('div');
       //爻是从下往上数的，画是从上往下画的  001 010 得 010 100 画出来
-      if(i === (movingLine-1)){
+      if((5-i) === (movingLine-1)){
         div.className = 'line ' + (bits[5-i] === '1' ? 'yang_dong' : 'yin_dong');
       }else{
         div.className = 'line ' + (bits[5-i] === '1' ? 'yang' : 'yin');
