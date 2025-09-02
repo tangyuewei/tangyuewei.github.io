@@ -1,0 +1,3021 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://tangyuewei.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://tangyuewei.github.io/" rel="alternate" type="text/html" hreflang="zh-CN" /><updated>2025-09-02T10:37:14+08:00</updated><id>https://tangyuewei.github.io/feed.xml</id><title type="html">唐悦玮</title><subtitle>努力只是一种生活方式，先敬业，再乐业.</subtitle><entry><title type="html">梅花易数起卦</title><link href="https://tangyuewei.github.io/posts/%E6%A2%85%E8%8A%B1%E6%98%93%E6%95%B0%E8%B5%B7%E5%8D%A6/" rel="alternate" type="text/html" title="梅花易数起卦" /><published>2025-06-15T15:01:00+08:00</published><updated>2025-06-15T15:01:00+08:00</updated><id>https://tangyuewei.github.io/posts/%E6%A2%85%E8%8A%B1%E6%98%93%E6%95%B0%E8%B5%B7%E5%8D%A6</id><content type="html" xml:base="https://tangyuewei.github.io/posts/%E6%A2%85%E8%8A%B1%E6%98%93%E6%95%B0%E8%B5%B7%E5%8D%A6/"><![CDATA[<blockquote>
+  <p>讲一个梅花易数的起卦计算流程，再结合一个实际案例。</p>
+</blockquote>
+
+<h3 id="-一梅花易数的起卦计算流程用时间起卦法">🌟 一、梅花易数的起卦计算流程（用时间起卦法）</h3>
+<p>我们用【年月日时】的数字来起卦。</p>
+<ol>
+  <li>准备：记录当前时间
+比如你现在想起一卦，记录当前时间如下（假设）：
+    <ul>
+      <li>年：2025年</li>
+      <li>月：6月</li>
+      <li>日：13日</li>
+      <li>时辰：13点（午后1点，对应地支“未”，未=8）</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<ol>
+  <li>计算三个关键数字
+🔹 数字①（上卦）
+用：年 + 月 + 日
+= 2025 + 6 + 13 = 2044
+将2044除以8，取余数：
+2044 ÷ 8 = 255 余 4
+👉 上卦 = 第4卦（震卦 ☳）</li>
+</ol>
+<hr />
+
+<p>🔹 数字②（下卦）
+用：月 + 日 + 时辰地支数
+= 6 + 13 + 8 = 27
+27 ÷ 8 = 3 余 3
+👉 下卦 = 第3卦（离卦 ☲）</p>
+
+<hr />
+
+<p>🔹 数字③（动爻）
+用：年 + 月 + 日 + 时辰
+= 2025 + 6 + 13 + 8 = 2052
+2052 ÷ 6 = 342 余 0
+👉 若余0，则动爻为第6爻（从下往上数第6条线动）</p>
+
+<hr />
+
+<ol>
+  <li>得到主卦 + 动爻
+上卦：震 ☳
+下卦：离 ☲
+→ 合成主卦为：火雷噬嗑（卦序21）
+第6爻动 → 变卦
+查《易经》得知：
+    <ul>
+      <li>主卦：火雷噬嗑（有咬合、突破、处理纠纷的意思）</li>
+      <li>第六爻动，爻辞是：“姤其角，吝，无咎。”</li>
+      <li>变卦：因第六爻动，将火雷噬嗑的第六爻（阳变阴）
+→ 得到变卦为：火雷噬嗑 变为 火雷大壮</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="-二实际案例解析">🧩 二、实际案例解析</h3>
+<p>🌟 问题：我现在考虑是否应该换工作，能不能顺利？
+我们用上面起出来的卦来解：</p>
+<ul>
+  <li>主卦：火雷噬嗑（象征有问题需要处理、咬合之象）</li>
+  <li>变卦：火雷大壮（大壮者，大有作为，有行动力）</li>
+</ul>
+
+<p>🔍 解卦分析：</p>
+
+<ol>
+  <li>
+    <p>卦意：噬嗑卦本义是“咬合”，象征当前你所处的职场有阻力或问题，需要处理。可能有职场冲突、发展受限、内部摩擦等。</p>
+  </li>
+  <li>
+    <p>动爻在第六爻（顶端）：代表问题已经到了“头”，或者你已经考虑很久了，有强烈行动欲望。但六爻动，也暗示过刚易折，要慎重。</p>
+  </li>
+  <li>
+    <p>变卦“大壮” ：意味着：若能妥善处理转换过程，有很大机会成功，但要注意方式方法，不可鲁莽，否则会带来压力。</p>
+  </li>
+</ol>
+
+<p>结论：
+目前换工作的意图已经成熟，问题积累较多；如果你做好了准备，并采取有节制、有策略的行动，换工作是可行并可能成功的。但切忌冲动，要提前规划过渡期、经济、技能匹配。</p>
+
+<hr />
+
+<p>📝 总结</p>
+
+<p>步骤内容：记录时间年月日时辰三次取余数得上卦、下卦、动爻查主卦，通过八卦对应关系查得六十四卦解动爻查动爻爻辞，得变卦综合解卦解读主卦 + 动爻 + 变卦</p>
+
+<hr />
+
+<p><a href="https://tangyuewei.com/laiyigua/">来一卦吧</a></p>]]></content><author><name>tangyuewei</name></author><category term="周易" /><category term="周易" /><category term="占卜" /><summary type="html"><![CDATA[讲一个梅花易数的起卦计算流程，再结合一个实际案例。]]></summary></entry><entry><title type="html">占卜占卜</title><link href="https://tangyuewei.github.io/posts/%E5%8D%A0%E5%8D%9C%E5%8D%A0%E5%8D%9C/" rel="alternate" type="text/html" title="占卜占卜" /><published>2025-06-14T10:20:00+08:00</published><updated>2025-06-14T10:20:00+08:00</updated><id>https://tangyuewei.github.io/posts/%E5%8D%A0%E5%8D%9C%E5%8D%A0%E5%8D%9C</id><content type="html" xml:base="https://tangyuewei.github.io/posts/%E5%8D%A0%E5%8D%9C%E5%8D%A0%E5%8D%9C/"><![CDATA[<h2 id="古人一般什么时候占卜">古人一般什么时候占卜？</h2>
+
+<p>古代中国占卜的时间和场合多种多样，主要包括：</p>
+<ol>
+  <li>重大决策之前
+  比如出征打仗、迁徙定居、建造房屋、结婚、生子等，都会先占卜，看看吉凶。
+  古代帝王和将军常在战争或国家大事前请卜官占卜。</li>
+  <li>节令节气时
+  有些特定节日或节气，祭祀活动多，通常也会占卜，祈求风调雨顺、五谷丰登。</li>
+  <li>遇到疑难事情或不顺时
+  遭遇灾难、疾病、家庭矛盾时，民间也会求神问卜，寻找化解办法。</li>
+  <li>日常小事
+  有些人会在平常日子里占卜，比如问问今天是否适合出门、做某件事。</li>
+</ol>
+
+<h3 id="占卜方法">占卜方法</h3>
+<p>民间广泛流传各种占卜方法，如：</p>
+<ul>
+  <li>六爻占卜</li>
+  <li>梅花易数</li>
+  <li>奇门遁甲</li>
+  <li>太乙神数</li>
+  <li>周易卦象</li>
+  <li>手相、面相</li>
+</ul>
+
+<p><a href="https://tangyuewei.com/zhanbu/">来一卦吧</a></p>]]></content><author><name>tangyuewei</name></author><category term="周易" /><category term="周易" /><category term="占卜" /><summary type="html"><![CDATA[古人一般什么时候占卜？]]></summary></entry><entry><title type="html">ES查询时索引延迟或更新导致数据不一致</title><link href="https://tangyuewei.github.io/posts/ES%E6%9F%A5%E8%AF%A2%E6%97%B6%E7%B4%A2%E5%BC%95%E5%BB%B6%E8%BF%9F%E6%88%96%E6%9B%B4%E6%96%B0%E5%AF%BC%E8%87%B4%E6%95%B0%E6%8D%AE%E4%B8%8D%E4%B8%80%E8%87%B4/" rel="alternate" type="text/html" title="ES查询时索引延迟或更新导致数据不一致" /><published>2024-05-10T08:34:00+08:00</published><updated>2024-05-10T08:34:00+08:00</updated><id>https://tangyuewei.github.io/posts/ES%E6%9F%A5%E8%AF%A2%E6%97%B6%E7%B4%A2%E5%BC%95%E5%BB%B6%E8%BF%9F%E6%88%96%E6%9B%B4%E6%96%B0%E5%AF%BC%E8%87%B4%E6%95%B0%E6%8D%AE%E4%B8%8D%E4%B8%80%E8%87%B4</id><content type="html" xml:base="https://tangyuewei.github.io/posts/ES%E6%9F%A5%E8%AF%A2%E6%97%B6%E7%B4%A2%E5%BC%95%E5%BB%B6%E8%BF%9F%E6%88%96%E6%9B%B4%E6%96%B0%E5%AF%BC%E8%87%B4%E6%95%B0%E6%8D%AE%E4%B8%8D%E4%B8%80%E8%87%B4/"><![CDATA[<h1 id="es查询时索引延迟或更新导致数据不一致">ES查询时索引延迟或更新导致数据不一致</h1>
+
+<blockquote>
+  <p>当数据更新比较频繁时，我们短时间内使用相同的查询条件，得到的结果和记录数却不同。实际的业务要求查询的结果一致，以下是一些解决办法。</p>
+</blockquote>
+
+<p>问题可能是由于Elasticsearch的索引延迟或更新造成的。可以考虑以下步骤来解决：</p>
+<ol>
+  <li>检查索引刷新率：确保索引的刷新率设置合理。默认情况下，Elasticsearch每秒刷新一次，但根据需要可能需要调整。</li>
+  <li>使用<code class="language-plaintext highlighter-rouge">search_type=dfs_query_then_fetch</code>：这确保查询使用全局词频，有助于提高结果的一致性。</li>
+  <li>使用时间点（PIT）：为了在查询之间保持结果的一致性，可以使用PIT来保持索引的快照。</li>
+  <li>检查索引健康：确保没有正在进行的索引操作或问题影响查询结果。
+本文说下2和3方案
+    <h2 id="使用-search_typedfs_query_then_fetch">使用 search_type=dfs_query_then_fetch</h2>
+    <p><strong>解释：</strong>
+search_type=dfs_query_then_fetch 是 Elasticsearch 的一种搜索模式，用于提高查询的准确性。在默认的 query_then_fetch 模式中，查询是按分片进行的，每个分片独立计算文档频率，然后将结果合并。但这可能会导致在频繁更新的情况下结果的不一致。
+dfs_query_then_fetch 模式首先在所有分片上计算全局词频（Document Frequency），然后执行查询和排序。这使得查询和排序基于全局的词频信息，从而提供更一致的查询结果。</p>
+  </li>
+</ol>
+
+<p><strong>使用方法：</strong>
+在查询请求中，你可以添加<code class="language-plaintext highlighter-rouge">search_type=dfs_query_then_fetch</code>参数。例如：</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+</pre></td><td class="rouge-code"><pre><span class="err">GET</span><span class="w"> </span><span class="err">/your_index/_search?search_type=dfs_query_then_fetch</span><span class="w">
+</span><span class="p">{</span><span class="w">
+  </span><span class="nl">"query"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"bool"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"must"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"range"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"time"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="nl">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-08-14 08:00:00"</span><span class="p">,</span><span class="w">
+              </span><span class="nl">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-08-15 08:00:00"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"term"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"fileds1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xxx"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"term"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"fileds2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xx"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"aggs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"xsd_count"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"terms"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fileds1"</span><span class="p">,</span><span class="w">  </span><span class="err">//根据fileds</span><span class="mi">1</span><span class="err">去重查询top</span><span class="mi">5</span><span class="w">
+        </span><span class="nl">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"xsd_total"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"cardinality"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fileds1"</span><span class="w"> </span><span class="err">//根据fileds</span><span class="mi">1</span><span class="err">去重查询总数</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+<h2 id="使用时间点pit">使用时间点（PIT）</h2>
+<p><strong>解释：</strong>
+时间点（Point in Time, PIT）是一种在 Elasticsearch 中获取一致查询结果的机制。使用 PIT 可以在一个固定的索引快照上执行多个查询，确保查询结果在整个 PIT 生命周期内的一致性。
+PIT 的主要优点是它允许在一个固定的时间点快照上进行多次查询，这样即使索引在查询期间发生了变化，查询结果依然会保持一致。(数据快照)</p>
+
+<p><strong>使用方法：</strong></p>
+<ol>
+  <li>
+    <p>创建 PIT
+首先，你需要创建一个 PIT。发送一个 POST 请求到 _pit 接口以创建 PIT，例如：
+<code class="language-plaintext highlighter-rouge">POST /_pit?keep_alive=1m</code>
+这将返回一个 PIT ID，你可以在后续查询中使用它。</p>
+  </li>
+  <li>使用 PIT 执行查询：
+在查询请求中，添加 pit 参数和 PIT ID，例如：
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="err">GET</span><span class="w"> </span><span class="err">/_search</span><span class="w">
+</span><span class="p">{</span><span class="w">
+  </span><span class="nl">"pit"</span><span class="p">:{</span><span class="nl">"id"</span><span class="p">:</span><span class="s2">"your_pit_id"</span><span class="p">,</span><span class="nl">"keep_alive"</span><span class="p">:</span><span class="s2">"1m"</span><span class="p">},</span><span class="w">
+  </span><span class="nl">"query"</span><span class="p">:{</span><span class="w">
+ </span><span class="nl">"bool"</span><span class="p">:{</span><span class="w">
+     </span><span class="nl">"must"</span><span class="p">:[{</span><span class="w">
+         </span><span class="nl">"range"</span><span class="p">:{</span><span class="nl">"time"</span><span class="p">:{</span><span class="nl">"from"</span><span class="p">:</span><span class="s2">"2024-08-14 08:00:00"</span><span class="p">,</span><span class="nl">"to"</span><span class="p">:</span><span class="s2">"2024-08-15 08:00:59"</span><span class="p">}}</span><span class="w">
+             </span><span class="p">}]</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>关闭 PIT：
+查询完成后，你可以关闭 PIT 以释放资源，例如：
+<code class="language-plaintext highlighter-rouge">DELETE /_pit?id=your_pit_id</code></li>
+</ol>
+
+<p>在PIT id错误会返回错误：</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre><span class="p">{</span><span class="w">
+    </span><span class="nl">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"root_cause"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"illegal_argument_exception"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"reason"</span><span class="p">:</span><span class="w"> </span><span class="s2">"java.io.EOFException"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"illegal_argument_exception"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"reason"</span><span class="p">:</span><span class="w"> </span><span class="s2">"java.io.EOFException"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"caused_by"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"e_o_f_exception"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"reason"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>PIT id超过时间过期后返回错误：</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre></td><td class="rouge-code"><pre><span class="p">{</span><span class="w">
+    </span><span class="nl">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"root_cause"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"search_context_missing_exception"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"reason"</span><span class="p">:</span><span class="w"> </span><span class="s2">"No search context found for id [4635252]"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+    </span><span class="nl">"phase"</span><span class="p">:</span><span class="w"> </span><span class="s2">"query"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"grouped"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"failed_shards"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"shard"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"index"</span><span class="p">:</span><span class="w"> </span><span class="s2">"index-2022"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"node"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4sIEuxxxxxxxxxx"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"reason"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"search_context_missing_exception"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"reason"</span><span class="p">:</span><span class="w"> </span><span class="s2">"No search context found for id [12345678]"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+    </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">404</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></div></div>]]></content><author><name>tangyuewei</name></author><category term="常用框架" /><category term="Elasticsearch" /><category term="ES" /><summary type="html"><![CDATA[ES查询时索引延迟或更新导致数据不一致]]></summary></entry><entry><title type="html">深入浅出 Netty</title><link href="https://tangyuewei.github.io/posts/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA-Netty/" rel="alternate" type="text/html" title="深入浅出 Netty" /><published>2024-04-22T16:34:00+08:00</published><updated>2024-04-22T16:34:00+08:00</updated><id>https://tangyuewei.github.io/posts/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%20Netty</id><content type="html" xml:base="https://tangyuewei.github.io/posts/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA-Netty/"><![CDATA[<h1 id="nettyjava-高性能网络编程框架">Netty：Java 高性能网络编程框架</h1>
+
+<h2 id="1-引言">1. 引言</h2>
+
+<p>Netty 是一个基于 Java 的高性能网络编程框架，广泛应用于高并发、大规模的分布式系统中。它提供了异步事件驱动的网络应用框架和工具，简化了网络编程的复杂性。本文将详细介绍 Netty 的核心概念、关键组件和基本使用方法，帮助开发者快速上手并掌握这门技术。</p>
+
+<h2 id="2-netty-的核心概念">2. Netty 的核心概念</h2>
+
+<h3 id="21-channel">2.1 Channel</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Channel</code> 是 Netty 数据传输的基本抽象，它代表一个打开的连接（可以是 TCP 连接、UDP 连接或文件）。它提供了异步的读写操作，并且这些操作都返回 <code class="language-plaintext highlighter-rouge">ChannelFuture</code> 对象，用于在操作完成时通知应用程序。</p>
+
+<h3 id="22-eventloop">2.2 EventLoop</h3>
+
+<p><code class="language-plaintext highlighter-rouge">EventLoop</code> 是一个处理 I/O 操作的循环。每个 <code class="language-plaintext highlighter-rouge">Channel</code> 都会绑定一个 <code class="language-plaintext highlighter-rouge">EventLoop</code>，负责处理该 <code class="language-plaintext highlighter-rouge">Channel</code> 的所有事件。<code class="language-plaintext highlighter-rouge">EventLoop</code> 负责管理一个或多个 <code class="language-plaintext highlighter-rouge">Channel</code> 的 I/O 操作。</p>
+
+<h3 id="23-channelhandler">2.3 ChannelHandler</h3>
+
+<p><code class="language-plaintext highlighter-rouge">ChannelHandler</code> 是处理 I/O 事件或拦截 I/O 操作的核心接口。它包括两类主要实现：</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ChannelInboundHandler</code>：处理入站 I/O 事件。</li>
+  <li><code class="language-plaintext highlighter-rouge">ChannelOutboundHandler</code>：处理出站 I/O 操作。</li>
+</ul>
+
+<h3 id="24-channelpipeline">2.4 ChannelPipeline</h3>
+
+<p><code class="language-plaintext highlighter-rouge">ChannelPipeline</code> 是一个 <code class="language-plaintext highlighter-rouge">ChannelHandler</code> 链，用于拦截和处理所有的 I/O 事件。每个 <code class="language-plaintext highlighter-rouge">Channel</code> 都有一个 <code class="language-plaintext highlighter-rouge">ChannelPipeline</code>，它负责管理和调用 <code class="language-plaintext highlighter-rouge">ChannelHandler</code> 链中的各个处理器。</p>
+
+<h2 id="3-netty-的关键组件">3. Netty 的关键组件</h2>
+
+<h3 id="31-bootstrap-和-serverbootstrap">3.1 Bootstrap 和 ServerBootstrap</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Bootstrap</code>：用于引导客户端。</li>
+  <li><code class="language-plaintext highlighter-rouge">ServerBootstrap</code>：用于引导服务器。</li>
+</ul>
+
+<p>它们负责配置 <code class="language-plaintext highlighter-rouge">Channel</code> 和其他相关参数。</p>
+
+<h3 id="32-nioeventloopgroup">3.2 NioEventLoopGroup</h3>
+
+<p><code class="language-plaintext highlighter-rouge">NioEventLoopGroup</code> 是 <code class="language-plaintext highlighter-rouge">EventLoopGroup</code> 的实现，用于处理 I/O 操作。它包含一组 <code class="language-plaintext highlighter-rouge">NioEventLoop</code>，每个 <code class="language-plaintext highlighter-rouge">NioEventLoop</code> 在独立的线程中运行。</p>
+
+<h2 id="4-netty-的基本使用方法">4. Netty 的基本使用方法</h2>
+
+<p>以下是一个简单的 Netty 服务器示例代码：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">io.netty.bootstrap.ServerBootstrap</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.netty.channel.ChannelFuture</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.netty.channel.ChannelInitializer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.netty.channel.ChannelOption</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.netty.channel.EventLoopGroup</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.netty.channel.nio.NioEventLoopGroup</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.netty.channel.socket.SocketChannel</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.netty.channel.socket.nio.NioServerSocketChannel</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.netty.handler.codec.string.StringDecoder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.netty.handler.codec.string.StringEncoder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.netty.handler.logging.LogLevel</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.netty.handler.logging.LoggingHandler</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">NettyServer</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">port</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">NettyServer</span><span class="o">(</span><span class="kt">int</span> <span class="n">port</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">port</span> <span class="o">=</span> <span class="n">port</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">EventLoopGroup</span> <span class="n">bossGroup</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NioEventLoopGroup</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="nc">EventLoopGroup</span> <span class="n">workerGroup</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NioEventLoopGroup</span><span class="o">();</span>
+
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">ServerBootstrap</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ServerBootstrap</span><span class="o">();</span>
+            <span class="n">b</span><span class="o">.</span><span class="na">group</span><span class="o">(</span><span class="n">bossGroup</span><span class="o">,</span> <span class="n">workerGroup</span><span class="o">)</span>
+             <span class="o">.</span><span class="na">channel</span><span class="o">(</span><span class="nc">NioServerSocketChannel</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+             <span class="o">.</span><span class="na">option</span><span class="o">(</span><span class="nc">ChannelOption</span><span class="o">.</span><span class="na">SO_BACKLOG</span><span class="o">,</span> <span class="mi">100</span><span class="o">)</span>
+             <span class="o">.</span><span class="na">handler</span><span class="o">(</span><span class="k">new</span> <span class="nc">LoggingHandler</span><span class="o">(</span><span class="nc">LogLevel</span><span class="o">.</span><span class="na">INFO</span><span class="o">))</span>
+             <span class="o">.</span><span class="na">childHandler</span><span class="o">(</span><span class="k">new</span> <span class="nc">ChannelInitializer</span><span class="o">&lt;</span><span class="nc">SocketChannel</span><span class="o">&gt;()</span> <span class="o">{</span>
+                 <span class="nd">@Override</span>
+                 <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initChannel</span><span class="o">(</span><span class="nc">SocketChannel</span> <span class="n">ch</span><span class="o">)</span> <span class="o">{</span>
+                     <span class="n">ch</span><span class="o">.</span><span class="na">pipeline</span><span class="o">().</span><span class="na">addLast</span><span class="o">(</span><span class="k">new</span> <span class="nc">StringDecoder</span><span class="o">());</span>
+                     <span class="n">ch</span><span class="o">.</span><span class="na">pipeline</span><span class="o">().</span><span class="na">addLast</span><span class="o">(</span><span class="k">new</span> <span class="nc">StringEncoder</span><span class="o">());</span>
+                     <span class="n">ch</span><span class="o">.</span><span class="na">pipeline</span><span class="o">().</span><span class="na">addLast</span><span class="o">(</span><span class="k">new</span> <span class="nc">SimpleChannelHandler</span><span class="o">());</span>
+                 <span class="o">}</span>
+             <span class="o">});</span>
+
+            <span class="nc">ChannelFuture</span> <span class="n">f</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="na">bind</span><span class="o">(</span><span class="n">port</span><span class="o">).</span><span class="na">sync</span><span class="o">();</span>
+            <span class="n">f</span><span class="o">.</span><span class="na">channel</span><span class="o">().</span><span class="na">closeFuture</span><span class="o">().</span><span class="na">sync</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+            <span class="n">bossGroup</span><span class="o">.</span><span class="na">shutdownGracefully</span><span class="o">();</span>
+            <span class="n">workerGroup</span><span class="o">.</span><span class="na">shutdownGracefully</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="k">new</span> <span class="nf">NettyServer</span><span class="o">(</span><span class="mi">8080</span><span class="o">).</span><span class="na">start</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">SimpleChannelHandler</span> <span class="kd">extends</span> <span class="n">io</span><span class="o">.</span><span class="na">netty</span><span class="o">.</span><span class="na">channel</span><span class="o">.</span><span class="na">ChannelInboundHandlerAdapter</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">channelRead</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="na">netty</span><span class="o">.</span><span class="na">channel</span><span class="o">.</span><span class="na">ChannelHandlerContext</span> <span class="n">ctx</span><span class="o">,</span> <span class="nc">Object</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">message</span> <span class="o">=</span> <span class="o">(</span><span class="nc">String</span><span class="o">)</span> <span class="n">msg</span><span class="o">;</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Received message: "</span> <span class="o">+</span> <span class="n">message</span><span class="o">);</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="na">writeAndFlush</span><span class="o">(</span><span class="s">"Echo: "</span> <span class="o">+</span> <span class="n">message</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">exceptionCaught</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="na">netty</span><span class="o">.</span><span class="na">channel</span><span class="o">.</span><span class="na">ChannelHandlerContext</span> <span class="n">ctx</span><span class="o">,</span> <span class="nc">Throwable</span> <span class="n">cause</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">cause</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="5-结论">5. 结论</h2>
+
+<p>Netty 作为一个强大的异步事件驱动的网络框架，简化了 Java 网络编程的复杂性，提高了开发效率。通过理解其核心概念和关键组件，开发者可以构建高性能的网络应用程序。希望本文对您了解和使用 Netty 有所帮助。</p>
+
+<p>如果您有任何问题或建议，欢迎在评论区留言讨论。Happy Coding!</p>]]></content><author><name>tangyuewei</name></author><category term="常用框架" /><category term="Netty" /><summary type="html"><![CDATA[Netty：Java 高性能网络编程框架]]></summary></entry><entry><title type="html">Netty 学习与使用</title><link href="https://tangyuewei.github.io/posts/Netty%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/" rel="alternate" type="text/html" title="Netty 学习与使用" /><published>2024-04-19T11:20:00+08:00</published><updated>2024-04-19T11:20:00+08:00</updated><id>https://tangyuewei.github.io/posts/Netty%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8</id><content type="html" xml:base="https://tangyuewei.github.io/posts/Netty%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/"><![CDATA[<h2 id="概述">概述</h2>
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">netty</code>是一个高性能的<code class="language-plaintext highlighter-rouge">socket</code>框架。</p>
+</blockquote>
+
+<h2 id="源码">源码</h2>
+
+<blockquote>
+  <p>https://github.com/netty/netty</p>
+</blockquote>
+
+<h2 id="快速入门">快速入门</h2>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+</pre></td><td class="rouge-code"><pre>    <span class="nt">&lt;build&gt;</span>
+        <span class="nt">&lt;plugins&gt;</span>
+            <span class="c">&lt;!--【必用插件】用于设置项目jdk版本--&gt;</span>
+            <span class="nt">&lt;plugin&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>maven-compiler-plugin<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;version&gt;</span>3.8.1<span class="nt">&lt;/version&gt;</span>
+                <span class="nt">&lt;configuration&gt;</span>
+                    <span class="nt">&lt;source&gt;</span>8<span class="nt">&lt;/source&gt;</span>
+                    <span class="nt">&lt;target&gt;</span>8<span class="nt">&lt;/target&gt;</span>
+                    <span class="nt">&lt;encoding&gt;</span>UTF-8<span class="nt">&lt;/encoding&gt;</span>
+                <span class="nt">&lt;/configuration&gt;</span>
+            <span class="nt">&lt;/plugin&gt;</span>
+        <span class="nt">&lt;/plugins&gt;</span>
+    <span class="nt">&lt;/build&gt;</span>
+
+
+    <span class="nt">&lt;dependencies&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>io.netty<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>netty-all<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>4.1.20.Final<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>com.google.protobuf<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>protobuf-java<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>3.2.0<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;/dependencies&gt;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="客户端">客户端</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="rouge-code"><pre>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">connect</span><span class="o">(</span><span class="nc">String</span> <span class="n">ip</span><span class="o">,</span> <span class="kt">int</span> <span class="n">port</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">NioEventLoopGroup</span> <span class="n">workerGroup</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NioEventLoopGroup</span><span class="o">();</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">Bootstrap</span> <span class="n">bootstrap</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Bootstrap</span><span class="o">();</span>
+            <span class="n">bootstrap</span><span class="o">.</span><span class="na">group</span><span class="o">(</span><span class="n">workerGroup</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">channel</span><span class="o">(</span><span class="nc">NioSocketChannel</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">option</span><span class="o">(</span><span class="nc">ChannelOption</span><span class="o">.</span><span class="na">SO_KEEPALIVE</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">handler</span><span class="o">(</span><span class="k">new</span> <span class="nc">ChannelInitializer</span><span class="o">&lt;</span><span class="nc">SocketChannel</span><span class="o">&gt;()</span> <span class="o">{</span>
+                        <span class="nd">@Override</span>
+                        <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">initChannel</span><span class="o">(</span><span class="nc">SocketChannel</span> <span class="n">socketChannel</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+                            <span class="nc">ChannelPipeline</span> <span class="n">pipeline</span> <span class="o">=</span> <span class="n">socketChannel</span><span class="o">.</span><span class="na">pipeline</span><span class="o">();</span>
+                            <span class="n">pipeline</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"intDecoder"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">ProtobufVarint32FrameDecoder</span><span class="o">());</span>
+                            <span class="n">pipeline</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"intEncoder"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">ProtobufVarint32LengthFieldPrepender</span><span class="o">());</span>
+                            <span class="n">pipeline</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"protobufDecoder"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">ProtobufDecoder</span><span class="o">(</span><span class="nc">MessagePOJO</span><span class="o">.</span><span class="na">Message</span><span class="o">.</span><span class="na">getDefaultInstance</span><span class="o">()));</span>
+                            <span class="n">pipeline</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"protobufEncoder"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">ProtobufEncoder</span><span class="o">());</span>
+                            <span class="n">pipeline</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="k">new</span> <span class="nc">SimpleClientHandler</span><span class="o">());</span>
+                        <span class="o">}</span>
+                    <span class="o">});</span>
+            <span class="nc">ChannelFuture</span> <span class="n">channelFuture</span> <span class="o">=</span> <span class="n">bootstrap</span><span class="o">.</span><span class="na">connect</span><span class="o">(</span><span class="n">ip</span><span class="o">,</span> <span class="n">port</span><span class="o">).</span><span class="na">sync</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">channelFuture</span><span class="o">.</span><span class="na">isSuccess</span><span class="o">())</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"连接成功！！！！"</span><span class="o">);</span>
+            <span class="k">else</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"连接失败"</span><span class="o">);</span>
+            <span class="n">channelFuture</span><span class="o">.</span><span class="na">channel</span><span class="o">().</span><span class="na">closeFuture</span><span class="o">().</span><span class="na">sync</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+            <span class="n">workerGroup</span><span class="o">.</span><span class="na">shutdownGracefully</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>———-另一种———————–</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="rouge-code"><pre>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">connect</span><span class="o">(</span><span class="nc">String</span> <span class="n">ip</span><span class="o">,</span> <span class="kt">int</span> <span class="n">port</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">EventLoopGroup</span> <span class="n">group</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NioEventLoopGroup</span><span class="o">();</span><span class="c1">// 开启工作线程组</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">Bootstrap</span> <span class="n">bootstrap</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Bootstrap</span><span class="o">();</span> <span class="c1">//创建一个和服务端相对应的server</span>
+            <span class="n">bootstrap</span><span class="o">.</span><span class="na">group</span><span class="o">(</span><span class="n">group</span><span class="o">)</span> <span class="c1">//设置线程组</span>
+                    <span class="o">.</span><span class="na">channel</span><span class="o">(</span><span class="nc">NioSocketChannel</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="c1">//使用NioSocketChannel作为客户端的通道实现</span>
+                    <span class="o">.</span><span class="na">handler</span><span class="o">(</span><span class="k">new</span> <span class="nc">ChannelInitializer</span><span class="o">&lt;</span><span class="nc">SocketChannel</span><span class="o">&gt;()</span> <span class="o">{</span><span class="c1">//设置回调函数</span>
+                        <span class="nd">@Override</span>
+                        <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">initChannel</span><span class="o">(</span><span class="nc">SocketChannel</span> <span class="n">ch</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="n">ch</span><span class="o">.</span><span class="na">pipeline</span><span class="o">().</span><span class="na">addLast</span><span class="o">(</span><span class="k">new</span> <span class="nc">NettyClientHandler</span><span class="o">());</span>
+                        <span class="o">}</span>
+                    <span class="o">});</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"netty client start。。"</span><span class="o">);</span>
+            <span class="nc">ChannelFuture</span> <span class="n">cf</span> <span class="o">=</span> <span class="n">bootstrap</span><span class="o">.</span><span class="na">connect</span><span class="o">(</span><span class="s">"127.0.0.1"</span><span class="o">,</span> <span class="mi">9000</span><span class="o">).</span><span class="na">sync</span><span class="o">();</span><span class="c1">//启动客户端去连接服务器端</span>
+            <span class="c1">//对通道关闭进行监听</span>
+            <span class="n">cf</span><span class="o">.</span><span class="na">channel</span><span class="o">().</span><span class="na">closeFuture</span><span class="o">().</span><span class="na">sync</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+            <span class="n">group</span><span class="o">.</span><span class="na">shutdownGracefully</span><span class="o">();</span><span class="c1">//关闭线程组</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<h3 id="服务端">服务端</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">startServer</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">NioEventLoopGroup</span> <span class="n">bossGroup</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NioEventLoopGroup</span><span class="o">();</span>
+        <span class="nc">NioEventLoopGroup</span> <span class="n">workerGroup</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NioEventLoopGroup</span><span class="o">();</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">ServerBootstrap</span> <span class="n">serverBootstrap</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ServerBootstrap</span><span class="o">();</span>
+            <span class="n">serverBootstrap</span><span class="o">.</span><span class="na">group</span><span class="o">(</span><span class="n">bossGroup</span><span class="o">,</span> <span class="n">workerGroup</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">option</span><span class="o">(</span><span class="nc">ChannelOption</span><span class="o">.</span><span class="na">SO_BACKLOG</span><span class="o">,</span> <span class="mi">128</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">childOption</span><span class="o">(</span><span class="nc">ChannelOption</span><span class="o">.</span><span class="na">SO_KEEPALIVE</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">channel</span><span class="o">(</span><span class="nc">NioServerSocketChannel</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">childHandler</span><span class="o">(</span><span class="k">new</span> <span class="nc">ChannelInitializer</span><span class="o">&lt;</span><span class="nc">SocketChannel</span><span class="o">&gt;()</span> <span class="o">{</span>
+                        <span class="nd">@Override</span>
+                        <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">initChannel</span><span class="o">(</span><span class="nc">SocketChannel</span> <span class="n">socketChannel</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+                            <span class="nc">ChannelPipeline</span> <span class="n">pipeline</span> <span class="o">=</span> <span class="n">socketChannel</span><span class="o">.</span><span class="na">pipeline</span><span class="o">();</span>
+                            <span class="n">pipeline</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"intDecoder"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">ProtobufVarint32FrameDecoder</span><span class="o">());</span>
+                            <span class="n">pipeline</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"intEncoder"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">ProtobufVarint32LengthFieldPrepender</span><span class="o">());</span>
+                            <span class="n">pipeline</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"protobufDecoder"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">ProtobufDecoder</span><span class="o">(</span><span class="nc">MessagePOJO</span><span class="o">.</span><span class="na">Message</span><span class="o">.</span><span class="na">getDefaultInstance</span><span class="o">()));</span>
+                            <span class="n">pipeline</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="k">new</span> <span class="nc">SimpleServerHandler</span><span class="o">());</span>
+                        <span class="o">}</span>
+                    <span class="o">});</span>
+            <span class="nc">ChannelFuture</span> <span class="n">channelFuture</span> <span class="o">=</span> <span class="n">serverBootstrap</span><span class="o">.</span><span class="na">bind</span><span class="o">(</span><span class="n">port</span><span class="o">).</span><span class="na">sync</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">channelFuture</span><span class="o">.</span><span class="na">isSuccess</span><span class="o">())</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"服务器开启成功！！！！"</span><span class="o">);</span>
+            <span class="k">else</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"服务器开启失败"</span><span class="o">);</span>
+            <span class="n">channelFuture</span><span class="o">.</span><span class="na">channel</span><span class="o">().</span><span class="na">closeFuture</span><span class="o">().</span><span class="na">sync</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+            <span class="n">workerGroup</span><span class="o">.</span><span class="na">shutdownGracefully</span><span class="o">();</span>
+            <span class="n">bossGroup</span><span class="o">.</span><span class="na">shutdownGracefully</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>———-另一种———————–</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre></td><td class="rouge-code"><pre>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">startServer</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">EventLoopGroup</span> <span class="n">bossGroup</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NioEventLoopGroup</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span><span class="c1">//新建线程组,用于处理请求</span>
+        <span class="nc">EventLoopGroup</span> <span class="n">workerGroup</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NioEventLoopGroup</span><span class="o">();</span><span class="c1">//真正工作的线程组</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">ServerBootstrap</span> <span class="n">bootstrap</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ServerBootstrap</span><span class="o">();</span><span class="c1">//创建一个server,相当于NIO的server</span>
+            <span class="n">bootstrap</span><span class="o">.</span><span class="na">group</span><span class="o">(</span><span class="n">bossGroup</span><span class="o">,</span> <span class="n">workerGroup</span><span class="o">)</span> <span class="c1">//采用链式编程,将两个线程组加入到server中</span>
+                    <span class="o">.</span><span class="na">channel</span><span class="o">(</span><span class="nc">NioServerSocketChannel</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="c1">//设置一个信道,相当于NIO中的ServerSocketChannel</span>
+                    <span class="o">.</span><span class="na">option</span><span class="o">(</span><span class="nc">ChannelOption</span><span class="o">.</span><span class="na">SO_BACKLOG</span><span class="o">,</span> <span class="mi">1024</span><span class="o">)</span> <span class="c1">//对服务端给予一些设置</span>
+                    <span class="o">.</span><span class="na">childHandler</span><span class="o">(</span><span class="k">new</span> <span class="nc">ChannelInitializer</span><span class="o">&lt;</span><span class="nc">SocketChannel</span><span class="o">&gt;()</span> <span class="o">{</span><span class="c1">//给予初始化,并加入回调函数</span>
+                        <span class="nd">@Override</span>
+                        <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">initChannel</span><span class="o">(</span><span class="nc">SocketChannel</span> <span class="n">ch</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+                            <span class="n">ch</span><span class="o">.</span><span class="na">pipeline</span><span class="o">().</span><span class="na">addLast</span><span class="o">(</span><span class="k">new</span> <span class="nc">NettyServerHandler</span><span class="o">());</span>
+                        <span class="o">}</span>
+                    <span class="o">});</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"netty server start。。"</span><span class="o">);</span>
+            <span class="nc">ChannelFuture</span> <span class="n">cf</span> <span class="o">=</span> <span class="n">bootstrap</span><span class="o">.</span><span class="na">bind</span><span class="o">(</span><span class="mi">9000</span><span class="o">).</span><span class="na">sync</span><span class="o">();</span><span class="c1">//绑定端口,sync方法是等待异步操作执行完毕</span>
+            <span class="n">cf</span><span class="o">.</span><span class="na">channel</span><span class="o">().</span><span class="na">closeFuture</span><span class="o">().</span><span class="na">sync</span><span class="o">();</span><span class="c1">//对通道关闭进行监听，closeFuture是异步操作，监听通道关闭</span>
+                                        <span class="c1">// 通过sync方法同步等待通道关闭处理完毕，这里会阻塞等待通道关闭完成</span>
+        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+            <span class="n">bossGroup</span><span class="o">.</span><span class="na">shutdownGracefully</span><span class="o">();</span> <span class="c1">//关闭处理请求的线程组</span>
+            <span class="n">workerGroup</span><span class="o">.</span><span class="na">shutdownGracefully</span><span class="o">();</span><span class="c1">//关闭真正工作的线程组</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="回调">回调</h2>
+
+<h3 id="服务端回调">服务端回调</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">NettyServerHandler</span> <span class="kd">extends</span> <span class="nc">ChannelInboundHandlerAdapter</span> <span class="o">{</span>
+
+    <span class="c1">//当客户端连接服务器完成就会触发该方法</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">channelActive</span><span class="o">(</span><span class="nc">ChannelHandlerContext</span> <span class="n">ctx</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">ByteBuf</span> <span class="n">buf</span> <span class="o">=</span> <span class="nc">Unpooled</span><span class="o">.</span><span class="na">copiedBuffer</span><span class="o">(</span><span class="s">"HelloServer"</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="nc">CharsetUtil</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">));</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="na">writeAndFlush</span><span class="o">(</span><span class="n">buf</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">//当通道有读取事件时会触发，即客户端发送数据给服务端</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">channelRead</span><span class="o">(</span><span class="nc">ChannelHandlerContext</span> <span class="n">ctx</span><span class="o">,</span> <span class="nc">Object</span> <span class="n">msg</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">ByteBuf</span> <span class="n">buf</span> <span class="o">=</span> <span class="o">(</span><span class="nc">ByteBuf</span><span class="o">)</span> <span class="n">msg</span><span class="o">;</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"收到客户端的消息:"</span> <span class="o">+</span> <span class="n">buf</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="nc">CharsetUtil</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"客户端的地址： "</span> <span class="o">+</span> <span class="n">ctx</span><span class="o">.</span><span class="na">channel</span><span class="o">().</span><span class="na">remoteAddress</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">exceptionCaught</span><span class="o">(</span><span class="nc">ChannelHandlerContext</span> <span class="n">ctx</span><span class="o">,</span> <span class="nc">Throwable</span> <span class="n">cause</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"我收到了异常"</span><span class="o">);</span>
+        <span class="n">cause</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<h3 id="客户端回调">客户端回调</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">NettyClientHandler</span> <span class="kd">extends</span> <span class="nc">ChannelInboundHandlerAdapter</span> <span class="o">{</span>
+
+    <span class="cm">/**
+     * 当客户端连接服务器完成就会触发该方法
+     *
+     * @param ctx 设置好的信道,相当于上下文
+     */</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">channelActive</span><span class="o">(</span><span class="nc">ChannelHandlerContext</span> <span class="n">ctx</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">ByteBuf</span> <span class="n">buf</span> <span class="o">=</span> <span class="nc">Unpooled</span><span class="o">.</span><span class="na">copiedBuffer</span><span class="o">(</span><span class="s">"HelloServer"</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="nc">CharsetUtil</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">));</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="na">writeAndFlush</span><span class="o">(</span><span class="n">buf</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">//当通道有读取事件时会触发，即服务端发送数据给客户端</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">channelRead</span><span class="o">(</span><span class="nc">ChannelHandlerContext</span> <span class="n">ctx</span><span class="o">,</span> <span class="nc">Object</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">ByteBuf</span> <span class="n">buf</span> <span class="o">=</span> <span class="o">(</span><span class="nc">ByteBuf</span><span class="o">)</span> <span class="n">msg</span><span class="o">;</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"收到服务端的消息:"</span> <span class="o">+</span> <span class="n">buf</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="nc">CharsetUtil</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"服务端的地址： "</span> <span class="o">+</span> <span class="n">ctx</span><span class="o">.</span><span class="na">channel</span><span class="o">().</span><span class="na">remoteAddress</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">exceptionCaught</span><span class="o">(</span><span class="nc">ChannelHandlerContext</span> <span class="n">ctx</span><span class="o">,</span> <span class="nc">Throwable</span> <span class="n">cause</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">cause</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="参考文档">参考文档</h2>
+
+<ul>
+  <li><a href="https://waylau.com/netty-4-user-guide/">Netty 4.x 用户指南</a></li>
+  <li><a href="http://www.pingtaimeng.com/article/detail/id/504963">Netty 聊天室</a></li>
+  <li><a href="https://github.com/code4craft/netty-learning/blob/master/posts/ch1-overview.md">netty-learning</a></li>
+</ul>]]></content><author><name>tangyuewei</name></author><category term="常用框架" /><category term="Netty" /><summary type="html"><![CDATA[概述 netty是一个高性能的socket框架。]]></summary></entry><entry><title type="html">从vuepress迁移至jekyll</title><link href="https://tangyuewei.github.io/posts/%E4%BB%8Evuepress%E8%BF%81%E7%A7%BB%E8%87%B3jekyll/" rel="alternate" type="text/html" title="从vuepress迁移至jekyll" /><published>2023-12-29T14:00:00+08:00</published><updated>2023-12-29T14:00:00+08:00</updated><id>https://tangyuewei.github.io/posts/%E4%BB%8Evuepress%E8%BF%81%E7%A7%BB%E8%87%B3jekyll</id><content type="html" xml:base="https://tangyuewei.github.io/posts/%E4%BB%8Evuepress%E8%BF%81%E7%A7%BB%E8%87%B3jekyll/"><![CDATA[<h2 id="从vuepress迁移至jekyll">从vuepress迁移至jekyll</h2>
+
+<blockquote>
+  <p>做过技术开发的都知道，迁移是一件很痛苦的事情，亲身体验过才知道，但是痛苦的过程是有收获的。 起初使用<code class="language-plaintext highlighter-rouge">vuepress</code>来写博客，感觉还挺高大上，有目录层级机构。但是后来发现，用他来些博客并不好，写文档比较合适，而且不支持一些功能，比如说评论，而且它的主题也不好看，所以就决定迁移到<code class="language-plaintext highlighter-rouge">jekyll</code>。</p>
+</blockquote>
+
+<p>附两张图纪念：</p>
+<ul>
+  <li>首页
+<img title="首页" src="/assets/img/20231229135327.png" /></li>
+  <li>详情页
+<img title="详情页" src="/assets/img/20231229135459.png" /></li>
+</ul>
+
+<p>元旦快乐！</p>]]></content><author><name>tangyuewei</name></author><category term="博客那些事" /><category term="博客迁移" /><category term="vuepress" /><category term="jekyll" /><summary type="html"><![CDATA[从vuepress迁移至jekyll]]></summary></entry><entry><title type="html">Spring Security oAuth2应用</title><link href="https://tangyuewei.github.io/posts/Spring-Security-oAuth2%E5%BA%94%E7%94%A8/" rel="alternate" type="text/html" title="Spring Security oAuth2应用" /><published>2023-03-12T16:15:00+08:00</published><updated>2023-03-12T16:15:00+08:00</updated><id>https://tangyuewei.github.io/posts/Spring%20Security%20oAuth2%E5%BA%94%E7%94%A8</id><content type="html" xml:base="https://tangyuewei.github.io/posts/Spring-Security-oAuth2%E5%BA%94%E7%94%A8/"><![CDATA[<h2 id="数据表">数据表</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+</pre></td><td class="rouge-code"><pre>CREATE TABLE `clientdetails` (
+  `appId` varchar(128) NOT NULL,
+  `resourceIds` varchar(256) DEFAULT NULL,
+  `appSecret` varchar(256) DEFAULT NULL,
+  `scope` varchar(256) DEFAULT NULL,
+  `grantTypes` varchar(256) DEFAULT NULL,
+  `redirectUrl` varchar(256) DEFAULT NULL,
+  `authorities` varchar(256) DEFAULT NULL,
+  `access_token_validity` int(11) DEFAULT NULL,
+  `refresh_token_validity` int(11) DEFAULT NULL,
+  `additionalInformation` varchar(4096) DEFAULT NULL,
+  `autoApproveScopes` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`appId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `oauth_access_token` (
+  `token_id` varchar(256) DEFAULT NULL,
+  `token` blob,
+  `authentication_id` varchar(128) NOT NULL,
+  `user_name` varchar(256) DEFAULT NULL,
+  `client_id` varchar(256) DEFAULT NULL,
+  `authentication` blob,
+  `refresh_token` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`authentication_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `oauth_approvals` (
+  `userId` varchar(256) DEFAULT NULL,
+  `clientId` varchar(256) DEFAULT NULL,
+  `scope` varchar(256) DEFAULT NULL,
+  `status` varchar(10) DEFAULT NULL,
+  `expiresAt` timestamp NULL DEFAULT NULL,
+  `lastModifiedAt` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `oauth_client_details` (
+  `client_id` varchar(128) NOT NULL,
+  `resource_ids` varchar(256) DEFAULT NULL,
+  `client_secret` varchar(256) DEFAULT NULL,
+  `scope` varchar(256) DEFAULT NULL,
+  `authorized_grant_types` varchar(256) DEFAULT NULL,
+  `web_server_redirect_uri` varchar(256) DEFAULT NULL,
+  `authorities` varchar(256) DEFAULT NULL,
+  `access_token_validity` int(11) DEFAULT NULL,
+  `refresh_token_validity` int(11) DEFAULT NULL,
+  `additional_information` varchar(4096) DEFAULT NULL,
+  `autoapprove` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `oauth_client_token` (
+  `token_id` varchar(256) DEFAULT NULL,
+  `token` blob,
+  `authentication_id` varchar(128) NOT NULL,
+  `user_name` varchar(256) DEFAULT NULL,
+  `client_id` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`authentication_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `oauth_code` (
+  `code` varchar(256) DEFAULT NULL,
+  `authentication` blob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `oauth_refresh_token` (
+  `token_id` varchar(256) DEFAULT NULL,
+  `token` blob,
+  `authentication` blob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="引入依赖">引入依赖</h2>
+
+<h3 id="pomxml">pom.xml</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+</pre></td><td class="rouge-code"><pre><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">"http://maven.apache.org/POM/4.0.0"</span> <span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+         <span class="na">xsi:schemaLocation=</span><span class="s">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+
+    <span class="nt">&lt;parent&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>com.qjdmy<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>qjdmy-parent<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;version&gt;</span>1.0.0.RELEASE<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;/parent&gt;</span>
+
+    <span class="nt">&lt;artifactId&gt;</span>qjdmy-oauth<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.0.1-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;packaging&gt;</span>jar<span class="nt">&lt;/packaging&gt;</span>
+    <span class="nt">&lt;url&gt;</span>http://www.qjdmy.com<span class="nt">&lt;/url&gt;</span>
+    <span class="nt">&lt;inceptionYear&gt;</span>2020-Now<span class="nt">&lt;/inceptionYear&gt;</span>
+    <span class="nt">&lt;description&gt;</span>认证与授权<span class="nt">&lt;/description&gt;</span>
+
+    <span class="nt">&lt;scm&gt;</span>
+        <span class="nt">&lt;connection&gt;</span>scm:git:http://gitlab.tangyuewei.com/qjdmy/qjdmy-oauth.git<span class="nt">&lt;/connection&gt;</span>
+        <span class="nt">&lt;developerConnection&gt;</span>scm:git:http://gitlab.tangyuewei.com/qjdmy/qjdmy-oauth.git<span class="nt">&lt;/developerConnection&gt;</span>
+        <span class="nt">&lt;url&gt;</span>http://gitlab.tangyuewei.com/qjdmy/qjdmy-oauth<span class="nt">&lt;/url&gt;</span>
+        <span class="nt">&lt;tag&gt;</span>HEAD<span class="nt">&lt;/tag&gt;</span>
+    <span class="nt">&lt;/scm&gt;</span>
+
+    <span class="nt">&lt;developers&gt;</span>
+        <span class="nt">&lt;developer&gt;</span>
+            <span class="nt">&lt;id&gt;</span>tangyuewei<span class="nt">&lt;/id&gt;</span>
+            <span class="nt">&lt;name&gt;</span>Webster Tang<span class="nt">&lt;/name&gt;</span>
+            <span class="nt">&lt;email&gt;</span>472680811@qq.com<span class="nt">&lt;/email&gt;</span>
+        <span class="nt">&lt;/developer&gt;</span>
+    <span class="nt">&lt;/developers&gt;</span>
+
+    <span class="nt">&lt;dependencies&gt;</span>
+
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-web<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-actuator<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-test<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+
+
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-oauth2<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+
+
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>javax.servlet<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>javax.servlet-api<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;scope&gt;</span>provided<span class="nt">&lt;/scope&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+
+
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.projectlombok<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>lombok<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;scope&gt;</span>provided<span class="nt">&lt;/scope&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+
+
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>${project.groupId}<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>qfdmy-repository-core<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>${project.version}<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>${project.groupId}<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>qfdmy-commons<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>${project.version}<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;/dependencies&gt;</span>
+
+    <span class="nt">&lt;profiles&gt;</span>
+        <span class="nt">&lt;profile&gt;</span>
+            <span class="nt">&lt;id&gt;</span>microservice<span class="nt">&lt;/id&gt;</span>
+            <span class="nt">&lt;build&gt;</span>
+                <span class="nt">&lt;plugins&gt;</span>
+                    <span class="nt">&lt;plugin&gt;</span>
+                        <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+                        <span class="nt">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+                        <span class="nt">&lt;configuration&gt;</span>
+                            <span class="nt">&lt;mainClass&gt;</span>com.qjdmy.oauth.AuthApplication<span class="nt">&lt;/mainClass&gt;</span>
+                        <span class="nt">&lt;/configuration&gt;</span>
+                    <span class="nt">&lt;/plugin&gt;</span>
+                <span class="nt">&lt;/plugins&gt;</span>
+            <span class="nt">&lt;/build&gt;</span>
+        <span class="nt">&lt;/profile&gt;</span>
+    <span class="nt">&lt;/profiles&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="applicationyml">application.yml</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="rouge-code"><pre><span class="na">server</span><span class="pi">:</span>
+  <span class="na">port</span><span class="pi">:</span> <span class="m">9090</span>
+
+<span class="na">spring</span><span class="pi">:</span>
+  <span class="na">application</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">qjdmy-oauth</span>
+  <span class="na">main</span><span class="pi">:</span>
+    <span class="na">allow-bean-definition-overriding</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">datasource</span><span class="pi">:</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">com.zaxxer.hikari.HikariDataSource</span>
+    <span class="na">driver-class-name</span><span class="pi">:</span> <span class="s">com.mysql.cj.jdbc.Driver</span>
+    <span class="na">jdbc-url</span><span class="pi">:</span> <span class="s">jdbc:mysql://mysql.tangyuewei.com:3306/qfdmy?serverTimezone=Asia/Shanghai&amp;useLegacyDatetimeCode=false&amp;nullNamePatternMatchesAll=true&amp;zeroDateTimeBehavior=CONVERT_TO_NULL&amp;tinyInt1isBit=false&amp;autoReconnect=true&amp;useSSL=false&amp;pinGlobalTxToPhysicalConnection=true</span>
+    <span class="na">username</span><span class="pi">:</span> <span class="s">root</span>
+    <span class="na">password</span><span class="pi">:</span> <span class="m">123456</span>
+    <span class="na">hikari</span><span class="pi">:</span>
+      <span class="na">minimum-idle</span><span class="pi">:</span> <span class="m">5</span>
+      <span class="na">idle-timeout</span><span class="pi">:</span> <span class="m">600000</span>
+      <span class="na">maximum-pool-size</span><span class="pi">:</span> <span class="m">10</span>
+      <span class="na">auto-commit</span><span class="pi">:</span> <span class="no">true</span>
+      <span class="na">pool-name</span><span class="pi">:</span> <span class="s">MyHikariCP</span>
+      <span class="na">max-lifetime</span><span class="pi">:</span> <span class="m">1800000</span>
+      <span class="na">connection-timeout</span><span class="pi">:</span> <span class="m">30000</span>
+      <span class="na">connection-test-query</span><span class="pi">:</span> <span class="s">SELECT </span><span class="m">1</span>
+
+<span class="na">security</span><span class="pi">:</span>
+  <span class="na">oauth2</span><span class="pi">:</span>
+    <span class="na">client</span><span class="pi">:</span>
+      <span class="na">client-id</span><span class="pi">:</span> <span class="s">dashboard</span>
+      <span class="na">client-secret</span><span class="pi">:</span> <span class="s">dashboard</span>
+      <span class="na">access-token-uri</span><span class="pi">:</span> <span class="s">http://localhost:${server.port}/oauth/token</span>
+      <span class="na">user-authorization-uri</span><span class="pi">:</span> <span class="s">http://localhost:${server.port}/oauth/authorize</span>
+    <span class="na">resource</span><span class="pi">:</span>
+      <span class="na">token-info-uri</span><span class="pi">:</span> <span class="s">http://localhost:${server.port}/oauth/check_token</span>
+    <span class="na">authorization</span><span class="pi">:</span>
+      <span class="na">check-token-access</span><span class="pi">:</span> <span class="s">http://localhost:${server.port}/oauth/check_token</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="application">Application</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td><td class="rouge-code"><pre><span class="kn">package</span> <span class="nn">com.qjdmy.oauth</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.mybatis.spring.annotation.MapperScan</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.SpringApplication</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="o">;</span>
+
+<span class="cm">/**
+ * 认证与授权
+ *
+ * @author Webster
+ * @since v1.0.0
+ */</span>
+<span class="nd">@SpringBootApplication</span><span class="o">(</span><span class="n">scanBasePackages</span> <span class="o">=</span> <span class="s">"com.qjdmy"</span><span class="o">)</span>
+<span class="nd">@MapperScan</span><span class="o">(</span><span class="n">basePackages</span> <span class="o">=</span> <span class="s">"com.qjdmy.repository.core.mapper"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AuthApplication</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="nc">AuthApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="自定义认证授权实现">自定义认证授权实现</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+</pre></td><td class="rouge-code"><pre><span class="kn">package</span> <span class="nn">com.qjdmy.oauth.service.impl</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.qjdmy.repository.core.domain.CoreAdmin</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.qjdmy.repository.core.domain.CoreUser</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.qjdmy.repository.core.mapper.CoreAdminMapper</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.qjdmy.repository.core.mapper.CoreUserMapper</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.core.GrantedAuthority</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.core.authority.SimpleGrantedAuthority</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.UserDetails</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.UserDetailsService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.UsernameNotFoundException</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.annotation.Resource</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="cm">/**
+ * 自定义认证与授权
+ * @author Webster
+ * @since v1.0.0
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserDetailsServiceImpl</span> <span class="kd">implements</span> <span class="nc">UserDetailsService</span> <span class="o">{</span>
+
+    <span class="nd">@Resource</span>
+    <span class="kd">private</span> <span class="nc">CoreAdminMapper</span> <span class="n">coreAdminMapper</span><span class="o">;</span>
+
+    <span class="nd">@Resource</span>
+    <span class="kd">private</span> <span class="nc">CoreUserMapper</span> <span class="n">coreUserMapper</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">UserDetails</span> <span class="nf">loadUserByUsername</span><span class="o">(</span><span class="nc">String</span> <span class="n">username</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">UsernameNotFoundException</span> <span class="o">{</span>
+        <span class="c1">// 管理后台</span>
+        <span class="nc">LambdaQueryWrapper</span><span class="o">&lt;</span><span class="nc">CoreAdmin</span><span class="o">&gt;</span> <span class="n">adminWrapper</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LambdaQueryWrapper</span><span class="o">&lt;&gt;();</span>
+        <span class="n">adminWrapper</span><span class="o">.</span><span class="na">eq</span><span class="o">(</span><span class="nl">CoreAdmin:</span><span class="o">:</span><span class="n">getUsername</span><span class="o">,</span> <span class="n">username</span><span class="o">);</span>
+        <span class="nc">CoreAdmin</span> <span class="n">coreAdmin</span> <span class="o">=</span> <span class="n">coreAdminMapper</span><span class="o">.</span><span class="na">selectOne</span><span class="o">(</span><span class="n">adminWrapper</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="kc">null</span> <span class="o">!=</span> <span class="n">coreAdmin</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 授权，管理员权限为 ADMIN</span>
+            <span class="nc">List</span><span class="o">&lt;</span><span class="nc">GrantedAuthority</span><span class="o">&gt;</span> <span class="n">grantedAuthorities</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+            <span class="n">grantedAuthorities</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">SimpleGrantedAuthority</span><span class="o">(</span><span class="s">"ADMIN"</span><span class="o">));</span>
+
+            <span class="c1">// 由框架完成认证工作</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="n">coreAdmin</span><span class="o">.</span><span class="na">getUsername</span><span class="o">(),</span> <span class="n">coreAdmin</span><span class="o">.</span><span class="na">getPassword</span><span class="o">(),</span> <span class="n">grantedAuthorities</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 门户网站</span>
+        <span class="nc">LambdaQueryWrapper</span><span class="o">&lt;</span><span class="nc">CoreUser</span><span class="o">&gt;</span> <span class="n">userWrapper</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LambdaQueryWrapper</span><span class="o">&lt;&gt;();</span>
+        <span class="n">userWrapper</span><span class="o">.</span><span class="na">eq</span><span class="o">(</span><span class="nl">CoreUser:</span><span class="o">:</span><span class="n">getUsername</span><span class="o">,</span> <span class="n">username</span><span class="o">);</span>
+        <span class="nc">CoreUser</span> <span class="n">coreUser</span> <span class="o">=</span> <span class="n">coreUserMapper</span><span class="o">.</span><span class="na">selectOne</span><span class="o">(</span><span class="n">userWrapper</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="kc">null</span> <span class="o">!=</span> <span class="n">coreUser</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">List</span><span class="o">&lt;</span><span class="nc">GrantedAuthority</span><span class="o">&gt;</span> <span class="n">grantedAuthorities</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+            <span class="n">grantedAuthorities</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">SimpleGrantedAuthority</span><span class="o">(</span><span class="s">"USERS"</span><span class="o">));</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="n">coreUser</span><span class="o">.</span><span class="na">getUsername</span><span class="o">(),</span> <span class="n">coreUser</span><span class="o">.</span><span class="na">getPassword</span><span class="o">(),</span> <span class="n">grantedAuthorities</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="认证服务器配置">认证服务器配置</h2>
+
+<ul>
+  <li>WebSecurityConfiguration.java</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+</pre></td><td class="rouge-code"><pre><span class="kn">package</span> <span class="nn">com.qjdmy.oauth.configuration</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.qjdmy.oauth.service.impl.UserDetailsServiceImpl</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.authentication.AuthenticationManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.builders.WebSecurity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.configuration.EnableWebSecurity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.UserDetailsService</span><span class="o">;</span>
+
+<span class="cm">/**
+ * 认证服务器配置
+ *
+ * @author Webster
+ * @since v1.0.0
+ */</span>
+<span class="nd">@EnableWebSecurity</span>
+<span class="nd">@EnableGlobalMethodSecurity</span><span class="o">(</span><span class="n">prePostEnabled</span> <span class="o">=</span> <span class="kc">true</span><span class="o">,</span> <span class="n">securedEnabled</span> <span class="o">=</span> <span class="kc">true</span><span class="o">,</span> <span class="n">jsr250Enabled</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebSecurityConfiguration</span> <span class="kd">extends</span> <span class="nc">WebSecurityConfigurerAdapter</span> <span class="o">{</span>
+
+	<span class="nd">@Bean</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="nc">UserDetailsService</span> <span class="nf">userDetailsServiceBean</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nf">UserDetailsServiceImpl</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Bean</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="nc">AuthenticationManager</span> <span class="nf">authenticationManagerBean</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">authenticationManagerBean</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="nc">AuthenticationManagerBuilder</span> <span class="n">auth</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+		<span class="n">auth</span><span class="o">.</span><span class="na">userDetailsService</span><span class="o">(</span><span class="n">userDetailsServiceBean</span><span class="o">());</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="nc">WebSecurity</span> <span class="n">web</span><span class="o">)</span> <span class="o">{</span>
+		<span class="c1">// 忽略的访问路径</span>
+		<span class="n">web</span><span class="o">.</span><span class="na">ignoring</span><span class="o">()</span>
+				<span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="s">"/login/**"</span><span class="o">)</span>
+				<span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="s">"/registry/user"</span><span class="o">)</span>
+				<span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="s">"/logout/**"</span><span class="o">);</span>
+	<span class="o">}</span>
+
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>AuthorizationServerConfiguration.java</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+</pre></td><td class="rouge-code"><pre><span class="kn">package</span> <span class="nn">com.qjdmy.oauth.configuration</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.boot.context.properties.ConfigurationProperties</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.jdbc.DataSourceBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Lazy</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Primary</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.authentication.AuthenticationManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.UserDetailsService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.provider.ClientDetailsService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.provider.client.JdbcClientDetailsService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.provider.token.TokenStore</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.provider.token.store.JdbcTokenStore</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.annotation.Resource</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.sql.DataSource</span><span class="o">;</span>
+
+<span class="cm">/**
+ * 认证服务器配置
+ *
+ * @author Webster
+ * @since v1.0.0
+ */</span>
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableAuthorizationServer</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AuthorizationServerConfiguration</span> <span class="kd">extends</span> <span class="nc">AuthorizationServerConfigurerAdapter</span> <span class="o">{</span>
+
+	<span class="cm">/**
+	 * 注入用于支持 password 模式
+	 */</span>
+	<span class="nd">@Resource</span>
+	<span class="kd">private</span> <span class="nc">AuthenticationManager</span> <span class="n">authenticationManager</span><span class="o">;</span>
+
+	<span class="cm">/**
+	 * 默认的加密方式
+	 * @return {@link BCryptPasswordEncoder}
+	 */</span>
+	<span class="nd">@Bean</span>
+	<span class="kd">public</span> <span class="nc">BCryptPasswordEncoder</span> <span class="nf">passwordEncoder</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nf">BCryptPasswordEncoder</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="cm">/**
+	 * Refresh Token 时需要自定义实现，否则抛异常 &lt;br&gt;
+	 * Lazy 注解是为了防止循环注入（is there an unresolvable circular reference?）
+	 */</span>
+	<span class="nd">@Lazy</span>
+	<span class="nd">@Resource</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"userDetailsServiceBean"</span><span class="o">)</span>
+	<span class="kd">private</span> <span class="nc">UserDetailsService</span> <span class="n">userDetailsService</span><span class="o">;</span>
+
+	<span class="nd">@Bean</span>
+	<span class="nd">@Primary</span>
+	<span class="nd">@ConfigurationProperties</span><span class="o">(</span><span class="n">prefix</span> <span class="o">=</span> <span class="s">"spring.datasource"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="nc">DataSource</span> <span class="nf">dataSource</span><span class="o">()</span> <span class="o">{</span>
+		<span class="c1">// 配置数据源（注意，我使用的是 HikariCP 连接池），以上注解是指定数据源，否则会有冲突</span>
+		<span class="k">return</span> <span class="nc">DataSourceBuilder</span><span class="o">.</span><span class="na">create</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Bean</span>
+	<span class="kd">public</span> <span class="nc">TokenStore</span> <span class="nf">tokenStore</span><span class="o">()</span> <span class="o">{</span>
+		<span class="c1">// 基于 JDBC 实现，令牌保存到数据库</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nf">JdbcTokenStore</span><span class="o">(</span><span class="n">dataSource</span><span class="o">());</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Bean</span>
+	<span class="kd">public</span> <span class="nc">ClientDetailsService</span> <span class="nf">jdbcClientDetailsService</span><span class="o">()</span> <span class="o">{</span>
+		<span class="c1">// 基于 JDBC 实现，需要事先在数据库配置客户端信息</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nf">JdbcClientDetailsService</span><span class="o">(</span><span class="n">dataSource</span><span class="o">());</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="nc">AuthorizationServerEndpointsConfigurer</span> <span class="n">endpoints</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+		<span class="n">endpoints</span>
+				<span class="c1">// 用于支持密码模式</span>
+				<span class="o">.</span><span class="na">authenticationManager</span><span class="o">(</span><span class="n">authenticationManager</span><span class="o">).</span><span class="na">tokenStore</span><span class="o">(</span><span class="n">tokenStore</span><span class="o">());</span>
+
+		<span class="c1">// Refresh Token 时需要自定义实现，否则抛异常</span>
+		<span class="c1">// Handling error: IllegalStateException, UserDetailsService is required.</span>
+		<span class="n">endpoints</span><span class="o">.</span><span class="na">userDetailsService</span><span class="o">(</span><span class="n">userDetailsService</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="nc">AuthorizationServerSecurityConfigurer</span> <span class="n">security</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+		<span class="n">security</span>
+				<span class="c1">// 允许客户端访问 /oauth/check_token 检查 token</span>
+				<span class="o">.</span><span class="na">checkTokenAccess</span><span class="o">(</span><span class="s">"isAuthenticated()"</span><span class="o">).</span><span class="na">allowFormAuthenticationForClients</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="cm">/**
+	 * 配置客户端
+	 * @param clients {@link ClientDetailsServiceConfigurer}
+	 * @throws Exception 全局异常
+	 */</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="nc">ClientDetailsServiceConfigurer</span> <span class="n">clients</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+		<span class="c1">// 客户端配置</span>
+		<span class="n">clients</span><span class="o">.</span><span class="na">withClientDetails</span><span class="o">(</span><span class="n">jdbcClientDetailsService</span><span class="o">());</span>
+	<span class="o">}</span>
+
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<h2 id="实现登录功能">实现登录功能</h2>
+
+<h3 id="登录业务接口">登录业务接口</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+</pre></td><td class="rouge-code"><pre>package com.qjdmy.oauth.service;
+
+import java.util.Map;
+
+/**
+ * 登录
+ * @author Webster
+ * @since v1.0.0
+ */
+public interface ILoginService {
+    /**
+     * 登录成功后仅返回 Token
+     * @param username {@code String} 账号
+     * @param password {@code String} 密码
+     * @return {@code Map&lt;String, String&gt;} key: token
+     */
+    Map&lt;String, String&gt; getToken(String username, String password);
+
+    /**
+     * 刷新 Token
+     * @param accessToken {@code String} 使用旧 Token 换新 Token
+     * @return {@code Map&lt;String, String&gt;} 新 Token，key: token
+     */
+    Map&lt;String, String&gt; refresh(String accessToken);
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="登录业务实现">登录业务实现</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+</pre></td><td class="rouge-code"><pre><span class="kn">package</span> <span class="nn">com.qjdmy.oauth.service.impl</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">cn.hutool.core.util.StrUtil</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">cn.hutool.http.HttpUtil</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">cn.hutool.json.JSONObject</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">cn.hutool.json.JSONUtil</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.qjdmy.commons.exceptions.BusinessException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.qjdmy.commons.response.ResponseCode</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.qjdmy.oauth.service.ILoginService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Value</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.UserDetails</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.UserDetailsService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Service</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.annotation.Resource</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.HashMap</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+
+<span class="cm">/**
+ * 登录
+ * @author Webster
+ * @since v1.0.0
+ */</span>
+<span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LoginServiceImpl</span> <span class="kd">implements</span> <span class="nc">ILoginService</span> <span class="o">{</span>
+    <span class="cm">/**
+     * TODO 用于临时存放所有 Refresh Token，实际情况应该放在 Redis 中
+     */</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">refreshTokenMaps</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${security.oauth2.client.access-token-uri}"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">accessTokenUri</span><span class="o">;</span>
+
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${security.oauth2.client.client-id}"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">clientId</span><span class="o">;</span>
+
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${security.oauth2.client.client-secret}"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">clientSecret</span><span class="o">;</span>
+
+    <span class="nd">@Resource</span>
+    <span class="kd">private</span> <span class="nc">BCryptPasswordEncoder</span> <span class="n">passwordEncoder</span><span class="o">;</span>
+
+    <span class="nd">@Resource</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"userDetailsServiceBean"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">UserDetailsService</span> <span class="n">userDetailsService</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="nf">getToken</span><span class="o">(</span><span class="nc">String</span> <span class="n">username</span><span class="o">,</span> <span class="nc">String</span> <span class="n">password</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+
+        <span class="c1">// 验证密码是否正确</span>
+        <span class="nc">UserDetails</span> <span class="n">userDetails</span> <span class="o">=</span> <span class="n">userDetailsService</span><span class="o">.</span><span class="na">loadUserByUsername</span><span class="o">(</span><span class="n">username</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">userDetails</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="o">!</span><span class="n">passwordEncoder</span><span class="o">.</span><span class="na">matches</span><span class="o">(</span><span class="n">password</span><span class="o">,</span> <span class="n">userDetails</span><span class="o">.</span><span class="na">getPassword</span><span class="o">()))</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">BusinessException</span><span class="o">(</span><span class="nc">ResponseCode</span><span class="o">.</span><span class="na">USER_LOGIN_ERROR</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 通过 HTTP 客户端请求登录接口</span>
+        <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">authParam</span> <span class="o">=</span> <span class="n">getAuthParam</span><span class="o">();</span>
+        <span class="n">authParam</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"username"</span><span class="o">,</span> <span class="n">username</span><span class="o">);</span>
+        <span class="n">authParam</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"password"</span><span class="o">,</span> <span class="n">password</span><span class="o">);</span>
+        <span class="n">authParam</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"grant_type"</span><span class="o">,</span> <span class="s">"password"</span><span class="o">);</span>
+
+        <span class="c1">// 获取 access_token</span>
+        <span class="nc">String</span> <span class="n">strJson</span> <span class="o">=</span> <span class="nc">HttpUtil</span><span class="o">.</span><span class="na">post</span><span class="o">(</span><span class="n">accessTokenUri</span><span class="o">,</span> <span class="n">authParam</span><span class="o">);</span>
+        <span class="nc">JSONObject</span> <span class="n">jsonObject</span> <span class="o">=</span> <span class="nc">JSONUtil</span><span class="o">.</span><span class="na">parseObj</span><span class="o">(</span><span class="n">strJson</span><span class="o">);</span>
+        <span class="nc">String</span> <span class="n">token</span> <span class="o">=</span> <span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">jsonObject</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"access_token"</span><span class="o">));</span>
+        <span class="nc">String</span> <span class="n">refresh</span> <span class="o">=</span> <span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">jsonObject</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"refresh_token"</span><span class="o">));</span>
+        <span class="k">if</span> <span class="o">(</span><span class="nc">StrUtil</span><span class="o">.</span><span class="na">isNotBlank</span><span class="o">(</span><span class="n">token</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="nc">StrUtil</span><span class="o">.</span><span class="na">isNotBlank</span><span class="o">(</span><span class="n">refresh</span><span class="o">))</span> <span class="o">{</span>
+            <span class="c1">// 将 refresh_token 保存在服务端</span>
+            <span class="n">refreshTokenMaps</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">token</span><span class="o">,</span> <span class="n">refresh</span><span class="o">);</span>
+
+            <span class="c1">// 将 access_token 返回给客户端</span>
+            <span class="n">result</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="n">token</span><span class="o">);</span>
+            <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="nf">refresh</span><span class="o">(</span><span class="nc">String</span> <span class="n">accessToken</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+
+        <span class="c1">// Access Token 不存在直接返回 null</span>
+        <span class="nc">String</span> <span class="n">refreshToken</span> <span class="o">=</span> <span class="n">refreshTokenMaps</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">accessToken</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="nc">StrUtil</span><span class="o">.</span><span class="na">isBlank</span><span class="o">(</span><span class="n">refreshToken</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">BusinessException</span><span class="o">(</span><span class="nc">ResponseCode</span><span class="o">.</span><span class="na">USER_NOT_LOGGED_IN</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 通过 HTTP 客户端请求登录接口</span>
+        <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">authParam</span> <span class="o">=</span> <span class="n">getAuthParam</span><span class="o">();</span>
+        <span class="n">authParam</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"grant_type"</span><span class="o">,</span> <span class="s">"refresh_token"</span><span class="o">);</span>
+        <span class="n">authParam</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"refresh_token"</span><span class="o">,</span> <span class="n">refreshToken</span><span class="o">);</span>
+
+        <span class="c1">// 获取 access_token</span>
+        <span class="nc">String</span> <span class="n">strJson</span> <span class="o">=</span> <span class="nc">HttpUtil</span><span class="o">.</span><span class="na">post</span><span class="o">(</span><span class="n">accessTokenUri</span><span class="o">,</span> <span class="n">authParam</span><span class="o">);</span>
+        <span class="nc">JSONObject</span> <span class="n">jsonObject</span> <span class="o">=</span> <span class="nc">JSONUtil</span><span class="o">.</span><span class="na">parseObj</span><span class="o">(</span><span class="n">strJson</span><span class="o">);</span>
+        <span class="nc">String</span> <span class="n">token</span> <span class="o">=</span> <span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">jsonObject</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"access_token"</span><span class="o">));</span>
+        <span class="nc">String</span> <span class="n">refresh</span> <span class="o">=</span> <span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">jsonObject</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"refresh_token"</span><span class="o">));</span>
+        <span class="k">if</span> <span class="o">(</span><span class="nc">StrUtil</span><span class="o">.</span><span class="na">isNotBlank</span><span class="o">(</span><span class="n">token</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="nc">StrUtil</span><span class="o">.</span><span class="na">isNotBlank</span><span class="o">(</span><span class="n">refresh</span><span class="o">))</span> <span class="o">{</span>
+            <span class="c1">// 删除旧 Token</span>
+            <span class="n">refreshTokenMaps</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">accessToken</span><span class="o">);</span>
+
+            <span class="c1">// 将 refresh_token 保存在服务端</span>
+            <span class="n">refreshTokenMaps</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">token</span><span class="o">,</span> <span class="n">refresh</span><span class="o">);</span>
+
+            <span class="c1">// 将 access_token 返回给客户端</span>
+            <span class="n">result</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="n">token</span><span class="o">);</span>
+            <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 私有方法 ------------------------------------------- Begin</span>
+
+    <span class="kd">private</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="nf">getAuthParam</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">param</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+        <span class="n">param</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"client_id"</span><span class="o">,</span> <span class="n">clientId</span><span class="o">);</span>
+        <span class="n">param</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"client_secret"</span><span class="o">,</span> <span class="n">clientSecret</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">param</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="封装工具类">封装工具类</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre></td><td class="rouge-code"><pre><span class="kn">package</span> <span class="nn">com.qjdmy.commons.web</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">cn.hutool.core.util.StrUtil</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.qjdmy.commons.exceptions.BusinessException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.qjdmy.commons.response.ResponseCode</span><span class="o">;</span>
+
+<span class="cm">/**
+ * 请求头处理
+ * @author Webster
+ * @since v1.0.0
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Header</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">AUTHORIZATION_BEARER_TOKEN</span> <span class="o">=</span> <span class="s">"Basic "</span><span class="o">;</span>
+
+    <span class="cm">/**
+     * 获取 Token
+     * @param header {@code String} request.getHeader("Authorization")
+     * @return {@code String} token
+     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">String</span> <span class="nf">getAuthorization</span><span class="o">(</span><span class="nc">String</span> <span class="n">header</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="nc">StrUtil</span><span class="o">.</span><span class="na">isBlank</span><span class="o">(</span><span class="n">header</span><span class="o">)</span> <span class="o">||</span> <span class="n">header</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="no">AUTHORIZATION_BEARER_TOKEN</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">BusinessException</span><span class="o">(</span><span class="nc">ResponseCode</span><span class="o">.</span><span class="na">USER_NOT_LOGGED_IN</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">header</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="no">AUTHORIZATION_BEARER_TOKEN</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="封装请求参数">封装请求参数</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+</pre></td><td class="rouge-code"><pre><span class="kn">package</span> <span class="nn">com.qjdmy.oauth.controller.param</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.EqualsAndHashCode</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.experimental.Accessors</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.io.Serializable</span><span class="o">;</span>
+
+<span class="cm">/**
+ * 登录参数
+ * @author Webster
+ * @since v1.0.0
+ */</span>
+<span class="nd">@Data</span>
+<span class="nd">@EqualsAndHashCode</span><span class="o">(</span><span class="n">callSuper</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="nd">@Accessors</span><span class="o">(</span><span class="n">chain</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LoginParam</span> <span class="kd">implements</span> <span class="nc">Serializable</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">6227804428105653962L</span><span class="o">;</span>
+
+    <span class="cm">/**
+     * 账号
+     */</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">username</span><span class="o">;</span>
+
+    <span class="cm">/**
+     * 密码
+     */</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">password</span><span class="o">;</span>
+
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="请求处理代码">请求处理代码</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+</pre></td><td class="rouge-code"><pre><span class="kn">package</span> <span class="nn">com.qjdmy.oauth.controller</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.qfdmy.commons.response.ResponseResult</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.qfdmy.commons.web.Header</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.qfdmy.oauth.controller.param.LoginParam</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.qfdmy.oauth.service.ILoginService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PostMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestBody</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.annotation.Resource</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequest</span><span class="o">;</span>
+
+<span class="cm">/**
+ * 登录
+ * @author Webster
+ * @since v1.0.0
+ */</span>
+<span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"login"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LoginController</span> <span class="o">{</span>
+
+    <span class="nd">@Resource</span>
+    <span class="kd">private</span> <span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">;</span>
+
+    <span class="nd">@Resource</span>
+    <span class="kd">private</span> <span class="nc">ILoginService</span> <span class="n">loginService</span><span class="o">;</span>
+
+    <span class="cm">/**
+     * 管理员登录
+     * @param loginParam {@code JSON} {@link LoginParam}
+     * @return {@link ResponseResult}
+     */</span>
+    <span class="nd">@PostMapping</span><span class="o">(</span><span class="s">"admin"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">ResponseResult</span> <span class="nf">admin</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="nc">LoginParam</span> <span class="n">loginParam</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">ResponseResult</span><span class="o">.</span><span class="na">success</span><span class="o">(</span><span class="n">loginService</span><span class="o">.</span><span class="na">getToken</span><span class="o">(</span><span class="n">loginParam</span><span class="o">.</span><span class="na">getUsername</span><span class="o">(),</span> <span class="n">loginParam</span><span class="o">.</span><span class="na">getPassword</span><span class="o">()));</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 用户登录，登录只是拿 Token
+     * @param loginParam {@code JSON} {@link LoginParam}
+     * @return {@link ResponseResult}
+     */</span>
+    <span class="nd">@PostMapping</span><span class="o">(</span><span class="s">"user"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">ResponseResult</span> <span class="nf">users</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="nc">LoginParam</span> <span class="n">loginParam</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">ResponseResult</span><span class="o">.</span><span class="na">success</span><span class="o">(</span><span class="n">loginService</span><span class="o">.</span><span class="na">getToken</span><span class="o">(</span><span class="n">loginParam</span><span class="o">.</span><span class="na">getUsername</span><span class="o">(),</span> <span class="n">loginParam</span><span class="o">.</span><span class="na">getPassword</span><span class="o">()));</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 刷新令牌
+     * @return {@link ResponseResult}
+     */</span>
+    <span class="nd">@PostMapping</span><span class="o">(</span><span class="s">"refresh"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">ResponseResult</span> <span class="nf">refresh</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">token</span> <span class="o">=</span> <span class="nc">Header</span><span class="o">.</span><span class="na">getAuthorization</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="s">"Authorization"</span><span class="o">));</span>
+        <span class="k">return</span> <span class="nc">ResponseResult</span><span class="o">.</span><span class="na">success</span><span class="o">(</span><span class="n">loginService</span><span class="o">.</span><span class="na">refresh</span><span class="o">(</span><span class="n">token</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="实现注销功能">实现注销功能</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+</pre></td><td class="rouge-code"><pre><span class="kn">package</span> <span class="nn">com.qjdmy.oauth.controller</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.qjdmy.commons.response.ResponseCode</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.qjdmy.commons.response.ResponseResult</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.qjdmy.commons.web.Header</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.common.OAuth2AccessToken</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.provider.token.TokenStore</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PostMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.annotation.Resource</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequest</span><span class="o">;</span>
+
+<span class="cm">/**
+ * 注销
+ *
+ * @author Webster
+ * @since v1.0.0
+ */</span>
+<span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"logout"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LogoutController</span> <span class="o">{</span>
+    <span class="nd">@Resource</span>
+    <span class="kd">public</span> <span class="nc">TokenStore</span> <span class="n">tokenStore</span><span class="o">;</span>
+
+    <span class="nd">@Resource</span>
+    <span class="kd">public</span> <span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">;</span>
+
+    <span class="cm">/**
+     * 注销管理员
+     *
+     * @return {@link ResponseResult}
+     */</span>
+    <span class="nd">@PostMapping</span><span class="o">(</span><span class="s">"admin"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">ResponseResult</span> <span class="nf">admin</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">logout</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 注销用户
+     *
+     * @return {@link ResponseResult}
+     */</span>
+    <span class="nd">@PostMapping</span><span class="o">(</span><span class="s">"user"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">ResponseResult</span> <span class="nf">users</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">logout</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 私有方法 ------------------------------------------- Begin</span>
+
+    <span class="kd">private</span> <span class="nc">ResponseResult</span> <span class="nf">logout</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">token</span> <span class="o">=</span> <span class="nc">Header</span><span class="o">.</span><span class="na">getAuthorization</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="s">"Authorization"</span><span class="o">));</span>
+
+        <span class="c1">// 删除 token 以注销</span>
+        <span class="nc">OAuth2AccessToken</span> <span class="n">oAuth2AccessToken</span> <span class="o">=</span> <span class="n">tokenStore</span><span class="o">.</span><span class="na">readAccessToken</span><span class="o">(</span><span class="n">token</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="kc">null</span> <span class="o">!=</span> <span class="n">oAuth2AccessToken</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">tokenStore</span><span class="o">.</span><span class="na">removeAccessToken</span><span class="o">(</span><span class="n">oAuth2AccessToken</span><span class="o">);</span>
+            <span class="k">return</span> <span class="nc">ResponseResult</span><span class="o">.</span><span class="na">success</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="nc">ResponseResult</span><span class="o">.</span><span class="na">failure</span><span class="o">(</span><span class="nc">ResponseCode</span><span class="o">.</span><span class="na">INTERFACE_ADDRESS_INVALID</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="资源服务器配置">资源服务器配置</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+</pre></td><td class="rouge-code"><pre><span class="kn">package</span> <span class="nn">com.qjdmy.all.configuration</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.builders.HttpSecurity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.http.SessionCreationPolicy</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter</span><span class="o">;</span>
+
+<span class="cm">/**
+ * 资源服务器配置
+ *
+ * @author Webster
+ * @since v1.0.0
+ */</span>
+<span class="nd">@EnableResourceServer</span>
+<span class="nd">@EnableGlobalMethodSecurity</span><span class="o">(</span><span class="n">prePostEnabled</span> <span class="o">=</span> <span class="kc">true</span><span class="o">,</span> <span class="n">securedEnabled</span> <span class="o">=</span> <span class="kc">true</span><span class="o">,</span> <span class="n">jsr250Enabled</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ResourceServerConfiguration</span> <span class="kd">extends</span> <span class="nc">ResourceServerConfigurerAdapter</span> <span class="o">{</span>
+
+    <span class="cm">/**
+     * 管理员角色
+     */</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">ADMIN</span> <span class="o">=</span> <span class="s">"ADMIN"</span><span class="o">;</span>
+
+    <span class="cm">/**
+     * 用户角色
+     */</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">USERS</span> <span class="o">=</span> <span class="s">"USERS"</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="nc">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="c1">// 允许访问全部资源</span>
+<span class="c1">//		http.exceptionHandling().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)</span>
+<span class="c1">//				.and().authorizeRequests().antMatchers("/**").permitAll();</span>
+
+        <span class="c1">// 管理员授权请求路径</span>
+        <span class="nc">String</span><span class="o">[]</span> <span class="n">adminPaths</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">String</span><span class="o">[]{</span>
+                <span class="s">"/core/**"</span><span class="o">,</span> <span class="s">"/qiniu/**"</span>
+        <span class="o">};</span>
+
+        <span class="nc">ExpressionUrlAuthorizationConfigurer</span><span class="o">&lt;</span><span class="nc">HttpSecurity</span><span class="o">&gt;.</span><span class="na">ExpressionInterceptUrlRegistry</span>
+                <span class="n">expressionInterceptUrlRegistry</span> <span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="na">exceptionHandling</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">and</span><span class="o">().</span><span class="na">sessionManagement</span><span class="o">().</span><span class="na">sessionCreationPolicy</span><span class="o">(</span><span class="nc">SessionCreationPolicy</span><span class="o">.</span><span class="na">STATELESS</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">and</span><span class="o">().</span><span class="na">authorizeRequests</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">adminPath</span> <span class="o">:</span> <span class="n">adminPaths</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">expressionInterceptUrlRegistry</span><span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="n">adminPath</span><span class="o">).</span><span class="na">hasAnyAuthority</span><span class="o">(</span><span class="no">ADMIN</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>]]></content><author><name>tangyuewei</name></author><category term="常用框架" /><category term="oAuth2" /><category term="Spring Security" /><summary type="html"><![CDATA[数据表]]></summary></entry><entry><title type="html">Spring Security oAuth2简介</title><link href="https://tangyuewei.github.io/posts/Spring-Security-oAuth2%E7%AE%80%E4%BB%8B/" rel="alternate" type="text/html" title="Spring Security oAuth2简介" /><published>2023-03-07T19:15:00+08:00</published><updated>2023-03-07T19:15:00+08:00</updated><id>https://tangyuewei.github.io/posts/Spring%20Security%20oAuth2%E7%AE%80%E4%BB%8B</id><content type="html" xml:base="https://tangyuewei.github.io/posts/Spring-Security-oAuth2%E7%AE%80%E4%BB%8B/"><![CDATA[<h1 id="什么是-oauth">什么是 oAuth</h1>
+
+<p><code class="language-plaintext highlighter-rouge">oAuth</code>协议为用户资源的授权提供了一个安全的、开放而又简易的标准。与以往的授权方式不同之处是 <code class="language-plaintext highlighter-rouge">oAuth</code>的授权不会使第三方触及到用户的帐号信息（如用户名与密码），即第三方无需使用用户的用户名与密码就可以申请获得该用户资源的授权，因此<code class="language-plaintext highlighter-rouge">oAuth</code>是安全的。</p>
+
+<h1 id="什么是-spring-security">什么是 Spring Security</h1>
+
+<p><code class="language-plaintext highlighter-rouge">Spring Security</code>是一个安全框架，前身是<code class="language-plaintext highlighter-rouge">Acegi Security</code>，能够为<code class="language-plaintext highlighter-rouge">Spring</code>企业应用系统提供声明式的安全访问控制。<code class="language-plaintext highlighter-rouge">Spring Security</code>基于<code class="language-plaintext highlighter-rouge">Servlet</code> 过滤器、IoC 和 AOP，为 Web 请求和方法调用提供身份确认和授权处理，避免了代码耦合，减少了大量重复代码工作。</p>
+
+<h1 id="为什么需要-oauth2">为什么需要 oAuth2</h1>
+
+<h2 id="应用场景">应用场景</h2>
+
+<p>我们假设你有一个“云笔记”产品，并提供了“云笔记服务”和“云相册服务”，此时用户需要在不同的设备（PC、Android、iPhone、TV、Watch）上去访问这些“资源”（笔记，图片）</p>
+
+<p>那么用户如何才能访问属于自己的那部分资源呢？此时传统的做法就是提供自己的账号和密码给我们的“云笔记”，登录成功后就可以获取资源了。但这样的做法会有以下几个问题：</p>
+
+<p>“云笔记服务”和“云相册服务”会分别部署，难道我们要分别登录吗？
+如果有第三方应用程序想要接入我们的“云笔记”，难道需要用户提供账号和密码给第三方应用程序，让他记录后再访问我们的资源吗？
+用户如何限制第三方应用程序在我们“云笔记”的授权范围和使用期限？难道把所有资料都永久暴露给它吗？
+如果用户修改了密码收回了权限，那么所有第三方应用程序会全部失效。
+只要有一个接入的第三方应用程序遭到破解，那么用户的密码就会泄露，后果不堪设想。
+为了解决如上问题，<code class="language-plaintext highlighter-rouge">oAuth</code>应用而生。</p>
+
+<h2 id="名词解释">名词解释</h2>
+
+<ul>
+  <li><b>第三方应用程序（Third-party application）</b>： 又称之为客户端（client），比如上节中提到的设备（PC、Android、iPhone、TV、Watch），我们会在这些设备中安装我们自己研发的 APP。又比如我们的产品想要使用 QQ、微信等第三方登录。对我们的产品来说，QQ、微信登录是第三方登录系统。我们又需要第三方登录系统的资源（头像、昵称等）。对于 QQ、微信等系统我们又是第三方应用程序。</li>
+  <li><b>HTTP 服务提供商（HTTP service）</b>： 我们的云笔记产品以及 QQ、微信等都可以称之为“服务提供商”。</li>
+  <li><b>资源所有者（Resource Owner）<b>： 又称之为用户（user）。
+用户代理（User Agent）： 比如浏览器，代替用户去访问这些资源。</b></b></li>
+  <li><b>认证服务器（Authorization server）<b>： 即服务提供商专门用来处理认证的服务器，简单点说就是登录功能（验证用户的账号密码是否正确以及分配相应的权限）</b></b></li>
+  <li><b>资源服务器（Resource server）<b>： 即服务提供商存放用户生成的资源的服务器。它与认证服务器，可以是同一台服务器，也可以是不同的服务器。简单点说就是资源的访问入口，比如上节中提到的“云笔记服务”和“云相册服务”都可以称之为资源服务器。</b></b></li>
+</ul>
+
+<h2 id="交互过程">交互过程</h2>
+
+<p>oAuth 在 “客户端” 与 “服务提供商” 之间，设置了一个授权层（authorization layer）。”客户端” 不能直接登录 “服务提供商”，只能登录授权层，以此将用户与客户端区分开来。”客户端” 登录授权层所用的令牌（token），与用户的密码不同。用户可以在登录的时候，指定授权层令牌的权限范围和有效期。”客户端” 登录授权层以后，”服务提供商” 根据令牌的权限范围和有效期，向 “客户端” 开放用户储存的资料。</p>
+
+<h1 id="开放平台">开放平台</h1>
+
+<h2 id="交互模型">交互模型</h2>
+
+<p>交互模型涉及三方：</p>
+
+<ul>
+  <li>资源拥有者：用户</li>
+  <li>客户端：APP</li>
+  <li>服务提供方：包含两个角色</li>
+</ul>
+
+<p>1.</p>
+<ul>
+  <li>认证服务器
+2.</li>
+  <li>资源服务器</li>
+</ul>
+
+<h2 id="认证服务器">认证服务器</h2>
+
+<p>认证服务器负责对用户进行认证，并授权给客户端权限。认证很容易实现（验证账号密码即可），问题在于如何授权。比如我们使用第三方登录 “有道云笔记”，你可以看到如使用 QQ 登录的授权页面上有 “有道云笔记将获得以下权限” 的字样以及权限信息认证服务器需要知道请求授权的客户端的身份以及该客户端请求的权限。我们可以为每一个客户端预先分配一个 id，并给每个 id 对应一个名称以及权限信息。这些信息可以写在认证服务器上的配置文件里。然后，客户端每次打开授权页面的时候，把属于自己的 id 传过来，如：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>http://www.tangyuewei.com/login?client_id=yourClientId
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>随着时间的推移和业务的增长，会发现，修改配置的工作消耗了太多的人力。有没有办法把这个过程自动化起来，把人工从这些繁琐的操作中解放出来？当开始考虑这一步，开放平台的成型也就是水到渠成的事情了。</p>
+
+<h2 id="oauth2-开放平台">oAuth2 开放平台</h2>
+
+<p>开放平台是由 oAuth2.0 协议衍生出来的一个产品。它的作用是让客户端自己去这上面进行注册、申请，通过之后系统自动分配<code class="language-plaintext highlighter-rouge">client_id</code>，并完成配置的自动更新（通常是写进数据库）。</p>
+
+<p>客户端要完成申请，通常需要填写客户端程序的类型（Web、App 等）、企业介绍、执照、想要获取的权限等等信息。这些信息在得到服务提供方的人工审核通过后，开发平台就会自动分配一个<code class="language-plaintext highlighter-rouge">client_id</code>给客户端了。</p>
+
+<p>到这里，已经实现了登录认证、授权页的信息展示。那么接下来，当用户成功进行授权之后，认证服务器需要把产生的<code class="language-plaintext highlighter-rouge">access_token</code>发送给客户端，方案如下：</p>
+
+<ul>
+  <li>让客户端在开放平台申请的时候，填写一个 URL，例如：<a href="http://www.tangyuewei.com">http://www.tangyuewei.com</a></li>
+  <li>每次当有用户授权成功之后，认证服务器将页面重定向到这个URL（回调），并带<code class="language-plaintext highlighter-rouge">上access_token</code>，例如：<code class="language-plaintext highlighter-rouge">http://www.tangyuewei.com?access_token=123456789</code></li>
+  <li>客户端接收到了这个<code class="language-plaintext highlighter-rouge">access_token</code>，而且认证服务器的授权动作已经完成，刚好可以把程序的控制权转交回客户端，由客户端决定接下来向用户展示什么内容。</li>
+</ul>
+
+<h1 id="令牌的访问与刷新">令牌的访问与刷新</h1>
+
+<h2 id="access-token">Access Token</h2>
+
+<p>Access Token 是客户端访问资源服务器的令牌。拥有这个令牌代表着得到用户的授权。然而，这个授权应该是<b>临时</b>的，有一定有效期。这是因为，Access Token 在使用的过程中<b>可能会泄露</b>。给 Access Token 限定一个 较短的有效期 可以降低因 Access Token 泄露而带来的风险。</p>
+
+<p>然而引入了有效期之后，客户端使用起来就不那么方便了。每当 Access Token 过期，客户端就必须重新向用户索要授权。这样用户可能每隔几天，甚至每天都需要进行授权操作。这是一件非常影响用户体验的事情。希望有一种方法，可以避免这种情况。</p>
+
+<p>于是<code class="language-plaintext highlighter-rouge">oAuth2.0</code>引入了<code class="language-plaintext highlighter-rouge">Refresh Token</code>机制</p>
+
+<h2 id="refresh-token">Refresh Token</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Refresh Token</code>的作用是用来刷新<code class="language-plaintext highlighter-rouge">Access Token</code>。认证服务器提供一个刷新接口，例如：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>http://www.tangyuewei.com/refresh?refresh_token=&amp;client_id=
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>传入<code class="language-plaintext highlighter-rouge">refresh_token</code> 和 <code class="language-plaintext highlighter-rouge">client_id</code>，认证服务器验证通过后，返回一个新的 Access Token。为了安全，oAuth2.0 引入了两个措施：</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">oAuth2.0</code>要求，<code class="language-plaintext highlighter-rouge">Refresh Token</code> <b>一定是保存在客户端的服务器上</b> ，而绝不能存放在狭义的客户端（例如 App、PC 端软件）上。调用 <code class="language-plaintext highlighter-rouge">refresh</code> 接口的时候，一定是从服务器到服务器的访问。</li>
+  <li><code class="language-plaintext highlighter-rouge">oAuth2.0</code>引入了<code class="language-plaintext highlighter-rouge">client_secret</code>机制。即每一个<code class="language-plaintext highlighter-rouge">client_id</code>都对应一个 <code class="language-plaintext highlighter-rouge">client_secret</code>。这个 <code class="language-plaintext highlighter-rouge">client_secret</code> 会在客户端申请<code class="language-plaintext highlighter-rouge">client_id</code>时，随<code class="language-plaintext highlighter-rouge">client_id</code>一起分配给客户端。<b>客户端必须把 <code class="language-plaintext highlighter-rouge">client_secret</code> 妥善保管在服务器上</b>，决不能泄露。刷新<code class="language-plaintext highlighter-rouge">Access Token</code>时，需要验证这个<code class="language-plaintext highlighter-rouge"> client_secret</code>。
+实际上的刷新接口类似于：
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>http://www.tangyuewei.com/refresh?refresh_token=&amp;client_id=&amp;client_secret=
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+    <p>以上就是<code class="language-plaintext highlighter-rouge">Refresh Token</code>机制。<code class="language-plaintext highlighter-rouge">Refresh Token</code>的有效期非常长，会在用户授权时，随<code class="language-plaintext highlighter-rouge">Access Token</code>一起重定向到回调<code class="language-plaintext highlighter-rouge">URL</code>，传递给客户端。</p>
+  </li>
+</ul>
+
+<h1 id="客户端授权模式">客户端授权模式</h1>
+
+<h2 id="概述">概述</h2>
+
+<p>客户端必须得到用户的授权（authorization grant），才能获得令牌（access token）。oAuth 2.0 定义了四种授权方式。</p>
+
+<ul>
+  <li>implicit：简化模式，不推荐使用</li>
+  <li>authorization code：授权码模式</li>
+  <li>resource owner password credentials：密码模式</li>
+  <li>client credentials：客户端模式</li>
+</ul>
+
+<h2 id="简化模式">简化模式</h2>
+
+<p>简化模式适用于纯静态页面应用。所谓纯静态页面应用，也就是应用没有在服务器上执行代码的权限（通常是把代码托管在别人的服务器上），只有前端 JS 代码的控制权。</p>
+
+<p>这种场景下，应用是没有持久化存储的能力的。因此，按照<code class="language-plaintext highlighter-rouge">oAuth2.0</code>的规定，这种应用是拿不到<code class="language-plaintext highlighter-rouge">Refresh Token</code>的。
+该模式下，<code class="language-plaintext highlighter-rouge">access_token</code>容易泄露且不可刷新</p>
+
+<h2 id="授权码模式">授权码模式</h2>
+
+<p>授权码模式适用于有自己的服务器的应用，它是一个一次性的临时凭证，用来换取<code class="language-plaintext highlighter-rouge">access_token</code>和<code class="language-plaintext highlighter-rouge">refresh_token</code>。认证服务器提供了一个类似这样的接口：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>https://www.tangyuewei.com/exchange?code=&amp;client_id=&amp;client_secret=
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>需要传入<code class="language-plaintext highlighter-rouge">code</code>、<code class="language-plaintext highlighter-rouge">client_id</code>以及<code class="language-plaintext highlighter-rouge">client_secret</code>。验证通过后，返回<code class="language-plaintext highlighter-rouge">access_token</code>和<code class="language-plaintext highlighter-rouge">refresh_token</code>。一旦换取成功，<code class="language-plaintext highlighter-rouge">code</code>立即作废，不能再使用第二次。
+这个<code class="language-plaintext highlighter-rouge">code</code>的作用是保护<code class="language-plaintext highlighter-rouge">token</code>的安全性。简单模式下，<code class="language-plaintext highlighter-rouge">token</code>是不安全的。这是因为在第 4 步当中直接把<code class="language-plaintext highlighter-rouge">token</code>返回给应用。而这一步容易被拦截、窃听。引入了<code class="language-plaintext highlighter-rouge">code</code>之后，即使攻击者能够窃取到<code class="language-plaintext highlighter-rouge">code</code>，但是由于他无法获得应用保存在服务器的<code class="language-plaintext highlighter-rouge">client_secret</code>，因此也无法通过<code class="language-plaintext highlighter-rouge">code</code>换取<code class="language-plaintext highlighter-rouge">token</code>。而第 5 步，为什么不容易被拦截、窃听呢？这是因为，首先，这是一个从服务器到服务器的访问，黑客比较难捕捉到；其次，这个请求通常要求是<code class="language-plaintext highlighter-rouge">https</code>的实现。即使能窃听到数据包也无法解析出内容。</p>
+
+<p>有了这个<code class="language-plaintext highlighter-rouge">code</code>，<code class="language-plaintext highlighter-rouge">token </code>的安全性大大提高。因此，<code class="language-plaintext highlighter-rouge">oAuth2.0</code>鼓励使用这种方式进行授权，而简单模式则是在不得已情况下才会使用。</p>
+
+<h2 id="密码模式">密码模式</h2>
+
+<p>密码模式中，用户向客户端提供自己的用户名和密码。客户端使用这些信息，向 “服务商提供商” 索要授权。在这种模式中，用户必须把自己的密码给客户端，但是客户端不得储存密码。这通常用在用户对客户端高度信任的情况下，比如客户端是操作系统的一部分。</p>
+
+<p>一个典型的例子是同一个企业内部的不同产品要使用本企业的<code class="language-plaintext highlighter-rouge">oAuth2.0</code>体系。在有些情况下，产品希望能够定制化授权页面。由于是同个企业，不需要向用户展示“xxx将获取以下权限”等字样并询问用户的授权意向，而只需进行用户的身份认证即可。这个时候，由具体的产品团队开发定制化的授权界面，接收用户输入账号密码，并直接传递给鉴权服务器进行授权即可。</p>
+
+<h2 id="客户端模式">客户端模式</h2>
+
+<p>如果信任关系再进一步，或者调用者是一个后端的模块，没有用户界面的时候，可以使用客户端模式。鉴权服务器直接对客户端进行身份验证，验证通过后，返回<code class="language-plaintext highlighter-rouge">token</code>。</p>]]></content><author><name>tangyuewei</name></author><category term="常用框架" /><category term="oAuth2" /><category term="Spring Security" /><summary type="html"><![CDATA[什么是 oAuth]]></summary></entry><entry><title type="html">2022与2023</title><link href="https://tangyuewei.github.io/posts/2022%E4%B8%8E2023/" rel="alternate" type="text/html" title="2022与2023" /><published>2023-01-06T10:00:00+08:00</published><updated>2023-01-06T10:00:00+08:00</updated><id>https://tangyuewei.github.io/posts/2022%E4%B8%8E2023</id><content type="html" xml:base="https://tangyuewei.github.io/posts/2022%E4%B8%8E2023/"><![CDATA[<h2 id="2023">2023</h2>
+
+<blockquote>
+  <p>光阴似箭，岁月如梭</p>
+</blockquote>
+
+<blockquote>
+  <p>不禁感叹，时间如此之快</p>
+</blockquote>
+
+<blockquote>
+  <p>回首这一年，手里的好牌越打越烂，到发现都是烂牌时才想着如何打好</p>
+</blockquote>
+
+<blockquote>
+  <p>年初时，周而复始，平淡无奇，半年如一日</p>
+</blockquote>
+
+<blockquote>
+  <p>年中时，才发现自己太过深情，因为往往都是深情至极的人才能上当受骗</p>
+</blockquote>
+
+<blockquote>
+  <p>年末时，疫情三年，突然的放开，猝不及防，最后一周，🐏了个🐏</p>
+</blockquote>
+
+<blockquote>
+  <p>2023年了，原本以为前面那几年已慢慢在走出低谷，才发现一直停滞不前</p>
+</blockquote>
+
+<blockquote>
+  <p>Tomorrow will be better. Come on T Y W.</p>
+</blockquote>
+
+<blockquote>
+  <p>接下来的几年里，准备好蓄势待发，读万卷书，行万里路，阅人无数</p>
+</blockquote>
+
+<blockquote>
+  <p>愿历尽千帆，归来仍是少年</p>
+</blockquote>
+
+<blockquote>
+  <p>砥砺前行，未来可期，T Y W 🐄 🅱️</p>
+</blockquote>]]></content><author><name>tangyuewei</name></author><category term="博客那些事" /><category term="总结" /><summary type="html"><![CDATA[2023]]></summary></entry><entry><title type="html">springboot升级2.7后，无法设置跨域的问题</title><link href="https://tangyuewei.github.io/posts/spring-cors/" rel="alternate" type="text/html" title="springboot升级2.7后，无法设置跨域的问题" /><published>2022-08-12T14:00:00+08:00</published><updated>2022-08-12T14:00:00+08:00</updated><id>https://tangyuewei.github.io/posts/spring%20cors</id><content type="html" xml:base="https://tangyuewei.github.io/posts/spring-cors/"><![CDATA[<h2 id="描述">描述</h2>
+<p>跨域是后端接口必须处理的问题，新搭建的服务使用<code class="language-plaintext highlighter-rouge">SpringBoot</code>的版本为<code class="language-plaintext highlighter-rouge">2.7.0</code>。使用postman请求接口时不带<code class="language-plaintext highlighter-rouge">origin</code>，接口都是可以正常返回的，
+当加上了<code class="language-plaintext highlighter-rouge">origin</code>后，就报错了，报错信息如下：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre>java.lang.IllegalArgumentException: When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header. To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead.
+	at org.springframework.web.cors.CorsConfiguration.validateAllowCredentials(CorsConfiguration.java:475)
+	at org.springframework.web.cors.CorsConfiguration.checkOrigin(CorsConfiguration.java:579)
+	at org.springframework.web.cors.DefaultCorsProcessor.checkOrigin(DefaultCorsProcessor.java:174)
+	at org.springframework.web.cors.DefaultCorsProcessor.handleInternal(DefaultCorsProcessor.java:116)
+	at org.springframework.web.cors.DefaultCorsProcessor.processRequest(DefaultCorsProcessor.java:95)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:87)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>我们初始的跨域设置是这样的</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="nd">@Configuration</span>
+<span class="nd">@EnableWebMvc</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CORSConfig</span> <span class="kd">implements</span> <span class="nc">WebMvcConfigurer</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addCorsMappings</span><span class="o">(</span><span class="nc">CorsRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">registry</span><span class="o">.</span><span class="na">addMapping</span><span class="o">(</span><span class="s">"/**"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">allowedOrigins</span><span class="o">(</span><span class="s">"*"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">allowedMethods</span><span class="o">(</span><span class="s">"GET"</span><span class="o">,</span> <span class="s">"HEAD"</span><span class="o">,</span> <span class="s">"POST"</span><span class="o">,</span> <span class="s">"PUT"</span><span class="o">,</span> <span class="s">"DELETE"</span><span class="o">,</span> <span class="s">"OPTIONS"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">allowCredentials</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">allowedHeaders</span><span class="o">(</span><span class="s">"*"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">maxAge</span><span class="o">(</span><span class="mi">1800L</span><span class="o">);</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>根据报错的信息提示，我们将<code class="language-plaintext highlighter-rouge">allowedOrigins</code>修改为<code class="language-plaintext highlighter-rouge">allowedOriginPatterns</code></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="nd">@Configuration</span>
+<span class="nd">@EnableWebMvc</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CORSConfig</span> <span class="kd">implements</span> <span class="nc">WebMvcConfigurer</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addCorsMappings</span><span class="o">(</span><span class="nc">CorsRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">registry</span><span class="o">.</span><span class="na">addMapping</span><span class="o">(</span><span class="s">"/**"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">allowedOriginPatterns</span><span class="o">(</span><span class="s">"*"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">allowedMethods</span><span class="o">(</span><span class="s">"GET"</span><span class="o">,</span> <span class="s">"HEAD"</span><span class="o">,</span> <span class="s">"POST"</span><span class="o">,</span> <span class="s">"PUT"</span><span class="o">,</span> <span class="s">"DELETE"</span><span class="o">,</span> <span class="s">"OPTIONS"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">allowCredentials</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">allowedHeaders</span><span class="o">(</span><span class="s">"*"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">maxAge</span><span class="o">(</span><span class="mi">1800L</span><span class="o">);</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>正常情况下，启动应用访问，应该就解决了。当还是报相同的错误。我们联系了前端和运维，在<code class="language-plaintext highlighter-rouge">js</code>和<code class="language-plaintext highlighter-rouge">nginx</code>端都作了处理，依然无济于事。</p>
+
+<blockquote>
+  <p>还发现一个诡异的问题，无论我本地如何上述跨域设置，都报上面相同的错误。</p>
+</blockquote>
+
+<blockquote>
+  <p>因为线上要使用，被迫用其他解决方案紧急处理掉。后来发现神队友居然在<code class="language-plaintext highlighter-rouge">springboot</code>的启动类中又写了个跨域的设置<code class="language-plaintext highlighter-rouge">Bean</code>。所以
+出现如下情况也就不奇怪了，再次提示务必规范编码，不然排查错误都能把人整懵逼。-_-||</p>
+</blockquote>
+
+<p>于是我本地<code class="language-plaintext highlighter-rouge">debug</code>设置了断点在<code class="language-plaintext highlighter-rouge">CorsConfiguration.java:475</code>的<code class="language-plaintext highlighter-rouge">CorsConfiguration.validateAllowCredentials</code>方法。</p>
+
+<p>发现一次请求进了两次断点。其中有一次<code class="language-plaintext highlighter-rouge">if (this.allowCredentials == Boolean.TRUE &amp;&amp;
+this.allowedOrigins != null &amp;&amp; this.allowedOrigins.contains(ALL))</code>判断是通过的，显示<code class="language-plaintext highlighter-rouge">this.allowedOrigins</code>的值为”*”;
+所以就抛了这异常<code class="language-plaintext highlighter-rouge">java.lang.IllegalArgumentException: When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header. To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead</code>。</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="rouge-code"><pre>/**
+ * Validate that when {@link #setAllowCredentials allowCredentials} is true,
+ * {@link #setAllowedOrigins allowedOrigins} does not contain the special
+ * value {@code "*"} since in that case the "Access-Control-Allow-Origin"
+ * cannot be set to {@code "*"}.
+ * @throws IllegalArgumentException if the validation fails
+ * @since 5.3
+ */
+public void validateAllowCredentials() {
+		if (this.allowCredentials == Boolean.TRUE &amp;&amp;
+				this.allowedOrigins != null &amp;&amp; this.allowedOrigins.contains(ALL)) {
+
+			throw new IllegalArgumentException(
+        "When allowCredentials is true, allowedOrigins cannot contain the special value \"*\" " +
+          "since that cannot be set on the \"Access-Control-Allow-Origin\" response header. " +
+          "To allow credentials to a set of origins, list them explicitly " +
+          "or consider using \"allowedOriginPatterns\" instead.");
+		}
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="其他解决方案">其他解决方案</h2>
+<ol>
+  <li>降级<code class="language-plaintext highlighter-rouge">springboot</code>的版本到<code class="language-plaintext highlighter-rouge">2.3.x</code>（推荐）
+    <blockquote>
+      <p>之前我们使用<code class="language-plaintext highlighter-rouge">springboot</code>的<code class="language-plaintext highlighter-rouge">2.3.12.RELEASE</code>时，设置跨域是不能<code class="language-plaintext highlighter-rouge">allowedOriginPatterns</code>的，接口也是正常，可以使用<code class="language-plaintext highlighter-rouge">maven</code>管理<code class="language-plaintext highlighter-rouge">pom.xml</code>
+先降级到<code class="language-plaintext highlighter-rouge">2.3.x</code>的版本。</p>
+    </blockquote>
+  </li>
+  <li>将<code class="language-plaintext highlighter-rouge">CorsConfiguration.java</code>中<code class="language-plaintext highlighter-rouge">CorsConfiguration.validateAllowCredentials</code>方法的抛异常注释掉
+因为我们目前用的是<code class="language-plaintext highlighter-rouge">2.7.0</code>版本，并且使用了多数据源特性，使用<code class="language-plaintext highlighter-rouge">maven</code>降级后启动会报错。修改多数据源的代价还是很大的，所以我选择重写
+<code class="language-plaintext highlighter-rouge">validateAllowCredentials</code>方法。
+    <ul>
+      <li>首先在项目中新建<code class="language-plaintext highlighter-rouge">org.springframework.web.cors</code>包</li>
+      <li>在<code class="language-plaintext highlighter-rouge">org.springframework.web.cors</code>包中新建<code class="language-plaintext highlighter-rouge">CorsConfiguration.java</code>类</li>
+      <li>将<code class="language-plaintext highlighter-rouge">CorsConfiguration.class</code>中的代码复制到本地中，修改<code class="language-plaintext highlighter-rouge">validateAllowCredentials</code>方法，注释<code class="language-plaintext highlighter-rouge">throw new
+IllegalArgumentException(When allowCredentials is true, allowedOrigins cannot contain the special value ...)</code></li>
+      <li>启动项目访问解决了。
+        <blockquote>
+          <p><code class="language-plaintext highlighter-rouge">java</code>加载类采用就近原则，故可以进行覆盖。</p>
+        </blockquote>
+      </li>
+    </ul>
+  </li>
+</ol>]]></content><author><name>tangyuewei</name></author><category term="Spring Boot" /><category term="Spring Boot" /><summary type="html"><![CDATA[描述 跨域是后端接口必须处理的问题，新搭建的服务使用SpringBoot的版本为2.7.0。使用postman请求接口时不带origin，接口都是可以正常返回的， 当加上了origin后，就报错了，报错信息如下： 1 2 3 4 5 6 7 8 9 10 java.lang.IllegalArgumentException: When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header. To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead. at org.springframework.web.cors.CorsConfiguration.validateAllowCredentials(CorsConfiguration.java:475) at org.springframework.web.cors.CorsConfiguration.checkOrigin(CorsConfiguration.java:579) at org.springframework.web.cors.DefaultCorsProcessor.checkOrigin(DefaultCorsProcessor.java:174) at org.springframework.web.cors.DefaultCorsProcessor.handleInternal(DefaultCorsProcessor.java:116) at org.springframework.web.cors.DefaultCorsProcessor.processRequest(DefaultCorsProcessor.java:95) at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:87) at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) 我们初始的跨域设置是这样的 ```java @Configuration @EnableWebMvc public class CORSConfig implements WebMvcConfigurer {]]></summary></entry></feed>
