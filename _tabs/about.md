@@ -11,10 +11,11 @@ order: 4
 开发语言：
 - Java  ★★★★☆
 - GoLang ★★☆☆☆
+- Python ★★☆☆☆
 
 开发/编译工具：
 - IntelliJ IDEA ★★★★☆
-  - Eclipse ★★★★☆
+- Eclipse ★★★★☆
 - Maven ★★★★☆
 - Gradle ★★☆☆☆
 - Markdown ★★★★☆
