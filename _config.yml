@@ -18,11 +18,11 @@ timezone: Asia/Shanghai
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: 唐悦玮｜公众号同名                          # the main title
+title: 唐悦玮                          # the main title
 
-tagline: 不以物喜，不以己悲。真正的大师，永远怀着一颗学徒的心   # it will display as the sub-title
+tagline: 真正的大师，永远怀着一颗学徒的心   # it will display as the sub-title
 
-description: 努力只是一种生活方式，先敬业，再乐业。  # used by seo meta and the atom feed
+description: 不以物喜，不以己悲。努力只是一种生活方式，先敬业，再乐业。  # used by seo meta and the atom feed
 
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
