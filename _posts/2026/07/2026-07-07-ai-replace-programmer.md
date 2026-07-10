@@ -1,6 +1,6 @@
 ---
 title: "AI没抢程序员饭碗，它把菜单换了"
-author: tangyuewei
+author: 唐悦玮
 date: 2026-07-07 19:00:00 +0800
 categories: [AI]
 tags: [AI, 程序员]
