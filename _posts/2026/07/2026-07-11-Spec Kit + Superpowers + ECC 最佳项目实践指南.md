@@ -1,7 +1,7 @@
 ---
 title: "AI 编程三件套：Spec Kit 协同实战"
 author: 唐悦玮
-date: 2026-07-11 10:00:00 +0800
+date: 2026-07-11 14:20:00 +0800
 categories: [AI开发]
 tags: [Spec Kit, Superpowers, ECC, AI编程, 工程化]
 pin: false
