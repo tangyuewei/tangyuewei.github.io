@@ -191,5 +191,3 @@ last_updated: 2026-07-15
 
 我建了一套开源的团队 Prompt 模板库，在 Gitee 上：https://gitee.com/tangyuewei/AI_PROMPTS 。目前包含后端 CRUD、MyBatis 多表查询、代码审查、安全扫描四套模板，每套都带了输出示例。你可以直接 Fork 到自己的团队仓库，按技术栈和业务场景修改后使用。
 
-**作者：唐悦玮 ｜ 公众号同名**
-> 从后端出发，用 AI 拓展到全栈的工程师。

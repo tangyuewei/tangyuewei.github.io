@@ -326,5 +326,3 @@ ECC 的这套分层 rules 恰好提供了这个上游：common 写普适原则�
 
 然后团队里谁用 Cursor、谁用 Trae、谁用 CodeBuddy，吃进去的是同一套东西。CR 的时候讨论的是业务逻辑对不对，而不是"你这行为什么用 StringBuilder 拼接而不是 String.format"。
 
-**作者：唐悦玮 ｜ 公众号同名**
-> 从后端出发，用 AI 拓展到全栈的工程师。

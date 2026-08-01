@@ -205,5 +205,3 @@ Build the loop. Stay the engineer.
 [^7]: "Loop Engineering 白皮书", community compilation, June 2026. https://drive.google.com/file/d/1qzKI4DKnyHRpXK1J3ATPqwaqLc0iNu-M/view
 [^8]: Anthropic 内部播客, 引自 36氪/新智元报道, June 2026.
 
-**作者：唐悦玮 ｜ 公众号同名**
-> 从后端出发，用 AI 拓展到全栈的工程师。

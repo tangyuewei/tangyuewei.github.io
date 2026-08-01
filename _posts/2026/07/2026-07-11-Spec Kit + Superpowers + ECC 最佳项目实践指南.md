@@ -228,7 +228,4 @@ docs/plans/YYYY-MM-DD-feature.md   ← Superpowers: 极细粒度计划
 
 *基于 [Spec Kit](https://github.com/github/spec-kit)、[Superpowers](https://github.com/obra/superpowers)、[ECC](https://github.com/affaan-m/everything-claude-code)编写*
 
----
-**作者：唐悦玮 ｜ 公众号同名**
-> 从后端出发，用 AI 拓展到全栈的工程师。
 

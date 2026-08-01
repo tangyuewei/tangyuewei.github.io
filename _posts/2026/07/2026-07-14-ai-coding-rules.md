@@ -240,5 +240,3 @@ public R<List<User>> list(@RequestParam Long pageNum) {
 
 规范不是写给团队看的，是写给 AI 看的。AI 能准确理解、严格执行，这份规范才算及格。
 
-**作者：唐悦玮 ｜ 公众号同名**
-> 从后端出发，用 AI 拓展到全栈的工程师。

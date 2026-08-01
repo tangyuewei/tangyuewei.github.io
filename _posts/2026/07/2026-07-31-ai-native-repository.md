@@ -420,8 +420,3 @@ AGENTS.md 上线前，团队统计了一个数据：Agent 每次 coding session 
 
 这是从 Coder 到 Engineer 的切换。而 AGENTS.md、Spring Modulith、六边形架构、仓库记忆和验证回路，就是完成这个切换的工具箱。
 
----
-
-**作者：唐悦玮 ｜ 公众号同名**
-> 从后端出发，用 AI 拓展到全栈的工程师。
-

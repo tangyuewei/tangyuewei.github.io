@@ -108,5 +108,3 @@ JetBrains 用 Harbor 加 SkillsBench，在 **86 个真实软件工程任务**上
 
 Brain still big. Mouth small. 这句话，也许该贴在每个用 AI 写代码的人的显示器上。
 
-**作者：唐悦玮 ｜ 公众号同名**
-> 从后端出发，用 AI 拓展到全栈的工程师。
