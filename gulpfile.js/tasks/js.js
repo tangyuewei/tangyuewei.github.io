@@ -43,6 +43,7 @@ const homeJs = () => {
 const postJs = () => {
   return concatJs([
       `${JS_SRC}/commons/*.js`,
+      `assets/js/magnific-popup.min.js`,
       `${JS_SRC}/utils/img-extra.js`,
       `${JS_SRC}/utils/timeago.js`,
       `${JS_SRC}/utils/checkbox.js`,
@@ -65,6 +66,7 @@ const pageJs = () => {
   return concatJs([
       `${JS_SRC}/commons/*.js`,
       `${JS_SRC}/utils/checkbox.js`,
+      `assets/js/magnific-popup.min.js`,
       `${JS_SRC}/utils/img-extra.js`,
       `${JS_SRC}/utils/clipboard.js`
     ], 'page'
