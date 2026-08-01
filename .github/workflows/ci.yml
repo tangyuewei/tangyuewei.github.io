@@ -20,7 +20,7 @@ on:
       - '**'
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,12 +31,6 @@ jobs:
           bundler-cache: true
       - name: Build site
         run: bundle exec jekyll build
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
       - name: Deploy to gh-pages
         uses: tangyuewei/rdarida_simple-github-pages-deploy-action@v1
         with:
