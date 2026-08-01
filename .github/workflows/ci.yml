@@ -20,45 +20,26 @@ on:
       - '**'
 
 jobs:
-#  ci:
-#    runs-on: ${{ matrix.os }}
-#    strategy:
-#      matrix:
-#        os: [ubuntu-latest, macos-latest]
-#
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#        with:
-#          fetch-depth: 0  # for posts's lastmod
-#
-#      - name: Setup Ruby
-#        uses: ruby/setup-ruby@v1
-#        with:
-#          ruby-version: 2.7
-#          bundler-cache: true
-#
-#      - name: Test Site
-#        run: bash tools/deploy.sh --dry-run
   test:
-
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6
-      - name: Install dependencies
-        run: bundle install
-      - name: Run jekyll build
+          ruby-version: 3.3
+          bundler-cache: true
+      - name: Build site
         run: bundle exec jekyll build
-      - name: Simple deploy with git
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to gh-pages
         uses: tangyuewei/rdarida_simple-github-pages-deploy-action@v1
-        #uses: rdarida/simple-github-pages-deploy-action@v1
-        #uses: tangyuewei/jekyll-auto-deploy@master
-        with: # optional
+        with:
           git-user: 'tangyuewei'
           git-email: '472680811@qq.com'
           git-base-folder: '_site'
