@@ -454,6 +454,7 @@ footer {
 
     &.popup { // created by `_includes/img-extra.html`
       cursor: zoom-in;
+      display: block; // fix baseline gap under img (inline <a> + img leaves a line)
 
       > img[data-src]:not(.normal):not(.left):not(.right) {
         @include align-center;
