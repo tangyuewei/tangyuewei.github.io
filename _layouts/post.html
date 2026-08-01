@@ -108,14 +108,13 @@ layout: default
             {{ site.data.locales[lang].copyright.license.template | replace: ':LICENSE_NAME', _replacement }}
           {% endif %}
           </div>
+          {% include post-author-footer.html %}
 
           {% include post-sharing.html %}
 
         </div><!-- .post-tail-bottom -->
 
       </div><!-- div.post-tail -->
-
-      {% include post-author-footer.html %}
 
     </div> <!-- .post -->
 
