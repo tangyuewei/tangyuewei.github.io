@@ -69,6 +69,8 @@ layout: default
 
       </div>
 
+      {% include post-author-footer.html %}
+
       <div class="post-tail-wrapper text-muted">
 
         <!-- categories -->
@@ -82,8 +84,6 @@ layout: default
           {% endfor %}
         </div>
         {% endif %}
-
-        {% include post-author-footer.html %}
 
         <!-- tags -->
         {% if page.tags.size > 0 %}
