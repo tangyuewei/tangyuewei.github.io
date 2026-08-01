@@ -37,6 +37,11 @@ $(function() {
       enabled: true,
       duration: 300,
       easing: 'ease-in-out'
+    },
+    callbacks: {
+      close: function() {
+        // No history push, no need to restore state.
+      }
     }
   });
 
