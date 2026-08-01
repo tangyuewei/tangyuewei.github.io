@@ -47,12 +47,12 @@
 }
 
 .post-tags {
-  line-height: 2rem;
+  line-height: 1rem;
 }
 
 .post-navigation {
-  padding-top: 3rem;
-  padding-bottom: 4rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 
   .btn {
     @include btn-post-nav;
@@ -128,11 +128,11 @@
   border-left: 1px solid rgba(158, 158, 158, 0.17);
   position: -webkit-sticky;
   position: sticky;
-  top: 4rem;
+  top: 2rem;
   transition: top 0.2s ease-in-out;
   animation: fade-up 0.8s;
   &.topbar-down {
-    top: 6rem;
+    top: 2rem;
   }
   > span {
     @include panel-label;
@@ -219,7 +219,7 @@ nav[data-toggle=toc] {
 
   #disqus_thread {
     min-height: 7.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
 
 }
