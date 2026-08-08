@@ -1,0 +1,1828 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://tangyuewei.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://tangyuewei.github.io/" rel="alternate" type="text/html" hreflang="zh-CN" /><updated>2026-08-08T21:44:02+08:00</updated><id>https://tangyuewei.github.io/feed.xml</id><title type="html">唐悦玮</title><subtitle>不以物喜，不以己悲。努力只是一种生活方式，先敬业，再乐业。</subtitle><entry><title type="html">从 CodeBuddy 到 WorkBuddy：腾讯的逆袭</title><link href="https://tangyuewei.github.io/posts/workbuddy-rise/" rel="alternate" type="text/html" title="从 CodeBuddy 到 WorkBuddy：腾讯的逆袭" /><published>2026-08-08T14:10:00+08:00</published><updated>2026-08-08T14:10:00+08:00</updated><id>https://tangyuewei.github.io/posts/workbuddy-rise</id><content type="html" xml:base="https://tangyuewei.github.io/posts/workbuddy-rise/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：腾讯 WorkBuddy 月活增速 397.5% 全球第一，6 月桌面端访问量 2097 万，从 CodeBuddy 到 WorkBuddy，产品逻辑从「IDE 插件」转向「桌面智能体」。我用了三个月，聊聊它凭什么跑出来、和 Qoder/Codex 的差异，以及还差什么。</p>
+</blockquote>
+
+<hr />
+
+<p>三月初，我还在用 CodeBuddy。当时它在我眼里就是一个对标 Claude Code 的编程助手，界面干净，补全靠谱，没觉得它和 Cursor、Codex 有什么本质区别。</p>
+
+<p>转折点很偶然——看到 WorkBuddy 上线后每天签到能领积分。我就顺手下了，当个免费的日常助手用。结果三个月后，它成了我开机必开的软件，周末都得爬起来签个到。</p>
+
+<p>然后我看了一眼数据，发现不只是我一个人这样。</p>
+
+<h2 id="腾讯-ai-突然就不慢了">腾讯 AI 突然就”不慢了”</h2>
+
+<p>两个多月前，腾讯云 AI 产业应用大会上，汤道生问姚顺雨：”你觉得腾讯 AI 真的慢吗？”姚顺雨回了一句：”感觉这应该是我问你的问题。”（来源：AI 蓝媒汇报道，2026 年 7 月）</p>
+
+<p>当时这个对话被解读成”腾讯 AI 掉队”的又一佐证。但现在回看，破局的人恰恰是提问的汤道生——他掌管的腾讯云，靠 WorkBuddy 在 AI 办公赛道跑出了声量。</p>
+
+<p>数据确实硬：</p>
+
+<ul>
+  <li>易观 Q2 报告：WorkBuddy 以 2097 万次月访问量排名国内桌面端 AI 办公智能体第一，超过第二名字节 Trae 和第三名阿里 QoderWork 的总和（来源：易观，2026 年 7 月）</li>
+  <li>AI 产品榜 2026 年 7 月榜单：WorkBuddy 以 397.5% 的环比增速位列全球第一（来源：AI 产品榜，2026 年 8 月 3 日）</li>
+  <li>科创板日报：上线四个月，月活突破 2000 万（来源：科创板日报，2026 年 7 月 31 日）</li>
+</ul>
+
+<p>注意这两个数字口径不同：AI 产品榜的”217 万月活”是用户数口径，易观的”2097 万”是桌面端访问量口径。但无论按哪个算，WorkBuddy 都是国内 AI 办公产品里跑得最快的那一个——这是两个独立机构交叉验证过的事实。</p>
+
+<p>渗透速度同样夸张。一款今年 3 月 9 日才正式发布的产品，四个多月做到这个体量，QQ、微信之后，腾讯很久没有过这种破圈的 AI 产品了。连不关注科技的朋友都会来问：”WorkBuddy 好不好用？搞教学、搞办公靠谱吗？”（来源：科创板日报）</p>
+
+<h2 id="从帮你写代码到替你干活">从”帮你写代码”到”替你干活”</h2>
+
+<p>WorkBuddy 到底改了什么？一句话：产品逻辑从「IDE 插件」变成了「桌面智能体」。</p>
+
+<p>CodeBuddy 的逻辑是”帮你写代码”——它是 IDE 里的一个插件，你在编辑器里写，它补全、生成、重构。它的边界是代码。</p>
+
+<p>WorkBuddy 的逻辑是”替你干活”——它是一个桌面工作台，你用自然语言描述需求，它自主拆解任务、读写本地文件、调工具、执行多步骤流程，最后直接交付成品。它的边界是”你能在电脑上做的事”。</p>
+
+<p>这个转变踩中了一个关键的行业转折点。2026 年初，OpenClaw 突然爆火，GitHub 星标冲到 28 万，但部署门槛极高，闲鱼上甚至长出了代安装生意（来源：科创板日报）。这暴露了一个巨大的需求：普通人想要的不是”装一个 AI 框架”，而是”说一句话，它就把活干了”。</p>
+
+<p>WorkBuddy 就是这个需求的低门槛答案。它不需要你会写代码、不需要配置环境、不需要自备 API Key——下载登录就能用。用户不需要成为技术专家，只需要会打字。</p>
+
+<p>这恰好击中了大量非技术背景用户的痛点。而我作为程序员，体验反而更敏感——因为我能直接对比它和 Claude Code、Codex 的差距。</p>
+
+<h2 id="它凭什么让我每天开机签到">它凭什么让我每天开机签到</h2>
+
+<p>讲几个我自己的真实体验，不吹不黑。</p>
+
+<p><strong>第一，签到积分是真上瘾。</strong> 每天签到领 100 积分，连续 7 天额外给 1000（来源：WorkBuddy 官方积分规则，2026 年 7 月）。这个机制直接把”打开 WorkBuddy”变成了日常习惯——我周末都得开机签个到，就怕断签。对一款工具来说，养成用户每天打开的习惯，就已经赢了一半。</p>
+
+<p><strong>第二，模型开放是真大方。</strong> 除了腾讯自家的混元 Hy3，WorkBuddy 内置了 DeepSeek、GLM、MiniMax、Kimi 等主流模型，一键切换。7 月 6 日上线的 Hy3 还搞了限免（来源：科创板日报，2026 年 7 月 31 日），实测可胜任约 90% 的 Agent 任务，自选模型的用户里 Hy3 占比已经超过 60%。这种”不锁死自家模型”的做法，在国产工具里不多见。</p>
+
+<p><strong>第三，专家团和技能是真能用。</strong> 内置覆盖 12 个行业的 140+ AI 顾问，兼容 2.2 万+ 技能插件（来源：腾讯云官方介绍，2026 年 7 月）。关键是一键安装、一键召唤，不用你自己折腾 prompt 工程——这比我自己写一套 prompt 库省事多了。</p>
+
+<p><strong>第四，也是让我对腾讯改观的一点：支持配置自定义模型。</strong> WorkBuddy 在 2026 年 5 月开放了自定义模型管理功能，兼容 OpenAI 接口规范的外部模型，接入后调用不消耗 WorkBuddy 积分（来源：WorkBuddy 官方文档，2026 年 5 月）。配置就是一个标准三要素：</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>API Key:      从模型平台申请
+API 端点:     https://api.xxx.com/v1
+模型名称:     deepseek-v4-flash
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>我当时试了下阿里 Qoder，发现它不支持自定义模型接入，这个差异直接决定了我的选择——我把 DeepSeek-V4-Flash 配成日常主力，复杂任务才请专家团上 Kimi K3 或 GLM，Hy3 限免兜底（免费，就是上下文短点）。几个月下来积分根本用不完，还省下了不少订阅费。对比之下，Qoder 那几天积分烧得飞快，试用完就再没打开过。</p>
+
+<p><strong>第五，体验上对比 Codex 完全不落下风。</strong> 国内直连就是舒服，没有网络问题；上手简单，新功能更新极快——经常用着用着就提示更新。我怀疑他们内部就是用 AI 在迭代产品，不然版本不会发得这么勤。</p>
+
+<p>最新消息，亲测，macOS Monterey (12.x) 更新codex &gt; 26.7+版本后直接无法打开了。直接无语，无奈只好卸载。官方回复原文：</p>
+<blockquote>
+  <p>Welcome to the Community and thanks for the thoughtful request, @seanevocorde. Older Intel Macs are still useful for plenty of development workflows, so this is a fair suggestion.
+﻿
+I’m passing it along to the team for logging, including continued Monterey support, access to legacy installers, clearer compatibility details, and the idea of a lightweight LTS client. Even keeping the final macOS 12-compatible installer available would be helpful.
+﻿
+-Mark G.</p>
+</blockquote>
+
+<h2 id="但也有让人挠头的地方">但也有让人挠头的地方</h2>
+
+<p>说点实在的，它远没到完美。</p>
+
+<p>最让我摸不着头脑的是 memory 部分。我手动修改过 memory 或改过它产出的文件，然后它就经常”失忆”或者行为变得很奇怪——明明是简单问题，它绕了一大圈，还花了不少时间。后来我干脆整个 memory 都交给它自己管理，反而稳定些。这说明它在”长期记忆 + 自主规划”这条路上，还处于早期阶段。</p>
+
+<p>另一个是积分体系的成本结构。普通对话消耗系数低，但 Craft 深度执行、长文档解析、多模态生图、批量自动化任务的消耗系数极高，一次复杂任务可能烧掉几百到上万积分（来源：社区教程文，2026 年 7 月）。重度用户如果只靠签到，还是不够用——这也是社区里最常见的抱怨。</p>
+
+<p>换句话说：它靠签到积分换来了巨大的用户盘子，但真正高价值的深度任务，成本并不比别家便宜。签到是获客手段，不是慈善。</p>
+
+<h2 id="大厂们的反应比产品本身更有意思">大厂们的反应，比产品本身更有意思</h2>
+
+<p>WorkBuddy 的爆火，直接改变了国内 AI 办公赛道的竞争节奏。阿里和字节都感受到了威胁，开始重注 AI 办公（来源：AI 蓝媒汇，2026 年 7 月 31 日）。</p>
+
+<p>阿里的动作最快。7 月初内部通知，全面禁止在办公环境使用 Anthropic 全系产品，推荐自研的 Qoder 替代（来源：市象报道，2026 年 8 月）。随后把 QoderWork、MuleRun、悟空三条产品线整合成”千问办公”，8 月 3 日公测，同时发布新一代基座模型 Qwen3.8（来源：南方都市报，2026 年 8 月 3 日）。</p>
+
+<p>字节也坐不住了。7 月 30 日内部信，把飞书产品团队和豆包产品团队整合，成立新的豆包产品团队，飞书 CEO 向豆包负责人汇报（来源：晚点 LatePost，2026 年 8 月 4 日）。</p>
+
+<p>腾讯自己也没闲着。7 月 30 日 WorkBuddy 上线 V5.3.5，联合腾讯文档推出”人机双写”——把完整文档编辑界面搬进 AI 对话框，用户和 AI 在同一份文档里实时协同编辑（来源：腾讯云官方，2026 年 7 月 30 日）。据内部人士说法，第一阶段解决”AI 办公能不能干活”，第二阶段就是”人和 AI 一起干活”（来源：AI 蓝媒汇）。</p>
+
+<p>还有几个信号值得注意：WorkBuddy 被腾讯内部划为”超级项目”，马化腾几乎从不缺席产品会议；7 月 25 日上架鸿蒙电脑应用市场，成为鸿蒙首款桌面办公智能体（来源：今朝新闻，2026 年 7 月）。腾讯这次是认真的。</p>
+
+<h2 id="我的判断">我的判断</h2>
+
+<p>作为三个月的一手用户，我的结论很直接：</p>
+
+<p><strong>该用。</strong> 如果你是日常办公 + 轻度编码的用户，或者不想折腾环境配置、不想研究模型路由，WorkBuddy 是目前国内门槛最低的选择。签到 + Hy3 限免 + 自定义模型三件套，基本可以做到零成本使用。</p>
+
+<p><strong>但别神化它。</strong> 重度专业编码场景，我还是会切回专门的编程工具；它的 memory 和复杂自主任务能力还在进化，别把关键业务全托付给它。用它的方式是”让它干活，但保留审查权”。</p>
+
+<p><strong>未来半年，真正值得关注的不是 WorkBuddy 本身，而是这场竞争的走向。</strong> 头部国产模型的能力差距已经收窄到个位数（来源：SuperCLUE 评测数据，2026 年 7 月），单靠跑分已经拉不开差距。竞争重心正在从”模型参数”转向”产品体验、组织效率和生态厚度”——谁能把模型能力更好地落地到真实工作流，谁就能吃到下一波红利。</p>
+
+<p>从 CodeBuddy 到 WorkBuddy，本质是腾讯想明白了同一件事：<strong>在 AI 时代，卖”写代码的能力”是生意，卖”替你干活的能力”才是平台。</strong> 而一个支持自定义模型、能把 DeepSeek 当主力的桌面智能体，正在用开放换生态，用体验换用户。</p>
+
+<p>这场仗，腾讯这次至少没迟到。</p>
+
+<hr />
+
+<p><strong>参考资料</strong></p>
+
+<ul>
+  <li>易观，”2026 年 Q2 中国办公智能体平台市场洞察”，2026 年 7 月。桌面端月访问量 2097 万居首、超过 Trae 与 QoderWork 之和。</li>
+  <li>AI 产品榜，”2026 年 7 月 AI 应用榜”，2026 年 8 月 3 日。WorkBuddy 环比增速 397.5% 全球第一。</li>
+  <li>科创板日报，”AI 办公赛马结束：腾讯、阿里、字节同步整合产品线打响入口战”，2026 年 7 月 31 日。上线四个月月活破 2000 万、OpenClaw 爆火背景、三款产品同日发布。</li>
+  <li>AI 蓝媒汇，”WorkBuddy 给腾讯长脸了”，2026 年 7 月 31 日。汤道生与姚顺雨对话、Hy3 上线、V5.3.5 人机双写、竞争主线转变。</li>
+  <li>腾讯云官方，”WorkBuddy 更新记录”与”新手入门教程”，2026 年 5-7 月。积分规则、自定义模型功能、专家团与技能数据。</li>
+  <li>今朝新闻，”腾讯 WorkBuddy 联合腾讯文档推出人机双写”，2026 年 7 月 30 日。V5.3.5 三大核心场景、鸿蒙上架、超级项目定位。</li>
+  <li>南方都市报，”阿里千问办公开启公测”，2026 年 8 月 3 日。千问办公整合与 Qwen3.8 发布。</li>
+  <li>市象，”大厂暗战百亿市场：AI Coding 赛道的卡位与变数”，2026 年 8 月 1 日。阿里内部禁用 Anthropic 全系产品、IDC 份额数据。</li>
+  <li>晚点 LatePost，”腾讯阿里字节 AI 办公布局动向”，2026 年 8 月 4 日。字节整合豆包与飞书、飞书独立地位终结。</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI 工具" /><category term="WorkBuddy" /><category term="CodeBuddy" /><category term="AI 智能体" /><category term="腾讯" /><category term="AI 办公" /><summary type="html"><![CDATA[摘要：腾讯 WorkBuddy 月活增速 397.5% 全球第一，6 月桌面端访问量 2097 万，从 CodeBuddy 到 WorkBuddy，产品逻辑从「IDE 插件」转向「桌面智能体」。我用了三个月，聊聊它凭什么跑出来、和 Qoder/Codex 的差异，以及还差什么。]]></summary></entry><entry><title type="html">代码写得更快了，人却更累了</title><link href="https://tangyuewei.github.io/posts/decision-fatigue-vibe-coding/" rel="alternate" type="text/html" title="代码写得更快了，人却更累了" /><published>2026-08-06T09:00:00+08:00</published><updated>2026-08-06T09:00:00+08:00</updated><id>https://tangyuewei.github.io/posts/decision-fatigue-vibe-coding</id><content type="html" xml:base="https://tangyuewei.github.io/posts/decision-fatigue-vibe-coding/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：AI 编程工具让代码产出暴增，但瓶颈从”写”转移到了”审”。Stack Overflow 2026 年 5 月下了诊断：coding agents 正在给所有人制造决策疲劳。96% 的开发者不信任 AI 生成的代码，但 46% 的新代码是 AI 写的。Vibe Coding 提出一年后，我们从”写代码的人”变成了”审 AI 代码的人”——这种工作没有更轻松，只是换了一种累法。</p>
+</blockquote>
+
+<hr />
+
+<p>“现在每天打开 GitHub，等我的不是代码，是一排 AI 生成的 PR。每个都像一张考卷，我得一道一道判。”</p>
+
+<p>这不是他一个人的感受。2026 年 5 月，Stack Overflow 发了一篇分析，标题直接把问题定性了——”Coding agents are giving everyone decision fatigue”。翻译过来：AI 编程工具正在给所有人制造决策疲劳。</p>
+
+<p>你可能会想，AI 写代码不是应该更轻松吗？</p>
+
+<p>答案是你想的那种轻松没有来。来的是另一种累。</p>
+
+<h2 id="写代码不再是瓶颈了">“写代码”不再是瓶颈了</h2>
+
+<p>先看一组数据，感受一下现在的局面。</p>
+
+<p>Sonar 2026 年开发者调查：96% 的开发者不信任 AI 生成的代码。同一份调查里，46% 的新增代码是 AI 产出的。</p>
+
+<p>一边不信任，一边大量使用。这个裂隙每宽一分，审查的压力就大一倍。</p>
+
+<p>GitLab 的 AI 问责报告也指向同一个方向：78% 的开发者承认，有了 AI 之后自己编码确实更快了。但整体软件交付效率——从需求到上线——没有提升。瓶颈不在”写代码”了，卡在测试、审查、治理。</p>
+
+<p>Sonar 还给这现象起了个名字：Velocity Trap，速度陷阱。AI 把开发速度推上去了，超 40% 的加速，但代价是更大的 PR、更复杂的代码、更多需要验证的东西。速度快了，验证跟不上，反而堵住了。</p>
+
+<p>打个比方：你把工厂传送带加速到原来的两倍，质检站只留了一个人。这个人没变快，产品却翻倍了。结果要么漏检，要么堵死。</p>
+
+<h2 id="决策疲劳一种新的职业病">决策疲劳：一种新的职业病</h2>
+
+<p>Stack Overflow 那篇分析把事儿讲得很清楚。AI 没有替你消除决策，它只是把决策推给了你。</p>
+
+<p>以前你自己写代码，写每一行的时候已经在做决定了——变量叫什么，异常怎么处理，这段逻辑放哪个函数里。这些决策是”写”的一部分，分散在打字的过程中，你不觉得累。</p>
+
+<p>现在 AI 把代码”生成”出来了，你面对的是几百行已经写好的代码，每一行都是一个需要你确认的判断。”这个判断对了吗？”“边界条件覆盖全了吗？”“这个库的引入合理吗？”“它为什么选了这种实现方式？”</p>
+
+<p>决策没有减少。决策被压缩了。</p>
+
+<p>以前花两个小时写代码，决策散在 120 分钟里。现在花二十分钟审查 AI 的代码，同样数量的决策挤在 20 分钟里。密度翻了六倍。</p>
+
+<p>而且这些决策更难做——你不是在审视自己写的东西，你在审视别人写的东西。别人的思路、别人的习惯、别人的隐含假设。你需要花额外的脑力去反向工程它的逻辑。</p>
+
+<p>这就是为什么审查 AI 代码比写代码更累。</p>
+
+<p>MIT 一项研究给出了一个扎心的数字：AI 生成的代码在 PR 阶段被审查者标记”需要提交者补充解释”的比例，是人工代码的 2.7 倍。</p>
+
+<p>2.7 倍。不是 27%，是 270%。</p>
+
+<p>审查者不是在挑刺。他们是真的看不懂——一个人提交了自己也没完全理解的代码，另一个人试图理解这段代码为什么这么写。两个人的认知都悬在半空。</p>
+
+<h2 id="vibe-coding-一年了">Vibe Coding 一年了</h2>
+
+<p>2025 年 2 月，Andrej Karpathy 提出了 Vibe Coding。当时说的是：描述你想要什么，AI 产出代码，人只做审查。理论上，代码从手工业变成了流水线。</p>
+
+<p>一年多过去了，看看实际发生了什么。</p>
+
+<h3 id="得到了什么">得到了什么</h3>
+
+<p>原型开发速度，快了 10 倍不止。以前搭一个内部工具 Demo 可能要两天，现在描述清楚需求，喝杯咖啡的工夫就出来了。内部工具的门槛降到了零——运营、产品同事开始自己用 AI 搭小工具，不再等排期。</p>
+
+<p>语言学习成本暴跌。你不会 Rust？没关系，描述清楚逻辑就行。不会前端？也没关系。AI 消除了语法恐惧，跨栈开发从”能不能”变成了”想不想”。</p>
+
+<h3 id="失去了什么">失去了什么</h3>
+
+<p>对代码的掌控感。看着一段 AI 写的代码，你能感觉到它”应该是对的”，但你不确定”为什么是对的”。这种感觉很微妙——代码在跑，功能正常，但你缺少那种”我把这块石头翻过来看过下面”的踏实。</p>
+
+<p>写代码的手感。这个更难量化。长期不动手写，你会发现自己对 IDE 的熟悉度在下降，对重构的本能反应在钝化。就像长时间用导航的人，认路能力会退化。</p>
+
+<p>对系统底层理解的自然积累。以前你写代码，每解决一个 bug，就对框架的内部机制多了一层理解。这是痛苦换来的知识。AI 帮你跳过了痛苦——也跳过了知识。</p>
+
+<p>Hacker News 上有一个帖子拿了 1600 分，标题是：”I haven’t handwritten a single line of code in 3 months. Am I still a programmer?”</p>
+
+<p>下面最热门的回复不是”当然算”，也不是”不算”。是——”你觉得更轻松了吗？”</p>
+
+<h2 id="charlie-marsh-的坦白">Charlie Marsh 的坦白</h2>
+
+<p>Astral 和 Ruff 的创始人 Charlie Marsh，2026 年上半年公开承认：他已经一行代码没读，全交给 AI 发布产品了。</p>
+
+<p>这句话在开发者社区炸了锅。</p>
+
+<p>不是因为夸张。是因为他是 Charlie Marsh。Ruff 是 Python 生态里最重要的工具之一，几百万人在用。你如果是一个不知名小项目的开发者在 AI 上偷懒，别人最多说一句胆真大。但 Ruff 的创始人说”一行代码没读就发布”——性质完全不一样。</p>
+
+<p>同事反应更快。消息传开当天，团队成员开始逐行细审他提交的每一个 PR。不是因为怀疑他，是因为他公开说出的那句话，把所有人的注意力拉到了一个事实面前：如果连创始人都可以不看代码就发布，那这套流程还有什么安全性可言？</p>
+
+<p>这不是 Charlie Marsh 的问题。这是整个行业的问题：当 AI 让”产出代码”变得如此便宜，”验证代码”的成本就成了房间里的大象。</p>
+
+<h2 id="slopfix一门靠删-ai-代码赚钱的生意">Slopfix：一门靠删 AI 代码赚钱的生意</h2>
+
+<p>更黑色幽默的是，有人已经开始靠这个赚钱了。</p>
+
+<p>一家叫 Slopfix 的公司，三位工程师创业，只做一件事：帮你删 AI 生成的垃圾代码。一周收费 1 万美金。</p>
+
+<p>他们的一个案例：一个项目的 AI 代码从 10 万行删到 3.5 万行——功能不变，性能更好，bug 更少。</p>
+
+<p>10 万行删到 3.5 万行。中间 6.5 万行是 AI 写的，人审过的，通过了测试的，合并进了主干的——最后发现是冗余的。</p>
+
+<p>这说明什么？AI 写的代码能跑、能过测试、能通过审查——但不代表它是”对”的代码。它只是能跑的代码。这两者之间差的那段距离，就是累积的技术债务。</p>
+
+<p>Smartsheet 的研究给了另一个视角：80% 的 AI 生成内容在最终定稿前经过人工编辑。也就是说，AI 产出的东西，大部分最后都不是原样保留的。但它占用了你阅读、理解、判断、修改的时间。</p>
+
+<p>DevOps Insights 2026 的调查补充了一笔：42% 的团队在代码审查中冲突增加了，开发者开始出现早期倦怠症状。冲突的来源不是”你写得不好”，而是——”这段 AI 写的，我们俩都看不太懂，但必须做一个合并还是拒绝的决定。”</p>
+
+<h2 id="怎么让自己不累垮">怎么让自己不累垮</h2>
+
+<p>这个问题没有标准答案。但我有几个自己的判断。</p>
+
+<p><strong>该让 AI 写的场景。</strong></p>
+
+<p>原型、Demo、一次性脚本。不需要长期维护，不需要团队理解，不需要任何人深夜被报警电话叫起来改线上 bug。AI 写，跑通就行。</p>
+
+<p>重复性代码。CRUD 接口、表单验证、样板配置。AI 在这些事上几乎没有出错空间，审一眼就能确认。省下来的时间是真省下来的。</p>
+
+<p>探索陌生领域。你用 AI 写了一段不熟悉的语言，跑通了，理解了，然后删掉自己重写——这种用法里 AI 是学习工具，不是生产工具。</p>
+
+<p><strong>该自己写的场景。</strong></p>
+
+<p>核心业务逻辑。系统里如果出 bug 能让你半夜两点被叫起来的那种代码。每一行你都应该能闭着眼讲出”为什么这么写”。</p>
+
+<p>安全敏感代码。认证、授权、加密、数据脱敏。AI 在这方面的创造性是最危险的——它可能引入一种你以为不存在的攻击面。</p>
+
+<p>需要团队长期维护的模块。AI 写的代码，团队每个人都得花额外成本去理解。这个成本随时间累积。如果预期这段代码要活两年以上，自己写反而更划算。</p>
+
+<p><strong>缓解决策疲劳。</strong></p>
+
+<p>把审查时间分段。早上精神状态好的时候审最关键的 PR，下午审不紧急的。不要在疲惫状态下做合并/拒绝决定——那会儿的判断力跟喝了酒差不多。</p>
+
+<p>接受不完美合并。不是每个 PR 都需要逐行审完。低风险模块设一个信任等级：跑通测试、规范检查通过、功能验证没问题，就合。把精力留给真正重要的。</p>
+
+<p>承认决策预算有限。一天能做出的好决定是有上限的。超过上限，后续决策质量会断崖式下降。这不是意志力问题，是认知科学的基本事实。</p>
+
+<h2 id="总结">总结</h2>
+
+<p>AI 让我们写代码快了。但它没让我们做软件变快，也没让我们变轻松。</p>
+
+<p>瓶颈只是从”打字的速度”转移到了”判断的密度”。</p>
+
+<p>Vibe Coding 的承诺没有落空——原型确实十分钟就能出来。但承诺背后的假设落空了——”人只做审查”听起来轻松，真干起来比写代码更累。</p>
+
+<p>知道什么时候该让 AI 写、什么时候自己写、什么时候停下来——这本身就是一种新的能力。AI 没法替你做这个判断。</p>]]></content><author><name>唐悦玮</name></author><category term="科技观察" /><category term="AI编程" /><category term="决策疲劳" /><category term="Vibe Coding" /><category term="开发者体验" /><summary type="html"><![CDATA[摘要：AI 编程工具让代码产出暴增，但瓶颈从”写”转移到了”审”。Stack Overflow 2026 年 5 月下了诊断：coding agents 正在给所有人制造决策疲劳。96% 的开发者不信任 AI 生成的代码，但 46% 的新代码是 AI 写的。Vibe Coding 提出一年后，我们从”写代码的人”变成了”审 AI 代码的人”——这种工作没有更轻松，只是换了一种累法。]]></summary></entry><entry><title type="html">你的 AI 编程账单在悄悄烧钱</title><link href="https://tangyuewei.github.io/posts/ai-coding-token-cost/" rel="alternate" type="text/html" title="你的 AI 编程账单在悄悄烧钱" /><published>2026-08-05T18:00:00+08:00</published><updated>2026-08-05T18:00:00+08:00</updated><id>https://tangyuewei.github.io/posts/ai-coding-token-cost</id><content type="html" xml:base="https://tangyuewei.github.io/posts/ai-coding-token-cost/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Token 消耗有四层成本结构，大多数开发者只看到了第一层。本文拆解模型选型、上下文大小、迭代次数和浪费四个成本层，附一个 SaaS 团队从月费 $87,000 降到 $24,000 的真实审计案例，并给出对应各层的实操优化方案。</p>
+</blockquote>
+
+<hr />
+
+<p>Reddit 上有个帖子，标题是 “Costs are skyrocketing”，640 多赞，125 条评论。一个工程经理吐槽：团队里有开发者 AI 编程工具月费冲到 $300——在离岸团队里，这快赶上一些人的三分之一月薪了（来源：r/cursor，2026 年 7 月）。</p>
+
+<p>评论区更扎心。有人说 Cursor Ultra 一个月交了 $200，实际只用了 $81 的额度——平台把额度池拆散了算，用户到手只有一半。</p>
+
+<p>但最让我印象深刻的不是这些数字本身，而是所有抱怨里的人，没有一个人说自己知道账单的每一分钱花在了哪里。</p>
+
+<p>你也许知道自己的总账单。但你知道你花的钱里，多少是模型本身贵、多少是上下文喂太多、多少是 Agent 死循环烧掉的吗？</p>
+
+<h2 id="你不是只给模型付了钱">你不是只给模型付了钱</h2>
+
+<p>大多数人看到账单，第一反应是”模型太贵了”。看一眼定价牌——海外旗舰模型达到两位数美金/百万 Token，然后就觉得账算清了。</p>
+
+<p>但如果把视野放宽到国产模型，价格体系是另一回事。DeepSeek V4 已推出峰谷分时定价，平峰时段 API 价格约为海外同级模型的七分之一（来源：DeepSeek 官方定价，2026 年 7 月）。Kimi K3 和 Qwen3.8-Max 也在国产竞争价格区间。对于日常 Java 后端的编码需求——增删改查、测试生成、代码重构——能力是够的，成本只有海外旗舰的零头。</p>
+
+<p>那为什么还是有人月花大几百甚至上千？因为成本不只是模型定价决定的。Token 消耗有四层结构，很多人只看见了第一层。</p>
+
+<p><strong>更反直觉的是：最贵的可能不是 Opus。</strong></p>
+
+<p>一个卡住的 Agent 用 Haiku 但读了 200K Token 的上下文，成本可能高于一个用 Opus 但只读了 5K Token 的精准请求。上下文大小——不是模型等级——才是真正的成本黑洞。</p>
+
+<p><strong>第一层：模型选型（约 10-20% 的可优化空间）</strong></p>
+
+<p>这一层最直观，也最容易被误认为”唯一的成本来源”。</p>
+
+<p>你让 Agent 处理了一个变量重命名。它用了 Opus。Haiku 甚至 DeepSeek V4-Flash 都能做，成本只有前者的几十分之一。</p>
+
+<p>PromptReports 对数千个 Claude Code 和 OpenRouter 会话的分析显示，约 35-45% 发到 Opus 的任务用 Sonnet 甚至更便宜的模型就能得同质量输出（来源：PromptReports CLI 基准测试，2026 年 4 月）。如果再把国产模型加进路由策略——DeepSeek V4-Flash 的日常编码、Kimi K3 的复杂重构、Qwen3.8-Max 的架构设计——省的空间远不止这一层。</p>
+
+<p><strong>第二层：上下文大小（约 30-40% 的可优化空间）</strong></p>
+
+<p>这一层最被低估。</p>
+
+<p>Agent 每次调用模型，不是只发送你刚刚那句 Prompt——它把整个会话的上下文全塞进去了。对话记录、文件内容、工具调用结果、系统提示词……所有东西重新传一遍。</p>
+
+<p>一个典型场景：你在一个 30 轮 Agent 会话里修 Bug，Agent 已经读了 15 个文件到上下文。第 31 轮你让它”改个变量名”，这一轮的成本不是”改一个名字”，而是”重新传 15 个文件 + 30 轮对话”。</p>
+
+<p>这也是那个反直觉洞察的来源：一个 200K Token 上下文的 Haiku 请求，可能比一个 20K Token 上下文的 Opus 请求更贵。不是因为 Haiku 贵，是因为上下文膨胀吃掉了模型差价。</p>
+
+<p>删掉不必要的文件引用、用专注的短会话代替超长会话、加上下文滑动窗口，这一层的省法最直接。</p>
+
+<p><strong>第三层：迭代次数（约 20-30% 的可优化空间）</strong></p>
+
+<p>一个干净的编码任务：5-15 轮请求搞定。一个卡住的 Agent：50-200 轮还在绕。</p>
+
+<p>Agent 没有”卡住就停”的天赋。它没有挫败感。它会用无限的热情做一件反复失败的事情。</p>
+
+<p>LeanOps 的记录里有一个极端案例：一个 Agent 深夜死循环重试 47 轮修同一个 Bug，一轮 $0.50，$23.50 烧掉，Bug 还是 Bug（来源：LeanOps 30 天 Agent 成本审计）。<code class="language-plaintext highlighter-rouge">/goal</code> 不加迭代上限，Agent 会一直跑到把信用卡烧穿。</p>
+
+<p><strong>第四层：浪费（约 10-20% 的可优化空间）</strong></p>
+
+<p>“浪费”指的是 Token 被消耗了但没有产生任何价值。</p>
+
+<p>AI 编程成本分析发现，约 87% 的 Token 花在”找代码”上而不是”写代码”上（来源：amux.io）。Agent 反复读取已在上下文里的同一个文件、在循环中重新打开已知结论的工具调用、向模型发送超长的原始命令行输出。</p>
+
+<p>Claude Code 最近一次更新加了 WebSearch 调用上限（默认 200 次）和 subagent 启动上限（默认 200 次），本质上都是在堵第四层的泄漏。</p>
+
+<h2 id="一个-saas-团队的匿名审计案例">一个 SaaS 团队的匿名审计案例</h2>
+
+<p>LeanOps 在 2026 年 5 月发布了一份 30 天 Agent 成本审计报告，记录了一个约 35 人的 SaaS 公司（匿名）的 AI 编程费用优化过程。</p>
+
+<p>审计前的账单：月费约 $87,000。审计发现的五个根因：</p>
+
+<ul>
+  <li>整个团队没有任何 prompt caching——缓存的输入 Token 只收 10% 价格，这条一个配置开关就能开</li>
+  <li>Bug 分类 Agent 全程用最贵模型——这一个 Agent 占了总账单的近三分之一</li>
+  <li>Bug 分类循环的上下文没有裁剪——每个循环平均带着约 200K Token 的输入</li>
+  <li>没有按人设预算上限——花最多的单个开发者一个月单人烧掉约 $5,800，全在熬夜重构项目</li>
+  <li>Cursor 用户用 Pay-as-you-go API 而不是固定套餐——等于零售价买批发量</li>
+</ul>
+
+<p>三周优化后做了什么——每项措施对应一层成本结构：</p>
+
+<ol>
+  <li><strong>第二层（上下文）</strong>：全部 Agent 开 prompt caching，输入 Token 缓存后只收十分之一价格</li>
+  <li><strong>第一层（模型选型）</strong>：Bug 分类 Agent 日常用更便宜的模型，难 Case 才升级旗舰</li>
+  <li><strong>第二层（上下文）</strong>：上下文加滑动窗口，只保留最近若干步</li>
+  <li><strong>第三层（迭代）</strong>：设每天每人硬性 Token 预算上限，消灭深夜死循环</li>
+  <li><strong>第一层（模型选型）</strong>：Cursor 重度用户切到合适的套餐计划</li>
+</ol>
+
+<p>最终账单从约 $87,000 降到约 $24,000，年度节省约 $756,000。工程生产力（按 sprint velocity 衡量）完全没受影响。</p>
+
+<p>（来源：LeanOps，”Agentic AI Cost Runaway &amp; Token Budget 2026”，2026 年 5 月）</p>
+
+<h2 id="三个可以立刻上手的工具">三个可以立刻上手的工具</h2>
+
+<p>除了上面的审计经验，社区还有两个专门优化 Token 消耗的开源项目。</p>
+
+<p><strong>Caveman</strong>（<code class="language-plaintext highlighter-rouge">JuliusBrussee/caveman</code>）让 AI 像山顶洞人一样说话——删掉 “the”、”please”、”I’d be happy to help” 等不影响技术含义的礼貌用语。输出 Token 减少约 75%。最有价值的功能是 <code class="language-plaintext highlighter-rouge">/caveman-compress</code>：永久压缩你的 CLAUDE.md、AGENTS.md 等记忆文件，之后每次会话加载都少消耗近一半的输入 Token。</p>
+
+<p><strong>Ponytail</strong>（<code class="language-plaintext highlighter-rouge">DietrichGebert/ponytail</code>，9.5 万星）做的是另一件事：让 AI 少写代码。Caveman 管嘴（少废话），Ponytail 管手（少写冗余代码）。核心信条：”The best code is the code you never wrote.” 实测输出 Token 降约 54%，响应快约 27%。附带可验证的测试套件。</p>
+
+<p>两者：一个压制对话层浪费，一个压制生成层冗余。</p>
+
+<h2 id="对应四层结构你可以从今天开始做的事">对应四层结构，你可以从今天开始做的事</h2>
+
+<p><strong>第一层：模型路由。</strong> 日常任务不要用旗舰模型。一个典型 Java 后端的任务分布——变量重命名和查找类定义用 DeepSeek V4-Flash 或 Haiku，单元测试用 Kimi K3 或 Sonnet，架构设计才上 Qwen3.8-Max 或 Opus。如果用 Cursor，开 Router 的”成本”模式。如果用 Claude Code，用 <code class="language-plaintext highlighter-rouge">/fast</code> 或者通过 OpenRouter 路由到国产模型。</p>
+
+<p><strong>第二层：上下文控制。</strong> 开 prompt caching——这条在 Claude API 上就是一个配置开关，缓存的输入 Token 只收十分之一价格。同时养一个习惯：把大任务拆成聚焦的小会话，别让一个 Agent session 从早上跑到晚上。</p>
+
+<p><strong>第三层：预算上限。</strong> 设每天每人硬性 Token 上限。Agent 不知道什么时候该停，但你可以告诉它——每个月花在三层迭代死循环上的钱，往往是最容易砍掉的部分。</p>
+
+<p><strong>第四层：浪费审计。</strong> LeanOps 的 4 周审计计划可以参照：第一周分人统计找 top-5 花钱大户，第二周加缓存和上限，第三周做路由策略，第四周做架构级优化。他们发现约 80% 的账单来自花最多的几个人——找到他们，看他们怎么用 Agent，通常能省掉一大半。</p>
+
+<hr />
+
+<p>五年前，每个工程团队都会监控 CPU、内存和带宽。五年后，每个工程团队都会监控 Token、上下文窗口和模型路由。</p>
+
+<p>AI 编程正在变成新的云基础设施。而成本优化，不再属于财务部门——它属于工程能力。</p>
+
+<hr />
+
+<p><strong>参考资料</strong></p>
+
+<ul>
+  <li>r/cursor，”Costs are skyrocketing”。Reddit 社区讨论，含 Cursor Ultra 额度池拆分、Agent 模式消耗等用户反馈。</li>
+  <li>PromptReports CLI，”Stop Using Opus for Everything: A Model Routing Guide”。</li>
+  <li>LeanOps，”Agentic AI Cost Runaway &amp; Token Budget 2026”。</li>
+  <li>amux.io，”AI Coding FinOps: The Engineering Leader’s Guide to Governing Agent Spend at Scale”。”87% Token 花在找代码”的数据来源。</li>
+  <li>JuliusBrussee/caveman（GitHub），Claude Code/Codex 插件。</li>
+  <li>DietrichGebert/ponytail（GitHub），Claude Code 生成代码 Token 优化工具。</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI 工程化" /><category term="Token 成本" /><category term="AI 编程" /><category term="成本优化" /><category term="Claude Code" /><category term="Cursor" /><category term="工程管理" /><summary type="html"><![CDATA[摘要：Token 消耗有四层成本结构，大多数开发者只看到了第一层。本文拆解模型选型、上下文大小、迭代次数和浪费四个成本层，附一个 SaaS 团队从月费 $87,000 降到 $24,000 的真实审计案例，并给出对应各层的实操优化方案。]]></summary></entry><entry><title type="html">都是 AI 写代码，为什么 Java 慢一拍</title><link href="https://tangyuewei.github.io/posts/java-ai-coding-lag/" rel="alternate" type="text/html" title="都是 AI 写代码，为什么 Java 慢一拍" /><published>2026-08-04T18:40:00+08:00</published><updated>2026-08-04T18:40:00+08:00</updated><id>https://tangyuewei.github.io/posts/java-ai-coding-lag</id><content type="html" xml:base="https://tangyuewei.github.io/posts/java-ai-coding-lag/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：MCP 的 Java SDK 其实存在——由 Spring AI 团队与 Anthropic 协作维护，社区活跃，规范通过率 100%。但为什么 Java 开发者的 AI 编程体验仍然差了一个量级？问题不在 SDK，在 Java 项目本身的结构性特征：依赖注入让 Agent 找不到边界、AOP 让执行路径不可见、微服务架构让项目跑不起来。本文拆解这四个结构性问题，给出可操作的改善建议。</p>
+</blockquote>
+
+<hr />
+
+<p>先说一个会让人意外的事实。</p>
+
+<p>MCP 其实有官方 Java SDK。</p>
+
+<p>代码仓库在 <code class="language-plaintext highlighter-rouge">github.com/modelcontextprotocol/java-sdk</code>，与 Spring AI 团队联合维护。贡献者名单里有 Broadcom、Oracle、Google、Apache Pekko 的工程师。规范通过率：Server 端 100%（40/40），Client 端 90%，Auth 端 98.9%。</p>
+
+<p>Spring AI 还在此基础上封装了 Boot Starter——<code class="language-plaintext highlighter-rouge">spring-ai-starter-mcp-server-webmvc</code>，用 <code class="language-plaintext highlighter-rouge">@Tool</code> 注解就能把 Spring Bean 暴露为 MCP 工具。教程不缺，文档不烂，社区不冷。</p>
+
+<p>但现实是另一回事。</p>
+
+<p>你跟任何一个 Java 后端聊天，聊到 AI 编程体验，十有八九会得到类似评价：”还行，但跟写 JS 或者 Python 比起来，就差了一个级别。”</p>
+
+<p>这个差别跟 MCP SDK 有没有无关。它不是”少了个工具”的问题。它是 Java 项目本身的结构，天然对 AI Coding Agent 不友好。</p>
+
+<h2 id="问题一依赖注入让-agent-找不到边界">问题一：依赖注入让 Agent 找不到边界</h2>
+
+<p>Java 开发者最习惯的事，可能是 AI 最困惑的事。</p>
+
+<p><code class="language-plaintext highlighter-rouge">@Autowired</code> 是 Spring 的魔法，也是 Agent 的噩梦。你在 Controller 里写一个 <code class="language-plaintext highlighter-rouge">private UserService userService</code>，不需要 <code class="language-plaintext highlighter-rouge">new</code>，不需要工厂方法，Spring 容器在启动时自动帮你搞定。这对人来说是便利，对 Agent 来说是困惑——”这个对象从哪来的？为什么没看到初始化？”</p>
+
+<p>更麻烦的是多实现注入。如果你的 <code class="language-plaintext highlighter-rouge">PaymentService</code> 接口有三个实现——<code class="language-plaintext highlighter-rouge">AlipayPaymentService</code>、<code class="language-plaintext highlighter-rouge">WechatPaymentService</code>、<code class="language-plaintext highlighter-rouge">UnionPayPaymentService</code>——Agent 需要理解 <code class="language-plaintext highlighter-rouge">@Qualifier</code> 的语义、理解 Spring 的 Bean 命名规则、理解为什么有时候用 <code class="language-plaintext highlighter-rouge">@Primary</code> 有时候不。这些都不是”读代码”能读出来的，需要项目级的上下文。</p>
+
+<p>一个典型的场景：你让 Claude Code 修一个支付回调的 Bug。它找到 <code class="language-plaintext highlighter-rouge">PaymentService</code> 接口，找到调用的那个方法，然后愣住了——应该注入哪个实现？它能猜，但猜错的概率不低。</p>
+
+<p>AI 编程工具擅长的模式是”函数式”的——输入明确、输出明确、路径可追踪。依赖注入打破了这种线性追踪，控制流在 XML 配置、注解和容器之间跳转。Agent 能看到每个 Bean 的定义，但看不到 Bean 之间的连接关系是在运行时才建立的。</p>
+
+<h2 id="问题二aop-让你的执行路径不可见">问题二：AOP 让你的执行路径不可见</h2>
+
+<p>Spring AOP 是另一个 Agent 杀手。</p>
+
+<p>你写了一个 <code class="language-plaintext highlighter-rouge">saveOrder</code> 方法，里面只有三行代码。但实际运行时，这个方法被切面包了几层——<code class="language-plaintext highlighter-rouge">@Transactional</code> 套了事务管理，<code class="language-plaintext highlighter-rouge">@Cacheable</code> 套了缓存逻辑，<code class="language-plaintext highlighter-rouge">@PreAuthorize</code> 套了权限校验，可能还有自定义的日志切面、监控切面、链路追踪切面。</p>
+
+<p>Agent 读源码的时候只看到三行。它不知道这三行外面还裹了五层代理。</p>
+
+<p>后果很直接。Agent 生成的测试可能忽略事务边界，它修 Bug 可能绕过权限校验，它重构代码可能打破缓存策略。不是它”笨”，是它看不到代理层。</p>
+
+<p>这是 Java 项目独特的信息不对称。Python 也有装饰器，但 Python 的装饰器模式是显式的、逐层堆叠的，调用栈可读。Spring AOP 基于动态代理，切面逻辑在运行时织入，字节码层面才能看到真实路径。Agent 读的是源码，不是字节码。</p>
+
+<h2 id="问题三微服务架构让项目跑不起来">问题三：微服务架构让项目跑不起来</h2>
+
+<p>这是最致命的问题。</p>
+
+<p>Addy Osmani 在讨论 Harness Engineering 时反复强调一点：Agent 需要能在本地运行的环境来验证输出。Claude Code 在 Node.js 项目里厉害，很大程度上是因为 <code class="language-plaintext highlighter-rouge">npm install &amp;&amp; npm test</code> 在绝大多数项目中能直接跑通。</p>
+
+<p>Java 微服务项目不一样。</p>
+
+<p>一个典型的 Spring Cloud 项目依赖：Nacos 做服务发现、Sentinel 做流量控制、RocketMQ 做消息队列、Seata 做分布式事务、XXL-JOB 做定时任务。每个依赖都是一个独立的中间件，在云端跑得很稳，在本地基本不可用。</p>
+
+<p>结果是一个很熟悉的死循环：</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>本地写代码 → 推到预发部署 → 在预发验证 → 把结果反馈给 AI → AI 继续改 → 再推预发 → 再验证 → ...
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>每一步，人都是阻塞点。跟那些本地能直接跑的项目——AI 自己迭代几十轮——比起来，Java 微服务项目里 AI 每做一步都得等人。</p>
+
+<p>一篇社区讨论把这个差距总结得很准：”CLAUDE.md 写得再好，AI 连代码能不能编译通过都验证不了，后面的一切都是空谈。”</p>
+
+<h2 id="问题四生态碎片化">问题四：生态碎片化</h2>
+
+<p>MCP Java SDK 本身没问题。问题在于它要适配的生态。</p>
+
+<p>Java 项目用 Maven 还是 Gradle？Spring Boot 2 还是 3？Java 8 还是 17？MyBatis 还是 JPA？Spring MVC 还是 WebFlux？要不要 Spring Cloud？用什么注册中心？</p>
+
+<p>每种选择都对应一套不同的配置模板、启动参数、依赖组合。Agent 需要在配置驱动的世界中找到执行路径，而不是在显式代码中。项目的”灵魂”分散在 yaml、properties、XML 和注解中，没有一个集中的地方告诉 Agent “这个项目是这样工作的”。</p>
+
+<p>再加上 Java 项目的七层结构——Controller、Service（接口+实现）、Mapper、Entity、DTO、VO、Config——每一层都有不同的职责和约定。Agent 要同时理解这七层之间的关系，才能在”加一个查询接口”这种看似简单的任务中不出错。</p>
+
+<p>事实上，最近有开发者拿 Kimi K3 试了一个典型的 Java 场景：在一个既有 Spring Boot 项目中加一个带分页的列表查询接口。结果分了三轮：第一轮生成的 Mapper XML 里 <code class="language-plaintext highlighter-rouge">resultType</code> 写错了包名，第二轮 Controller 的 <code class="language-plaintext highlighter-rouge">@GetMapping</code> 和 Service 的参数名不一致，第三轮才改对。同样的任务，一个 Django 项目一轮就过了。</p>
+
+<p>差异不在模型。差异在 Java 的工程复杂度。</p>
+
+<h2 id="不是无解">不是无解</h2>
+
+<p>上面说的是问题。下面说的是解法。不是什么银弹，是一些经过社区验证的思路。</p>
+
+<p><strong>第一，把依赖倒置做到位。</strong></p>
+
+<p>让项目能在本地跑起来，是 AI 能自主验证的前提。如果你的 Service 层直接调了 OSS SDK、直接连了生产 Redis、直接用了云端配置中心——Agent 没法工作。</p>
+
+<p>解法是经典依赖倒置：抽象接口，切换实现。线上用 <code class="language-plaintext highlighter-rouge">@Profile("prod")</code>，本地用 <code class="language-plaintext highlighter-rouge">@Profile("local")</code>。本地实现不需要真正起一个 Redis，用 H2 替 MySQL、用 <code class="language-plaintext highlighter-rouge">java.nio.file</code> 替 OSS、用 <code class="language-plaintext highlighter-rouge">ProcessBuilder</code> 替远程沙箱。</p>
+
+<p>关键原则：零侵入。<code class="language-plaintext highlighter-rouge">@Profile("local")</code> 的 Bean 不应该影响线上代码路径，线上代码不应该多走一行 <code class="language-plaintext highlighter-rouge">if (isLocal)</code> 判断。</p>
+
+<p><strong>第二，给项目写一份 AGENTS.md。</strong></p>
+
+<p>不是 CLAUDE.md——AGENTS.md 是给所有 Coding Agent 看的，格式跨工具通用。重点是告诉 Agent 这个 Java 项目特有的规则：</p>
+
+<ul>
+  <li>Controller 层统一用 <code class="language-plaintext highlighter-rouge">@RestController</code>，返回 <code class="language-plaintext highlighter-rouge">Result&lt;T&gt;</code> 包装</li>
+  <li>Service 层接口-实现分离，实现放在 <code class="language-plaintext highlighter-rouge">impl</code> 子包</li>
+  <li>MyBatis Mapper XML 的 <code class="language-plaintext highlighter-rouge">namespace</code> 必须写全限定类名</li>
+  <li><code class="language-plaintext highlighter-rouge">@Transactional</code> 只加在 Service 层，不要加在 Controller</li>
+  <li>本地启动命令：<code class="language-plaintext highlighter-rouge">mvn spring-boot:run -Dspring-boot.run.profiles=local</code></li>
+</ul>
+
+<p>这些不是”写代码”的技巧，是”让 Agent 理解你的项目”的技巧。这跟 Prompt 工程没关系，这是上下文工程。</p>
+
+<p><strong>第三，把 CI 前置到本地。</strong></p>
+
+<p>如果你用的是 Maven，Agent 最需要的验证手段就是 <code class="language-plaintext highlighter-rouge">mvn compile</code> 和 <code class="language-plaintext highlighter-rouge">mvn test</code>。把编译、单元测试、静态检查（checkstyle/spotbugs）都做成一条脚本，让 Agent 每轮改动之后都能跑一次。Agent 需要的是一个”看到红灯→改→看到绿灯”的闭环，不是等 CI 跑完再看结果。</p>
+
+<p>对于更复杂的项目，可以考虑用 TestContainers 在本地起轻量的 MySQL、Redis、Kafka，让集成测试也能在本地跑通。</p>
+
+<h2 id="spring-ai-20-的一个值得跟踪的方向">Spring AI 2.0 的一个值得跟踪的方向</h2>
+
+<p>Spring AI 2.0 在 2026 年 5 月发布，带来了几个对 AI 编程友好的变化：</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">@Tool</code> 注解和 <code class="language-plaintext highlighter-rouge">@McpTool</code> 注解让方法能自动注册为 MCP 工具</li>
+  <li>Streamable HTTP 替代了废弃的 SSE 传输，默认配置更简洁</li>
+  <li>多 Agent 协作模式：一个 Agent 规划、一个 Agent 执行、一个 Agent 验证</li>
+  <li>引入了 guardrails 机制：定义 Agent 可以做和不可以做的边界</li>
+</ul>
+
+<p>但有一个社区反复提到的坑：Spring Boot 的 SSE 默认传输和 Claude Code 的 stdio 默认传输不一致。Agent 连接 MCP 服务器时无声失败，排查半天才发现是传输类型不匹配。Spring AI 1.1+ 默认切到了 Streamable HTTP，但 1.0.x 项目还是 SSE——升级前先检查配置。</p>
+
+<h2 id="不是换一个更强的模型能解决的">不是换一个更强的模型能解决的</h2>
+
+<p>ChatGPT、Claude、Kimi K3——换更强的模型能不能改善 Java 的 AI 编程体验？</p>
+
+<p>能改善一点，但解决不了根本问题。</p>
+
+<p>根子不在模型层。Python 和 JS 项目的 AI 编程体验好，不是因为 GPT 和 Claude 更懂 Python，是因为 Python 项目的执行路径是显式的、依赖是轻量的、项目是能直接在本地跑起来的。</p>
+
+<p>Java 项目的结构性特征——依赖注入、AOP 代理、微服务基础设施依赖、多模块工程结构——这些是语言和框架选择时做的架构决定，它们对 AI 不友好的那一面，不是靠更强的模型推理能弥补的。</p>
+
+<p>更强的模型会让 Agent 猜得更准，但它改变不了”Agent 需要本地验证环境”这个物理现实。</p>
+
+<p>那些在 Java 项目里 AI 编程体验已经不错了的团队，做的事情本质上都是在缩小这个结构性的鸿沟：让项目能在本地跑起来、让 Agent 有可靠的验证闭环、让项目规则以 Agent 能消费的方式写下来。</p>
+
+<p>这些工作不是”AI 的活”，是工程团队的活。换个角度说，它可能是 2026 年 Java 后端团队最重要的一项基础设施建设。</p>]]></content><author><name>唐悦玮</name></author><category term="AI 编程" /><category term="Java" /><category term="Java" /><category term="Spring Boot" /><category term="MCP" /><category term="AI 编程" /><category term="Spring AI" /><category term="开发体验" /><summary type="html"><![CDATA[摘要：MCP 的 Java SDK 其实存在——由 Spring AI 团队与 Anthropic 协作维护，社区活跃，规范通过率 100%。但为什么 Java 开发者的 AI 编程体验仍然差了一个量级？问题不在 SDK，在 Java 项目本身的结构性特征：依赖注入让 Agent 找不到边界、AOP 让执行路径不可见、微服务架构让项目跑不起来。本文拆解这四个结构性问题，给出可操作的改善建议。]]></summary></entry><entry><title type="html">2026 下半年：从更快到更可控</title><link href="https://tangyuewei.github.io/posts/ai-code-governance/" rel="alternate" type="text/html" title="2026 下半年：从更快到更可控" /><published>2026-08-03T19:50:00+08:00</published><updated>2026-08-03T19:50:00+08:00</updated><id>https://tangyuewei.github.io/posts/ai-code-governance</id><content type="html" xml:base="https://tangyuewei.github.io/posts/ai-code-governance/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：国产大模型密集发布、AI 编程市场份额翻 3 倍、安全漏洞集群化爆发——2026 年 7 月的信号足够密集，足以判断下半年的方向。过去两年拼的是”写代码更快”，下半年拼的是”管得住”。本文从模型层、工具层、治理层三个维度，给出下半年 AI 编程的核心预测。</p>
+</blockquote>
+
+<hr />
+
+<p>7 月最后一周，四件事同时发生。</p>
+
+<p>Kimi K3 在 Code Arena 编程榜单以 1679 分超越所有闭源模型登顶——这是开源模型首次在这个榜单站上第一。三天后用户量暴涨导致算力告急，月之暗面紧急暂停 C 端新用户订阅。</p>
+
+<p>同一天，DeepSeek V4 以 MIT 协议正式开源。Codeforces 评分 3206 分，推理计算量仅为前代的 27%，定价是海外同级模型的约七分之一。</p>
+
+<p>再过一天，Anthropic 发布 MCP 2026-07-28 规范，架构上彻底转向无状态。Akamai 同天发了安全预警：协议层安全责任全面移交开发者。</p>
+
+<p>又过一天，IDC 发布 2025 年中国 AI 编程市场份额报告。阿里 Qoder 一家吃下 47.6%，超过第二到第五名的总和。这个 3.99 亿元的市场，预计年底翻到 11.73 亿。</p>
+
+<p>如果你只看任何单独一件事，都是”又一个产品更新”。但放在一起看，2026 年下半年的 AI 编程路线图已经非常清楚了。</p>
+
+<h2 id="两年前拼快下半年拼控">两年前拼”快”，下半年拼”控”</h2>
+
+<p>过去两年，AI 编程的主题用一个字概括足够了：快。</p>
+
+<p>GitLab 2026 年 AI 问责报告的数据是这个判断最扎实的注脚。1528 名开发者和技术采购者被问到 AI 编程工具的影响：78% 说代码写得更快，73% 说代码质量确实提升了。60% 说 ROI 超出预期。</p>
+
+<p>但翻到下一页，数字就不那么漂亮了。</p>
+
+<p>79% 说整体交付速度没跟上。85% 同意瓶颈从”写代码”移到了”审查和验证”。43% 无法区分自己代码库里的 AI 代码和人写代码。82% 担心 AI 代码正在积累一种”组织形式还没准备好管理”的技术债。</p>
+
+<p>GitLab 把这叫”AI 悖论”：个人效率提升了，团队交付没变快。</p>
+
+<p>更致命的数据在于事故溯源。87% 的人自信能在 24 小时内判断出 AI 代码是否导致了生产事故——但真出过事的组织里，三分之一实际做不到。这不是能力问题，是”不知道自己不知道”。</p>
+
+<p>7 月密集爆发的安全事件让这个结论更尖锐了。</p>
+
+<p>Cursor 的 git.exe 零日漏洞——克隆仓库即自动执行恶意代码——从 2025 年 12 月报告后，七个月、70 多个版本没修复。Wiz 的 GhostApproval 研究显示六款主流 AI 编程助手都能被 symlink 欺骗，批准对话框显示的是无害文件名，写的却是你的 SSH 密钥。同期的 Friendly Fire 攻击证明：你让 AI 审计代码，AI 反而在执行攻击者写的恶意程序。</p>
+
+<p>7 月上旬，安全公司 Secure Code Warrior 评估了 1760 个完全由 AI 生成的代码库，平均每库 15 个漏洞，4.3 个是严重级别。</p>
+
+<p>这些事件汇集在一起，指向同一个方向：<strong>AI 编程的下半场，主题从”生成”转向”治理”。</strong></p>
+
+<h2 id="模型层国产模型已经够用了">模型层：国产模型已经够用了</h2>
+
+<p>这句话放在半年前还有争议。7 月五家同时亮剑之后，结论变得清晰。</p>
+
+<p>Kimi K3（2.8T 参数，MoE 架构）在 Code Arena 上以 1679 分反超 Claude。第三方评测显示，它在人工智能分析网站综合榜单排名全球第三。</p>
+
+<p>DeepSeek V4-Pro（1.6T 参数，激活参数仅 490 亿）编码能力直追 GPT-5.6 Sol，但推理计算量只有前代的 27%。峰谷分时定价把 API 价格压到了海外同级模型的七分之一——甚至更低。</p>
+
+<p>Qwen3.8-Max-Preview（2.4T 参数）做到了”各项都不差”的均衡性能，而且旗下 Qoder 的工具链已经形成了完整闭环：从模型到 Agent 到安全扫描到部署，一条线拉通。</p>
+
+<p>GLM-5.2（753B 参数）走的是轻量高效路线，在终端任务测试中超越了 Claude。</p>
+
+<p>对大多数 Java 后端工程师来说，这就是现实：DeepSeek V4 的日常编码能力已经足够处理增删改查、重构、单元测试生成这些常规工作。Kimi K3 和 Qwen3.8-Max 对复杂多文件任务也足够用力。只有在需要深度架构设计、复杂安全审计时，才值得调 Opus 5 或 Fable 5。</p>
+
+<p>Model-as-a-Service 的逻辑已经成立。中国 AI 模型二季度在全球最大开源分发平台 OpenRouter 的流量占比突破 45%，Qwen 和 MiMo 合计贡献了约 49% 的全球 AI 编程 Token。Airbnb 已经把 Qwen 纳入核心工作流——因为成本优势和能力已经达到了可用阈值。</p>
+
+<p>当模型不再是瓶颈，开发者的关注点自然从”哪个模型更强”转向”哪个工具链更完整”。</p>
+
+<h2 id="工具层竞争从-ide-延伸全链路">工具层：竞争从 IDE 延伸全链路</h2>
+
+<p>IDC 报告里的市场份额数字只是冰山一角。</p>
+
+<p>Qoder 47.6% 的份额不只是因为免费策略，更因为它踩准了一个时间点：在”AI 编程应该是 IDE 插件”和”AI 编程应该是智能体平台”之间的转型期，它选择了后者。7 月上线 Qoder Security 后，它加了一个关键拼图——三层扫描（L1 静态模式匹配 + L2 语义增量扫描 + L3 跨文件数据流分析），用”生产者 Agent + 验证者 Agent”双 Agent 交叉质疑的架构压低误报。</p>
+
+<p>CodeBuddy 是另一条路径。7 月 22 日 IDE 开启内测，加上已有的插件和 CLI，成了国内唯一覆盖三种形态的 AI 编程工具。更重要的是腾讯在 7 月 29 日发布了 CodeBuddy NPC，提出 AI Native Git 范式——@一下派任务，Agent 自己调查、开发、提交 PR、按 CI 结果修复。这不是”帮我写这段代码”，而是”帮我做完这个需求”。</p>
+
+<p>两者的共同点很明显：都不再只做代码补全了。</p>
+
+<p>Qoder 从 IDE 长出了 Agent 平台 + 安全扫描 + 云端运行时，CodeBuddy 从插件长出了 IDE + CLI + NPC。它们的路线不同，但终点一致：做覆盖从需求到部署的完整开发周期。</p>
+
+<p>对开发者的影响是直接的。过去你选 AI 编程工具，问的是”代码补全快不快”“补得好不好”。现在你选 AI 编程工具，问的是”能不能自动做安全扫描”“能不能自己修 CI”“能不能把团队的代码规范写成 Skill 让 Agent 自动遵守”。</p>
+
+<h2 id="治理层安全从最后一道工序变成第一行代码的事">治理层：安全从”最后一道工序”变成”第一行代码的事”</h2>
+
+<p>GitLab 报告里有一个不太被注意但极其关键的数字：83% 的组织把 AI 生成代码的积累列为风险，44% 排入顶级技术风险。91% 说未来 12 个月会投资 AI 代码治理工具。</p>
+
+<p>这就是我说的第三层变化：<strong>安全不再是一道工序，而是一个默认内置的能力。</strong></p>
+
+<p>Qoder Security 的三层设计本质上就是在做这件事——边写代码边挡（L1）、任务收尾时复查（L2）、推送前深度追溯数据流（L3）。这跟传统”等 CI 跑安全扫描”的时序完全不同。</p>
+
+<p>同样的逻辑也在向其他工具蔓延。Qoder 官方数据显示，内部开发团队接入 Security 后，代码审查中的安全相关反馈减少了约 35% 到 45%。不是因为安全标准降低了，是因为风险在被提交之前就被干掉了。</p>
+
+<p>但请记住一个前提：这些能力是有成本的。Qoder Security 的 L2 扫描约 5 Credits/500 行，L3 约 20 Credits/500 行。如果你一个任务生成 2000 行代码、跑一次 L2 + L3，那是 100 Credits 的成本。做得起的团队才是真正的受益者，做不起的，安全扫描仍然是一个”等有钱了再说”的选项。</p>
+
+<h2 id="三个判断">三个判断</h2>
+
+<p>综合这些信号，我对 2026 年下半年有三个判断。</p>
+
+<p><strong>第一，模型能力不再是主战场。</strong></p>
+
+<p>过去两年的竞争主轴是”谁的模型更强”。7 月的局势已经很明显——Kimi K3 和 DeepSeek V4 的代码能力追平甚至反超了闭源模型，国产模型覆盖了从 99 到 99.5 分之间的绝大部分场景。剩下的能力差距，用工具链和工程实践就能补回来。</p>
+
+<p><strong>第二，治理会成为下半年的核心差异化。</strong></p>
+
+<p>GitLab 的报告和 7 月的安全事件集群把这个问题推到了台前：代码写得再快，管不住就是负债。这带来的实际变化是——AI 编程工具的竞争维度从”生成能力”扩展到”安全能力”“成本控制能力”“团队管理能力”。谁能帮团队回答”代码从哪来、要做什么、谁负责”这三个问题，谁就能拿到下一个赛段的入场券。</p>
+
+<p><strong>第三，国产工具链的下半年值得关注。</strong></p>
+
+<p>Qoder + Qwen、CodeBuddy + 腾讯云、CodeGeeX + GLM——中国的 AI 编程工具正在和模型深度耦合，形成各自的闭环。这不是”中国企业抄海外”的故事，而是”中国企业用自研模型 + 自有云 + 自建工具链，打出自己的节奏”。尤其是 Qoder Security 的 L1/L2/L3 分层设计和 CodeBuddy NPC 的 AI Native Git 理念，在工程落地上都有独特判断。</p>
+
+<h2 id="对-java-团队的一个提醒">对 Java 团队的一个提醒</h2>
+
+<p>如果你正在用 DeepSeek、Qwen 或 GLM 做日常开发，现在就可以开始：</p>
+
+<ol>
+  <li>
+    <p>把安全扫描嵌入开发流程，而不是留在 CI 末尾。Qoder 的三层设计是一个可参考的模板——实时拦截 + 任务收尾复查 + 推送前深度追查。</p>
+  </li>
+  <li>
+    <p>建一套 AI 代码的溯源约定。哪怕只是 commit message 里加一个 <code class="language-plaintext highlighter-rouge">ai-generated: true</code> 的标记，出事故时都能省掉大量排查时间。</p>
+  </li>
+  <li>
+    <p>关注国产工具链的分层定价。DeepSeek V4 的峰谷定价、Qoder L2/L3 的 Credits 模型——成本控制的颗粒度在细化。下半年能用模型路由省钱的团队和不做路由的团队，成本会差出一个量级。</p>
+  </li>
+</ol>
+
+<hr />
+
+<p>总结一句话：2026 年上半年是”AI 能写代码”，下半年是”AI 写的代码能不能管得住”。</p>
+
+<p>国产模型已经基本解决了”写”的问题。DeepSeek V4、Kimi K3、Qwen3.8-Max 对日常 Java 后端的编码需求来说，能力是够的。真正拉开差距的，是谁先跑通”写—查—控”的完整链路。</p>]]></content><author><name>唐悦玮</name></author><category term="AI 工程化" /><category term="AI 编程" /><category term="行业预测" /><category term="代码治理" /><category term="安全" /><category term="国产大模型" /><summary type="html"><![CDATA[摘要：国产大模型密集发布、AI 编程市场份额翻 3 倍、安全漏洞集群化爆发——2026 年 7 月的信号足够密集，足以判断下半年的方向。过去两年拼的是”写代码更快”，下半年拼的是”管得住”。本文从模型层、工具层、治理层三个维度，给出下半年 AI 编程的核心预测。]]></summary></entry><entry><title type="html">3 亿+ token 做的游戏，大王说不如贪吃蛇</title><link href="https://tangyuewei.github.io/posts/repair-master/" rel="alternate" type="text/html" title="3 亿+ token 做的游戏，大王说不如贪吃蛇" /><published>2026-08-02T10:15:00+08:00</published><updated>2026-08-02T10:15:00+08:00</updated><id>https://tangyuewei.github.io/posts/repair-master</id><content type="html" xml:base="https://tangyuewei.github.io/posts/repair-master/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：我用 AI 烧了 3 亿+ token 写完小程序游戏《万能修复大师》。把代码回喂 AI 做自评，结论很漂亮：工程满分。可给大王试玩，她说”一点也不好玩”，玩了几分钟后再也没碰过。这篇文章复盘这个落差：AI 把”写得出”和”值得玩”彻底分开了，以及我从中学到的真实教训。</p>
+</blockquote>
+
+<p><img src="/imgs/game/xfds.jpg" alt="万能修复大师" /></p>
+
+<h2 id="背景一个被-ai-写满分的游戏">背景：一个被 AI 写满分的游戏</h2>
+
+<p>今年夏天我用 AI 写了个小程序游戏，叫《万能修复大师（Repair Master）》。</p>
+
+<p>玩法很简单：选一个关卡，用刮子把屏幕上的污渍刮干净，达标就结算，按完成质量给 1~5 星，星够了解锁下一关，还能收集。仓库里一共 21 关（含一个隐藏传说关），4 种修复工具，覆盖厨房油污、贴纸清理、墙洞修补这些日常场景。</p>
+
+<p>核心循环是我自己定的，一句话就能说清：</p>
+
+<blockquote>
+  <p>选择关卡 → 刮除污渍 → 达标结算 → 星级评分 → 解锁下关 / 收集</p>
+</blockquote>
+
+<p>整个项目全程 AI 辅助编码：我描述需求，AI 出实现，我再让 AI 互相 review。前后吃掉了 <strong>3 亿+ token</strong>，这是我这个项目的真实消耗，不是估算。</p>
+
+<p>写完那天我挺得意。把整套代码回喂给 AI 做自评，出来的结论相当漂亮：<strong>工程满分，商业刚起步</strong>。</p>
+
+<p>然后我把手机递给大王，说你玩两分钟。</p>
+
+<p>她玩了几分钟，把手机还给我：”这是个什么玩意，根本一点都不好玩，一点都不休闲，一点都不解压，还不如俄罗斯方块或者贪吃蛇呢。”从那以后再没主动点开过。</p>
+
+<p>那一刻我知道，那个”工程满分”的评测，缺了点东西。</p>
+
+<h2 id="ai-评测工程满分">AI 评测：工程满分</h2>
+
+<p>先说 AI 为什么给了满分。这也是我博客里写过的 AI Code Review 套路——把代码丢回去，让它当 reviewer。</p>
+
+<p>它给的反馈集中在工程层面：架构清晰、模块边界合理、状态机干净、没有重复代码、性能达标。</p>
+
+<p>附上几张截图：</p>
+
+<p><img src="/imgs/game/game-home.jpg" alt="主菜单" />
+<img src="/imgs/game/playging.jpg" alt="游戏中" />
+<img src="/imgs/game/success.jpg" alt="结算" /></p>
+
+<p>关卡是数据驱动的——21 关配置即数据（sceneConfigs.ts 里一条条列着），加新关不用改逻辑，只加一条配置。这也是为什么 AI 敢给”工程满分”：它看到的是干净的 <code class="language-plaintext highlighter-rouge">domain</code> 纯逻辑层，和渲染层彻底分开，可独立测试。</p>
+
+<p>这些在 AI 的评判体系里，都是”像好代码”的特征。所以它给工程打满分，我服气。这部分是它熟悉的语言：结构、边界、可维护性，它比大多数初级工程师看得准。</p>
+
+<p>代码现在已经开源（<a href="https://gitee.com/tangyuewei/repair-master-minigame">Gitee</a> 上能翻到完整仓库）：Cocos Creator 3.8 + TypeScript，domain 纯逻辑层和 cocos 渲染层严格分离，过百个单元测试（仓库 badge 标注 145 passing）守着核心逻辑。换句话说，那个”工程满分”不是嘴上说说，是能 clone 下来自己验的。</p>
+
+<p>问题出在它打不了分的那一维。</p>
+
+<h2 id="大王评测一点也不好玩负分">大王评测：一点也不好玩（负分）</h2>
+
+<p>大王那句话，我第一反应是辩解的。</p>
+
+<p>我说你看，它覆盖了所有游戏设计啊，有 21 个关卡（含一个隐藏传说关），4 种工具，连击、撤销、区域判定、多阶段修复一应俱全，核心循环是完整的：选关、刮、结算、评星、解锁，一环不缺。不少同类型游戏连多阶段修复和区域判定都做不全。</p>
+
+<p>她没接茬。事实比”不如贪吃蛇”更干脆：她玩了几分钟，把它彻底放下了，之后再没主动点开过。</p>
+
+<p>后来我琢磨明白了，这两件事为什么能同时成立。</p>
+
+<p>AI 实现的是<strong>你描述的机制</strong>。我把”刮除污渍、算残留、评星、解锁”写进需求，它一字不差地做出来，而且做得结构漂亮。</p>
+
+<p>但”好玩、休闲、解压”是机制之上的<strong>体验</strong>，它没法写进需求文档。你没法跟 AI 说”让刮的动作手感再润一点”，除非你能把”润”翻译成具体的参数和反馈曲线——而我当时没这个能力，我只是笼统地要了一个游戏。</p>
+
+<p>大王的反应，恰恰是 AI 评测里永远缺的那一维：<strong>真实用户的直觉</strong>。她不在乎你的核心循环完不完整，她在乎的是”第一秒爽不爽”。这一维 AI 既不会自己测，也不会在 review 里扣你分，因为它根本不知道”爽”长什么样。</p>
+
+<p>那句”商业刚起步”，现在看不是客套，是 AI 诚实地给自己留了余地。它知道代码它能评，市场和手感它评不了，所以只敢说”刚起步”。</p>
+
+<h2 id="3-亿-token-去哪了">3 亿 token 去哪了</h2>
+
+<p>回头看，3 亿 token 里绝大部分不是花在”实现功能”上，而是花在”看不见的微调”上。我大致拆了一下自己的消耗：</p>
+
+<ul>
+  <li><strong>调手感</strong>：刮除的阻尼、音效触发时机、星级跳出来的动画，这部分占了最多。AI 每次改一点，我试一下，不对再改。</li>
+  <li><strong>试机制</strong>：21 关的难度曲线怎么走，隐藏关什么时候放，连击窗口卡几秒才不让人挫败，来回试了好几版。</li>
+  <li><strong>加内容</strong>：从只有前几关，到补满 4 章节 21 关、隐藏传说关、图鉴收集，每次都是一大轮对话。</li>
+  <li><strong>AI 自检迭代</strong>：让它 review 自己的代码，它提一堆建议，我挑着改，改完再让它看。</li>
+</ul>
+
+<p>一个数据点值得记一下：<strong>游戏这类”手感驱动”的项目，token 主要消耗在反复试错式的微调，而不是功能堆叠。</strong> 功能实现可能 3000 万 token 就够，剩下 2.7 亿都在”让它再润一点”上。</p>
+
+<p>这本身就是个教训。如果我在写第一行代码前，先拿一个最糙的原型让人试出手感对不对，后面那 2.7 亿 token 至少能省掉一大半。我是先让 AI 把东西做”完整”，再发现它”不对味”，顺序反了。</p>
+
+<h2 id="核心教训ai-把写得出和值得玩分开了">核心教训：AI 把”写得出”和”值得玩”分开了</h2>
+
+<p>把这个项目和我之前写的 AI Native 仓库那篇文章连起来看，结论很清楚：</p>
+
+<p>AI 擅长解决的是”写得出”，只要你能把需求描述清楚，工程质量可以很高。它跨不过的是”该写什么”和”写出来好不好用”。</p>
+
+<p>三个维度对照一下：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>维度</th>
+      <th>AI 的表现</th>
+      <th>原因</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>工程能力</td>
+      <td>接近满分</td>
+      <td>结构、边界、可维护性是它熟悉的语言</td>
+    </tr>
+    <tr>
+      <td>体验判断</td>
+      <td>接近零分</td>
+      <td>“好玩”无法写成可验证的需求</td>
+    </tr>
+    <tr>
+      <td>真实用户反馈</td>
+      <td>不可替代</td>
+      <td>只有真人才会在第一秒给出”不如贪吃蛇”</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>这不是游戏特有的困境。任何”用起来才知道”的产品，内部工具、配置后台、甚至我之前写的那些 toB 系统，都有同一道门槛：AI 能把它写对，但写不对”用户到底要不要”。区别在于，toB 系统至少有明确的工单和流程兜底，而一个休闲游戏，唯一的验收标准就是”想不想再点开一次”。</p>
+
+<p>所以”工程满分、商业刚起步”这句话，换个说法就是：<strong>AI 把工程做到了极致，体验那道门槛得真人来跨。</strong></p>
+
+<h2 id="现在它开源了">现在：它开源了</h2>
+
+<p>写这篇的时候，我已经把这个游戏开源了，仓库在 <a href="https://gitee.com/tangyuewei/repair-master-minigame">Gitee</a>。<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup></p>
+
+<p>开源不是因为我觉得它成了爆款，恰恰相反，是因为它是最好的反面教材。任何人都能 clone 下来，亲眼看看一个”工程评分满分、真人评分弃坑”的产物长什么样：domain 纯逻辑层和渲染层干干净净地分开，过百个单元测试（仓库 badge 标注 145 passing）守着核心逻辑，可打开游戏，第一分钟你就想退出。</p>
+
+<p>这对我反而有种释然。开源意味着这个教训不再只属于我一个人，也属于每个准备用 AI 大干一场做产品的开发者：你可以让 AI 把代码写到挑不出毛病，但”挑不出毛病”和”有人愿意玩”之间，隔着大王那几分钟。</p>
+
+<h2 id="如果重来我会怎么用-ai">如果重来：我会怎么用 AI</h2>
+
+<p>不是不用 AI，是换顺序用。</p>
+
+<p><strong>先验证手感，再让 AI 实现。</strong> 拿纸面原型或者最糙的 demo 给真人试，确认核心循环”第一秒爽”，再让 AI 把工程做厚。这步省下的 token 和返工，比后面任何优化都值钱。</p>
+
+<p><strong>把”好玩”翻译成可描述指标。</strong> 真人试不出来原因，但能试出来结果。单局时长、重试率、首日留存——这些是可量的。让 AI 对准”把单局控制在 90 秒以内”“让前三关重试率低于 20%”去写，比说”做得解压一点”有用得多。</p>
+
+<p><strong>用 AI 做工程，用真人做体验裁判。</strong> 别让 AI 给自己打体验分。代码 review 让它做，手感验收交给大王这种真实用户。两条线分开，结论才不会自我美化。</p>
+
+<p><strong>控制 token：小闭环跑通再扩张。</strong> 先一个章节跑顺，再谈 21 关、隐藏关、图鉴、特效、故事等。我是反过来，所以才烧了 3 亿。</p>
+
+<h2 id="结尾">结尾</h2>
+
+<p>我问大王怎么样，她说真不如贪吃蛇好玩，之前的发型试戴APP还有点想法呢，然后去刷她的短视频了。</p>
+
+<p>我接受了。</p>
+
+<p>那个”工程满分”的评测是给开发者的，证明 AI 确实能把代码写到很好。可玩家手里的差评，是给产品的——它提醒我，AI 评得出架构，评不出”想不想再玩一次”。</p>
+
+<p>3 亿 token 买来的，不是一款好游戏，而是一个教训：<strong>AI 能替你把工程做满，但跨不过”好玩”这道真人门槛。</strong> 代码已经开源，欢迎你亲自来验证这门落差。</p>
+
+<hr />
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1">
+      <p>repair-master . https://gitee.com/tangyuewei/repair-master-minigame <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>唐悦玮</name></author><category term="AI 编程" /><category term="工程实践" /><category term="AI 辅助编程" /><category term="小程序游戏" /><category term="产品思维" /><category term="工程实践" /><category term="token消耗" /><summary type="html"><![CDATA[摘要：我用 AI 烧了 3 亿+ token 写完小程序游戏《万能修复大师》。把代码回喂 AI 做自评，结论很漂亮：工程满分。可给大王试玩，她说”一点也不好玩”，玩了几分钟后再也没碰过。这篇文章复盘这个落差：AI 把”写得出”和”值得玩”彻底分开了，以及我从中学到的真实教训。]]></summary></entry><entry><title type="html">Kimi K3 开源：2.8 万亿接入 Codex</title><link href="https://tangyuewei.github.io/posts/kimi-k3-open-source/" rel="alternate" type="text/html" title="Kimi K3 开源：2.8 万亿接入 Codex" /><published>2026-08-01T11:00:00+08:00</published><updated>2026-08-01T11:00:00+08:00</updated><id>https://tangyuewei.github.io/posts/kimi-k3-open-source</id><content type="html" xml:base="https://tangyuewei.github.io/posts/kimi-k3-open-source/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：7 月 27 日晚，月之暗面开放了 Kimi K3 模型权重——全球首个 3T 量级开源模型，2.8 万亿参数、MoE 架构、100 万 Token 上下文。权重放出不到 24 小时，vLLM、SGLang、OpenRouter 全部 Day-0 支持，Cursor 直接加入模型选择器。更重要的是，通过第三方工具可以将 K3 接入 Codex 客户端——这意味着不用美元订阅也能跑 OpenAI 的编程 Agent 了。</p>
+</blockquote>
+
+<p>7 月 27 日晚上 11 点，月之暗面做了一件没人想到的事。</p>
+
+<p>他们开放了 Kimi K3 的模型权重。2.8 万亿参数——全球第一个突破 3T 量级的开源模型。作为参照，第二名 DeepSeek V4 Pro 是 1.6T，GLM-5.2 是 744B。这已经不是领先一个身位的问题了。</p>
+
+<p>但比参数更重要的是后续 24 小时发生的事情。</p>
+
+<h2 id="生态一夜之间接住了">生态一夜之间接住了</h2>
+
+<p>权重放出后，推理框架 vLLM 和 SGLang 当天出了 Day-0 支持。月之暗面直接把 KDA（Kimi Delta Attention）注意力机制的实现合进了 vLLM 主线。</p>
+
+<p>OpenRouter、Fireworks、Together——海外三个主流模型托管平台同一天上线 K3。价格统一：输入 3 美元/百万 Token，输出 15 美元/百万 Token。全部是 OpenAI 兼容接口。</p>
+
+<p>然后 Cursor——这个被 SpaceX 以 600 亿美元收购的 AI IDE——也同一天把 K3 加进了模型选择器。不需要额外配置，下拉菜单里就能选。</p>
+
+<p>一个开源模型，一夜之间被整个生态接住。这在之前没有发生过。</p>
+
+<h2 id="为什么-k3-会被生态接住">为什么 K3 会被生态接住</h2>
+
+<p>技术指标层面：K3 采用 MoE 架构，2.8 万亿总参数，每次推理只激活一部分专家，100 万 Token 原生上下文。在 Arena 的前端编程盲测中，开发者对它的偏好超过所有美国模型——包括 GPT-5.6 和 Claude Opus 4.8。</p>
+
+<p>但这能解释 Cursor 在一个周末内就完成集成吗？</p>
+
+<p>更合理的解释是市场因素。2026 年 6 月底，美国出口管制收紧，Anthropic 的 Fable 5 一度全球暂停访问。虽然一周多后恢复了，但这给全球的 AI 开发工具生态提了一个醒：如果你的整个工具链依赖单一国家的闭源模型，你是有供应风险的。K3 的开源、且不显著落后于闭源旗舰的编码能力，恰好踩中了这个时间窗口。</p>
+
+<p>月之暗面的授权协议选得很聪明：MIT 衍生协议，个人和学术研究免费，商业使用在营收门槛以下免费。比 Meta 的 Llama 许可证更宽松，比 DeepSeek V4 Pro 的纯 MIT 紧一点但更清晰。这意味着绝大多数中小团队可以直接拿来商用，不需要签合同。</p>
+
+<h2 id="一个更接地气的事k3-接-codex">一个更接地气的事：K3 接 Codex</h2>
+
+<p>如果你在关注中文开发者社区，这几天讨论最多的不是参数规模，而是另一件事：怎么把 K3 接到 Codex 里用。</p>
+
+<p>很多人没有美元信用卡，Codex 的订阅被挡在支付这一步。同时 K3 给的是 OpenAI 兼容的 Chat Completions API，而 Codex 走的是 Responses API——两个协议不互通。</p>
+
+<p>解决方案是用一个本地的协议转换器。比较常用的叫 Teamo Router，流程大致是：下载 ChatGPT 桌面端（Codex 已整合进去）→ 在 Teamo 里选好 Codex 客户端 → 连接 TeamoRouter → 选 Kimi K3 模型 → 确认接入。全程不到 10 分钟，不需要配置文件，不需要信用卡。接入后 Codex 里面跑的已经是 K3 了。</p>
+
+<p>实测 K3 在 Codex 下的编码响应速度大约 60-80 tok/s，生成中等复杂度的前端页面约 2 分钟。和 GPT-5.6 Sol 在 Codex 上的原生体验相比有明显体感差距（后者更流畅），但不至于不可用。如果日常编码任务主要是中小规模的功能实现，这个延迟在可接受范围内。</p>
+
+<p>当然，这也有代价。转换器引入了一层中间代理，存在额外的延迟开销——大约 50-100ms。对于重度 Codex 用户来说，直接走官方 API 的体验更丝滑。但这个方案的意义不在于比官方快，而在于让被支付门槛挡住的人也能用上。</p>
+
+<p>切换模型时有一个容易忽略的细节：Codex 需要完整退出再重新打开，否则旧配置缓存在进程里不会更新。macOS 上菜单栏退出算退出，只关窗口不算。</p>
+
+<h2 id="本地部署的残酷现实">本地部署的残酷现实</h2>
+
+<p>说到这里，需要给”开源”这个词降降温。</p>
+
+<p>K3 是开源的，不意味着你能在自己电脑上跑。它在 Hugging Face 和 ModelScope 上确实有完整的权重文件，但推理它的最低配置是 8 张 H100 80GB——640GB 显存，约 33 美元/小时在 RunPod 上租用。你可以在 AWS p5.48xlarge 上跑，98 美元/小时。</p>
+
+<p>对于大多数个人开发者和中小团队，实际的选项只有两个：调官方 API（3/15 美元百万 Token），或者在 OpenRouter 上走第三方托管（稍贵一点但零配置）。自己搭基础设施只在月处理超过 15 亿 Token 时才有经济合理性。</p>
+
+<p>“开源”在这里的意思是：你可审计它的权重、可基于它微调、不用担心它某天因为合规原因不可用。不是”免费”。</p>
+
+<h2 id="这一周意味着什么">这一周意味着什么</h2>
+
+<p>从 7 月 23 日阿里开源 Qwen3-Coder 480B，到 7 月 27 日月之暗面开放 K3 权重，中间只隔了四天。两家国产模型在同一条赛道上做了同一个决定：把旗舰编程模型开源，然后看谁能接住最多的下游生态。</p>
+
+<p>这是 2026 年 AI 编程工具领域的标志性状态转变。不再是一个月前的”国产模型追赶美国闭源”。当 Arena 开发者的盲测偏好超过所有美国模型，当 Cursor 把中国开源模型放进模型选择器，当 Codex 可以通过本地代理接上开源模型——”用哪个模型”从一个战略决策变成了一个运行时参数。</p>
+
+<p>从 Qwen3-Coder 到 K3，这四天可能比很多人意识到的更重要。不是因为参数多，而是因为生态门槛被跨过了：一个开源模型，不需要特殊渠道，不需要美元信用卡，被全球最大的几款编程工具在 24 小时内接住——这是第一次。</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="开源" /><category term="Kimi K3" /><category term="开源模型" /><category term="Codex" /><category term="Moonshot AI" /><category term="AI编程" /><category term="大模型" /><summary type="html"><![CDATA[摘要：7 月 27 日晚，月之暗面开放了 Kimi K3 模型权重——全球首个 3T 量级开源模型，2.8 万亿参数、MoE 架构、100 万 Token 上下文。权重放出不到 24 小时，vLLM、SGLang、OpenRouter 全部 Day-0 支持，Cursor 直接加入模型选择器。更重要的是，通过第三方工具可以将 K3 接入 Codex 客户端——这意味着不用美元订阅也能跑 OpenAI 的编程 Agent 了。]]></summary></entry><entry><title type="html">如何把 Java 仓库改造成 AI Native？</title><link href="https://tangyuewei.github.io/posts/ai-native-repository/" rel="alternate" type="text/html" title="如何把 Java 仓库改造成 AI Native？" /><published>2026-07-31T10:00:00+08:00</published><updated>2026-07-31T10:00:00+08:00</updated><id>https://tangyuewei.github.io/posts/ai-native-repository</id><content type="html" xml:base="https://tangyuewei.github.io/posts/ai-native-repository/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：2026 年，AI 编码工具已经能写出可运行的代码，但团队很快发现：Agent 改得好 CRUD，改不了核心逻辑。根因不是模型能力不够，而是仓库结构从未为 AI 设计过。本文提出 AI Native Repository 六层模型，从模块边界、架构约束、规则宪法、团队记忆到验证闭环，给出一套可落地的 Java 仓库改造方案。</p>
+</blockquote>
+
+<hr />
+
+<h2 id="一个-spring-boot-团队的一周">一个 Spring Boot 团队的一周</h2>
+
+<p>2026 年，团队接入了 Claude Code。</p>
+
+<p><strong>第一天。</strong> Agent 写 CRUD 又快又准。Controller、Service、Mapper 一气呵成，团队成员觉得捡到宝了。</p>
+
+<p><strong>第三天。</strong> Agent 开始改错误模块。让它给工单审批加个超时逻辑，它跑去改了角色权限的代码。让它修一个 NPE，它在三四个 Controller 里加了判空，但真正的 bug 在 Service 层。</p>
+
+<p><strong>第七天。</strong> 没人敢让 Agent 碰核心代码了。团队又回到了手写时代，AI 退化成了高级自动补全。</p>
+
+<p>这不是个案。我聊过三个用 Spring Boot 接入 AI Agent 的团队，反馈高度一致：Agent 写新东西可以，改老代码就出事。</p>
+
+<p>根因不是模型能力不够。Claude Opus 4.6 在 SWE-bench 上能独立修复 53% 的 issue。问题是——</p>
+
+<p><strong>传统 Java 仓库不是为 AI 设计的。</strong></p>
+
+<p>换一个角度说：当你的代码库结构是为”人类逐文件理解”设计的，AI 进来就像让一个视力正常的人戴着重度散光的眼镜干活——它看得见，但定位不准，上下文混乱。</p>
+
+<hr />
+
+<h2 id="传统仓库为什么-ai-用不好">传统仓库为什么 AI 用不好</h2>
+
+<p>看一个典型的 Spring Boot 项目结构：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre>src/main/java/com/company/
+├── controller/
+│   ├── OrderController.java
+│   ├── PaymentController.java
+│   └── UserController.java
+├── service/
+│   ├── OrderService.java
+│   ├── PaymentService.java
+│   └── UserService.java
+├── mapper/
+│   ├── OrderMapper.java
+│   ├── PaymentMapper.java
+│   └── UserMapper.java
+├── entity/
+│   ├── Order.java
+│   ├── Payment.java
+│   └── User.java
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>从人类视角看，按技术层次分，清晰明了。</p>
+
+<p>从 AI 视角看，这是灾难。</p>
+
+<p>当你让 AI “给工单加点功能”，它面对的是 3000 个分散在技术层里的类。模型的注意力在长上下文中会衰减——后面读到的文件”看是看到了，但用不上”。它不知道哪些类属于工单域，哪些属于支付域。上下文窗口 200K token 是够大，但注意力窗口没这么大。</p>
+
+<p>这就是 Context Engineering 要解决的问题：不是给 AI 更多代码，而是给 AI 更清晰的边界。</p>
+
+<hr />
+
+<h2 id="ai-native-repository-六层模型">AI Native Repository 六层模型</h2>
+
+<p>在动手改造之前，需要先建立一个全局视角。AI Native 仓库和传统仓库的差异不是加个配置文件就完事——它涉及从代码组织到工作流的六个层次。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre>              AI Engineering Layer（规则与工作流）
+                    AGENTS.md + Skills + Workflows
+                              |
+              Knowledge Layer（显性知识）
+           架构文档 + 领域模型 + API 契约 + 已知坑
+                              |
+              Code Structure Layer（模块边界）
+             Spring Modulith + Hexagonal Architecture
+                              |
+              Verification Layer（质量门禁）
+               测试金字塔 + 静态分析 + Review Gate
+                              |
+              Automation Layer（自动化管道）
+              CI/CD + Git Hooks + MCP 集成
+                              |
+              Runtime Layer（运行时）
+              Spring Boot Application + 可观测性
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>从上往下，每一层都为 AI Agent 答一个问题：</p>
+
+<ul>
+  <li><strong>Engineering Layer</strong>：我应该怎么干活？（规则、边界、禁止项）</li>
+  <li><strong>Knowledge Layer</strong>：这个系统是干什么的？（架构意图、领域知识）</li>
+  <li><strong>Code Structure Layer</strong>：代码在哪儿、我能改哪儿？（物理边界）</li>
+  <li><strong>Verification Layer</strong>：我写对了吗？（反馈循环）</li>
+  <li><strong>Automation Layer</strong>：怎么把结果跑起来？（执行环境）</li>
+  <li><strong>Runtime Layer</strong>：线上是什么状态？（可观测性）</li>
+</ul>
+
+<p>这不是六个独立工具，而是一个完整的闭环。缺任何一层，Agent 就会在某一步”迷失方向”——常见症状是改错模块、重复造轮子、或改完不自测。</p>
+
+<p>下面重点展开前三层，这是目前绝大多数 Spring Boot 团队最欠缺的部分。</p>
+
+<hr />
+
+<h2 id="spring-modulith给-ai-画出模块边界">Spring Modulith：给 AI 画出模块边界</h2>
+
+<p>Spring Modulith 的传统卖点是”单体应用的模块化方案”——让你用 <code class="language-plaintext highlighter-rouge">@ApplicationModuleListener</code> 发事件、用 <code class="language-plaintext highlighter-rouge">verify()</code> 测模块隔离，最终可以平滑拆成微服务。</p>
+
+<p>但 AI 时代，Modulith 最大价值换了一个维度：<strong>帮助 Agent 理解系统边界。</strong></p>
+
+<p>换句话说，模块化的核心收益不再是”将来好拆微服务”，而是”现在 Agent 就知道哪里能改、哪里不该碰”。</p>
+
+<h3 id="改造前">改造前</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>src/main/java
+├── controller
+├── service
+├── mapper
+├── entity
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>AI 读到的：一堆按技术层堆叠的类，没有领域概念。</p>
+
+<h3 id="改造后">改造后</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre>order/
+├── api/          # REST 接口 + DTO
+├── application/  # 用例编排
+├── domain/       # 领域模型 + 业务规则
+└── infrastructure/  # 数据库 + 外部服务
+
+payment/
+├── api/
+├── application/
+├── domain/
+└── infrastructure/
+
+ticket/           # 工单域
+├── api/
+├── application/
+├── domain/
+└── infrastructure/
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>AI 现在读到一个明确的信号：这个项目的业务被切成了三个独立的上下文——工单、订单、支付。每个模块内部有自己的分层。</p>
+
+<p>效果：当你告诉 Agent “在工单模块里加一个审批超时自动关闭功能”，它能定位到 <code class="language-plaintext highlighter-rouge">ticket/</code> 目录，不会跑错门。</p>
+
+<h3 id="加上-modulith-校验">加上 Modulith 校验</h3>
+
+<p>改造不只是目录移动。加上 Spring Modulith 的模块测试，让 CI 帮你守住边界：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="nd">@SpringBootTest</span>
+<span class="kd">class</span> <span class="nc">ModularityTest</span> <span class="o">{</span>
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">verifyModuleStructure</span><span class="o">(</span><span class="nc">ApplicationModules</span> <span class="n">modules</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">modules</span><span class="o">.</span><span class="na">verify</span><span class="o">();</span>
+        <span class="c1">// 违反模块访问规则 → 测试直接挂</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Agent 一旦在工单模块里直接引用了支付模块的内部实现，<code class="language-plaintext highlighter-rouge">verify()</code> 会在 CI 上炸掉。相比口头规范，这种物理约束对 Agent 更有效——因为它不是”被建议不要改”，而是”改了就跑不通”。</p>
+
+<hr />
+
+<h2 id="六边形架构用结构限制-agent-的修改半径">六边形架构：用结构限制 Agent 的修改半径</h2>
+
+<p>六边形架构（Hexagonal Architecture，也叫 Ports &amp; Adapters）的传统价值是解耦——让你可以换数据库、换消息队列而不改业务逻辑。</p>
+
+<p>AI 时代的价值换了一个角度：<strong>降低 Agent 修改的影响面。</strong></p>
+
+<h3 id="没有六边形时">没有六边形时</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>Controller → Service → Mapper → SQL
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Agent 改一个”工单负责人可以转给别人”的需求：</p>
+
+<ul>
+  <li>可能改 Controller 的参数校验</li>
+  <li>可能改 Service 的业务规则</li>
+  <li>可能改 Mapper 的 SQL 查询</li>
+  <li>可能连带影响到消息通知、审批流转</li>
+</ul>
+
+<p>影响面不可控。一次修改走出 4 个文件是常有的事。</p>
+
+<h3 id="加上六边形后">加上六边形后</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>        REST API (Adapter)
+              ↓
+     Application Service (用例编排)
+              ↓
+        Domain (Port 接口)
+              ↓
+    Infrastructure (Adapter 实现)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Agent 需要修改时，边界天然限制了它能深入的程度：</p>
+
+<ul>
+  <li>改调用方行为，只碰 Application 层</li>
+  <li>改业务规则，只碰 Domain 层</li>
+  <li>换数据库实现，只碰 Infrastructure 层</li>
+</ul>
+
+<p>不是说 Agent 不会改错，而是错了以后爆炸半径小得多。</p>
+
+<h3 id="用代码说明">用代码说明</h3>
+
+<p>把核心业务规则定义在 Domain 层的 Port 接口里，让 Agent 必须通过接口调用，而不是直接访问实现：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="c1">// Domain Port —— 定义契约，Agent 必须遵守</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">TicketRepository</span> <span class="o">{</span>
+    <span class="nc">Ticket</span> <span class="nf">save</span><span class="o">(</span><span class="nc">Ticket</span> <span class="n">ticket</span><span class="o">);</span>
+    <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Ticket</span><span class="o">&gt;</span> <span class="nf">findById</span><span class="o">(</span><span class="nc">TicketId</span> <span class="n">id</span><span class="o">);</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Ticket</span><span class="o">&gt;</span> <span class="nf">findPendingByAssignee</span><span class="o">(</span><span class="nc">UserId</span> <span class="n">assignee</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="c1">// Infrastructure —— 实现细节，Agent 换了数据库不影响业务层</span>
+<span class="nd">@Repository</span>
+<span class="kd">class</span> <span class="nc">MySqlTicketRepository</span> <span class="kd">implements</span> <span class="nc">TicketRepository</span> <span class="o">{</span>
+    <span class="c1">// JDBC / MyBatis 实现</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>这时候你对 Agent 说”换个查询条件”，它大概率改 <code class="language-plaintext highlighter-rouge">findPendingByAssignee</code> 的实现，不会在 Service 里裸写 SQL。边界制造了正确的惯性。</p>
+
+<hr />
+
+<h2 id="agentsmd给-ai-立一份工程宪法">AGENTS.md：给 AI 立一份工程宪法</h2>
+
+<p>很多团队在项目根目录放了个 AGENTS.md，但内容只有几行技术栈说明。这大概相当于给新来的同事做入职培训，只告诉他”我们用的是 Java”——方向对了，但信息量远远不够。</p>
+
+<p>AGENTS.md 的正确写法是<strong>地图，不是手册</strong>。你不需要把所有细节都放进去，但需要告诉 Agent：去哪找什么、什么能做、什么绝对不能碰。</p>
+
+<p>以下是一个 Spring Boot 企业工单系统的 AGENTS.md 核心结构：</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td><td class="rouge-code"><pre><span class="gh"># AGENTS.md</span>
+
+<span class="gu">## 项目概述</span>
+企业工单管理系统。Spring Boot 4.0 + Java 21 + Spring Modulith。
+核心模块：ticket（工单）、approval（审批）、notification（通知）。
+
+<span class="gu">## 架构约束（违反必挂）</span>
+<span class="p">-</span> Controller 禁止直接调用 Repository。路径：
+  Controller → Application Service → Domain Port → Infrastructure
+<span class="p">-</span> 禁止跨模块直接引用内部类。模块间通信只能通过 Domain Event。
+<span class="p">-</span> 任何对数据库 Schema 的修改必须先读 docs/db-schema.md。
+
+<span class="gu">## 禁止模式</span>
+<span class="p">-</span> 禁止在 Service 里拼接 SQL 字符串
+<span class="p">-</span> 禁止吞异常（catch + log 然后 return null）
+<span class="p">-</span> 禁止使用 <span class="sb">`new`</span> 创建 Domain Entity，统一走 Factory 方法
+
+<span class="gu">## 关键文件索引</span>
+<span class="p">-</span> 架构文档：docs/architecture.md
+<span class="p">-</span> 领域模型：docs/domain-model.md
+<span class="p">-</span> 已知问题与陷阱：docs/known-issues.md
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>三个关键设计点：</p>
+
+<p><strong>1. 前 10 行建立心智模型。</strong> Agent 读到第一段就知道这个项目有几个模块、技术栈是什么、顶层约束是什么。</p>
+
+<p><strong>2. 禁止项比建议项更重要。</strong> Agent 不缺生成代码的能力。它缺的是知道”哪些代码不该生成”。负面约束在 AI 框架里是利用率最高的信息。</p>
+
+<p><strong>3. 用链接而非正文做渐进式披露。</strong> 如果 AGENTS.md 膨胀到 5000 行，AI 的注意力会被稀释。把详细文档放在单独文件里，AGENTS.md 只管”去哪找”。</p>
+
+<hr />
+
+<h2 id="给仓库加一份记忆">给仓库加一份记忆</h2>
+
+<p>代码是逻辑的载体，但不是知识的载体。</p>
+
+<p>Agent 每次启动都是”新的一天”——它不知道团队上周在某个方案上踩了坑，不知道三个方案中为什么选了方案 B，不知道上次某个看似简单的改动为什么被 rollback 了。</p>
+
+<p>这些信息散落在 PR 评论、Slack 讨论、团队 Wiki 里。人可以通过沟通找到，Agent 找不到。</p>
+
+<p>解决方案很轻：在仓库里建一个 <code class="language-plaintext highlighter-rouge">.ai/memory/</code> 目录。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre>.ai/
+├── AGENTS.md
+├── memory/
+│   ├── decisions.md
+│   ├── known-issues.md
+│   └── failed-attempts.md
+└── docs/
+    ├── architecture.md
+    └── domain-model.md
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><strong>decisions.md</strong> 记录架构决策：</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>| 日期 | 决策 | 背景 | 替代方案 |
+|------|------|------|----------|
+| 2026-06-15 | 审批状态机用 Cola StateMachine 实现 | 工单审批状态多达 8 个，if-else 已失控 | Spring Statemachine（太重）、手写 enum（已试过，不可维护） |
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><strong>known-issues.md</strong> 记录已知坑：</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>审批超时自动拒绝的定时任务，在 Jetty 下偶发多次执行。 根因是 Quartz misfire 阈值设置过小。当前 workaround：增加分布式锁。长期方案待评估。
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><strong>failed-attempts.md</strong> 记录失败的尝试：</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="gu">### 2026-07-03 Redis 分布式锁方案 A</span>
+<span class="p">-</span> 尝试：用 Redisson RLock 实现审批互斥
+<span class="p">-</span> 问题：高并发下续期超时，锁被误释放
+<span class="p">-</span> 结论：改回数据库乐观锁方案
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>这三份文件的意义在于：Agent 能在开始动手前读取历史教训，避免团队已经踩过的坑被人——不对，被 AI——再踩一次。</p>
+
+<blockquote>
+  <p>AI 最需要继承的不是代码，而是团队的踩坑经验。</p>
+</blockquote>
+
+<hr />
+
+<h2 id="让-ai-能自己验证自己">让 AI 能自己验证自己</h2>
+
+<p>前面的四层解决了”AI 不乱改”的问题。但还有一面硬币的另一半：”AI 怎么知道自己改对了？”</p>
+
+<p>这需要一套 Agent 能触发的验证回路。</p>
+
+<h3 id="测试金字塔但换个角度">测试金字塔，但换个角度</h3>
+
+<p>传统测试金字塔按粒度分：单元 → 集成 → 端到端。这个分层对 AI Agent 来说不够实用。Agent 需要更直接的反馈：<strong>我改了这个文件，跑哪条命令能告诉我是否搞砸了？</strong></p>
+
+<p>更实用的分层：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre>快速反馈（秒级）
+  mvn test -pl ticket-module     # 单模块测试
+
+完整反馈（分钟级）
+  mvn verify                     # 全部测试 + 模块隔离校验 + 静态分析
+
+预提交反馈（自动化）
+  git hook + CI pipeline         # 提交后自动跑
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>在 AGENTS.md 里明确这些命令：</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="gu">## 本地验证</span>
+<span class="p">-</span> 单模块测试：<span class="sb">`mvn test -pl ticket-module`</span>
+<span class="p">-</span> 全部测试 + Modulith 校验：<span class="sb">`mvn verify`</span>
+<span class="p">-</span> 代码风格：<span class="sb">`mvn checkstyle:check`</span>
+
+<span class="gu">## 提交流程（强制）</span>
+<span class="p">1.</span> <span class="sb">`mvn verify`</span> 全部通过
+<span class="p">2.</span> <span class="sb">`git diff --stat`</span> 确认改动范围
+<span class="p">3.</span> 如有跨模块改动，在 PR 描述中说明理由
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>这样 Agent 的编程循环就形成了：改代码 → 跑测试 → 看结果 → 修正 → 再测。没有这个回路，Agent 写的代码永远需要人去跑一遍验证——这和生产力的初衷正好相反。</p>
+
+<hr />
+
+<h2 id="一个真实团队的三周改造记录">一个真实团队的三周改造记录</h2>
+
+<p>一个做智能问答系统的 Java 团队在 2026 年 3 月做了这件事。项目背景：Spring Boot 3.2，3000+ 类，按技术层分包。使用 Claude Code 三个月后，发现 Agent 的核心代码准确率不升反降。</p>
+
+<p>他们花了三周，分三步走：</p>
+
+<h3 id="第一周建立模块边界">第一周：建立模块边界</h3>
+
+<p>把按技术层分包改成按业务域分包：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>改造前：controller / service / mapper / entity / dto
+改造后：qa-domain / knowledge-domain / user-domain（每个下面加 api/application/domain/infrastructure）
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>加入 Spring Modulith 的 <code class="language-plaintext highlighter-rouge">@ApplicationModuleListener</code> 做模块间通信。加入 Modulith 测试在 CI 上守住边界。</p>
+
+<h3 id="第二周写入-agentsmd">第二周：写入 AGENTS.md</h3>
+
+<p>核心内容：架构约束 5 条 + 禁止模式 6 条 + 关键文件索引 + 本地验证命令。</p>
+
+<p>AGENTS.md 上线前，团队统计了一个数据：Agent 每次 coding session 的平均”正确首答率”约 35%（不改就能用的代码比例）。上线一周后，升到了 58%。单项提升最大的是——模块定位准确率，从不足 50% 到了接近 90%。</p>
+
+<h3 id="第三周建立-agent-验证回路">第三周：建立 Agent 验证回路</h3>
+
+<p>在 AGENTS.md 里明确验证步骤，在 CI 里加入两重 Gate：modulith-verify + checkstyle。Agent 提交的代码如果违反模块边界或代码风格，CI 直接打回，Agent 必须自行修复。</p>
+
+<p>三周后的结论：</p>
+
+<ul>
+  <li>Agent 对核心模块（知识库索引、问答匹配）的修改准确率从不足 40% 升到了约 65%</li>
+  <li>跨模块错误修改次数从平均每周 12 次降到 2 次</li>
+  <li>团队对 Agent 的代码信任度从”每条都要肉眼过”变成了”关键路径审查即可”</li>
+</ul>
+
+<p>这不是魔法，是把工程约束翻译给了 AI。</p>
+
+<hr />
+
+<h2 id="java-工程师的新职责">Java 工程师的新职责</h2>
+
+<p>回头看，过去两年 AI 编码工具的变化轨迹是：自动补全 → 代码生成 → Agent 自主执行。但如果我们一直把仓库设计成”只有人类能理解”的结构，Agent 的自主执行就永远是一句口号。</p>
+
+<p>改造仓库这件事，是把隐性的工程决策变成显性的结构化信息。过去这些决策藏在架构师的脑子里、藏在 Code Review 的评论里、藏在 JIRA 里打过 tag 但没人再翻的 issue 里。AI 来了以后，这些信息得从”脑子里”搬到”文件里”——不是因为 AI 比人笨，恰恰相反，AI 能读的文件量远超人类，但它不会脑补你省略掉的意图。</p>
+
+<p>未来 Java 工程师的核心能力会从”写什么代码”转向另一个方向——</p>
+
+<p><strong>定义 Agent 应该在什么边界内、用什么规则、基于什么知识来写代码。</strong></p>
+
+<p>这是从 Coder 到 Engineer 的切换。而 AGENTS.md、Spring Modulith、六边形架构、仓库记忆和验证回路，就是完成这个切换的工具箱。</p>]]></content><author><name>唐悦玮</name></author><category term="AI 工程化" /><category term="Java" /><category term="SpringBoot" /><category term="AI编程" /><category term="程序员日常" /><category term="后端开发" /><summary type="html"><![CDATA[摘要：2026 年，AI 编码工具已经能写出可运行的代码，但团队很快发现：Agent 改得好 CRUD，改不了核心逻辑。根因不是模型能力不够，而是仓库结构从未为 AI 设计过。本文提出 AI Native Repository 六层模型，从模块边界、架构约束、规则宪法、团队记忆到验证闭环，给出一套可落地的 Java 仓库改造方案。]]></summary></entry><entry><title type="html">MCP 无状态了，安全谁来管</title><link href="https://tangyuewei.github.io/posts/mcp-stateless-security/" rel="alternate" type="text/html" title="MCP 无状态了，安全谁来管" /><published>2026-07-30T18:00:00+08:00</published><updated>2026-07-30T18:00:00+08:00</updated><id>https://tangyuewei.github.io/posts/mcp-stateless-security</id><content type="html" xml:base="https://tangyuewei.github.io/posts/mcp-stateless-security/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：MCP 2026-07-28 规范正式发布，协议层从此无状态。意味着会话劫持、弱认证等旧风险被消除——但五个新攻击面由开发者全权负责。Akamai 安全预警已发，Java 团队如正在集成 MCP 服务，这篇文章梳理 12 个月过渡期内该做什么。</p>
+</blockquote>
+
+<hr />
+
+<p>7 月 28 日，MCP 2026-07-28 规范正式发布。</p>
+
+<p>如果你在集成 AI Agent 到业务系统，这可能是这个月最值得关注的技术事件。</p>
+
+<p>一次发布，两张面孔。</p>
+
+<p>第一张面孔是”基础设施级”的。MCP 从本地单用户的 AI 集成协议，正式转型为企业级的云原生平台。无状态核心、基于 HTTP 头的路由、多轮请求（MRTR）、OAuth 2.1 强制——这些都是工程团队期盼多年的特性。</p>
+
+<p>第二张面孔是”安全债务”的。Akamai 的同一天发布了详细安全分析，结论很直接：<strong>MCP 把安全责任从协议层移交给了开发者。</strong> 那些以前由协议兜底的安全边界，现在完全取决于你的实现质量。</p>
+
+<p>两个月前我给一个正在集成 MCP 服务的团队做咨询，当时他们用的还是旧版有状态协议。他们的安全负责人问了一个我现在觉得很有先见之明的问题：</p>
+
+<p>“MCP 做大了之后，谁保证这个协议不出安全漏洞？”</p>
+
+<p>答案也许在今天揭晓了：协议自己提供基础保障，剩下的，开发者自己扛。</p>
+
+<h2 id="一次跨越-12-个月的架构迁移">一次跨越 12 个月的架构迁移</h2>
+
+<p>MCP 的这次升级是一次完整的架构翻新，从协议核心到底层传输都换了。</p>
+
+<p>最核心的变化：<strong>MCP 协议层不再维护会话状态。</strong></p>
+
+<p>旧模型的工作方式是：客户端和服务器通过一次握手（<code class="language-plaintext highlighter-rouge">initialize</code>/<code class="language-plaintext highlighter-rouge">initialized</code>）建立长连接，用 <code class="language-plaintext highlighter-rouge">Mcp-Session-Id</code> 维护会话，通过 Server-Sent Events 双向通信。状态由协议管理，安全由协议兜底。</p>
+
+<p>新模型完全抛弃了这套机制。每次请求都是独立的，自带协议版本、客户端身份和能力声明（通过 <code class="language-plaintext highlighter-rouge">_meta</code> 参数）。请求可以落在负载均衡器后面的任意实例上，不需要共享存储。</p>
+
+<p>官方博客举了一个例子：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre>POST /mcp HTTP/1.1
+MCP-Protocol-Version: 2026-07-28
+Mcp-Method: tools/call
+Mcp-Name: search
+
+{"jsonrpc":"2.0","id":1,"method":"tools/call",
+ "params":{"name":"search","arguments":{"q":"otter"},
+   "_meta":{"io.modelcontextprotocol/clientInfo":{"name":"my-app","version":"1.0"}}}}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>熟悉 RESTful 设计的工程师看到这个应该会觉得很亲切。是的，MCP 现在变得更像一个普通的 HTTP API 了。</p>
+
+<p>伴随无状态化，此次规范还有几项关键变化：</p>
+
+<ul>
+  <li><strong>多轮请求（MRTR）</strong>：取代旧的服务器主动推送模式，服务器可以在需要用户确认时返回 <code class="language-plaintext highlighter-rouge">input_required</code>，客户端重试时附带答案</li>
+  <li><strong>基于 HTTP 头的路由</strong>：<code class="language-plaintext highlighter-rouge">Mcp-Method</code> 和 <code class="language-plaintext highlighter-rouge">Mcp-Name</code> 头部让网关、WAF 无需解析 Body 即可路由</li>
+  <li><strong>可缓存列表</strong>：<code class="language-plaintext highlighter-rouge">tools/list</code> 等响应携带 <code class="language-plaintext highlighter-rouge">ttlMs</code> 和 <code class="language-plaintext highlighter-rouge">cacheScope</code>，客户端可以缓存工具目录</li>
+  <li><strong>授权安全加固</strong>：强制 OAuth 2.1，验证 <code class="language-plaintext highlighter-rouge">iss</code> 参数，废弃动态客户端注册（DCR）</li>
+  <li><strong>扩展框架正式化</strong>：Tasks 从实验状态移出，成为正式扩展</li>
+</ul>
+
+<p>同时被标记废弃的功能包括：Roots、Sampling、Logging、HTTP+SSE 传输、动态客户端注册。官方给出了 12 个月的最低支持窗口期，旧功能在这期间仍然可用，但新实现不应再采用。</p>
+
+<h2 id="五个新攻击面">五个新攻击面</h2>
+
+<p>Akamai 的安全研究团队对这次规范升级做了详细分析。结论可以总结为一句话：MCP 消除了协议层的六类旧风险，但引入了五个依赖实现质量的新攻击面。</p>
+
+<p><strong>旧风险中，最值得关注的三个已消除：</strong></p>
+
+<ul>
+  <li><strong>会话劫持</strong>：旧版 <code class="language-plaintext highlighter-rouge">Mcp-Session-Id</code> 是高价值攻击目标，获取后即可冒充认证用户。无状态化彻底移除了这个攻击向量。</li>
+  <li><strong>服务器主动推送</strong>：旧版允许服务器通过 SSE 随时向客户端推送未请求的提示。新规范严格限制了这一行为。</li>
+  <li><strong>弱认证方法</strong>：强制 OAuth 2.1 移除了大量基于弱凭证的认证风险。</li>
+</ul>
+
+<p><strong>新风险中，最需要关注的五个：</strong></p>
+
+<p><strong>1. 工作流劫持与跨租户访问</strong></p>
+
+<p>无状态化后，状态管理从协议层移到了应用层。服务器通过”跟踪标识符”和”状态对象”来维护会话。如果这些标识符可预测，攻击者可以：</p>
+<ul>
+  <li>劫持正在进行的工作流</li>
+  <li>访问其他 Agent 的数据</li>
+  <li>触发未授权的跨租户操作</li>
+</ul>
+
+<p><strong>2. 头部/主体不一致攻击（Desync）</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">Mcp-Method</code> 和 <code class="language-plaintext highlighter-rouge">Mcp-Name</code> 头部让路由层不用解析 Body——但这也意味着头部和 Body 可能不一致。网关认为在处理 <code class="language-plaintext highlighter-rouge">tools/list</code>，服务器实际执行的是 <code class="language-plaintext highlighter-rouge">tools/call</code>。这是经典的反向代理漏洞的 MCP 版本。</p>
+
+<p><strong>3. 敏感信息通过 x-mcp-header 泄漏</strong></p>
+
+<p>如果开发者不小心把 API 密钥、Token 或 PII 映射到了自定义头部，”这些密钥会直接推入头部。一旦到了那里，沿途的每个负载均衡器、代理和日志系统都能看到。”——Akamai 安全预警。</p>
+
+<p><strong>4. 异步任务的 DoS 攻击</strong></p>
+
+<p>新规范引入的长任务机制有一个结构性缺陷：任务创建对客户端是廉价的，但对服务端是资源密集的。攻击者可以发送单个请求启动一个昂贵的操作（消耗 CPU、内存或数据库存储），然后立即断开连接。服务器还在处理，账单还在走，客户端已经跑没影了。</p>
+
+<p><strong>5. MCP UI 面板的 XSS 攻击</strong></p>
+
+<p>MCP Apps 成为一等扩展后，MCP 服务器可以提供 UI 界面。这意味着传统 Web 安全攻击面——存储型 XSS、界面伪装钓鱼——现在进了 MCP 协议范畴。</p>
+
+<h2 id="对-java-团队意味着什么">对 Java 团队意味着什么</h2>
+
+<p>这里有一个值得注意的问题：MCP 的 Tier 1 SDK 只包括 TypeScript、Python、Go 和 C#。目前没有官方的 Java SDK。</p>
+
+<p>如果你正在用社区驱动的 <code class="language-plaintext highlighter-rouge">mcp-java-sdk</code> 或自实现，以下变更必须关注：</p>
+
+<p><strong>架构层面</strong></p>
+<ul>
+  <li>不能依赖 <code class="language-plaintext highlighter-rouge">Mcp-Session-Id</code> 维护状态</li>
+  <li>Spring Controller 必须处理完全独立的请求</li>
+  <li>需要解析 <code class="language-plaintext highlighter-rouge">Mcp-Method</code> 和 <code class="language-plaintext highlighter-rouge">Mcp-Name</code> 头部来路由</li>
+  <li>需要实现 MRTR 逻辑来处理需要用户确认的场景</li>
+</ul>
+
+<p><strong>安全层面</strong></p>
+<ul>
+  <li>跟踪标识符必须使用加密随机数生成，不能简单递增</li>
+  <li>自定义头部不要绑定敏感数据</li>
+  <li>对长任务设置资源上限和超时</li>
+  <li>UI 面板的输出必须做上下文转义（context-escape）</li>
+</ul>
+
+<p><strong>迁移层面</strong></p>
+<ul>
+  <li>Roots、Sampling、Logging 已废弃——12 个月内迁移</li>
+  <li>HTTP+SSE 传输已废弃——切换为 Streamable HTTP</li>
+  <li>动态客户端注册废弃——切换为 CIMD</li>
+</ul>
+
+<h2 id="12-个月过渡期该做什么">12 个月过渡期该做什么</h2>
+
+<p>如果你所在团队正在或计划集成 MCP，这是按优先级排列的行动清单：</p>
+
+<p><strong>P0 - 立即做（本周）</strong></p>
+<ul>
+  <li>盘点当前使用的 MCP 版本，确认是否涉及废弃功能</li>
+  <li>确认社区 Java SDK 的更新状态</li>
+  <li>阅读 Akamai 安全分析全文</li>
+</ul>
+
+<p><strong>P1 - 规划（第一个月）</strong></p>
+<ul>
+  <li>制定无状态迁移方案：状态移出协议层后放哪里</li>
+  <li>设计跟踪标识符生成策略（加密随机数、包含租户信息）</li>
+  <li>评估长任务资源消耗模型，设置超时和上限</li>
+</ul>
+
+<p><strong>P2 - 实现（前三个月）</strong></p>
+<ul>
+  <li>替换初始化流程，移除 <code class="language-plaintext highlighter-rouge">initialize</code>/<code class="language-plaintext highlighter-rouge">initialized</code></li>
+  <li>迁移 HTTP+SSE 为 Streamable HTTP</li>
+  <li>添加 <code class="language-plaintext highlighter-rouge">Mcp-Method</code> 和 <code class="language-plaintext highlighter-rouge">Mcp-Name</code> 头部</li>
+  <li>建立头部/主体一致性校验</li>
+</ul>
+
+<p><strong>P3 - 持续（12 个月内）</strong></p>
+<ul>
+  <li>替换废弃的 Roots、Sampling、Logging 功能</li>
+  <li>从 DCR 迁移到 CIMD</li>
+  <li>更新 OAuth 流程以验证 <code class="language-plaintext highlighter-rouge">iss</code> 参数</li>
+  <li>对 MCP UI 面板做安全审计</li>
+</ul>
+
+<h2 id="结语">结语</h2>
+
+<p>MCP 的无状态化是一个正确的架构决定。它解决了有状态协议在企业级部署中的一系列问题——弹性伸缩、负载均衡、故障恢复。这层基础设施升级对于 MCP 成为真正的企业级标准是必要的。</p>
+
+<p>但安全代价不是零。</p>
+
+<p>Akamai 在报告中的一段话值得反复读：”安全决策之前由协议执行，现在被委托给了 MCP 服务器开发者和平台运营者。同样的动作，换个实现者，安全结果天差地别。”</p>
+
+<p>Java 团队的优势在于对这类”安全边界转移”并不陌生——Spring Security 把安全委托给过滤器链、OAuth 把认证委托给授权服务器、微服务把通信安全委托给服务网格。MCP 这次只是把这套逻辑又复制了一遍。</p>
+
+<p>只是这次，AI Agent 在那一头等着调用你的服务。</p>]]></content><author><name>唐悦玮</name></author><category term="AI 工程化" /><category term="MCP" /><category term="Model Context Protocol" /><category term="AI Agent 安全" /><category term="协议安全" /><category term="企业架构" /><summary type="html"><![CDATA[摘要：MCP 2026-07-28 规范正式发布，协议层从此无状态。意味着会话劫持、弱认证等旧风险被消除——但五个新攻击面由开发者全权负责。Akamai 安全预警已发，Java 团队如正在集成 MCP 服务，这篇文章梳理 12 个月过渡期内该做什么。]]></summary></entry><entry><title type="html">Prompt 已死，Loop 永生</title><link href="https://tangyuewei.github.io/posts/prompt-to-loop/" rel="alternate" type="text/html" title="Prompt 已死，Loop 永生" /><published>2026-07-29T10:10:00+08:00</published><updated>2026-07-29T10:10:00+08:00</updated><id>https://tangyuewei.github.io/posts/prompt-to-loop</id><content type="html" xml:base="https://tangyuewei.github.io/posts/prompt-to-loop/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：硅谷正在经历一场静默的技能迁移——从”写 Prompt”到”设计 Loop”。黄仁勋、Karpathy、吴恩达、Claude Code 作者同期发声，Anthropic 内部 80% 工程师已切换。本文拆解 Loop 的五个零件、一个致命陷阱和四个隐形成本，解释为什么两年后”会写 Prompt”不再构成壁垒。</p>
+</blockquote>
+
+<hr />
+
+<p>上周末，产品的同事问我，把我问住了。</p>
+
+<p>“你现在一天写几条 Prompt？”</p>
+
+<p>我想了半天，发现这个问题越来越难回答。不是因为数量太多，而是因为我越来越不确定自己写的那些东西还能不能叫”Prompt”。</p>
+
+<p>以前写 Prompt，大概是这样：敲一段指令，等 Claude 出结果，看了不满意，再敲一段。来回拉锯，你全程盯着，你是那个最忙的人。</p>
+
+<p>现在呢？</p>
+
+<p>早上到公司，一台 Mac 上跑着三个后台 session。一个在修 CI 挂掉的测试，一个在重构上个月遗留的权限校验逻辑，一个在扫描最近两周的 commit 生成技术文档。</p>
+
+<p>我做的不是”写 Prompt”。我做的是设置目标、定义验收条件、配置停止规则，然后走开。等结果出来，审查，合并。</p>
+
+<p>如果你让我回忆今天对 Claude “说了什么”，我大半说不出来。因为那些指令不是我敲的，是上一个 Loop 的评估结果自动生成的。</p>
+
+<p>这不是我一个人的感受。</p>
+
+<p>过去两个月，”Loop” 这个词在硅谷 AI 圈炸了。</p>
+
+<h2 id="所有人都在同一时间说同一件事">所有人都在同一时间说同一件事</h2>
+
+<p>6 月初，黄仁勋抛出一句让 Prompt 工程师脊背发凉的话：</p>
+
+<blockquote>
+  <p>Nobody writes prompts anymore. The new job is to write and handle loops.</p>
+</blockquote>
+
+<p>几乎同时，Claude Code 的负责人 Boris Cherny 公开说：”我不再 prompt Claude 了。我有 loop 在跑，是 loop 在 prompt Claude 并决定下一步做什么。我的工作是写 loop。”<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup></p>
+
+<p>他给出的数字更吓人：一个月删了 IDE，提了 259 个 PR，一行代码都没自己敲。</p>
+
+<p>然后是 OpenClaw 作者 Peter Steinberger 的每月一喊：”别再手写提示词了，设计循环才是王道。”<sup id="fnref:2"><a href="#fn:2" class="footnote" rel="footnote" role="doc-noteref">2</a></sup></p>
+
+<p>Karpathy 在谈他的 AutoResearch 项目时，把核心逻辑概括成四个词：generation → execution → evaluation → improve。<sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">3</a></sup></p>
+
+<p>吴恩达更直接：3 到 6 个月后，prompt 将被 loop 取代。<sup id="fnref:4"><a href="#fn:4" class="footnote" rel="footnote" role="doc-noteref">4</a></sup></p>
+
+<p>这不是口号竞赛。Anthropic 内部数据：超过 80% 的工程师已经在用 self-improving loop，预计 3-6 个月内达到 100%。Claude 写的代码占合并总量超过 80%。</p>
+
+<p>当各自领域的顶尖玩家在同一个时间窗口讲同一个概念，这件事就不只是”又一个新词”。</p>
+
+<h2 id="你以为是-agent其实是-loop">你以为是 Agent，其实是 Loop</h2>
+
+<p>有人听到这里可能会问：这不就是 Agent 吗？搞个新概念出来干嘛？</p>
+
+<p>区别很清楚。</p>
+
+<p>Agent 是干活的那个角色。Loop 是让这个角色不用你盯着也能持续干活的管理机制。</p>
+
+<p>用个类比：Agent 是工人，Loop 是流水线。没有流水线的工人，你每做完一件活都得跑去跟他说”下一件做什么”。套上流水线的工人，他自己知道下一步去哪、做完怎么检验、不合格扔回去重做。</p>
+
+<p>Google 工程师 Addy Osmani 在 6 月 7 日正式命名了 Loop Engineering，把它放在一个四层栈的最顶上<sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">5</a></sup>：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>Loop Engineering     ← 你在这一层：设计自动运转的系统
+Harness Engineering  ← Agent 运行环境和工具
+Context Engineering  ← 给 Agent 喂什么信息
+Prompt Engineering   ← 怎么写指令
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>前三层都假设你坐在键盘前逐行指挥 AI。Loop Engineering 要把你从这个位置上移走。</p>
+
+<p>核心逻辑一句话：<strong>你定义目标和规则，系统自己跑、自己验收、自己重试，直到任务完成或触发停止条件。</strong></p>
+
+<p>对比两种模式：</p>
+
+<p><strong>Prompt 模式（过去两年）</strong>
+你写 Prompt → Agent 输出 → 你 review → 你再写下一个 → 循环往复。每一步都依赖你的注意力、上下文记忆和决策带宽。AI 跑得再快，还是得等你回来下一条指令。</p>
+
+<p><strong>Loop 模式（现在）</strong>
+你定目标 → Loop 自动 prompt Agent → Loop 读输出 → Loop 判断是否完成 → 不合格自己重来。你在循环外部，从执行者变成设计者。</p>
+
+<p>Karpathy 用一个词概括旧模式的问题：”<strong>人是瓶颈</strong>“。</p>
+
+<p>单任务平均人工介入超过 5 次。一旦任务复杂度超出单次对话的承载边界，优化提示词就不再产生任何收益——你写的 Prompt 再精妙，也解决不了”人必须一直坐在驾驶位上”这个上限。</p>
+
+<p>Loop 做的事情，就是把”人”从这个循环里抠出去。</p>
+
+<h2 id="loop-的五个零件">Loop 的五个零件</h2>
+
+<p>Addy Osmani 把 Loop 拆成五个核心构件<sup id="fnref:5:1"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">5</a></sup>。Codex 和 Claude Code 目前都具备完整的五件套，只是叫法略有不同。</p>
+
+<p><strong>1. 调度（Automations）</strong></p>
+
+<p>这是 Loop 的心跳。没有定时触发，Loop 就只是一次性脚本。</p>
+
+<p>Codex 的 Automations 标签页可以按 cron 表达式自动触发任务。Anthropic 内部用它做日常 issue 分类、CI 失败汇总、commit 简报。Claude Code 用 <code class="language-plaintext highlighter-rouge">/loop</code> 做间隔重跑，用 hooks 在 agent 生命周期特定节点执行 shell 命令，也可以推到 GitHub Actions 让你关电脑后继续跑。</p>
+
+<p>关键细节：跑完了自动归档，找到问题的进 triage inbox。你不会被 50 条”一切正常”的通知淹没。</p>
+
+<p><strong>2. 工作隔离（Worktrees）</strong></p>
+
+<p>两个 Agent 同时改同一个文件，结果跟两个工程师往同一行 commit 一样——冲突，丢失，白干。</p>
+
+<p><code class="language-plaintext highlighter-rouge">git worktree</code> 解决这个问题：每个 Agent 在自己的独立分支上工作，共享同一个 repo 历史但物理上隔离。Codex 内置了 worktree 支持，Claude Code 通过 <code class="language-plaintext highlighter-rouge">--worktree</code> flag 和 <code class="language-plaintext highlighter-rouge">isolation: worktree</code> 设置给每个 subagent 分配独立 checkout。</p>
+
+<p>但这里有个 Addy 反复强调的提醒：Worktree 只解决文件冲突，不解决你的审查带宽。同时跑 10 个 Agent，最后要 review 10 个 PR——工具不卡，人卡。<sup id="fnref:6"><a href="#fn:6" class="footnote" rel="footnote" role="doc-noteref">6</a></sup></p>
+
+<p><strong>3. 技能文件（Skills）</strong></p>
+
+<p>这是让你不用每次会话都重新解释整个项目的机制。</p>
+
+<p>一个 Skill 就是一个 <code class="language-plaintext highlighter-rouge">SKILL.md</code>，里面写项目约定、构建步骤、”上次因为那个破事我们不能这样写”之类的知识。Agent 每次启动都读它，不需要你重新说。</p>
+
+<p>没有 Skill 的 Loop，每个循环都从零推导你的项目上下文。有了 Skill，知识会累积。</p>
+
+<p><strong>4. 连接器（Connectors）</strong></p>
+
+<p>一个只能看到文件系统的 Loop，是个小 Loop。</p>
+
+<p>MCP 连接器让 Agent 能读 issue tracker、查数据库、调 staging API、往 Slack 发消息。Codex 和 Claude Code 都支持 MCP，写一次，两边能用。</p>
+
+<p>这是纯”写代码”和”参与真实工作流”的分界线。没有连接器，你得到的是”这是修复建议”；有连接器，你得到的是 PR 已开、Linear 已更新、CI 通过后频道已通知。</p>
+
+<p><strong>5. 子 Agent（Sub-agents）</strong></p>
+
+<p>Loop 里最有结构价值的一个构件。原理很简单：<strong>生成者不许给自己打分。</strong></p>
+
+<p>同一个模型既写代码又检查代码，就像让考生自己阅卷——”我写的当然没问题”。Loop 的做法是拆开：一个 Agent 写，另一个 Agent 审，第二个 Agent 用不同的指令、有时用不同的模型，默认假设代码是坏的。</p>
+
+<p>这种”对抗验证”是 Loop 能脱离人类监督的基本前提。如果没有独立的校验 Agent，一个 unsupervised loop 本质上就是一个乐观主义者在自言自语。</p>
+
+<h2 id="最关键的一步最容易被跳过">最关键的一步，最容易被跳过</h2>
+
+<p>Loop Engineering 的白皮书里，把验证列为五个动作中”最难、也最容易被偷懒跳过”的一步。<sup id="fnref:7"><a href="#fn:7" class="footnote" rel="footnote" role="doc-noteref">7</a></sup></p>
+
+<p>让 AI 自己给自己打分，它几乎总会夸自己。因为它脑子里装着一条自我说服链条：我是怎么推出来的、为什么选这个方案、为什么这个 corner case 不需要处理——它把这些推理过程当成了验证结论。</p>
+
+<p>Codex 和 Claude Code 都提供了 <code class="language-plaintext highlighter-rouge">/goal</code> 命令来解决这个问题：你给一个可验证的停止条件（比如”<code class="language-plaintext highlighter-rouge">test/auth</code> 下所有测试通过且 lint 零报错”），每轮之后由一个独立的小模型判断目标是否达成。写代码的 Agent 不知道检查标准，检查的 Agent 不知道代码是怎么写的。</p>
+
+<p>这就是 Boris Cherny 那句名言的技术底座：”我不再 prompt Claude 了。我的工作是写 loop。”</p>
+
+<p>他说的工作，不是写代码，是写这些条件。</p>
+
+<h2 id="loop-的四个隐形成本">Loop 的四个隐形成本</h2>
+
+<p>Loop 跑起来很爽，但爽感背后有代价。Addy Osmani 列出了四个会在深夜悄悄累积的成本<sup id="fnref:5:2"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">5</a></sup>：</p>
+
+<p><strong>验证债务</strong>：Loop 跑了一夜，第二天你睡醒发现它合了 12 个 PR。每个单独看都”符合验收条件”，但放在一起，系统里多了一层你没参与设计的复杂性。微小的错误在多次循环中被放大、固化、再放大。</p>
+
+<p><strong>理解腐化</strong>：这是最危险的一个。代码是你写的，你天然理解它的结构和边界。代码是 Loop 写的，你最多扫了一眼 diff。两周后有人问你”这个模块为什么这样设计”，你答不出来。Boris 删了 IDE 的前提是，他是 Claude Code 的作者——他理解到了另一个层级。普通开发者不具备这个前提。</p>
+
+<p><strong>认知投降</strong>：Loop 跑顺了之后，有一个非常舒服的姿势——停止思考，被动接受它给的一切。Armin Ronacher（Flask 作者）对此表达了担忧。Addy 说这是”同一个动作，带着判断力做是解药，为了逃避思考做是毒药”。</p>
+
+<p><strong>Token 失控</strong>：Loop 在深夜死循环重试。Anthropic 的工程师在内部播客里说：”当你点击运行、让 Claude 执行 8 小时，你其实在进行一场 500 美元的算力豪赌。”<sup id="fnref:8"><a href="#fn:8" class="footnote" rel="footnote" role="doc-noteref">8</a></sup> <code class="language-plaintext highlighter-rouge">/goal</code> 不给预算上限，Loop 会一直跑到把信用卡烧穿。</p>
+
+<p>这四个成本，本质上都在说同一件事：Loop 不消灭判断力需求，它把判断力需求从”每 5 分钟一次”压缩成了”设计阶段一次 + 审查阶段一次”——<strong>但这两次的判断力质量要求，远高于之前的任何一次 Prompt。</strong></p>
+
+<h2 id="开发者的技能在怎么变">开发者的技能在怎么变</h2>
+
+<p>过去两年，一个”会写 Prompt”的开发者，在简历上是个加分项。</p>
+
+<p>未来两年，这个技能会被 Loop 吃掉。</p>
+
+<p>不是因为 Prompt 没用了——是因为你不再需要自己写 Prompt 了。Loop 帮你写、帮你调、帮你迭代。你做的不再是”想一句好指令”，而是”设计一套好规则”。</p>
+
+<p>核心能力从三个变成了三个新的：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>**过去</th>
+      <th>现在**</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>能把需求说清楚</td>
+      <td>能把验收条件写清楚</td>
+    </tr>
+    <tr>
+      <td>能写出让 AI 理解上下文的提示词</td>
+      <td>能把项目知识固化为 Skills，让 Loop 自动消费</td>
+    </tr>
+    <tr>
+      <td>能判断 AI 输出的好坏</td>
+      <td>能设计独立的校验 Agent，让校验在无人监督下成立</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>顺便说一句，这不只是 AI 编程的事。</p>
+
+<p>任何一个 ReAct 模式的设计——自动化测试、数据清洗、依赖升级、安全扫描——都会遵循同样的迁移路径。只要”对错可自动验证”的任务，都会被 Loop 吃掉。</p>
+
+<h2 id="结语">结语</h2>
+
+<p>同一个 Loop，两个人来建，得出截然相反的结果。</p>
+
+<p>一个人用它放大自己的判断力：定义清晰的边界、设计严格的校验规则、审查每一轮循环的输出质量。另一个人用它逃避判断力：把目标写得模糊、把校验丢给写代码的同一个 Agent、在审查时习惯性点 Approve。</p>
+
+<p>Loop 不会怜悯放弃思考的人。它只会用更快的速度，把你的无知变成代码里的债务。</p>
+
+<p>这就是 Loop Engineering 真正的残酷之处：<strong>它把工程能力差距，从 2 倍放大到了 10 倍。</strong></p>
+
+<p>不是”会用 Loop 的人比不会的人快 10 倍”——是”带着判断力用的人和不带判断力用的人，产出质量差 10 倍”。</p>
+
+<p>Build the loop. Stay the engineer.</p>
+
+<hr />
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Boris Cherny, X post, June 2026. https://x.com/rohanpaul_ai/status/2063289804708835412 <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>Peter Steinberger, X post, June 2026. https://x.com/steipete/status/2063697162748260627 <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>Andrej Karpathy, AutoResearch project &amp; interviews, March-June 2026. <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p>吴恩达, “Prompt will be replaced by loops in 3-6 months”, June 2026. <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:5">
+      <p>Addy Osmani, “Loop Engineering”, June 2026. https://addyo.substack.com/p/loop-engineering <a href="#fnref:5" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:5:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a> <a href="#fnref:5:2" class="reversefootnote" role="doc-backlink">&#8617;<sup>3</sup></a></p>
+    </li>
+    <li id="fn:6">
+      <p>Addy Osmani, “The Orchestration Tax”, 2026. https://addyosmani.com/blog/orchestration-tax/ <a href="#fnref:6" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:7">
+      <p>“Loop Engineering 白皮书”, community compilation, June 2026. https://drive.google.com/file/d/1qzKI4DKnyHRpXK1J3ATPqwaqLc0iNu-M/view <a href="#fnref:7" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:8">
+      <p>Anthropic 内部播客, 引自 36氪/新智元报道, June 2026. <a href="#fnref:8" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>唐悦玮</name></author><category term="AI 编程" /><category term="Loop Engineering" /><category term="Prompt 工程" /><category term="AI Agent" /><category term="开发者技能" /><summary type="html"><![CDATA[摘要：硅谷正在经历一场静默的技能迁移——从”写 Prompt”到”设计 Loop”。黄仁勋、Karpathy、吴恩达、Claude Code 作者同期发声，Anthropic 内部 80% 工程师已切换。本文拆解 Loop 的五个零件、一个致命陷阱和四个隐形成本，解释为什么两年后”会写 Prompt”不再构成壁垒。]]></summary></entry></feed>
