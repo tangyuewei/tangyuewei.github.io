@@ -150,7 +150,7 @@ ECC 覆盖面广，但体量重？用 Matt 的。Matt 的限制多但精准？�
 
 ## 参考资料
 
-1. [mattpocock/skills - GitHub](https://github.com/mattpocock/skills
+1. [mattpocock/skills - GitHub](https://github.com/mattpocock/skills)
 2. [ECC - GitHub](https://github.com/affaan-m/ECC)
 3. 《程序员修炼之道》（The Pragmatic Programmer）, David Thomas & Andrew Hunt
 4. 《领域驱动设计》（Domain-Driven Design）, Eric Evans
