@@ -3,7 +3,7 @@ title: "你的 AI 编程账单在悄悄烧钱"
 author: 唐悦玮
 date: 2026-08-05 18:00:00 +0800
 categories: [AI 工程化]
-tags: [Token 成本, AI 编程, 成本优化, Claude Code, Cursor, 工程管理]
+tags: [Token 成本, AI编程, 成本优化, Claude Code, Cursor, 工程管理]
 pin: false
 comments: true
 keyword: Token 成本, AI 编程费用, Claude Code 成本优化, caveman, Ponytail, 模型路由, 上下文工程

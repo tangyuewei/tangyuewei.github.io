@@ -3,7 +3,7 @@ title: "2026 下半年：从更快到更可控"
 author: 唐悦玮
 date: 2026-08-03 19:50:00 +0800
 categories: [AI 工程化]
-tags: [AI 编程, 行业预测, 代码治理, 安全, 国产大模型]
+tags: [AI编程, 行业预测, 代码治理, 安全, 国产大模型]
 pin: false
 comments: true
 keyword: AI编程, 国产大模型, 代码治理, 安全漏洞, GitLab报告, Qoder, CodeBuddy, DeepSeek, Kimi K3

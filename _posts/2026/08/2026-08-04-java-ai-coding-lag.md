@@ -2,8 +2,8 @@
 title: "都是 AI 写代码，为什么 Java 慢一拍"
 author: 唐悦玮
 date: 2026-08-04 18:40:00 +0800
-categories: [AI 编程, Java]
-tags: [Java, Spring Boot, MCP, AI 编程, Spring AI, 开发体验]
+categories: [AI编程, Java]
+tags: [Java, Spring Boot, MCP, AI编程, Spring AI, 开发体验]
 pin: false
 comments: true
 keyword: Java AI编程, Spring AI, MCP Java SDK, Java开发体验, Spring Boot, Harness Engineering
