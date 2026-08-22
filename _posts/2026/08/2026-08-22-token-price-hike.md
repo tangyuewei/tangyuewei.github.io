@@ -109,5 +109,7 @@ DeepSeek 今年 5 月连续崩溃，直接原因是用户量暴涨 66.7% 而算�
 **参考资料**
 
 [1] 摩根士丹利《告别价格战，打响智力战》（2026-08-09），转引自新浪财经：https://finance.sina.cn/2026-08-13/detail-inineuqm9874550.d.html
+
 [2] DeepSeek API 8 月 17 日起峰谷调价，V4-Pro 高峰输出 27 元/百万 Token，转引自界面新闻/网易科技：https://www.163.com/dy/article/L4IAUQU305118O92.html
+
 [3] 2026 年国产大模型集体涨价潮（腾讯混元 +463%、智谱 +83%、Kimi K3 输入输出近 4 倍、阿里百度 5%–34%），综合自钛媒体、凤凰网：https://www.tmtpost.com/7983681.html 、https://i.ifeng.com/c/8s4tFiQWD8n
