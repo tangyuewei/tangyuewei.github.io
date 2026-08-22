@@ -1,0 +1,1587 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://tangyuewei.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://tangyuewei.github.io/" rel="alternate" type="text/html" hreflang="zh-CN" /><updated>2026-08-22T23:07:27+08:00</updated><id>https://tangyuewei.github.io/feed.xml</id><title type="html">唐悦玮</title><subtitle>不以物喜，不以己悲。努力只是一种生活方式，先敬业，再乐业。</subtitle><entry><title type="html">账单涨了，不是你用多了</title><link href="https://tangyuewei.github.io/posts/token-price-hike/" rel="alternate" type="text/html" title="账单涨了，不是你用多了" /><published>2026-08-22T09:30:00+08:00</published><updated>2026-08-22T09:30:00+08:00</updated><id>https://tangyuewei.github.io/posts/token-price-hike</id><content type="html" xml:base="https://tangyuewei.github.io/posts/token-price-hike/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：8 月以来国内大模型集体涨价，DeepSeek V4-Pro 高峰输出价从 6 元涨到 27 元。很多人看到账单第一反应是”我是不是用多了”——其实用量没变，是单价涨了。本文拆开”账单=用量×单价”这三本账，并聊聊额度收紧后，简单任务该怎么省着花。</p>
+</blockquote>
+
+<hr />
+
+<p>你月底看 AI 编程工具的账单，比上月贵了一截。第一反应多半是：这月是不是手滑用多了？</p>
+
+<p>这个直觉很可能是错的。</p>
+
+<h2 id="三本账你以为的用多了和真实的涨了价">三本账：你以为的”用多了”和真实的”涨了价”</h2>
+
+<p>把账单拆开看，其实是三本独立的账：</p>
+
+<p><strong>账一，厂家的标价（list price）在涨。</strong> 摩根士丹利 8 月 9 日的研报《告别价格战，打响智力战》统计了字节、阿里、百度、腾讯、MiniMax、智谱、月之暗面、DeepSeek 八家的官方报价：2026 年第二季度，中国大模型平均 API 输入价已升到每百万 Token 4.9 元、输出价 21.9 元，相比 2025 年第一季度的 3.3 元和 12.2 元，分别涨了约 48% 和 80%[1]。</p>
+
+<p><strong>账二，你的用量其实没怎么变。</strong> 写代码、改 bug、跑生成，节奏和上月一样。但账单的算法很简单：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>账单 = 用量 × 单价
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>单价翻一倍，账单就翻一倍——跟你用多用少没关系。</p>
+
+<p><strong>账三，所以”账单涨=我用多了”是个错觉。</strong> 你正常用，钱就多了，因为单价上去了。这不是你的问题，是定价的问题。</p>
+
+<p><img src="/imgs/202608/2026-08-22-token-price-hike-infographic.png" alt="账单=用量×单价，三本账示意图" />
+<em>图：账单=用量×单价。标价上去了、用量没变、账单自然上去——错不在你。</em></p>
+
+<h2 id="单价涨的实锤不是一家是一波">单价涨的实锤：不是一家，是一波</h2>
+
+<p>先看最刺眼的一例。DeepSeek 8 月 17 日零点起启用峰谷定价，旗舰 V4-Pro 在业务高峰时段（9:00–12:00、14:00–18:00）的输出价从 6 元/百万 Token 涨到 27 元，涨幅 350%；缓存命中输入价从 0.025 元飙到 0.30 元，涨幅 1100%，平均下来约 3.5 倍[2]。它甚至引入了闲时半价、高峰翻倍的机制——直接用价格杠杆逼你错峰。</p>
+
+<p>这不是孤例，是 2026 年全行业的集体涨价潮：</p>
+
+<ul>
+  <li>腾讯混元核心模型部分涨幅达 463%[3]；</li>
+  <li>智谱年内三次上调 API 价格，一季度累计涨幅 83%，涨价后调用量不降反升[3]；</li>
+  <li>月之暗面 Kimi K3 输入价涨幅超 3 倍、输出价近 4 倍[3]；</li>
+  <li>阿里、百度的 AI 算力产品集体上调 5%–34%[3]。</li>
+</ul>
+
+<p>海外也在动，但方向是”分层双轨”：旗舰档往上走——Claude Fable 5 输出定价每百万 Token 50 美元，是同期 Opus 系列的 2 倍；GPT-5.5 输入价 5 美元，8 个月涨了约 8 倍。但入门档在反向打地板（GPT-5.6 Luna 输入砍到 0.20 美元，降 80%）。所以”海外在降”也是个错觉，真相是贵的更贵、便宜的更便宜。</p>
+
+<h2 id="为什么涨不是厂家变贪">为什么涨？不是厂家变贪</h2>
+
+<p>根因就一个字：缺。</p>
+
+<p>DeepSeek 今年 5 月连续崩溃，直接原因是用户量暴涨 66.7% 而算力储备只增长 8.3%，供需严重失衡[2]。中国日均 Token 调用量已突破 140 万亿，较两年前增长超 1000 倍[3]——需求是真旺，算力是真不够。</p>
+
+<p>更深一层是商业模式的换轨：从”租机器”的 IaaS，转向”按 Token 结算”的 MaaS。计价尺度从”卡时”变成”任务成功率”，厂家开始为能力（而非便宜）收溢价。这就是为什么它敢涨——你不是为了便宜的 token 付费，是为了”这活它能不能干成”付费。</p>
+
+<h2 id="一个很多人不愿明说的现实">一个很多人不愿明说的现实</h2>
+
+<p>我赌，还有不少公司压根<strong>没给员工配 token 额度</strong>。</p>
+
+<p>走企业采购、统一结算的团队，涨价是财务部门的事，个人体感弱。但大量个人开发者、小团队、没走集采的项目组，用的是自己的账号、自己的钱包。这部分人对涨价的敏感度最高——因为每一分钱都从自己腰包或项目组小账上出。</p>
+
+<p>也正是这部分人，最容易在涨价后产生那个幻觉。</p>
+
+<h2 id="幻觉你以为消耗变多了其实只是涨价了">幻觉：你以为消耗变多了，其实只是涨价了</h2>
+
+<p>涨价之后，明明还是照常写代码、照常让 AI 改 bug，却”明显感觉 token 消耗变多了”。</p>
+
+<p>把这两句话分开看：</p>
+
+<ul>
+  <li>“<strong>感觉</strong>消耗变多了”——是真的，因为同样的对话、同样的代码生成，这月比上月花得多；</li>
+  <li>“<strong>真的</strong>消耗变多了”——未必。你的用量可能一点没变，是单价把同样的消耗标了更高的价。</li>
+</ul>
+
+<p>这是个会计错觉：你盯的是”这次生成花了多少”，但分母（单价）已经被悄悄改写了。你没多用，是世界变贵了。</p>
+
+<h2 id="没有富余额度时简单任务切文档模式">没有富余额度时，简单任务切”文档模式”</h2>
+
+<p>那额度紧了怎么办？我的建议是：对<strong>简单任务</strong>，把 AI 从”执行者”退回”参谋”，我管这叫<strong>文档模式</strong>。</p>
+
+<p>现在多数人的习惯，是把整个 agent loop 全交给 AI——它自己读代码、改、跑测试、迭代、最后提交。每一步都烧 token，一次”帮我把这个改动提交一下”，背后可能是几万 token 的上下文搬运。</p>
+
+<p>文档模式反过来：<strong>让 AI 只产出一份文字方案</strong>——一段说明、一个伪 diff、一份步骤清单——然后你本人去编辑器里手改、自己跑测试、自己提交。AI 只”想”不”干”，token 消耗从”全程托管”降到”一次性咨询”，往往能砍掉一大半。</p>
+
+<p>哪些活适合这么干：</p>
+
+<ul>
+  <li>让 AI <strong>提交一次代码</strong>（写 commit message、git add、git push 全包）——这种事你十秒就能做；</li>
+  <li><strong>改一个简单 bug</strong>（明显的空指针、拼错变量名、漏了个 import）；</li>
+  <li><strong>加一个小函数、补一段样板代码</strong>。</li>
+</ul>
+
+<p>这类任务你闭眼都能搞定，让 agent 全跑一遍纯属浪费额度。</p>
+
+<p><strong>代价要说清</strong>：文档模式省的是 token，占的是你自己的时间，也考验你自己的工程能力。真遇到复杂重构、跨文件改动、你不熟的领域，该交给 agent 还是交给 agent——这时候省下的时间远大于多花的 token。别把简单活硬扛，也别把重活硬省。</p>
+
+<h2 id="收尾涨价不是末日是把无脑托管的成本逼出来了">收尾：涨价不是末日，是把”无脑托管”的成本逼出来了</h2>
+
+<p>三件套对冲：</p>
+
+<ol>
+  <li><strong>本地模型跑日常</strong>：我本机 Ollama 跑 qwen2.5-coder:14b/32b，API 涨价跟我半毛钱关系没有，数据还不出口；</li>
+  <li><strong>云端走模型路由</strong>：轻任务走便宜档，重任务才上旗舰，别一刀切；</li>
+  <li><strong>简单任务切文档模式</strong>：AI 出文档，你手搓修复、自己跑测试。</li>
+</ol>
+
+<p>涨价潮不会停。但换个角度，它逼着我们把”反正有额度、随便造”的心态收回来——哪些活该 AI 干，哪些活该自己干，本来就该算清楚。</p>
+
+<hr />
+
+<p><strong>参考资料</strong></p>
+
+<p>[1] 摩根士丹利《告别价格战，打响智力战》（2026-08-09），转引自新浪财经：https://finance.sina.cn/2026-08-13/detail-inineuqm9874550.d.html</p>
+
+<p>[2] DeepSeek API 8 月 17 日起峰谷调价，V4-Pro 高峰输出 27 元/百万 Token，转引自界面新闻/网易科技：https://www.163.com/dy/article/L4IAUQU305118O92.html</p>
+
+<p>[3] 2026 年国产大模型集体涨价潮（腾讯混元 +463%、智谱 +83%、Kimi K3 输入输出近 4 倍、阿里百度 5%–34%），综合自钛媒体、凤凰网：https://www.tmtpost.com/7983681.html 、https://i.ifeng.com/c/8s4tFiQWD8n</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="Token成本" /><category term="大模型涨价" /><category term="Token成本" /><category term="AI编程" /><category term="模型路由" /><category term="Ollama" /><summary type="html"><![CDATA[摘要：8 月以来国内大模型集体涨价，DeepSeek V4-Pro 高峰输出价从 6 元涨到 27 元。很多人看到账单第一反应是”我是不是用多了”——其实用量没变，是单价涨了。本文拆开”账单=用量×单价”这三本账，并聊聊额度收紧后，简单任务该怎么省着花。]]></summary></entry><entry><title type="html">给 AI 工具写个客户端插件</title><link href="https://tangyuewei.github.io/posts/dsh-client-ui-plugin/" rel="alternate" type="text/html" title="给 AI 工具写个客户端插件" /><published>2026-08-21T09:30:00+08:00</published><updated>2026-08-21T09:30:00+08:00</updated><id>https://tangyuewei.github.io/posts/dsh-client-ui-plugin</id><content type="html" xml:base="https://tangyuewei.github.io/posts/dsh-client-ui-plugin/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：AI 编程工具的插件生态，大家都在写”工具型插件”。但想给界面换个皮肤、加只悬浮宠物，得写另一类——客户端 UI 插件。本文以我自己开源的 DSH 咸鱼宠物插件为例，拆开它的两层入口、槽位注入，以及几个踩出来的前端工程坑：背景透出、毛玻璃的包含块陷阱、穿透宿主 DOM。</p>
+</blockquote>
+
+<hr />
+
+<p><img src="/imgs/202608/2026-08-21-dsh-client-ui-plugin-infographic.png" alt="客户端 UI 插件：把组件挂上 AI 工具界面的槽位" />
+<em>图：服务端工具插件藏在背后供模型调用，客户端 UI 插件浮在界面上给人看——后者通过 <code class="language-plaintext highlighter-rouge">shell.overlay</code> 槽位注入，踩过背景透出、毛玻璃陷阱、穿透 DOM 三个坑。</em></p>
+
+<p>你每天盯着 AI 编程工具的界面八小时，界面的样子却是别人定死的。想换张壁纸、加只悬浮宠物，翻遍设置项找不到入口——因为这类”皮肤层”的改动，工具厂商压根没留。</p>
+
+<p>DeepSeek Harness（下称 dsh）留了入口：一切皆插件。但多数教程讲到插件，都在教你怎么注册一个<strong>工具</strong>给模型调用。给界面动刀子的另一种插件——<strong>客户端 UI 插件</strong>，讲的人少。本文以我自己开源的 dsh 咸鱼宠物插件为例，把它从入口、槽位到几个前端坑完整拆一遍。</p>
+
+<h2 id="插件跑在哪决定它是哪一类">插件跑在哪，决定它是哪一类</h2>
+
+<p>dsh 的插件分两类，区别不在功能，在<strong>代码跑在哪里、服务谁</strong>：</p>
+
+<ul>
+  <li><strong>服务端工具插件</strong>：默认形态，跑在 Node 侧。它注册一个工具（比如 <code class="language-plaintext highlighter-rouge">greet</code>），模型通过描述知道它存在、通过入参 schema 知道怎么调。我 8-17 那篇写的就是这种。</li>
+  <li><strong>客户端 UI 插件</strong>：声明 <code class="language-plaintext highlighter-rouge">platform: 'web'</code>，跑在浏览器里，往 UI 槽位塞一个 React 组件。它不注册工具、不消费任何 Cordis 服务，纯粹在界面上做文章。</li>
+</ul>
+
+<p>一句话区分：前者给<strong>模型</strong>加能力，后者给<strong>界面</strong>加 personality。咸鱼宠物是后者——它不替你写代码，只在你写代码时陪你摸鱼。</p>
+
+<h2 id="一个插件为什么要拆两层入口">一个插件，为什么要拆两层入口</h2>
+
+<p>最反直觉的地方：这个插件有两份入口文件。</p>
+
+<p><code class="language-plaintext highlighter-rouge">src/index.ts</code> 是宿主（Node）入口，全文就一行：</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="k">export</span> <span class="kd">function</span> <span class="nx">apply</span><span class="p">():</span> <span class="k">void</span> <span class="p">{}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>空的。它存在<strong>只为了让 Cordis Loader 认它是个合法插件</strong>——能进 host 的 cordis.yml 插件树。它不干任何服务端的事。</p>
+
+<p>真正的逻辑在 <code class="language-plaintext highlighter-rouge">src/client/index.ts</code>，通过 <code class="language-plaintext highlighter-rouge">package.json</code> 的 exports 映射暴露出去：</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="p">{</span><span class="w">
+  </span><span class="nl">"exports"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"."</span><span class="p">:</span><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"./lib/index.js"</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"./client"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"./lib/client.js"</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"dsh"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"client"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"inject"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"@deepseek-ai/dsh-client-runtime"</span><span class="p">,</span><span class="w"> </span><span class="s2">"@deepseek-ai/dsh-client-ui-slots"</span><span class="p">],</span><span class="w">
+      </span><span class="nl">"platform"</span><span class="p">:</span><span class="w"> </span><span class="s2">"web"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">exports["."]</code> 指向 host 那份空 <code class="language-plaintext highlighter-rouge">apply</code>；<code class="language-plaintext highlighter-rouge">exports["./client"]</code> 指向浏览器侧。dsh 的客户端运行时读到 <code class="language-plaintext highlighter-rouge">dsh.client.platform: 'web'</code>，就知道该加载 <code class="language-plaintext highlighter-rouge">./client</code> 这份、并把它要注入的客户端服务（<code class="language-plaintext highlighter-rouge">dsh-client-runtime</code>、<code class="language-plaintext highlighter-rouge">dsh-client-ui-slots</code>）准备好。</p>
+
+<p>这个拆分的收益很实在：同一个 npm 包，在 Node 侧零成本（空 apply 不引入 React），在浏览器侧才真正加载组件。你不会因为装了个 UI 插件，就给服务端进程塞进一堆前端依赖。</p>
+
+<h2 id="槽位把组件挂进界面">槽位：把组件挂进界面</h2>
+
+<p>UI 不是随便往 <code class="language-plaintext highlighter-rouge">document.body</code> 一扔就完事。dsh 把界面切成若干<strong>槽位（slot）</strong>，插件往指定槽位注册组件。</p>
+
+<p>咸鱼插件用的是 <code class="language-plaintext highlighter-rouge">shell.overlay</code>——一个挂在 root 作用域的 <code class="language-plaintext highlighter-rouge">list</code> 型槽位（多个插件都能往里加条目）。插件先声明它需要 <code class="language-plaintext highlighter-rouge">slots</code> 服务，再注入组件：</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="rouge-code"><pre><span class="k">export</span> <span class="kd">const</span> <span class="nx">inject</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">slots</span><span class="dl">'</span><span class="p">]</span> <span class="k">as</span> <span class="kd">const</span>
+
+<span class="kr">declare</span> <span class="kr">module</span> <span class="dl">'</span><span class="s1">@deepseek-ai/dsh-client-ui-slots</span><span class="dl">'</span> <span class="p">{</span>
+  <span class="kr">interface</span> <span class="nx">SlotMap</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">shell.overlay</span><span class="dl">'</span><span class="p">:</span> <span class="p">{</span> <span class="nl">kind</span><span class="p">:</span> <span class="dl">'</span><span class="s1">list</span><span class="dl">'</span><span class="p">;</span> <span class="nl">scope</span><span class="p">:</span> <span class="dl">'</span><span class="s1">root</span><span class="dl">'</span> <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="kd">function</span> <span class="nx">apply</span><span class="p">(</span><span class="nx">ctx</span><span class="p">:</span> <span class="nx">ClientContext</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">ctx</span><span class="p">.</span><span class="nx">inject</span><span class="p">([</span><span class="dl">'</span><span class="s1">slots</span><span class="dl">'</span><span class="p">],</span> <span class="p">(</span><span class="nx">scope</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">dispose</span> <span class="o">=</span> <span class="nx">scope</span><span class="p">.</span><span class="nx">slots</span><span class="p">.</span><span class="nx">inject</span><span class="p">(</span><span class="dl">'</span><span class="s1">shell.overlay</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span>
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">slots</span><span class="p">.</span><span class="nx">register</span><span class="p">({</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">shell.overlay</span><span class="dl">'</span><span class="p">,</span> <span class="na">id</span><span class="p">:</span> <span class="dl">'</span><span class="s1">uiPet</span><span class="dl">'</span> <span class="p">},</span> <span class="nx">SaltedFishPet</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">dispose</span><span class="p">()</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">slots.inject</code> 拿到槽位注册表，<code class="language-plaintext highlighter-rouge">slots.register</code> 把一个 React 组件绑到 <code class="language-plaintext highlighter-rouge">uiPet</code> 这个 id 上。咸鱼和壁纸选择器是两个<strong>独立</strong>的槽位条目（<code class="language-plaintext highlighter-rouge">uiPet</code> 和 <code class="language-plaintext highlighter-rouge">wallpaperPicker</code>），各自挂各自的组件。</p>
+
+<h2 id="注册进-bundle一行命令背后">注册进 bundle：一行命令背后</h2>
+
+<p>开发时你 clone 源码、跑 <code class="language-plaintext highlighter-rouge">install.sh</code>；普通用户则是一行：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>npx @deepseek-ai/dsh plugin <span class="nt">--profile</span> web add @tangyuewei/dsh-client-ui-pet
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>这条命令本质是在持久化的 profile 目录（<code class="language-plaintext highlighter-rouge">~/.dsh/profiles/web</code>）里 <code class="language-plaintext highlighter-rouge">pnpm add</code> 这个包，并把它的 <code class="language-plaintext highlighter-rouge">cordis.patch.yml</code> 追加进 bundle 清单。那个 patch 文件极简：</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="pi">-</span> <span class="na">insert</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">ui-pet</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">@tangyuewei/dsh-client-ui-pet'</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>dsh 启动时按 bundle 顺序叠加各插件的 patch，在 <code class="language-plaintext highlighter-rouge">shell.overlay</code> 里注入咸鱼。profile 目录与 npx 缓存无关，重开终端、重跑 npx 依然生效——这是它比”每次手动 patch 源码”稳的地方。</p>
+
+<p><img src="/imgs/202608/2026-08-21-dsh-client-ui-plugin-demo.gif" alt="dsh 客户端 UI 插件真实运行效果：咸鱼宠物浮在右下角、工程师壁纸透出、背景可切换" />
+<em>真实运行效果：默认 <code class="language-plaintext highlighter-rouge">yu7</code> 毛玻璃背景与咸鱼 → 打开壁纸面板 → 切换 Porsche 718 → 📌 置顶（背景图全屏置顶）→ 取消置顶 → 切换 Macan S（深色系壁纸亦可选，深浅色不限制）。</em></p>
+
+<h2 id="跨槽位状态两块-ui-怎么联动">跨槽位状态：两块 UI 怎么联动</h2>
+
+<p>咸鱼和背景是两个独立槽位条目，意味着它们<strong>不在同一棵 React 组件树里</strong>，不能直接传 props、不能共享 context。</p>
+
+<p>但”点一下隐藏咸鱼，要把背景也收起来”这个联动必须成立。解法是抽一个<strong>模块级共享 store</strong>（<code class="language-plaintext highlighter-rouge">visibility.ts</code>）：</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre><span class="kd">let</span> <span class="nx">hidden</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="kd">const</span> <span class="nx">listeners</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Set</span><span class="o">&lt;</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="o">&gt;</span><span class="p">()</span>
+
+<span class="k">export</span> <span class="kd">function</span> <span class="nx">setPetHidden</span><span class="p">(</span><span class="nx">next</span><span class="p">:</span> <span class="nx">boolean</span><span class="p">):</span> <span class="k">void</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">hidden</span> <span class="o">===</span> <span class="nx">next</span><span class="p">)</span> <span class="k">return</span>
+  <span class="nx">hidden</span> <span class="o">=</span> <span class="nx">next</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">const</span> <span class="nx">listener</span> <span class="k">of</span> <span class="nx">listeners</span><span class="p">)</span> <span class="nx">listener</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="kd">function</span> <span class="nx">subscribePetHidden</span><span class="p">(</span><span class="nx">listener</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">listeners</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">listener</span><span class="p">)</span>
+  <span class="k">return</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">listeners</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="nx">listener</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>一个布尔 + 一个监听器集合。宠物按钮调用 <code class="language-plaintext highlighter-rouge">setPetHidden</code>，背景模块的订阅者收到通知后同步收起。宠物组件本身用 <code class="language-plaintext highlighter-rouge">useSyncExternalStore</code> 接这个 store，所以即使槽位被重新挂载，读到的仍是同一份持久化的可见状态，不会”宠物没了、背景还在”。</p>
+
+<blockquote>
+  <p>代价我说在前面：召唤按钮目前靠<strong>查找页面上含 “Session log” 文字的按钮</strong>来定位自己，Shell 结构一变就可能失效。这是已知限制，不是特性。</p>
+</blockquote>
+
+<h2 id="壁纸-api丢图即生效">壁纸 API：丢图即生效</h2>
+
+<p>壁纸不区分深浅主题，用户随便挑。源图丢进 <code class="language-plaintext highlighter-rouge">src/client/wallpapers/</code>，构建脚本（<code class="language-plaintext highlighter-rouge">build-wallpapers.mjs</code>）自动缩放到 1920px、base64 编码进 <code class="language-plaintext highlighter-rouge">bg-images.generated.ts</code>（gitignored，每次构建重生），于是”加一张壁纸”等于”丢一个文件”，不用手敲 base64。</p>
+
+<p>选择态用 <code class="language-plaintext highlighter-rouge">localStorage</code>（key <code class="language-plaintext highlighter-rouge">dsh-ui-pet.wallpaper</code>）持久化，并通过 <code class="language-plaintext highlighter-rouge">window</code> 上的 <code class="language-plaintext highlighter-rouge">CustomEvent</code> 广播：</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="k">export</span> <span class="kd">function</span> <span class="nx">setCurrentWallpaperId</span><span class="p">(</span><span class="nx">id</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="k">void</span> <span class="p">{</span>
+  <span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="nx">STORAGE_KEY</span><span class="p">,</span> <span class="nx">id</span><span class="p">)</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="k">new</span> <span class="nx">CustomEvent</span><span class="p">(</span><span class="nx">CHANGE_EVENT</span><span class="p">,</span> <span class="p">{</span> <span class="na">detail</span><span class="p">:</span> <span class="p">{</span> <span class="nx">id</span> <span class="p">}</span> <span class="p">}))</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>背景模块和选择器都订阅这个事件，换壁纸时两边同时刷新，刷新和重启后选择还在。</p>
+
+<h2 id="几个前端坑架构落地的代价">几个前端坑（架构落地的代价）</h2>
+
+<p>插件能跑起来，靠几处对症的前端技巧。它们不性感，但少一个界面就废。</p>
+
+<p><strong>背景透出</strong>。主题背景默认不透明，会盖住 body 上的壁纸。解法是把主题背景底色强行透明，让 body 的壁纸透出来：</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="nt">body</span><span class="nc">.dsh-bg-glow</span><span class="o">,</span>
+<span class="nt">body</span><span class="nc">.dsh-bg-glow</span> <span class="nf">#root</span><span class="o">,</span>
+<span class="nt">body</span><span class="nc">.dsh-bg-glow</span> <span class="nf">#root</span> <span class="o">*</span> <span class="p">{</span>
+  <span class="py">--dsw-alias-bg-base</span><span class="p">:</span> <span class="nb">transparent</span> <span class="cp">!important</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>一个 CSS 变量加 <code class="language-plaintext highlighter-rouge">!important</code>，覆盖掉主题对 <code class="language-plaintext highlighter-rouge">background</code> 简写设的不透明底色。</p>
+
+<p><strong>毛玻璃的包含块陷阱</strong>。侧栏想做毛玻璃，直觉是给列加 <code class="language-plaintext highlighter-rouge">backdrop-filter</code>。但 <code class="language-plaintext highlighter-rouge">backdrop-filter</code> 会让那个元素变成其内部 <code class="language-plaintext highlighter-rouge">position: fixed</code> 后代的<strong>包含块</strong>——设置面板是 portal 渲染的，会被困在 280px 宽的列里。改用 <code class="language-plaintext highlighter-rouge">isolation: isolate</code> 也不行：它会创建层叠上下文，Chrome 会裁剪上下文内 <code class="language-plaintext highlighter-rouge">fixed</code> 后代到自身 <code class="language-plaintext highlighter-rouge">overflow</code>。正解是滤镜放 <code class="language-plaintext highlighter-rouge">::before</code> 伪元素、<code class="language-plaintext highlighter-rouge">z-index: -1</code> 逃逸到 body 背景层：</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="nt">body</span><span class="nc">.dsh-bg-glow</span> <span class="o">[</span><span class="nt">class</span><span class="err">$</span><span class="o">=</span><span class="s1">"sidebarCol"</span><span class="o">]</span><span class="nd">::before</span> <span class="p">{</span>
+  <span class="nl">content</span><span class="p">:</span> <span class="s2">''</span><span class="p">;</span> <span class="nl">position</span><span class="p">:</span> <span class="nb">absolute</span><span class="p">;</span> <span class="py">inset</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span> <span class="nl">z-index</span><span class="p">:</span> <span class="m">-1</span><span class="p">;</span>
+  <span class="nl">-webkit-backdrop-filter</span><span class="p">:</span> <span class="n">blur</span><span class="p">(</span><span class="m">26px</span><span class="p">)</span> <span class="n">saturate</span><span class="p">(</span><span class="m">160%</span><span class="p">);</span>
+  <span class="py">backdrop-filter</span><span class="p">:</span> <span class="n">blur</span><span class="p">(</span><span class="m">26px</span><span class="p">)</span> <span class="n">saturate</span><span class="p">(</span><span class="m">160%</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>这俩雷在 MDN 的 <code class="language-plaintext highlighter-rouge">backdrop-filter</code> 条目里都有记载，但只有真写一遍才知道它会咬人。</p>
+
+<p><strong>穿透宿主 DOM</strong>。宿主的列用了 CSS Modules，类名是带哈希的（<code class="language-plaintext highlighter-rouge">sidebarCol__abc123</code>）。我没法 import 宿主组件去加样式，只能用<strong>后缀属性选择器</strong>命中本地名：</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="nt">body</span><span class="nc">.dsh-bg-glow</span> <span class="o">[</span><span class="nt">class</span><span class="err">$</span><span class="o">=</span><span class="s1">"sidebarCol"</span><span class="o">]</span> <span class="p">{</span> <span class="nl">background</span><span class="p">:</span> <span class="n">rgba</span><span class="p">(</span><span class="m">255</span><span class="p">,</span><span class="m">255</span><span class="p">,</span><span class="m">255</span><span class="p">,</span><span class="m">0.55</span><span class="p">)</span> <span class="cp">!important</span><span class="p">;</span> <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">[class$="sidebarCol"]</code> 匹配”以 sidebarCol 结尾”的类名，不依赖哈希前缀。代价是选择器写得宽，未来宿主改本地名规则就得跟着改。</p>
+
+<p><strong>主题与光晕</strong>。<code class="language-plaintext highlighter-rouge">MutationObserver</code> 监听 <code class="language-plaintext highlighter-rouge">body</code> 的 <code class="language-plaintext highlighter-rouge">data-ds-dark-theme</code> 属性切深浅色；鼠标跟随光晕只往 <code class="language-plaintext highlighter-rouge">--bg-mx/--bg-my</code> 两个 CSS 变量写坐标，由合成器（compositor）处理，不触发重绘——<code class="language-plaintext highlighter-rouge">mousemove</code> 用 <code class="language-plaintext highlighter-rouge">passive</code> 监听，不阻塞滚动。</p>
+
+<h2 id="已知限制收益和代价一起给">已知限制：收益和代价一起给</h2>
+
+<p>这个插件不完美，我把它写进 README 的”已知限制”：</p>
+
+<ul>
+  <li><strong>零持久化</strong>：宠物位置、饱腹度、心情都是会话级内存，刷新即重置；</li>
+  <li><strong>无配置面板</strong>：所有参数（衰减速度、边距、尺寸）要改源码重新构建，没暴露给用户；</li>
+  <li><strong>召唤按钮依赖 DOM 查找</strong>，Shell 结构变更可能失效；</li>
+  <li><strong>壁纸内嵌 base64</strong>，无外部请求，想动态加载得自己改。</li>
+</ul>
+
+<p>这些不是 bug 清单，是”纯前端展示插件”这个定位下的取舍。它本来就不打算做服务端、不做账号体系、不做云同步。</p>
+
+<h2 id="收尾">收尾</h2>
+
+<p>写这个插件最大的收获，不是多了只咸鱼，而是被迫把 dsh 的<strong>宿主/浏览器边界、槽位契约、宿主 DOM 穿透</strong>摸清了一遍。</p>
+
+<p>插件化的另一种形态就在这：它不只想给模型加能力，也想给界面加 personality。当 AI 编程工具成为你每天盯八小时的东西，能不能把它改顺手，本身就是工程问题。客户端 UI 插件，是这块拼图里被讲得最少的一块——希望这篇把它补上。</p>
+
+<hr />
+
+<p><strong>参考资料</strong></p>
+
+<ul>
+  <li>开源仓库 <a href="https://github.com/tangyuewei/dsh-client-ui-pet">tangyuewei/dsh-client-ui-pet</a>，2026 年 8 月。</li>
+  <li>MDN Web Docs，<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter"><code class="language-plaintext highlighter-rouge">backdrop-filter</code></a>。</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="技术实战" /><category term="插件开发" /><category term="DeepSeek Harness" /><category term="客户端插件" /><category term="插件架构" /><category term="Web UI" /><category term="前端工程" /><summary type="html"><![CDATA[摘要：AI 编程工具的插件生态，大家都在写”工具型插件”。但想给界面换个皮肤、加只悬浮宠物，得写另一类——客户端 UI 插件。本文以我自己开源的 DSH 咸鱼宠物插件为例，拆开它的两层入口、槽位注入，以及几个踩出来的前端工程坑：背景透出、毛玻璃的包含块陷阱、穿透宿主 DOM。]]></summary></entry><entry><title type="html">NVIDIA 把 Agent 写成一个类</title><link href="https://tangyuewei.github.io/posts/nvidia-nooa/" rel="alternate" type="text/html" title="NVIDIA 把 Agent 写成一个类" /><published>2026-08-20T10:00:00+08:00</published><updated>2026-08-20T10:00:00+08:00</updated><id>https://tangyuewei.github.io/posts/nvidia-nooa</id><content type="html" xml:base="https://tangyuewei.github.io/posts/nvidia-nooa/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：NVIDIA 开源 NOOA，把 Agent 折叠成一个 Python 类：方法=动作、字段=状态、docstring=提示词、类型注解=运行时强制契约，方法体写 <code class="language-plaintext highlighter-rouge">...</code> 就交给模型，写普通代码就确定性执行。82.2% 等基准是厂商自报、未经独立复现；AST 检查不等于沙箱，跑生成代码必须容器隔离。</p>
+</blockquote>
+
+<h2 id="从一个具体问题开始">从一个具体问题开始</h2>
+
+<p>写一个 Agent，你要同时维护四样东西：</p>
+
+<ul>
+  <li>prompt 文件：一坨字符串，告诉模型”你是谁、该怎么说话”</li>
+  <li>工具 schema：一段 JSON，描述模型能调用什么、参数长什么样</li>
+  <li>回调注册：模型调完工具，结果回给谁、谁来接</li>
+  <li>workflow 图：节点和边，定义整个流程怎么走</li>
+</ul>
+
+<p>这四样散落在不同文件里，有时还在不同抽象层。想改一个行为，你得先回答四个问题：prompt 在哪个文件？schema 在哪个目录？回调在哪注册？图在哪个配置里？改完 prompt 忘了同步 schema，Agent 就悄悄坏掉，你还要花半天排查”明明提示词是对的”。</p>
+
+<p>这是编排的问题，不是模型的问题——这句话先记住，后面是全文的钥匙。</p>
+
+<p>7 月 30 日，NVIDIA 开源了一个叫 NOOA 的东西，想法简单到近乎粗暴：这些都不用分开写，一个 Python 类就够了。</p>
+
+<p>NOOA 全称 NVIDIA Object-Oriented Agents，Apache 2.0，<code class="language-plaintext highlighter-rouge">pip install nooa</code>，v0.0.8 alpha，要求 Python 3.12–3.13（来源：NOOA GitHub 仓库）。</p>
+
+<p>它的核心观点一句话说死：<strong>Agent 开发不需要新范式，它需要的是用了 40 年的面向对象纪律。</strong></p>
+
+<p>方法就是动作，字段就是状态，docstring 就是提示词，类型注解就是运行时强制执行的契约。方法体写 <code class="language-plaintext highlighter-rouge">...</code>（省略号）的部分，由 LLM 运行时补全；写普通代码的部分，就按确定性 Python 执行。两者在同一个类里自由混合。</p>
+
+<p>拿官方 TriageBot 示例改一下（改编自 NOOA 官方 README，Apache 2.0）：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre><span class="o">@</span><span class="n">agent</span>
+<span class="k">class</span> <span class="nc">TriageBot</span><span class="p">:</span>
+    <span class="s">"""Triages incoming bug reports for a Python web service."""</span>
+    <span class="n">open_issues</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="o">@</span><span class="n">llm</span>
+    <span class="k">def</span> <span class="nf">classify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">report</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="s">"""Return exactly one of: 'crash', 'perf', 'ux', 'security'."""</span>
+        <span class="p">...</span>
+
+    <span class="k">def</span> <span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">report</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">open_issues</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>   <span class="c1"># 普通 Python，确定性执行
+</span>
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">report</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">category</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">classify</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>      <span class="c1"># 模型
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">record</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>                   <span class="c1"># 代码
+</span>        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">draft_reply</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">category</span><span class="p">)</span>  <span class="c1"># 模型
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>三个细节，每一个都在改命。</p>
+
+<p>第一，<code class="language-plaintext highlighter-rouge">-&gt; str</code> 是强制契约，不是提示。模型输出一个带解释的 dict？运行时直接拦下重试，输出通过校验才交给下游。</p>
+
+<p>第二，docstring 就是提示词，但它不漂移到单独文件，而是跟在它管辖的方法签名旁边。改行为就是改代码，git diff 一眼看得见。</p>
+
+<p>第三，<code class="language-plaintext highlighter-rouge">record</code> 是普通 Python，每次精确执行。它不经过模型，不存在”这次记了下次没记”的随机性。</p>
+
+<p>这就是 NOOA 的设计主线：<strong>把确定性路径做成默认，把模型路径做成显式 opt-in。</strong></p>
+
+<h2 id="减法设计四件套怎么折叠成一个类">减法设计：四件套怎么折叠成一个类</h2>
+
+<p>现在市面上的 Agent 框架，大多是”四件套拼装”：prompt、工具 schema、回调、workflow 图，由框架内部约定勉强捏在一起。维护过的人都有同感——你永远说不清”某个行为到底写在哪”。</p>
+
+<p>NOOA 做的减法，是把这四件套折叠进 Python 自带的语言机制：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Agent 概念</th>
+      <th>NOOA 里的载体</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>动作（工具）</td>
+      <td>类的方法</td>
+    </tr>
+    <tr>
+      <td>状态</td>
+      <td>类的字段</td>
+    </tr>
+    <tr>
+      <td>提示词</td>
+      <td>docstring</td>
+    </tr>
+    <tr>
+      <td>运行时契约</td>
+      <td>类型注解</td>
+    </tr>
+    <tr>
+      <td>交给模型的步骤</td>
+      <td>方法体 <code class="language-plaintext highlighter-rouge">...</code></td>
+    </tr>
+    <tr>
+      <td>确定性步骤</td>
+      <td>普通方法体</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="/imgs/202608/2026-08-20-nvidia-nooa-diagram.png" alt="减法设计：四件套折叠成一个类" /></p>
+
+<p>折叠之后，Agent 行为就变成了普通软件：能 diff、能 code review、能单测、能重构，人类和 AI 编程工具用同一套工具链操作它（来源：NOOA 官方技术博客）。</p>
+
+<p>论文把这套接口归纳为六种能力：类型化输入输出、引用传递、代码即动作、可编程循环、显式对象状态、模型可调用的 harness API（来源：NOOA 论文 arXiv 2607.20709）。</p>
+
+<p>这个观点最锋利的地方，在<strong>确定性默认</strong>。</p>
+
+<p>大多数 Agent bug 不是模型失败，是编排失败——本应确定性的逻辑，被路由给了模型。比如”把这条记录追加到列表”，这件事不需要任何智能，但很多框架把它交给模型决定，于是出现”这次记了下次没记”的玄学。NOOA 让普通方法永远精确执行，只有 <code class="language-plaintext highlighter-rouge">...</code> 方法才交给模型。边界在语法层面可见，这就是可审计性。</p>
+
+<p>代价也要说清楚：类即 Agent 把结构做到了极致简单，但复杂多分支的编排，不如 LangGraph 那种可视化图直观——这是它刻意放弃的那一极。而且 NOOA 还是 alpha，API 随时可能变。</p>
+
+<h2 id="省-token-的工程思路">省 token 的工程思路</h2>
+
+<p>NOOA 在省 token 上有两个设计，都冲着”上下文膨胀”去的。</p>
+
+<p>一个是 <strong>pass-by-reference 活对象</strong>。别的框架把状态序列化成 JSON 塞进上下文，模型读到的是一坨静态快照；NOOA 传的是活对象引用，模型操作的是真实的 Python 对象（来源：NOOA 官方技术博客）。</p>
+
+<p>另一个是<strong>有界预览</strong>。一个 100 元素的列表，上下文里只渲染约 30 token 的头部尾部样本，完整对象留在 REPL 里，模型要用时再取。</p>
+
+<p>官方自报的数据：SWE-bench 上每个任务约 1.1M token、28 次模型调用；对比方案约 2.2M token、66 次调用（来源：NOOA 官方技术博客）。</p>
+
+<p>注意这句话的限定词：<strong>厂商自报，未经独立复现</strong>。所以 1.1M 对 2.2M 的”省一半”，当成可参考的数量级看，别当成精确结论——这是省 token 的代价。</p>
+
+<p>记忆也走同一条路。NOOA 带一个可选的长记忆子系统：记录落在 SQLite 文件里，由模型通过可调用的工具自己写、自己查、自己改，人可读、可审查（来源：NOOA 官方技术博客）。记忆和状态都放在可审计的地方，而不是埋在对话历史里——这是”类即 Agent”思路的延伸：不仅行为可审计，连”它记得什么”也可审计。对要做 Agent 落地的团队，这比”记忆很强”更值钱——你可以直接查数据库确认它记住了什么，而不是靠追问模型”你还记得吗”。</p>
+
+<h2 id="822先给基准加个星号">82.2%？先给基准加个星号</h2>
+
+<p>NVIDIA 在基准上给出了不少数字，先列全（以下均为厂商自报，未经独立实验室复现）：</p>
+
+<ul>
+  <li>SWE-bench Verified（500 任务，GPT-5.5 xhigh）：NOOA 82.2%，同模型同档位只换 harness 的 OpenCode 78.6%、PI 78.2%。也就是说，光换 harness 就值 3.6 个点</li>
+  <li>换 Claude Opus 4.6：79.8%</li>
+  <li>Terminal-Bench 2.0（89 任务）：PI 75.3% &gt; NOOA 73.0% &gt; OpenCode 60.7%——注意，这个榜 NOOA 没赢</li>
+  <li>CyberGym L1：86.8%；ARC-AGI-3 mean RHAE：85.1%（GPT-5.6-sol）</li>
+  <li>一个 253 行代码构建的 Agent 拿到 82.2%</li>
+</ul>
+
+<p><img src="/imgs/202608/2026-08-20-nvidia-nooa-benchmark.png" alt="同模型只换 harness，值 3.6 分" /></p>
+
+<p>这里有几点要克制着看。</p>
+
+<p>“harness 值 3.6 分”只在同模型、同推理档位的对比下成立，不是”换 NOOA 就涨 3.6 分”的普适结论。</p>
+
+<p>NVIDIA 把自己输的榜也发了。大多数 harness 论文只挑赢的放，它把 Terminal-Bench 2.0 上 PI 领先的结果原样公开，这比多数框架诚实。但诚实归诚实，82.2% 仍是自报、无独立实验室复现，也没有和 LangGraph/CrewAI 做同模型 head-to-head——别写成定论。</p>
+
+<p>模型无关是加分项。NOOA 通过 LiteLLM 接入，hosted API、本地 Ollama、vLLM 都行，不锁 NVIDIA 自己的模型。这意味着想用 Qwen、Kimi、豆包跑它，理论上可以直接接——这是对国内开发者最实在的一点。</p>
+
+<h2 id="ast-检查不是沙箱">AST 检查不是沙箱</h2>
+
+<p>这篇最值得读的，其实是安全部分。NVIDIA 的 README 把丑话说在了前面，原文：</p>
+
+<blockquote>
+  <p>“NOOA validates generated code (AST checks) and applies module deny-lists before execution. These are defense-in-depth guardrails, not a containment boundary.”</p>
+</blockquote>
+
+<p>翻译过来：AST 检查和模块黑名单只是纵深防御，<strong>不是安全边界</strong>。它们的存在是为了防止生成代码冻结事件循环、抓住常见错误，不是为了拦住一门心思要逃逸的代码。</p>
+
+<p>README 接着列了风险清单：数据泄漏、文件删除、环境修改——这不是边缘情况，是官方明说的三件事。</p>
+
+<p>更关键的一段推理：静态检查器无法给出保证——<code class="language-plaintext highlighter-rouge">open()</code> 能给任意文件访问，<code class="language-plaintext highlighter-rouge">importlib</code> 能按路径加载模块，反射能摸到其余部分。所以真正的边界是 OS 级隔离：容器、VM，或者 NVIDIA 自己的 OpenShell（来源：NOOA GitHub README）。</p>
+
+<p>这个警告放在当下格外应景。时间线是这样的：</p>
+
+<ul>
+  <li>7 月 21 日，一个 OpenAI 的自主 Agent 逃逸，在 Hugging Face 上造成入侵，FBI 介入——受害者 Hugging Face 后来正是联盟创始成员</li>
+  <li>7 月 24 日，NVIDIA 签了开源权重信</li>
+  <li>7 月 27 日，三十多家公司官宣成立 Open Secure AI Alliance：Adobe、CrowdStrike、Hugging Face、Dell、微软、Meta、Cloudflare 都在列</li>
+  <li>7 月 30 日，NOOA 开源</li>
+</ul>
+
+<p>NOOA 是”带着代码来的联盟”——不是发个宣言，是直接交付一个可复现的开源实现。但这也意味着：<strong>跑 NOOA，必须容器/VM，别裸奔。</strong> 尤其你的 Agent 要处理不可信输入时，AST 检查那层皮挡不住真正想动手的代码。</p>
+
+<h2 id="图也可以不要">图也可以不要</h2>
+
+<p>我 8 月 7 日写过一篇《Loop 才火六周，Graph 就来了》，讲编排从手写循环进化到图。NOOA 站在相反的那一极：<strong>图也可以不要，一个类就是 Agent。</strong></p>
+
+<p>两篇合起来看，Agent 编排的钟摆在两个方向之间晃：一边是图，把每个步骤显式画出来，适合复杂、多分支、需要可视化审计的流程；一边是类，把 Agent 折叠成一段可读、可测、可 review 的代码，适合边界清晰、结构简单的场景。没有哪一边是唯一解——NOOA 论文自己也说，它只是把六种 harness 能力第一次整合在同一套接口上，而不是发明了六种新东西。</p>
+
+<p>Java 开发者看这个设计，会有特别的亲切感。”模型决定 vs 代码决定”的边界在源码里一眼可见——方法体是 <code class="language-plaintext highlighter-rouge">...</code> 还是普通代码，决定了这段逻辑交给谁。这正是安全审查最想要的东西：责任边界在代码里，不在文档里。Java 侧的 Spring AI、LangChain4j 也在往”Agent 抽象”方向走，但大多还是”对话 + 工具注册”的组合，NOOA 把整层折叠进语言本体的做法更激进。</p>
+
+<p>国内对照一句话带过：DeepSeek Harness 8 月 13 日也开源了（那篇另写过），走的是”一切皆插件”的路子；NOOA 走的是”一切皆类”。国产的 CodeBuddy、WorkBuddy 这类编程工具，也在把 Agent 能力拆成可审查、可配置的工程件——方向上和 NOOA 殊途同归。两条路都指向同一个判断：Agent 的工程化，正在从”框架给你一堆抽象”回归到”语言本身”。</p>
+
+<h2 id="周末可以试别急着迁移">周末可以试，别急着迁移</h2>
+
+<p>最后说结论。</p>
+
+<p>NOOA 现在是 v0.0.8 alpha，PyPI 上明晃晃标着 alpha，没有任何生产环境的大规模实践证明。适合先试的人群：AI 原生初创、平台团队、企业 AI 研究，以及 issue 分类、终端自动化、漏洞验证、批量数据提取这些边界清楚的场景。</p>
+
+<p>受监管的生产负载，先等稳定版。</p>
+
+<p>给你两条落地建议：第一，周末用一个小任务（比如把工单分类的脚本改成 TriageBot）跑一遍，感受”类即 Agent”到底是不是你想要的结构；第二，凡是涉及执行生成代码的，一律丢进容器里再谈，别拿裸进程赌。</p>
+
+<p>一个类装下整个 Agent，听起来很美。但它值不值，得等独立复现、生产实践，还有时间给出答案。</p>
+
+<hr />
+
+<p><strong>延伸阅读</strong></p>
+
+<ul>
+  <li><a href="https://github.com/NVIDIA-NeMo/labs-OO-Agents">NOOA GitHub 仓库（NVIDIA-NeMo/labs-OO-Agents）</a>：README 里有安全边界原话与安装说明</li>
+  <li><a href="https://arxiv.org/abs/2607.20709">NOOA 论文（arXiv 2607.20709）</a>：六种 harness 能力的完整论证与评测方法</li>
+  <li><a href="https://developer.nvidia.com/blog/six-agent-harness-capabilities-for-higher-model-performance/">NVIDIA 官方技术博客：Six Agent Harness Capabilities for Higher Model Performance</a>：NOOA 的设计思路与基准数据出处</li>
+</ul>
+
+<p><strong>参考资料</strong></p>
+
+<ul>
+  <li>NOOA GitHub 仓库与 README，2026 年 7 月。安装要求、Apache 2.0、v0.0.8 alpha、AST 检查安全边界原话、风险清单。</li>
+  <li>NVIDIA 官方技术博客 “Six Agent Harness Capabilities for Higher Model Performance”，2026 年 7 月。一个类即 Agent、pass-by-reference、有界预览、六种能力。</li>
+  <li>NOOA 论文 arXiv 2607.20709（Paul Furgale 领衔，15 作者，2026 年 7 月提交）。评测方法与六种 harness 能力。</li>
+  <li>事件时间线（2026 年 7 月）：OpenAI 自主 Agent 逃逸与 Hugging Face 入侵、NVIDIA 签署开源权重信、Open Secure AI Alliance 成立、NOOA 开源，综合多方媒体报道。</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="技术解读" /><category term="AI编程" /><category term="NVIDIA" /><category term="NOOA" /><category term="Agent" /><category term="编程范式" /><category term="工程实践" /><summary type="html"><![CDATA[摘要：NVIDIA 开源 NOOA，把 Agent 折叠成一个 Python 类：方法=动作、字段=状态、docstring=提示词、类型注解=运行时强制契约，方法体写 ... 就交给模型，写普通代码就确定性执行。82.2% 等基准是厂商自报、未经独立复现；AST 检查不等于沙箱，跑生成代码必须容器隔离。]]></summary></entry><entry><title type="html">从 Cordis 到 dsh：一切皆插件是怎么落到代码的</title><link href="https://tangyuewei.github.io/posts/cordis-dsh/" rel="alternate" type="text/html" title="从 Cordis 到 dsh：一切皆插件是怎么落到代码的" /><published>2026-08-19T09:30:00+08:00</published><updated>2026-08-19T09:30:00+08:00</updated><id>https://tangyuewei.github.io/posts/cordis-dsh</id><content type="html" xml:base="https://tangyuewei.github.io/posts/cordis-dsh/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：DeepSeek Harness 喊出”一切皆插件”，它不是营销口号，而是靠底层 Cordis 框架撑起来的架构事实。本文从源码拆解 Cordis 的五个核心机制：插件、上下文、依赖注入、类型化事件、可逆副作用，并记录源码安装的三个真实踩坑。</p>
+</blockquote>
+
+<hr />
+
+<p>上周 DeepSeek Harness（下称 dsh）开源，口号六个字：一切皆插件。</p>
+
+<p>开源不到一周，GitHub 上 152k star了！但热度之下有个尴尬的现实：多数人只记住了这句口号，说不清它到底怎么实现。你问”一切皆插件，那插件之间怎么协作”，得到的回答往往是含糊的”就是模块化呗”。</p>
+
+<p>看过源码的开发者都承认，这句话不是营销。模型适配器、工具注册表、会话日志、Agent Loop——连循环本身都是插件，没有特权核心。想换什么就换对应插件，不用 fork 源码。</p>
+
+<p>但”一切皆插件”到底怎么落到每一行代码上？答案在它的地基里：一个叫 Cordis 的插件框架。这篇文章拆的就是它——五个核心机制，加源码安装的三个真实踩坑。</p>
+
+<h2 id="cordis-是什么">Cordis 是什么</h2>
+
+<p>dsh 没有自己造轮子。它的底层直接 vendor 了一个插件框架，版本 <code class="language-plaintext highlighter-rouge">@deepseek-ai/cordis@4.0.1</code>（来源：dsh 仓库 vendor/cordis/package.json）。Cordis 的理论背景是一篇论文《A Programming Paradigm for Spatiotemporal Composability》，讲时空可组合性——但对开发者来说，只需要记住它做了什么：<strong>负责插件的加载、卸载、依赖关系解析，其他一概不管</strong>。</p>
+
+<p>为什么这个选择关键？因为 Cordis 足够小、足够纯粹。它只解决”插件怎么组织”这一个问题，具体插件干什么它不关心。dsh 的 40+ 能力包（shell、fs、web、subagent……）全部是建在这个地基上的。</p>
+
+<h2 id="五个核心概念">五个核心概念</h2>
+
+<p>Cordis 的全部设计，可以压缩成五个概念：</p>
+
+<p><strong>插件</strong>：被加载的代码单位。可以是一个带 <code class="language-plaintext highlighter-rouge">apply(ctx, config)</code> 的函数，也可以是一个继承 Service 的类。插件有生命周期——挂载时实例化，卸载时回收它登记的一切。</p>
+
+<p><strong>上下文</strong>：服务的容器。一个服务占据一个稳定的 <code class="language-plaintext highlighter-rouge">ctx.xxx</code> 键（比如 <code class="language-plaintext highlighter-rouge">ctx.tools</code>、<code class="language-plaintext highlighter-rouge">ctx.llm</code>）。其他插件通过键查找服务，而不是 import 具体实现。</p>
+
+<p><strong>依赖注入</strong>：插件用 <code class="language-plaintext highlighter-rouge">inject</code> 声明它需要哪些服务，声明之后会等这些服务就绪才启动。加载顺序由依赖表达，而不是手动编排启动序列。</p>
+
+<p><strong>类型化事件</strong>：插件之间用事件通信。事件以 emit、waterfall、parallel、serial 四种方式分发，分别对应监听者观察、包装、并行扇出、按序执行。</p>
+
+<p><strong>可逆副作用</strong>：插件注册的服务、监听的事件、创建的资源全部可逆。插件卸载时一切自动回滚。这是运行时热插拔的前提——换插件不用重启。</p>
+
+<p>代码写出来就直观了。一个最小插件：</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="k">import</span> <span class="kd">type</span> <span class="p">{</span> <span class="nx">Context</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@deepseek-ai/cordis</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">tool-plugin</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">inject</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">tools</span><span class="dl">"</span><span class="p">];</span>
+
+<span class="k">export</span> <span class="kd">function</span> <span class="nx">apply</span><span class="p">(</span><span class="nx">ctx</span><span class="p">:</span> <span class="nx">Context</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">ctx</span><span class="p">.</span><span class="nx">tools</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="cm">/* 工具定义 */</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">inject: ["tools"]</code> 声明了这个插件需要 tools 服务，Cordis 会等 tools 就绪才调用 apply。注册通过 <code class="language-plaintext highlighter-rouge">ctx.effect()</code> 完成，卸载时自动撤销。</p>
+
+<h2 id="一次启动五行代码引出全部机制">一次启动：五行代码引出全部机制</h2>
+
+<p>dsh 启动时跑 <code class="language-plaintext highlighter-rouge">boot()</code>，核心就五行（来源：dsh 源码 packages/boot/app-boot/src/index.ts）：</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="kd">const</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Context</span><span class="p">();</span>                 <span class="c1">// 创建插件树根</span>
+<span class="nx">ctx</span><span class="p">.</span><span class="nx">provide</span><span class="p">(</span><span class="dl">'</span><span class="s1">dshHomePath</span><span class="dl">'</span><span class="p">,</span> <span class="nx">dshHomePath</span><span class="p">);</span>   <span class="c1">// 注册第一个服务</span>
+<span class="k">await</span> <span class="nx">ctx</span><span class="p">.</span><span class="nx">plugin</span><span class="p">(</span><span class="nx">Loader</span><span class="p">);</span>                  <span class="c1">// 挂载配置加载插件</span>
+<span class="k">await</span> <span class="nx">mountRootInclude</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">configPath</span><span class="p">);</span>   <span class="c1">// 展开配置成插件树</span>
+<span class="k">await</span> <span class="nx">assertEntriesActivated</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">binName</span><span class="p">);</span><span class="c1">// 审计：谁没激活就报错</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>五行代码对应五个机制：</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">new Context()</code> 创建插件树的根。Context 既是服务仓库，也是树节点——每个插件挂载后有自己子 context，父卸载时子树跟着卸载</li>
+  <li><code class="language-plaintext highlighter-rouge">ctx.provide()</code> 注册第一个服务。把值挂到 ctx 上，全局可读</li>
+  <li><code class="language-plaintext highlighter-rouge">ctx.plugin(Loader)</code> 程序化挂载插件。Loader 负责读 YAML 配置</li>
+  <li><code class="language-plaintext highlighter-rouge">mountRootInclude()</code> 把 cordis.yml 交给 Loader，声明式展开成整棵插件树</li>
+</ol>
+
+<p>第四行最值得展开。它说明插件的组织不是写死在代码里的，而是声明在 YAML 配置里。一份简化版 cordis.yml 长这样：</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="na">plugins</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">llm</span>
+    <span class="na">entry</span><span class="pi">:</span> <span class="s2">"</span><span class="s">@deepseek-ai/dsh-llm"</span>
+  <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">tools</span>
+    <span class="na">entry</span><span class="pi">:</span> <span class="s2">"</span><span class="s">@deepseek-ai/dsh-tools"</span>
+  <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">shell</span>
+    <span class="na">entry</span><span class="pi">:</span> <span class="s2">"</span><span class="s">@deepseek-ai/dsh-bash-sandbox"</span>  <span class="c1"># 想换实现，改这一行</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>你改哪个插件、换哪个实现、开哪个能力，都在配置层决定，不用碰源码。这也是”一切皆插件”能在产品层成立的原因——插件树是配置叠出来的，不是代码写死的。</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">assertEntriesActivated()</code> 做审计：哪个条目最终没激活（比如依赖永远不存在），在这里点名报错，不会带着半棵没加载完的树跑起来</li>
+</ol>
+
+<p>注意一个细节：<strong>挂载和启动是两个分离的动作</strong>。<code class="language-plaintext highlighter-rouge">ctx.plugin(X)</code> 只负责建 fiber（插件的一次挂载产生的运行时对象）并挂到树上，同步、立即、不执行插件代码；要等 inject 依赖齐了，fiber 才跑 <code class="language-plaintext highlighter-rouge">execute</code>。这个分离是 Cordis 能正确编排复杂依赖的根基。</p>
+
+<h2 id="三个关键机制">三个关键机制</h2>
+
+<p><strong>服务：提供方和消费方只认名字</strong></p>
+
+<p>服务是一个插件通过名字共享给全系统的对象。提供方用 <code class="language-plaintext highlighter-rouge">provide</code> 把对象和一个服务名（<code class="language-plaintext highlighter-rouge">'web'</code>、<code class="language-plaintext highlighter-rouge">'shell'</code>、<code class="language-plaintext highlighter-rouge">'llm'</code>）关联，消费方用同一个名字 <code class="language-plaintext highlighter-rouge">ctx.web</code> 读出对象。双方唯一的约定是服务名——web-search-exa 声明需要 web，它不知道也不关心对象由哪个插件提供。</p>
+
+<p><strong>inject 重载：换实现，依赖方自动重跑</strong></p>
+
+<p>更妙的是”等到就位”不是一次性的。运行中如果把 shell 的实现插件从 bash-local 换成 pwsh，Cordis 会重载所有声明需要 shell 的插件，让它们在新插件树上重新执行 apply。</p>
+
+<p>为什么是重载而不是把新对象悄悄递给正在跑的插件？因为插件的 apply 已经执行过了，旧实现可能被捕获进事件监听、定时器的闭包里。只换对象，插件手里握的还是旧引用。撤销它的全部 effect、在新实现上重跑 apply，是让插件整体落到新实现上的唯一一致方式。</p>
+
+<p><strong>可逆副作用：热插拔的前提</strong></p>
+
+<p>重载为什么能随时做？靠的是 effect 全部可逆——不存在一半成功一半失败的中间态。<code class="language-plaintext highlighter-rouge">ctx.effect()</code> 注册的撤销函数按注册顺序逆序压栈执行，跟 React 的 useEffect cleanup 一个思路，但做成了框架级保证。插件初始化中途抛错，已应用的一半效应逆序清掉，不残留部分状态。</p>
+
+<p><strong>三段式分包：一个能力三个包</strong></p>
+
+<p>一个能力被拆成三个包：契约包（Definition）定义服务本身，实现包（Provider）提供实现，消费方包（Consumer）使用能力。拿 shell 举例：<code class="language-plaintext highlighter-rouge">dsh-shell</code> 定义 ShellExecutor 抽象类，<code class="language-plaintext highlighter-rouge">dsh-bash-sandbox</code> 实现它，<code class="language-plaintext highlighter-rouge">dsh-tool-bash</code> 把它包装成模型可见的 bash 工具。</p>
+
+<p>实现包和消费方包互相完全不引用，两边只认识契约包和服务名。换实现时消费方一行也不用动——高频的 provider 变动停在注册表层，不惊动依赖这条服务的插件。</p>
+
+<h2 id="源码安装的三个坑">源码安装的三个坑</h2>
+
+<p>架构讲完，说点实际的。dsh 目前是 Developer Preview（0.1.0-rc 系列），官方明示破坏性变更随时可能发生。源码安装会踩到几个坑，其中两个跟环境版本强相关。</p>
+
+<p><strong>坑 1：git 版本要 &gt;= 2.26</strong></p>
+
+<p>dsh 仓库的构建流程对 git 有硬性版本要求。低于 2.26 会在依赖安装阶段直接失败。解法：先 <code class="language-plaintext highlighter-rouge">git --version</code> 确认，老版本用包管理器升级。macOS 上注意系统自带 git 可能是老版本，建议装最新版或通过 Homebrew 管理。</p>
+
+<p><strong>坑 2：pnpm 必须用 11.7.0，高了就报错</strong></p>
+
+<p>这是最折腾的一个。dsh 的 pnpm-lock.yaml 把 pnpm 原生二进制 <code class="language-plaintext highlighter-rouge">@pnpm/exe</code> 钉在了 11.7.0。如果你的 pnpm 版本高于 11.7.0，安装时直接报：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>[ERROR] Cannot verify the identity of the @pnpm/exe.darwin-x64 native binary:
+it is missing from pnpm-lock.yaml. For help, run: pnpm help install.
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><strong>根因</strong>：pnpm 的 env 安装器会对原生二进制做完整性校验——它在 lockfile 里找 <code class="language-plaintext highlighter-rouge">@pnpm/exe</code> 的 integrity 记录来验证下载的二进制没被篡改。但 lockfile 里 pin 的是 11.7.0 的记录，你本地 pnpm 版本更高时，它要下载对应版本的 <code class="language-plaintext highlighter-rouge">@pnpm/exe</code>，却在 lockfile 里找不到这条记录，校验无从谈起，直接报错。这是”lockfile 钉死版本”与”本地环境版本漂移”的经典冲突。</p>
+
+<p><strong>解法</strong>：把 pnpm 切回 11.7.0。用 Corepack 最干净：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>corepack <span class="nb">enable
+</span>corepack prepare pnpm@11.7.0 <span class="nt">--activate</span>
+pnpm <span class="nt">--version</span>  <span class="c"># 确认 11.7.0</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><strong>坑 3：Node 大版本别追新</strong></p>
+
+<p>dsh 依赖链里有包声明了 node 版本门槛（实测 node &gt;= 20/22）。追最新大版本可能触发依赖的兼容性问题——比如某个包用了新版本才移除的 API，装的时候不报，跑的时候才炸。解法：先 <code class="language-plaintext highlighter-rouge">cat package.json | grep engines</code> 看官方声明，选一个满足范围但不最新的 LTS 版本。用 nvm 切：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>nvm <span class="nb">install </span>22
+nvm use 22
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="我的判断">我的判断</h2>
+
+<p>回头看，dsh 选择 Cordis 是笔划算的账：<strong>框架把复杂度吃进肚子，用户才能把自由度握在手里</strong>。</p>
+
+<p>“一切皆插件”的代价是理解门槛——五个核心机制、三段式分包、fiber 状态机，这套抽象对普通开发者不友好。但收益是真实的：换模型适配器、换沙箱 Provider、甚至换 Agent Loop，都变成”改配置”级别的事。对想自建 Agent 基础设施的团队，Cordis 这套”服务 + 依赖 + 可逆副作用”的组合，是比 LangGraph 更底层的参考样本。想深入研究的，官方仓库在 <a href="https://github.com/deepseek-ai/deepseek-harness">github.com/deepseek-ai/deepseek-harness</a>，vendor/cordis/ 目录就是完整的 Cordis 源码。</p>
+
+<p>至于安装坑，说到底都是版本问题：一个精确到 11.7.0 的 lockfile，把”用最新版”的习惯挡在了门外。0.1 的版本号配得上这份折腾——它适合尝鲜和架构学习，不适合指望它马上稳定。</p>]]></content><author><name>唐悦玮</name></author><category term="技术实战" /><category term="AI 工程化" /><category term="DeepSeek Harness" /><category term="Cordis" /><category term="插件架构" /><category term="源码解析" /><category term="AI Agent" /><summary type="html"><![CDATA[摘要：DeepSeek Harness 喊出”一切皆插件”，它不是营销口号，而是靠底层 Cordis 框架撑起来的架构事实。本文从源码拆解 Cordis 的五个核心机制：插件、上下文、依赖注入、类型化事件、可逆副作用，并记录源码安装的三个真实踩坑。]]></summary></entry><entry><title type="html">Agent 成本跌破外包：护城河换了，谁先慌</title><link href="https://tangyuewei.github.io/posts/agent-economics/" rel="alternate" type="text/html" title="Agent 成本跌破外包：护城河换了，谁先慌" /><published>2026-08-18T09:10:00+08:00</published><updated>2026-08-18T09:10:00+08:00</updated><id>https://tangyuewei.github.io/posts/agent-economics</id><content type="html" xml:base="https://tangyuewei.github.io/posts/agent-economics/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：a16z 最新研究显示，Computer Use 类 Agent 时薪 6-8 美元，已低于印度离岸外包的 10 美元，桌面任务基准完成率也首次超过人类。但 85% 意味着每 100 个任务仍失败 15 个，基准分数不等于生产可行性。本文拆解这组数字的成立条件，分析谁先受影响、谁不用慌。</p>
+</blockquote>
+
+<hr />
+
+<p>一小时的 AI Agent 现在多少钱？6 到 8 美元。</p>
+
+<p>这是 a16z 合伙人 Fabrizio Serafini 在 8 月 10 日发布的研究《Can Agents Use a Computer Yet?》里给出的数字（来源：<a href="https://a16z.com/can-agents-use-a-computer-yet/">a16z 原文</a>）。这项研究测的东西，通俗讲就是”AI 像人一样操作电脑干活”——看屏幕、点鼠标、敲键盘、填表单、跑完一个完整业务流程。它一年前还只是能演示，今年已经有人拿它批量跑生产流程了。</p>
+
+<p>同一条赛道上，印度离岸 BPO 人力是 10 美元一小时，美国本土后台岗位是 30 到 45 美元。</p>
+
+<p>数字一出，不少团队开始坐不住——”要不要把某个标准化外包岗位换成 Agent”成了例会上的常驻话题。</p>
+
+<p>但先别急着下结论。这组数字的背后，有几个前提条件被大多数人忽略了。</p>
+
+<h2 id="三根成本柱子怎么算出来的">三根成本柱子，怎么算出来的</h2>
+
+<p>先把账算清楚。Serafini 摆了三根柱子：一小时 Computer Use Agent、一小时印度 BPO 人力、一小时美国本土后台人力。</p>
+
+<ul>
+  <li><strong>Agent</strong>：6 到 8 美元，区间 3 到 15 美元。来自一位创业者的估算，再用主流模型 token 定价和公开推理成本交叉校验</li>
+  <li><strong>印度 BPO</strong>：约 10 美元，区间 8 到 15 美元，参考 2026 年外包报价追踪平台数据</li>
+  <li><strong>美国本土</strong>：30 到 45 美元，起点是美国劳工统计局客服岗位时薪中位数 20.59 美元，再叠加约三成福利和管理成本</li>
+</ul>
+
+<p>Serafini 特意提醒：这组数字该当<strong>量级参考</strong>，不是精确报价。</p>
+
+<p>而且有个关键细节容易被漏掉——<strong>6 到 8 美元是”最贵的跑法”</strong>。逐帧截图、全程调用旗舰模型，才会到这个价。真正搭得好的团队，把重复劳动交给写死的代码，只让模型处理需要判断力的环节，混合下来成本降得更快。</p>
+
+<h2 id="85-的完成率意味着什么">85% 的完成率意味着什么</h2>
+
+<p>成本只是半边天，另一半是准确率。</p>
+
+<p>Serafini 援引 llm-stats.com 排行榜数据（截至 2026 年 6 月）：在 OSWorld-Verified 基准上，最优模型 Claude Fable 5 的完成率达到 85%，而人类测试者在同一任务集上是 72%。一年前，最优模型还只有 42%。</p>
+
+<p>这个基准模拟真实桌面环境，覆盖 Ubuntu、Windows、macOS 工作流——浏览器操作、表单填写、按钮点击，都是后台岗位的日常。</p>
+
+<p>85% 超过 72%，是不是意味着 Agent 已经比人强了？</p>
+
+<p><strong>不是。</strong> 85% 意味着每 100 个任务有 15 个失败，而后台业务流程要求每一步都成功。Serafini 在原文里专门强调：基准分数不是生产可行性的充分条件，真正决定部署成败的是模型之外的一切——验证机制、异常上报、错误处理，以及当零售商门户一夜之间改版时，系统能不能自己修正。</p>
+
+<p>一位在该领域创业的创始人说得很直接：”直到 2026 年 2 月 Opus 4.6 发布之前，这些模型都不够好，无法独立用于生产环境。”能力跃升是最近半年的事，不是一直如此。</p>
+
+<h2 id="谁在用怎么用">谁在用，怎么用</h2>
+
+<p>数字再漂亮，也要看落地。Serafini 举了两个案例：</p>
+
+<p>一个消费品数据平台，部署 Agent 后每月处理 1500 万到 2000 万次门户交互任务。零售商网站更新界面导致传统爬虫失效时，系统 2 小时内完成故障诊断、流程修复和数据恢复，维护团队规模缩减 50%。</p>
+
+<p>一个全球系统集成商，27 条 Agent 工作流每天处理 1800 张 IT 工单，目标是把 25% 的人力从低利润托管服务中释放出来。</p>
+
+<p>注意这两个案例的共同点：<strong>都是高重复、可验证、有明确成功标准的流程</strong>。门户交互有没有成功、工单有没有处理完，结果是确定的，Agent 干完可以验证。</p>
+
+<p>还有一点被很多人忽略：生产环境里，企业几乎不用 Claude、ChatGPT 这类消费级产品，而是直接调用原始 API，自己搭建沙箱虚拟机、编排逻辑、验证与重试机制。<strong>Agent 的产出质量，很大程度取决于围在模型外面的那套 harness 搭得好不好</strong>——这跟我们写代码是一个道理，框架好，业务才好。</p>
+
+<h2 id="成本结构贵在重试">成本结构：贵在重试</h2>
+
+<p>对想部署的团队来说，成本账还有个隐藏项：重试。</p>
+
+<p>Agent 跑一次任务，失败也会消耗 token。如果成功率是 85%，那 15% 的失败任务都要重跑，成本要按”推理成本 + 重试成本”一起算。上下文越长、截图频率越高，利润空间越薄。</p>
+
+<p>所以市场上有三种定价模式在竞争：按任务、按小时、按结果。三种模式对应不同的风险分配——按结果计费对供应商最狠，但也最能倒逼他们优化 harness。目前还没有统一标准。</p>
+
+<h2 id="国内对照告别价格战">国内对照：告别价格战</h2>
+
+<p>这组数字漂洋过海，到国内语境里要打个折扣看。</p>
+
+<p>国内模型 API 价格正在上行。8 月 17 日起，DeepSeek 对 V4 全系列实行峰谷定价：高峰时段（9:00-12:00、14:00-18:00）V4-Pro 输出 27 元/百万 token，空闲时段半价 13.5 元；V4-Flash 高峰输出 9 元/百万 token（来源：<a href="https://platform.deepseek.com">DeepSeek 官方公告</a>，2026 年 8 月）。摩根士丹利 8 月 9 日研报《告别价格战，打响智力战》统计，2026 年第二季度国内大模型 API 平均输入价格 4.9 元/百万 token、输出 21.9 元，相比 2025 年一季度分别上涨约 48% 和 80%（来源：大摩研报，2026 年 8 月）。</p>
+
+<p>两个数据放一起看，结论很清楚：<strong>国内模型在 Agent 场景的单任务成本，虽然仍低于海外旗舰（DeepSeek V4-Flash 输出价格是 Claude 系旗舰的零头），但价格差在收窄，而且不再”白菜价”</strong>。拿 6 美元的海外数字直接套国内，会高估成本优势——国内企业部署 Agent 的账，得用国内定价重算。</p>
+
+<h2 id="我的判断谁先慌谁别慌">我的判断：谁先慌，谁别慌</h2>
+
+<p><strong>外包岗位，第一批受影响。</strong> 但不是所有外包。受影响的是高重复、可验证、有明确成功标准的流程——数据录入、表单处理、信息核对这类。这类工作 Agent 完成率已经接近甚至超过人工，成本还便宜。</p>
+
+<p><strong>但”替换”没那么快。</strong> 15% 的失败率意味着必须有人兜底、有人处理异常。企业不会一夜之间裁掉整个外包团队，更可能的路径是：Agent 处理 80% 的标准任务，人力收缩到处理剩余 20% 的异常和边缘情况。岗位数量下降，但不是清零。</p>
+
+<p><strong>企业决策者，别只看 85%。</strong> 先问三个问题：我的任务每一步都可验证吗？失败了我能及时发现并重试吗？业务流程改了，Agent 能自适应吗？三个都答”是”，才值得上；答不上来，先补 harness 再谈部署。</p>
+
+<p><strong>工程师，反而是受益方。</strong> 护城河从”谁的模型强”转移到”谁懂工作流、谁有验证机制、谁能把 Agent 和业务系统深度集成”。这恰恰是 8 月最值钱的能力——围绕模型搭 harness，把不确定的模型能力变成确定的生产流程。模型会越来越便宜，但搭 harness 的手艺不会贬值。</p>
+
+<p>一句话收尾：<strong>拐点是真的，但它是工程拐点，不是裁员信号。</strong> 慌的人，是只看到 6 美元数字的人；不慌的人，看到了 15% 失败率和 harness 的价值。</p>]]></content><author><name>唐悦玮</name></author><category term="科技观察" /><category term="AI Agent" /><category term="BPO" /><category term="外包" /><category term="成本结构" /><category term="Computer Use" /><category term="行业趋势" /><summary type="html"><![CDATA[摘要：a16z 最新研究显示，Computer Use 类 Agent 时薪 6-8 美元，已低于印度离岸外包的 10 美元，桌面任务基准完成率也首次超过人类。但 85% 意味着每 100 个任务仍失败 15 个，基准分数不等于生产可行性。本文拆解这组数字的成立条件，分析谁先受影响、谁不用慌。]]></summary></entry><entry><title type="html">DeepSeek Harness 开源，怎么上手</title><link href="https://tangyuewei.github.io/posts/deepseek-harness-practice/" rel="alternate" type="text/html" title="DeepSeek Harness 开源，怎么上手" /><published>2026-08-17T09:10:00+08:00</published><updated>2026-08-17T09:10:00+08:00</updated><id>https://tangyuewei.github.io/posts/deepseek-harness-practice</id><content type="html" xml:base="https://tangyuewei.github.io/posts/deepseek-harness-practice/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：8 月 13 日 DeepSeek 开源 Agent 框架 Harness，目标直指 Claude Code。它把模型、工具、沙箱、UI 全部做成可替换插件。这篇文章带你把它跑起来、写第一个插件，并聊聊这套架构离生产还有多远。</p>
+</blockquote>
+
+<hr />
+
+<p>七月我写过一篇 Harness Engineering，讲”给 AI 套上缰绳”：别老换模型，先把模型跑的环境收拾好。当时这个词还是个概念，落地全靠 AGENTS.md、verify 脚本、权限 hooks 自己拼。</p>
+
+<p>一个月后，DeepSeek 直接把”缰绳”开源了。</p>
+
+<p>8 月 13 日深夜，DeepSeek 上线 V4 Pro 正式版；十几个小时后，第二记重拳——DeepSeek Harness（简称 dsh），MIT 协议完全开源的 Agent 框架，v0.1 开发者预览版。代码推上 GitHub 当天，Hacker News 讨论帖冲上 TOP 1，星标数快速攀升，不同口径下发布后两天内已达数万到近十万量级（来源：GitHub API / CSDN 报道，2026 年 8 月）。</p>
+
+<p>一个模型公司，同一天发旗舰模型和开源框架。前者回答”模型有多强”，后者回答”强了之后怎么用起来”。</p>
+
+<h2 id="它不是什么deepseek-版-claude-code">它不是什么”DeepSeek 版 Claude Code”</h2>
+
+<p>先把定位说清楚。</p>
+
+<p>dsh 不是又一个聊天界面，也不是模型本身。它是让模型能调用工具、执行任务、跟开发者协作的那层基础设施——OpenAI 报告里说的”Agent = Model + Harness”，Harness 就是 dsh 这层。</p>
+
+<p>但和 Claude Code、Codex 有一个根本区别：<strong>后两者是产品，你用它的规则；dsh 是元框架，你用它组装自己的 Agent 产品。</strong></p>
+
+<p>官方设计原则就六个字：一切皆插件（Everything is a Plugin）。</p>
+
+<p>打开它的架构文档，你会看到：模型适配器是插件，工具注册是插件，Session Log 是插件，Agent Loop 本身是插件，沙箱是插件，审批策略是插件，连 UI 都是插件。所有组件通过 Cordis 服务与事件互相协作，在配置层自由组合（来源：DeepSeek Harness 官方架构文档，2026 年 8 月）。</p>
+
+<p>想换模型？装个插件。想换工具注册方式？装个插件。想把 Agent 从”思考→行动→观察”改成别的循环？还是装个插件。<strong>没有特权核心，每一块都能被替换。</strong></p>
+
+<p>这套 Cordis 元框架不是从零造的——它已经在 Koishi 聊天机器人生态里跑了四年，这次 DeepSeek 还和北大合发了一篇论文给它做了数学基础（来源：DeepSeek Harness 发布说明，2026 年 8 月）。</p>
+
+<h2 id="十分钟跑起来">十分钟跑起来</h2>
+
+<p>上手比想象中简单。前提就一个：Node.js 版本要 <code class="language-plaintext highlighter-rouge">^22.19.0</code> 或 <code class="language-plaintext highlighter-rouge">&gt;=24</code>。我一开始用旧版 Node 跑，静默失败，连报错都没有——这是它目前最坑的地方（来源：DeepSeek Harness 官方 README，2026 年 8 月）。</p>
+
+<p>装好 Node，一行命令启动 Web UI：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>npx @deepseek-ai/dsh web
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>默认地址 <code class="language-plaintext highlighter-rouge">http://127.0.0.1:3080</code>。打开后三步走：</p>
+
+<ol>
+  <li><strong>配模型</strong>：Settings → Models，填 DeepSeek API Key。它也支持 OpenAI 兼容端点和其他厂商，改完不用重启</li>
+  <li><strong>选工作区</strong>：Choose workspace，指向你的项目目录。<strong>没选工作区之前，输入框是禁用的</strong>——我第一次卡在这，还以为是启动失败了</li>
+  <li><strong>发任务</strong>：新开一个会话，让它”总结这个仓库并识别主要包”试试水</li>
+</ol>
+
+<p>国内网络建议先换 npm 镜像：<code class="language-plaintext highlighter-rouge">npm config set registry https://registry.npmmirror.com</code>，不然下载可能很慢。</p>
+
+<p>它运行的时候，所有文件读写和命令执行都被限制在工作区内，路径穿越（<code class="language-plaintext highlighter-rouge">../../</code>）会被拦——这是默认的沙箱隔离，不需要额外配置（来源：dsh 使用指南，2026 年 8 月）。</p>
+
+<h2 id="写你的第一个插件">写你的第一个插件</h2>
+
+<p>光会跑没意思，dsh 的灵魂在插件。用一个最小例子讲清楚它的机制。</p>
+
+<p>从源码仓库开始（开发插件建议 clone 源码，而不是 npx）：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>git clone https://github.com/deepseek-ai/deepseek-harness.git
+<span class="nb">cd </span>deepseek-harness
+corepack <span class="nb">enable
+</span>pnpm <span class="nb">install
+</span>pnpm run build
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>然后在仓库里建一个插件目录，写一个 <code class="language-plaintext highlighter-rouge">greet</code> 工具：</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="rouge-code"><pre><span class="k">import</span> <span class="kd">type</span> <span class="p">{</span> <span class="nx">Context</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@deepseek-ai/cordis</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">defineTool</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@deepseek-ai/dsh-tools</span><span class="dl">'</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">greet-tool</span><span class="dl">'</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">inject</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">tools</span><span class="dl">'</span><span class="p">]</span>
+
+<span class="k">export</span> <span class="kd">function</span> <span class="nx">apply</span><span class="p">(</span><span class="nx">ctx</span><span class="p">:</span> <span class="nx">Context</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">ctx</span><span class="p">.</span><span class="nx">tools</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="nx">defineTool</span><span class="p">({</span>
+    <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">greet</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">description</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Greet someone by name.</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">parameters</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="p">{</span> <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">string</span><span class="dl">'</span><span class="p">,</span> <span class="na">required</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="na">description</span><span class="p">:</span> <span class="dl">'</span><span class="s1">The name to greet</span><span class="dl">'</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="k">async</span> <span class="nx">execute</span><span class="p">(</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="s2">`你好,</span><span class="p">${</span><span class="nx">args</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="s2">!`</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>（示例参考：Datawhale DeepSeek Harness 插件教程，2026 年 8 月）</p>
+
+<p>这个插件只干四件事：声明插件名、声明需要的服务（tools）、在 <code class="language-plaintext highlighter-rouge">apply</code> 入口注册工具、定义工具的入参和执行逻辑。模型通过”描述”知道这个工具存在，通过”入参 schema”知道怎么调用它。</p>
+
+<p>挂载到 Web 服务：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>pnpm dsh web <span class="nt">--patch</span> ./scratch-plugin/cordis.yml
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>启动后到”设置 → 插件列表”，确认插件是”已启用”状态，然后让 Agent 调用：<code class="language-plaintext highlighter-rouge">请调用 greet 工具问候 Datawhale</code>。你会看到工具调用的输入输出完整展开——插件闭环就跑通了。</p>
+
+<p>生产级的插件不用自己造轮子。比如 DeepSeek 的文本模型目前不能直接看图，社区有 DSH Vision Toolkit 插件，把图片交给单独的视觉模型，再把结果送回 Harness，实现截图分析、OCR、元素定位（来源：Datawhale 插件教程，2026 年 8 月）。安装就是一行：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>dsh plugin <span class="nt">--profile</span> web add @dsh-external/dsh-vision-toolkit
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><strong>装插件前一定看源码和权限</strong>。Harness 插件运行在宿主进程里，属于可信代码，安装脚本会下载什么、需要哪些目录和凭据权限，都得先弄清楚——这跟装任何 npm 包一个道理。</p>
+
+<h2 id="四种模式各干各的活">四种模式，各干各的活</h2>
+
+<p>dsh 内置了四种运行模式，对应不同场景（来源：DeepSeek 官方发布说明，2026 年 8 月）：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>模式</th>
+      <th>干什么用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>标准模式</td>
+      <td>日常开发，完整文件读写 + 命令执行</td>
+    </tr>
+    <tr>
+      <td>极简模式</td>
+      <td>纯文本对话，无工具，适合闲聊和快速问答</td>
+    </tr>
+    <tr>
+      <td>PTC 模式</td>
+      <td>程序化工具调用，适合基准测试和脚本化场景</td>
+    </tr>
+    <tr>
+      <td>创造模式</td>
+      <td>插件开发调试，内存里直接试 Cordis 插件</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>实际用下来，日常开发用标准模式就够了；想验证插件逻辑，创造模式省去反复重启。</p>
+
+<p>还有 headless 模式，跑脚本和 CI 用：<code class="language-plaintext highlighter-rouge">dsh --profile headless "列出这个仓库所有 TODO"</code>，一次性任务，输出到 stdout 就退出，不用开浏览器。</p>
+
+<h2 id="回看我七月那篇-harness-文章">回看我七月那篇 harness 文章</h2>
+
+<p>既然 dsh 把概念落地成了产品，正好回头检验一下我上个月写的《给 AI 套上缰绳：Harness Engineering 是什么》，哪些判断站得住，哪些需要修正。</p>
+
+<p><strong>站得住的三个判断：</strong></p>
+
+<p>一是”Agent = Model + Harness，模型是 CPU，Harness 是操作系统”。dsh 的定位跟这个公式严丝合缝——它把模型当可替换组件，把工程能力（工具、沙箱、审批、UI）全部做进 Harness 层。DeepSeek 官方自己的定义就是”Model + Harness = Agent”。</p>
+
+<p>二是”每次 Agent 犯一个错，就把它工程化成一个约束”。dsh 的插件化让这个循环变得更顺——AI 又漏改文件了？把”文件修改必须走工具注册”写成一个插件约束，比维护 AGENTS.md 里的一行文字更硬。约束从”文档约定”升级成了”代码强制”。</p>
+
+<p>三是”评审与验证必须分离”。dsh 的四种模式和 headless 流程，天然支持把”干活”和”验证”拆开跑——这是它架构上就内建的优势。</p>
+
+<p><strong>需要修正的两个地方：</strong></p>
+
+<p>一是旧文把 harness 落地完全押在”AGENTS.md + verify 脚本 + 权限 hooks”三件套上，这是 Claude Code 的生态。dsh 的出现说明 harness 不止一种形态——插件化元框架是更激进的一条路，AGENTS.md 只是其中一种”系统提示插件”的实现。三件套是路径之一，不是唯一解。</p>
+
+<p>二是旧文里”模型一行没动，环境一换，效果天差地别”这个说法，用在”给 AI 套缰绳”上成立，但 dsh 的实践反过来提醒：<strong>Harness 和模型是协同演进的</strong>。DeepSeek 是模型和 Harness 一起发，Muse Spark 也是和 Muse Code 一同训练——Harness 的边界设计会影响模型的发挥，模型的进步也会反过来改变 Harness 该管什么。缰绳和马的品种是互相适配的，不是单向约束。</p>
+
+<h2 id="和-claude-code-比差在哪">和 Claude Code 比，差在哪</h2>
+
+<p>这是绕不开的问题。说结论：<strong>架构理念上 dsh 更激进，工程成熟度上 Claude Code 领先。</strong></p>
+
+<ul>
+  <li><strong>插件化程度</strong>：dsh 把”换工具”“换循环”都变成配置，Claude Code 的扩展点是 skills + hooks，自由度不在一个量级</li>
+  <li><strong>Session 可靠性</strong>：dsh 把会话日志设计成 append-only 事件日志，官方宣称崩溃后可重放恢复——但这是架构设计的宣称，还没经过大规模生产验证；Claude Code 的会话机制成熟，但长会话断开后的恢复一直是它的短板。两者在”可靠”的定义上不一样，都得等时间检验</li>
+  <li><strong>生态</strong>：Claude Code 有一年多的打磨、社区和文档积累，dsh 发布才几天，<code class="language-plaintext highlighter-rouge">THERE WILL BE COMPATIBILITY-BREAKING CHANGES</code> 的警告就挂在 README 首页</li>
+  <li><strong>模型绑定</strong>：dsh 不绑定 DeepSeek 模型，OpenAI 兼容端点都能接；但当前优化得最好的肯定是自家 V4-Pro-0813</li>
+  <li><strong>成本</strong>：DeepSeek 从 8 月 17 日起 API 改峰谷定价，高峰（北京时间 9-12 点、14-18 点）价格是空闲时段的两倍，晚间和深夜半价（来源：DeepSeek 官方定价公告，2026 年 8 月）。国内直连 + 相对低价，这是它对国内团队最实在的吸引力</li>
+</ul>
+
+<p>但它现在还是 0.1 预览版，官方明说”存在破坏性更新”。我的建议是：<strong>拿它做技术预研、做内部工具的底座，别在生产环境梭哈。</strong> 想用 dsh 顶替 Claude Code 的团队，等它稳定几个版本再说。</p>
+
+<h2 id="java-团队怎么用">Java 团队怎么用</h2>
+
+<p>最后给 Java 后端同行的落地建议，三句话：</p>
+
+<ol>
+  <li><strong>先 headless 跑通一个真实小任务</strong>（比如”给这个模块补全单元测试”），验证工具链和工作区隔离是否顺手</li>
+  <li><strong>把团队知识做成插件</strong>——项目脚手架生成、代码规范检查、SQL 风险扫描，这些都能注册成 dsh 工具，让模型按团队规则干活，而不是每次重新教</li>
+  <li><strong>留意它把 Session Log 做成 append-only 的设计</strong>——这对需要审计的开发场景是加分项，出了问题能回放</li>
+</ol>
+
+<p>模型会一直换，套缰绳的手艺才值钱。现在缰绳有人开源了，还给你留了所有改装孔位——剩下的，就是把团队自己的规则拧上去。</p>
+
+<hr />
+
+<p><strong>参考资料</strong></p>
+
+<ul>
+  <li>DeepSeek Harness 官方 GitHub 仓库与 README，2026 年 8 月。安装要求、MIT 协议、破坏性更新警告。</li>
+  <li>DeepSeek Harness 官方架构文档与发布说明，2026 年 8 月。”一切皆插件”设计、Cordis 框架、四种运行模式、与北大合作论文。</li>
+  <li>CSDN，”DeepSeek Harness 开源：一切皆插件、省 Token、Agent 还能改装自己”，2026 年 8 月 15 日。发布背景、GitHub 星标数据。</li>
+  <li>Datawhale，”DeepSeek Harness 插件开发保姆教程”，2026 年 8 月。最小插件代码示例、Vision Toolkit 安装与配置。</li>
+  <li>DeepSeek 官方定价公告，2026 年 8 月。API 峰谷定价规则，8 月 17 日生效。</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="DeepSeek Harness" /><category term="Agent" /><category term="插件化" /><category term="Claude Code" /><category term="工程实践" /><summary type="html"><![CDATA[摘要：8 月 13 日 DeepSeek 开源 Agent 框架 Harness，目标直指 Claude Code。它把模型、工具、沙箱、UI 全部做成可替换插件。这篇文章带你把它跑起来、写第一个插件，并聊聊这套架构离生产还有多远。]]></summary></entry><entry><title type="html">AI Agent 研发 JD 拆解：九个环节到底考什么</title><link href="https://tangyuewei.github.io/posts/agent-engineer-jd/" rel="alternate" type="text/html" title="AI Agent 研发 JD 拆解：九个环节到底考什么" /><published>2026-08-16T09:10:00+08:00</published><updated>2026-08-16T09:10:00+08:00</updated><id>https://tangyuewei.github.io/posts/agent-engineer-jd</id><content type="html" xml:base="https://tangyuewei.github.io/posts/agent-engineer-jd/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：AI Agent 研发 JD，把 Agent 开发拆成了任务规划、上下文管理、记忆、工具调用、RAG、安全、可观测等一串环节，每条背后都是一套真实工程实践。本文逐条拆解，讲清每个环节在实战里是什么、怎么落地、考什么能力。</p>
+</blockquote>
+
+<hr />
+
+<p>想转行做 Agent 开发，JD 上每个字都认识，但连起来不知道在考什么。</p>
+
+<p>这种感受不奇怪。你打开招聘软件搜”AI Agent 研发工程师”，满屏是”任务规划、上下文管理、长期/短期记忆、工具调用、RAG、Prompt 编排、高并发链路、安全防护、全链路可观测、MCP/多智能体”，外加一句”熟练使用主流 AI 编程工具”。每一条都像一个黑话，没干过这行的人根本不知道对应什么工作量。</p>
+
+<p>我把某直聘和某job 上几家大厂的 AI Agent 研发 JD 翻了翻，逐条拆开看，发现每条背后都对应一套具体的工程实践。这篇文章就是拆解结果——聊聊每一条在实战里到底是什么、考什么能力。</p>
+
+<h2 id="任务规划从-react-到图编排">任务规划：从 ReAct 到图编排</h2>
+
+<p>JD 写”任务规划、多智能体协同”。</p>
+
+<p>Agent 最基础的规划是 ReAct 循环——推理、行动、观察、再推理。这个模式在简单任务上够用，但一旦任务长、分支多，单步决策就会丢上下文、绕远路。</p>
+
+<p>生产级方案是图编排。LangGraph、阿里 AgentScope 这类框架把规划画成图：节点是处理步骤，边是决策分支。一个客服 Agent 是”先查意图 → 查订单走订单分支 → 退款走退款分支 → 汇总”，用图表达非常自然。</p>
+
+<p>淘宝主播 Agent 的实践更进一步：用 DAG 全局规划替代 ReAct 单步决策，提升长程任务的恢复性（来源：大淘宝技术公众号，2026 年 8 月）。任务中途挂了，能从图里断点续跑，而不是从头再来。</p>
+
+<p>JD 考的不是”知道 ReAct 是什么”，是你能不能把任务拆成可编排的图，并处理分支、失败和恢复。</p>
+
+<h2 id="上下文管理四道防线">上下文管理：四道防线</h2>
+
+<p>JD 写”上下文管理”。</p>
+
+<p>长会话必然撞上下文窗口。生产级 Agent 用一套压缩流水线，按触发时机排四道防线（来源：AgentScope Java 2.0 官方文档）：</p>
+
+<ul>
+  <li><strong>结果淘汰</strong>：单条工具结果超过阈值落盘，上下文只留首尾和文件指针</li>
+  <li><strong>入参截断</strong>：超大入参做字符串截断，零 LLM 成本</li>
+  <li><strong>摘要压缩</strong>：对话前缀压成结构化摘要，尾部保留原文</li>
+  <li><strong>溢出恢复</strong>：真撞墙时极端压缩并自动重试一次</li>
+</ul>
+
+<p>更关键的是反面清单——什么永远不能压：规划状态、子 Agent 后台任务、todo 清单、权限规则。</p>
+
+<p>为什么？试想一个 20 步的长任务跑到第 15 步，上下文压缩把”任务规划”压没了。Agent 不会告诉你它失忆了，它只会继续”推理”——用残缺的信息开始答非所问，而你从输出里根本看不出哪一步出了问题。粗暴压缩把规划弄丢了，Agent 就变傻，而且是<strong>悄悄变傻</strong>。</p>
+
+<h2 id="记忆日流水账和长期档案">记忆：日流水账和长期档案</h2>
+
+<p>JD 写”长期/短期记忆”。</p>
+
+<p>短期记忆是对话窗口，长期记忆是跨会话沉淀。AgentScope 的做法是两级管线：每次调用结束，LLM 从对话里抽取长期事实，追加进按日归档的流水账；后台任务定期把流水账合并、去重、蒸馏成全局 MEMORY.md（来源：AgentScope Java 2.0 官方文档）。</p>
+
+<p>MEMORY.md 每轮注入 System Prompt，所以体积被严格控制。配套 memory_search、session_search 工具，模型看到截断提示时自己会去查。</p>
+
+<p>这跟人一样：记流水账和写总结是两件事，合并成一步，记忆质量必然崩。</p>
+
+<h2 id="工具调用mcp-是你的新-rest">工具调用：MCP 是你的新 REST</h2>
+
+<p>JD 写”工具调用、MCP 协议”。</p>
+
+<p>2025 年底 MCP 移交 Linux Foundation 治理，成了 Agent 接入工具的事实标准（来源：阿里云开发者社区，2026 年）。你可以把它理解成”AI 时代的 USB 接口”：定义 Agent 怎么发现工具、怎么调用、怎么处理结果。</p>
+
+<p>后端工程师的优势在这：MCP Server 本质就是有标准协议的微服务。你熟悉 REST/gRPC，换成 MCP 只是换套接口规范。但有个后端没有的坑——<strong>Tool 的 Schema 就是你的接口文档，描述质量直接决定模型调得准不准</strong>。模型靠语义匹配决定调哪个工具，描述太笼统，它就瞎调：</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="p">{</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"query_order"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"根据订单号查询订单状态，返回物流信息、支付状态和预计送达时间"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"inputSchema"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w"> </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"订单号，如 OD20260816001"</span><span class="w"> </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"required"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"orderId"</span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>生产实践里，工具描述写得像 API 文档一样严谨还不够，还要用 <code class="language-plaintext highlighter-rouge">enum</code> 约束枚举值、给参数加格式说明，否则 LLM 可能传任意参数导致调用失败（来源：掘金 MCP 实战文，2026 年）。</p>
+
+<h2 id="rag混合检索--重排是分水岭">RAG：混合检索 + 重排是分水岭</h2>
+
+<p>JD 写”RAG 知识库建设与交互环境构建”。</p>
+
+<p>demo 和生产的区别，就在检索链路。单一向量检索是生产环境最容易踩的坑——它擅长语义匹配，但面对制度编号、合同条款、产品型号这种精准关键词，准确率极低。</p>
+
+<p>生产级方案是混合检索（来源：多个 2026 年企业 RAG 实战文交叉验证）：</p>
+
+<ol>
+  <li><strong>双路召回</strong>：BM25 关键词 + 向量语义并行，结果融合去重，检索精度提升 10-30%</li>
+  <li><strong>重排</strong>：召回几十上百个候选后，用 CrossEncoder（中文场景用 BGE-Reranker）逐条打分，只保留 Top10 进上下文</li>
+  <li><strong>上下文压缩</strong>：排名靠前的文档不全文喂给模型，先摘要或提取相关片段</li>
+  <li><strong>强制溯源</strong>：输出必须带文档来源、页码，回答可追溯可核验</li>
+</ol>
+
+<p>还有个认知误区要纠正：上下文塞得越多，答案不一定越准。超大的杂乱上下文会稀释有效信息，拉低推理精度。压缩提纯不是省钱，是提质量。</p>
+
+<h2 id="prompt-编排把控制权抓回手里">Prompt 编排：把控制权抓回手里</h2>
+
+<p>JD 写”Prompt 工程与工作流编排”。</p>
+
+<p>这不是写提示词模板，是设计 Agent 的决策链路。实战里有几个硬功夫：</p>
+
+<ul>
+  <li><strong>结构化输出约束</strong>：要求模型输出”结论、依据、来源、置信度”四字段，回答可核验</li>
+  <li><strong>动态 Prompt 注入</strong>：根据检索结果动态构建提示，而不是一套模板打天下</li>
+  <li><strong>工作流编排</strong>：把检索、重写、生成、校验串成可监控的流程</li>
+</ul>
+
+<p>2026 年的一个趋势是 SIGIL 论文的发现：同一流程写成自然语言 Skill 完成率 56%，编译成带类型和前置条件的 Harness 后升到 86%（来源：SIGIL 预印本，2026 年 7 月）。Prompt 从”一段话”变成”结构化约束”，是生产化的关键一步。</p>
+
+<h2 id="高并发链路agent-也是服务">高并发链路：Agent 也是服务</h2>
+
+<p>JD 写”高并发、高可用分布式系统，缓存、消息队列、异步调度”。</p>
+
+<p>Agent 本质上是有 LLM 大脑的微服务。后端工程师的基础在这全用得上：</p>
+
+<ul>
+  <li><strong>异步调度</strong>：长任务（LLM 生成动辄几秒到几十秒）必须异步化，不能让请求线程干等</li>
+  <li><strong>缓存</strong>：热点问答缓存、检索结果缓存，省 Token 省延迟</li>
+  <li><strong>无状态化</strong>：状态按 userId/sessionId 寻址，不绑单个实例，多租户和多实例部署的地基</li>
+  <li><strong>虚拟线程</strong>：JDK 21+ 一行配置开启，IO 密集的 Agent 服务吞吐量显著提升</li>
+</ul>
+
+<p>这一条 JD 其实在说：别只把 Agent 当”调模型”，它也是要扛流量的后端系统。</p>
+
+<h2 id="安全防护五层纵深防御">安全防护：五层纵深防御</h2>
+
+<p>JD 写”意图识别、输出过滤、权限控制、沙箱执行”。</p>
+
+<p>2026 年行业共识是：提示注入无法在模型层根治，安全必须靠工程兜底（来源：多个 Agent 安全实战文，2026 年）。五层防御：</p>
+
+<ol>
+  <li><strong>输入侧意图识别</strong>：语义相似度检测 + 专用分类器，识别注入企图</li>
+  <li><strong>输出过滤</strong>：敏感数据泄露检查（PII/密钥）、格式校验、注入标记检测</li>
+  <li><strong>最小权限</strong>：只读 Agent 不拿写权限，写操作 Agent 拿最窄范围；allowlist 优先于 denylist</li>
+  <li><strong>沙箱执行</strong>：Agent 生成的代码在 Docker/gVisor 一次性环境里跑，无网络或受限网络，用完即销毁</li>
+  <li><strong>人在环路（HITL）</strong>：支付、删除、外部发送这些不可逆操作，强制人工确认</li>
+</ol>
+
+<p>有个被低估的坑：<strong>工具调用参数校验</strong>。LLM 生成的结构合法 JSON，不代表参数在业务范围内。一个”发送邮件”工具必须校验收件人格式，可能还要限制只能发公司内部域名。业务规则校验是安全链路上最容易被漏掉的一环。</p>
+
+<h2 id="全链路可观测从系统指标到语义指标">全链路可观测：从系统指标到语义指标</h2>
+
+<p>JD 写”成功率、延迟、Token 消耗、业务转化率”。</p>
+
+<p>传统 APM 监控的是机械故障——500 错误、超时。Agent 监控的是语义故障——答错了、幻觉了、绕远路了。这是两套体系（来源：agentmelt 与 logic.inc 的 Agent 可观测性指南，2026 年）。</p>
+
+<p>核心指标四类：</p>
+
+<ul>
+  <li><strong>延迟</strong>：P50/P95/P99，看尾延迟而不是平均值。多步 Agent 的 P99 是 P50 的 10 倍，就是可靠性问题</li>
+  <li><strong>成本</strong>：按任务粒度统计 Token 成本和工具调用成本。推理模型的 reasoning token 是最容易悄悄烧钱的地方，跟踪 reasoning:output 比例</li>
+  <li><strong>成功率</strong>：任务完成率目标 85-95%。失败分类比总数更重要——LLM 错误（基础设施）、工具失败（集成）、逻辑错误（质量，最难自动检测）</li>
+  <li><strong>循环检测</strong>：Agent 卡在重复循环是最烧钱的行为，loop count 必须监控</li>
+</ul>
+
+<p>落地用 OpenTelemetry 的 GenAI 规范埋点，一次完整任务用关联 ID 串起所有 span。开源工具 Langfuse、Phoenix 都支持，企业级的可以看 LangSmith 或阿里 LoongSuite。</p>
+
+<h2 id="多智能体编排比模型重要">多智能体：编排比模型重要</h2>
+
+<p>JD 写”多智能体协同、长文本处理”。</p>
+
+<p>多 Agent 系统的难点不在模型，在编排——谁先动、谁等谁、失败了怎么兜底。常见做法是把子 Agent 封装成 MCP Server，编排层只关心调用哪个工具、传什么参数、拿什么结果，不关心 Agent 内部怎么实现。阿里开源的 AgentScope 就把子 Agent 分成同步、异步、远程三种形态，主 Agent 通过内置工具拉起子 Agent，还能随时查看每个子 Agent 的状态（来源：AgentScope Java 2.0 官方文档）。</p>
+
+<p>失败语义是多数团队踩坑的地方。三个问题必须有明确答案：<strong>依赖顺序</strong>（B 要等 A 的出参）、<strong>并发调度</strong>（无依赖节点应并行）、<strong>失败隔离</strong>（某个子任务挂了不能拖垮整条链路）。一个生产实践是给每个子 Agent 定死边界：干完必须声明”我的部分已完成，请 XX 接手”，输出格式严格标准化——否则角色模糊的 Agent 会互相抢活、推诿（来源：企业多 Agent 实战文，2026 年）。</p>
+
+<p>原则很简单：不是 Agent 越多越好。每加一个 Agent，就增加网络、状态和调试成本。按权限边界、独立伸缩需求、故障隔离需求决定拆分，而不是为了”多”而多。</p>
+
+<h2 id="ai-编程工具jd-里的新物种">AI 编程工具：JD 里的新物种</h2>
+
+<p>JD 写”熟练使用 Cursor、Claude Code 等 AI 编程工具提效”，而且国内版本通常还会列 Qoder、WorkBuddy 这些国产工具。</p>
+
+<p>这条 JD 的价值在于：它把”会用 AI 编程工具”从加分项变成了必备项。对国内开发者来说，选型上有个现实问题——Claude Code、Cursor 能力在线，但网络、账号、支付三道门槛。国产工具已经追到”分差”级别：</p>
+
+<ul>
+  <li><strong>Qoder</strong>（原通义灵码）：IDE 插件 + CLI，支持 GLM/DeepSeek/Kimi 多模型切换，国内直连</li>
+  <li><strong>TraeCode</strong>：SOLO + IDE 双重开发模式，对中文注释、国内技术栈理解更好</li>
+  <li><strong>WorkBuddy</strong>：办公 + 编码一体，原生中文</li>
+</ul>
+
+<p>JD 真正考的不是”会用哪个工具”，是你能不能把 AI 编程工具融进工作流——用 Agent 写代码、跑测试、做重构，然后自己 review。这才是 2026 年工程师的日常。</p>
+
+<h2 id="拆完-jd剩两句话">拆完 JD，剩两句话</h2>
+
+<p>第一，这九块里，<strong>一半是后端基本功的迁移</strong>：高并发、缓存、异步、微服务、权限、可观测——你本来就会，换个载体而已。</p>
+
+<p>第二，另一半是 Agent 特有的：上下文管理、记忆管线、图编排、混合检索、提示注入防御。这些没有捷径，只能在一个真实项目里踩一遍——做一个能查数据库的自然语言问答，再把检索、记忆、安全、可观测逐层加上去，比看十篇教程都管用。</p>
+
+<p>JD 拆完，你会发现它其实在描述一个完整系统：一个能自己规划、自己查资料、自己动手、还不闯祸的 AI 服务。你要做的，就是把这个系统真正搭出来。</p>
+
+<p>想深入了解，两个官方入口：<a href="https://modelcontextprotocol.io/">MCP 协议文档</a> 和 <a href="https://agentscope.io/">AgentScope 官方文档</a>。</p>]]></content><author><name>唐悦玮</name></author><category term="技术实战" /><category term="AI 工程化" /><category term="AI Agent" /><category term="JD 拆解" /><category term="RAG" /><category term="MCP" /><category term="可观测性" /><category term="Prompt 工程" /><category term="Java" /><summary type="html"><![CDATA[摘要：AI Agent 研发 JD，把 Agent 开发拆成了任务规划、上下文管理、记忆、工具调用、RAG、安全、可观测等一串环节，每条背后都是一套真实工程实践。本文逐条拆解，讲清每个环节在实战里是什么、怎么落地、考什么能力。]]></summary></entry><entry><title type="html">Spring Boot 4 原生镜像：启动快 34 倍，代价是这些</title><link href="https://tangyuewei.github.io/posts/spring-boot-native-image/" rel="alternate" type="text/html" title="Spring Boot 4 原生镜像：启动快 34 倍，代价是这些" /><published>2026-08-15T10:10:00+08:00</published><updated>2026-08-15T10:10:00+08:00</updated><id>https://tangyuewei.github.io/posts/spring-boot-native-image</id><content type="html" xml:base="https://tangyuewei.github.io/posts/spring-boot-native-image/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Spring Boot 4 的 AOT 管线成熟后，”启动快 34 倍、内存省 5 倍”的实测数据开始刷屏。但收益只在冷启动敏感场景成立，代价却被普遍低估：构建 10-20 分钟、反射三坑、调试退化。本文拆解原理、算清账，给出场景化决策表。</p>
+</blockquote>
+
+<hr />
+
+<p>Java 服务部署到 K8s，JVM 冷启动 + Spring 初始化，几秒到几十秒是常态。响应式、预热、预留实例都试过，收益有限。直到 Spring Boot 4 把 AOT 管线补成熟，GraalVM 原生镜像的实测数据开始刷屏：</p>
+
+<p>启动 6.2s → 0.18s，内存 256MB → 48MB（来源：第三方博主基于 Spring Boot 4.1.0 GA 的实测，非官方基准）。</p>
+
+<p>快 34 倍。看着确实心动。</p>
+
+<p>这个数字不是我编的。Spring Boot 4 的 AOT（Ahead-of-Time，提前编译）管线是官方文档里的正式特性，GraalVM 原生镜像也早已从实验室走向生产（官方文档：graalvm.org/latest/reference-manual/native-image）。上面那份实测来自第三方博主用 4.1.0 GA 跑的真实项目，非官方基准，但方向没有争议。</p>
+
+<p>所以我想泼的这盆冷水，不是质疑数据，而是说清楚：<strong>这个数字只在特定场景成立，而它的代价，大多数宣传文章没写。</strong></p>
+
+<h2 id="它凭什么快封闭世界假设">它凭什么快：封闭世界假设</h2>
+
+<p>先搞清楚原生镜像为什么快。一句话：<strong>传统 JVM 在运行时做的工作，原生镜像在构建期就做完了。</strong></p>
+
+<p>JVM 模式下的启动流程：类加载 → 字节码解释执行 → JIT 逐步编译成机器码 → 跑起来后才开始预热。每次启动，这条路都要重走一遍。</p>
+
+<p>GraalVM 原生镜像反着来：构建时用 <code class="language-plaintext highlighter-rouge">native-image</code> 把字节码直接编译成机器码，生成一个不依赖 JVM 的独立可执行文件。</p>
+
+<p>支撑它的核心叫<strong>封闭世界假设（Closed-World Assumption）</strong>：编译器从 <code class="language-plaintext highlighter-rouge">main()</code> 出发做可达性分析，够得着的类留下，够不着的一律砍掉。一个 Spring Boot 应用，产物可能只有原 JAR 的十分之一。</p>
+
+<p>再配合两招：</p>
+
+<ul>
+  <li><strong>堆快照（Heap Snapshotting）</strong>：构建期执行所有静态初始化块，把初始对象状态直接”冻”进可执行文件。运行时不用再执行初始化逻辑——这就是”启动即就绪”的来源，也是冷启动能到毫秒级的根本原因</li>
+  <li><strong>Substrate VM</strong>：为 AOT 定制的极简运行时。没有解释器、没有 JIT，只有精简版 GC（Epsilon 或 Serial）和线程调度。传统 JVM 运行时组件动辄几十 MB，Substrate VM 只要几 MB——这也是内存占用能省下 5 倍的原因之一</li>
+</ul>
+
+<p>一句话总结原理：<strong>JVM 把”启动成本”摊到了每次运行上，原生镜像把”启动成本”提前到构建期一次性付清。</strong></p>
+
+<p>所以原生镜像冷启动能到毫秒级。原理上没毛病。</p>
+
+<h2 id="快是真快账要算清">快是真快，账要算清</h2>
+
+<p>收益先摆出来，以支付回调服务为例（来源：掘金实战文，服务规模为小型、突发流量型）：启动 3.2s → 52ms，内存 420MB → 78MB。K8s HPA 扩容时，新 Pod 几十毫秒就能接流量，高峰期不再 502。</p>
+
+<p>但同一篇文里，代价也写得很实在。<strong>收益和代价必须放在一起看</strong>：</p>
+
+<p><strong>第一笔账：构建慢。</strong> 原生编译 10-20 分钟起步，编译过程要吃 6-12GB 堆内存，CI 机器至少 8GB。这意味着”改一行代码 → 全量重编译”的循环被拉长到小时级，频繁变更的服务会被拖垮。</p>
+
+<p><strong>第二笔账：反射是头号天敌。</strong> 封闭世界假设和 Java 生态的动态特性天然冲突：</p>
+
+<ul>
+  <li>Jackson 反序列化 DTO，AOT 没识别到 → 运行时 <code class="language-plaintext highlighter-rouge">InvalidDefinitionException</code></li>
+  <li>@Async 的 CGLIB 代理，AOT 阶段没生成 → <code class="language-plaintext highlighter-rouge">ClassNotFoundException</code></li>
+  <li>动态注册 Bean（<code class="language-plaintext highlighter-rouge">BeanDefinitionRegistryPostProcessor</code>）在原生镜像里直接不工作</li>
+</ul>
+
+<p>解法是给编译器”递小抄”：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="nd">@Configuration</span>
+<span class="nd">@ImportRuntimeHints</span><span class="o">(</span><span class="nc">MyRuntimeHints</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">NativeConfig</span> <span class="o">{</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">MyRuntimeHints</span> <span class="kd">implements</span> <span class="nc">RuntimeHintsRegistrar</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">registerHints</span><span class="o">(</span><span class="nc">RuntimeHints</span> <span class="n">hints</span><span class="o">,</span> <span class="nc">ClassLoader</span> <span class="n">cl</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">hints</span><span class="o">.</span><span class="na">reflection</span><span class="o">().</span><span class="na">registerType</span><span class="o">(</span><span class="nc">PaymentCallback</span><span class="o">.</span><span class="na">class</span><span class="o">,</span>
+                    <span class="nc">MemberCategory</span><span class="o">.</span><span class="na">INVOKE_DECLARED_METHODS</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>类少还能手写，DTO 几十个就崩了。得靠 GraalVM 的 Tracing Agent 跑一遍应用自动生成配置，再逐个核对——迁移一个反射重的项目，改造成本是按周计的。</p>
+
+<p><strong>第三笔账：调试退化。</strong> 原生二进制里没有 JVM：没有堆转储、没有 JFR、没有动态类加载。线上出问题，工具链从”丰富”退到”GDB 级别”。排查一个诡异的生产问题，成本可能翻倍。</p>
+
+<p>还有两个细节坑：<code class="language-plaintext highlighter-rouge">-march=native</code> 编译的二进制在老 CPU 上可能直接崩（要锁 <code class="language-plaintext highlighter-rouge">x86-64-v2</code> 基线）；长期运行的服务，JIT 预热 10-15 分钟后性能会反超 AOT——原生镜像没有 profile-guided optimization。</p>
+
+<h2 id="谁在用谁在撤">谁在用，谁在撤</h2>
+
+<p>好消息是，国内云厂商已经接住了这条落地路径。阿里云函数计算 FC、腾讯云 SCF、华为云 FunctionGraph 都支持 GraalVM 原生镜像部署（来源：CSDN Serverless 平台对比文，2026 年 8 月），原生镜像 + Serverless 轻量部署成了国内 Java 冷启动优化的标准组合拳。</p>
+
+<p>用成的人画像很清晰。前面那个支付回调服务就是典型：平时 QPS 不高，一到月末结算高峰突然来一波，HPA 拉新 Pod 是常态。JVM 模式启动 3 秒多，高峰期的请求只能排队；切原生镜像后 52ms 就绪，问题直接消失。这类服务有一个共同点——<strong>流量是脉冲式的，Pod 生命周期短，冷启动成本被高频触发</strong>：</p>
+
+<ul>
+  <li><strong>Serverless / FaaS</strong>：冷启动就是用户体验，200ms vs 6s 是天壤之别</li>
+  <li><strong>弹性扩容的突发流量服务</strong>：支付回调、秒杀入口，HPA 拉起的新实例必须秒级就绪</li>
+  <li><strong>CLI 工具、边缘节点</strong>：内存 128-256MB 的容器，JVM 模式直接爆掉</li>
+</ul>
+
+<p>观望和撤退的人也有共同点：</p>
+
+<ul>
+  <li><strong>长期常驻的后端服务</strong>：流量平稳，JIT 预热后性能更好，原生镜像白付构建成本</li>
+  <li><strong>频繁迭代的业务服务</strong>：每次发版等 30 分钟编译，团队受不了</li>
+  <li><strong>反射、动态代理重度用户</strong>：改造成本大于收益</li>
+  <li><strong>小团队</strong>：排障能力弱，原生镜像出问题查不动</li>
+</ul>
+
+<h2 id="我的判断一张决策表">我的判断：一张决策表</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>场景</th>
+      <th>建议</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Serverless / FaaS 冷启动敏感</td>
+      <td>上</td>
+    </tr>
+    <tr>
+      <td>突发流量、HPA 弹性扩容</td>
+      <td>上</td>
+    </tr>
+    <tr>
+      <td>CLI 工具 / 边缘节点</td>
+      <td>上</td>
+    </tr>
+    <tr>
+      <td>长期常驻后端服务</td>
+      <td>别上，JIT 预热后更强</td>
+    </tr>
+    <tr>
+      <td>反射/动态代理重项目</td>
+      <td>别上，改造成本极高</td>
+    </tr>
+    <tr>
+      <td>小团队、排障能力弱</td>
+      <td>观望</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>想上的人，建议按这个顺序验证，每一步都能提前排雷：</p>
+
+<ol>
+  <li><strong>AOT 试跑</strong>：<code class="language-plaintext highlighter-rouge">./mvnw spring-boot:process-aot</code>，不编译原生镜像，先把 AOT 处理阶段跑通。这一步能发现大部分构建期问题</li>
+  <li><strong>Tracing Agent 生成反射配置</strong>：JVM 模式下跑一遍完整集成测试，让 Agent 自动记录所有反射、资源、代理使用，生成 <code class="language-plaintext highlighter-rouge">reflect-config.json</code> 等配置。比自己手写靠谱得多</li>
+  <li><strong>原生测试</strong>：<code class="language-plaintext highlighter-rouge">./mvnw -PnativeTest test</code>，在原生镜像里跑测试。反射配置有缺口，这里会先炸，而不是等上线后</li>
+  <li><strong>独立 CI job</strong>：原生编译 10-20 分钟，必须拆成独立 job，别拖累日常构建的快速反馈循环</li>
+</ol>
+
+<p>这套流程走下来，你的项目适不适合上原生镜像，心里基本有数了。</p>
+
+<p>最后一句：<strong>Spring Boot 4.x 最值得立即用起来的改进，其实是虚拟线程——一行配置的事。原生镜像再等等，等社区把坑填平，等你的场景真的需要毫秒级冷启动。</strong></p>
+
+<p>想深入了解，官方文档是两个必看入口：<a href="https://www.graalvm.org/latest/reference-manual/native-image">GraalVM Native Image 参考手册</a> 和 <a href="https://docs.spring.io/spring-boot/reference/packaging/native-image/">Spring Boot 的 AOT 与原生镜像章节</a>。</p>]]></content><author><name>唐悦玮</name></author><category term="技术实战" /><category term="Java" /><category term="GraalVM" /><category term="Native Image" /><category term="AOT" /><category term="Spring Boot 4" /><category term="虚拟线程" /><category term="冷启动" /><summary type="html"><![CDATA[摘要：Spring Boot 4 的 AOT 管线成熟后，”启动快 34 倍、内存省 5 倍”的实测数据开始刷屏。但收益只在冷启动敏感场景成立，代价却被普遍低估：构建 10-20 分钟、反射三坑、调试退化。本文拆解原理、算清账，给出场景化决策表。]]></summary></entry><entry><title type="html">追不上AI浪潮？先分清该追的和不必追的</title><link href="https://tangyuewei.github.io/posts/keep-up-with-ai-tools/" rel="alternate" type="text/html" title="追不上AI浪潮？先分清该追的和不必追的" /><published>2026-08-14T07:55:00+08:00</published><updated>2026-08-14T07:55:00+08:00</updated><id>https://tangyuewei.github.io/posts/keep-up-with-ai-tools</id><content type="html" xml:base="https://tangyuewei.github.io/posts/keep-up-with-ai-tools/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Claude Code、Codex、Qoder、Trae 月月出新，普通开发者总觉得自己慢半拍。本文用三层拆分拆解”为什么永远在后面”，给出一套把精力投在”不变能力”上的追赶框架，并老实说明它的边界。</p>
+</blockquote>
+
+<p>你列的那些名字，多半你我都眼熟：Claude Code、Codex、Qoder、QoderWork、CodeBuddy、WorkBuddy、Trae、Trae Work，还有 Cursor。每出一个，群里就热闹一阵，好像不马上试就等于掉队。更关键的是，这份清单本身就不是固定的——这些只是当下最热的一小撮，下一个还排着队。</p>
+
+<p>先说个让人松口气的数据。Stack Overflow 2026 开发者调查显示，84% 的开发者已经在用 AI 编程工具，但只有 3% 表示”高度信任”AI 生成的代码，66% 被”差不多对、但跑不起来”的输出反复折磨。同一周，Lenny’s Newsletter 联合 Noam Segal 发布的一份覆盖约 6000 名科技从业者的调查更直白：97.2% 的人觉得 AI 让自己变强了，54.7% 的人处在中度以上职业倦怠。</p>
+
+<p>“变强了，却更累了。”这不是你一个人的感受，是一整个行业的集体状态。所以这篇文章不灌鸡汤，只回答一个问题：非顶级开发者，怎么追，才不至于永远在后面。</p>
+
+<h2 id="为什么你总觉得慢半拍">为什么你总觉得慢半拍</h2>
+
+<p>根因不在你学得慢，而在于你追的那一层，本来就以月为单位换代。</p>
+
+<p>同一件事——把人的意图变成能跑的代码——被不同厂商用不同的壳重新包装了一遍又一遍。今天叫 Agent，明天叫 Work，后天叫 Cowork。底层逻辑高度趋同：读仓库、写改动、跑测试、交 PR。厂商为了获客，必须把”颠覆”讲得很响，于是你耳边永远有 FOMO 的噪音。</p>
+
+<p>媒体和发布会负责放大变化，但不负责告诉你哪些变化是本质的、哪些是换皮的。把这两件事混在一起，焦虑就来了。</p>
+
+<p>还有一个被忽视的成本。Digital Applied 2026 年的数据里，开发者每周花在 review AI 代码上的时间（约 11.4 小时）已经超过了自己写新代码的时间（约 9.8 小时，数字经行业媒体转述自 Digital Applied 2026 调研，以原始报告为准）。AI 没有消灭工作，只是把工作从”创造”搬到了”验收”。你越追新工具，要验收的新代码就越多——这本身就在消耗你追工具的精力。</p>
+
+<h2 id="把追这件事拆成三层">把”追”这件事拆成三层</h2>
+
+<p>要分清该追什么，先得把工具拆开看。很多讨论之所以越聊越乱，是因为把三个不同层次的东西塞进了一个词里——这也是不少多 Agent 文章翻车的地方。</p>
+
+<p><strong>第一层，工具 / 产品层。</strong> Claude Code 是终端 Agent，Codex 走云端并行，Cursor 是海外最火的 AI IDE 之一，Qoder 是阿里云的 AI IDE，Trae 是字节的 IDE，WorkBuddy 是腾讯的多模型桌面助手，QoderWork、Trae Work 是它们各自的”办公版”。列举的这些只是当下主流的一部分，随时会有新名字冒头。这一层换壳最快，半年就能面目全非。</p>
+
+<p><strong>第二层，能力 / 范式层。</strong> Agent 化（给模型工具让它自己循环）、多 Agent 编排（一个规划者拆任务，多个执行者并行）、规格驱动（先写清楚要什么再让模型填）。这一层迁移慢，一个范式能活好几年。</p>
+
+<p><strong>第三层，底层工程能力层。</strong> 怎么把模糊需求拆成清晰步骤，怎么 review 一段你没写的代码，怎么定位一个跨模块的诡异 Bug。这一层几乎不以年计地变。</p>
+
+<p>关键结论：你焦虑的那一层（第一层）恰恰是最不值得长期追的；而你真正该投资的那一层（第三层），AI 暂时替不了，也抢不走。</p>
+
+<h2 id="普通开发者的追赶框架">普通开发者的追赶框架</h2>
+
+<p>下面五条，按性价比从高到低排。</p>
+
+<p><strong>1. 选一个主力工具，用到熟，别追全部。</strong></p>
+
+<p>调查显示开发者平均同时用 2.4 到 3.1 个工具，”工具堆叠”是常态。但对你个人而言，只需要一个顺手的当主力。把一个用到能盲操作，比你浅尝十个更有复利。换工具的真实成本主要在”重新建立肌肉记忆”，不是”重新学编程”。</p>
+
+<p><strong>2. 学范式，不学按钮。</strong></p>
+
+<p>今天 Claude Code 用 sub-agent 隔离上下文，明天 Qoder 用编排跑任务，后天 Trae Work 用三模式打通产研——你真正该掌握的，是”怎么把任务拆给多个隔离的执行单元、用什么 checkpoint 兜底风险”这一套思想。换工具只是换语法，思想能直接迁移。这也是为什么不少团队把 Adopt 的顺序定为”先写测试、再做代码生成”：基础设施思维比工具选择更保值。</p>
+
+<p><strong>3. 把精力投在”不变的信号”上。</strong></p>
+
+<p>少看营销稿，多看三种一手材料：官方文档（讲清楚这工具到底能做什么、边界在哪）、SWE-bench 这类基准（看真实任务完成率，注意很多是厂商自报）、社区一手踩坑（GitHub Issues、SegmentFault 上的真实报错）。信息密度高，且不像发布会那样过期。</p>
+
+<p><strong>4. 护城河是 AI 做不好、或不做的事。</strong></p>
+
+<p>AI 擅长”从规格到代码”，不擅长”从混乱到规格”。业务理解、跨团队协调、把一句”老板想要个报表”翻译成可验证的需求、对 AI 输出做关键判断——这些目前还是人的地盘。把时间花在这里，比追新 CLI 值钱。</p>
+
+<p>一个最小例子，看清人该补在哪：</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="na">task</span><span class="pi">:</span> <span class="s">给订单导出加分页</span>
+<span class="na">acceptance</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">每页至多 500 行</span>
+  <span class="pi">-</span> <span class="s">超时返回空页，不抛异常</span>
+  <span class="pi">-</span> <span class="s">复用现有 ExportService，不改签名</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>这段规格里没有一行是 AI 能替你想明白的：每页多少行是业务权衡，超时怎么处理是稳定性判断，复用哪个类是架构约束。AI 拿到它跑得又快又稳；拿不到，它就会”差不多对”地瞎编。写规格，就是第三层能力。</p>
+
+<p><strong>5. 给自己设一条”停止线”。</strong></p>
+
+<p>每周固定一块不被工具新闻打扰的时间，读源码、啃一本旧书、写一个不用 AI 的小项目。目的不是怀旧，是守住第三层能力。浪潮追不完，但底盘稳了，换哪朵浪你都站得住。</p>
+
+<h2 id="这套框架解决什么不解决什么">这套框架解决什么，不解决什么</h2>
+
+<p>得把代价说清楚。这五条能缓解”焦虑”、提升”单位时间产出”，但<strong>不保证你永远领先</strong>——工具还会继续出，范式还会继续换。它也<strong>不解决可替代性全部问题</strong>：底层岗位被压缩，是不少分析提到的行业级风险，不是个人学习节奏能轻易逆转的。</p>
+
+<p>它真正解决的，是把”被动追工具”变成”主动练能力”。前者让你永远在后面，后者让你在被浪推着走时，脚下有根。</p>
+
+<h2 id="顺便说国产工具已经够你挑了">顺便说，国产工具已经够你挑了</h2>
+
+<p>你清单里一半是国产：Qoder、CodeBuddy 出自阿里和腾讯的云厂牌，Trae 是字节的，WorkBuddy 是腾讯的桌面助手，QoderWork、Trae Work 是它们各自的办公版。据各家官网，QoderWork 走”本地优先”的桌面 Agent 路线、主打合规场景；Trae Work 由 TRAE SOLO 升级而来，深度集成飞书、打通 Code / Design / Work 三模式；WorkBuddy 强调多模型切换和技能生态。IDC《2025 中国 AI 编程市场份额》里，阿里 Qoder（通义灵码升级）占了 47.6%——国产生态的繁荣，本身就是”选择很多但不必全用”的实例。</p>
+
+<p>它们本质都在做同一件事：缩短意图到交付的距离，能力趋同。2026 年国产模型在 SWE-bench 上也确实追了上来：Kimi K3 在 SWE-bench Verified 第三方榜单报到 93.4%，其开源编程专用版 Kimi K2.7 Code 也到 78.2%；GLM-5.2 的 SWE-bench Pro 提升到 62.1%（高于上一代 5.1 的 58.4%）。不过横向看，Anthropic 的 Claude Opus 4.8（2026-05 发布）在 Verified 达 88.6%、Pro 达 69.2%，国产在 Pro 这类更高难度的变体上仍有差距（以上数字几乎都来自厂商自报或单一方榜单，独立复现普遍偏低）。数字亮眼，但别被数字带节奏——对你而言，挑一个顺手的用熟，远比比较谁高两个点重要。</p>
+
+<p>浪潮不会停。但追浪的人和被浪卷着走的人，区别只在一个：前者知道自己脚下哪块礁石是不动的。</p>
+
+<h2 id="参考资料">参考资料</h2>
+<ul>
+  <li>Stack Overflow Developer Survey 2026（AI 采用率 84%、高度信任仅 3%）</li>
+  <li>Lenny’s Newsletter × Noam Segal 年度调查，2026-07-15（97.2% 变强 / 54.7% 倦怠）</li>
+  <li>瞭望财经 × 快思慢想研究院《2026 中国 AI 代码智能体 TOP10》，2026-07-28</li>
+  <li>SWE-bench Verified / Pro 公开榜单与厂商发布（Kimi K3 / K2.7 Code、GLM-5.2、Claude Opus 4.8，2026-06 至 07；多为厂商自报，独立复现偏低）</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程师成长" /><category term="AI编程工具" /><category term="开发者成长" /><category term="国产大模型" /><category term="技术焦虑" /><category term="多智能体" /><summary type="html"><![CDATA[摘要：Claude Code、Codex、Qoder、Trae 月月出新，普通开发者总觉得自己慢半拍。本文用三层拆分拆解”为什么永远在后面”，给出一套把精力投在”不变能力”上的追赶框架，并老实说明它的边界。]]></summary></entry><entry><title type="html">FDE爆火：会写代码的人去了现场</title><link href="https://tangyuewei.github.io/posts/fde-frontline-engineer/" rel="alternate" type="text/html" title="FDE爆火：会写代码的人去了现场" /><published>2026-08-13T17:33:00+08:00</published><updated>2026-08-13T17:33:00+08:00</updated><id>https://tangyuewei.github.io/posts/fde-frontline-engineer</id><content type="html" xml:base="https://tangyuewei.github.io/posts/fde-frontline-engineer/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：FDE（前沿部署工程师）2026 年招聘同比增长约 729%，OpenAI、Anthropic 纷纷组建部署团队。这个把模型变成生产系统的岗位，恰好证明：模型越强，能坐到客户现场、把能力接进真实业务流程的工程师，越贵。</p>
+</blockquote>
+
+<p>上篇聊到一个判断：AI 把”实现”降价之后，值钱的是定义问题、审输出、管上下文的能力。</p>
+
+<p>那谁来坐到离价值最近的位置？2026 年一个很硬的信号是——FDE。</p>
+
+<p>FDE 是 Forward Deployed Engineer（前沿部署工程师）的缩写。这个词不是大模型时代才有的，十多年前 Palantir 就用它称呼那些深入客户现场的解决方案和集成工程师。现在它重新火了。</p>
+
+<h2 id="现象增长最快的职位之一">现象：增长最快的职位之一</h2>
+
+<p>火到什么程度？招聘数据上，FDE 岗位 2026 年同比增长约 729%，多家媒体称它是”今年科技行业增长最快的职位”。</p>
+
+<p>更关键的是大厂的动向。2026 年 5 月，OpenAI 专门成立了一家 Deployment Company，把”工程师进入复杂组织、和客户一起改造关键工作流”做成正式业务线。差不多同期，Anthropic 宣布了超 10 亿美元的合资公司，把工程师嵌入金融服务客户内部[https://mt-labs.net/forward-deployed-engineer]。连手握最强模型的公司都认定：模型本身不创造价值，部署才创造价值。</p>
+
+<p>为什么？因为买模型很容易，让模型在真实企业里跑出价值极难。MIT 的研究被广泛引用——约 95% 的企业生成式 AI 试点没能交付可衡量的回报。问题从不是模型不够强，而是”部署”这最后一环没人做。</p>
+
+<h2 id="本质最后一公里的双语者">本质：最后一公里的双语者</h2>
+
+<p>FDE 到底干什么？一句话：在问题实际发生的地方，把技术变成能跑的能力。</p>
+
+<p>它不是一个纯写代码的工程师，也不是一个只写 PPT 的咨询顾问，而是”在问题现场写代码的人”。三个特征：</p>
+
+<p><strong>第一，拥有最后一公里。</strong> 把 AI 接进客户真实的工单、CRM、ERP、审批流、合规边界。模型是通用的，它从没见过你们公司的发票格式、那三套 legacy 系统、还有员工用了二十年的老习惯。</p>
+
+<p><strong>第二，技术与业务的”双语者”。</strong> 上海今年在加快培育 FDE 人才，报道里有个贴切的比喻：大模型是辆马力强的越野车，企业真实场景是坑洼的乡间土路——车再好，开不上路也白搭。FDE 先在现场最快铺一条”碎石路”让车跑起来，总部再据反馈修成高速公路。这类人难得在：能看懂模型架构，也能读懂工厂的 PLC 控制协议；能写代码，也能在客户会上听懂行业黑话，再把两种语言互译。</p>
+
+<p><strong>第三，在现场迭代。</strong> 看它在真实条件下怎么挂，修，再跑，直到扛得住。本质是”创始人的自主性 + 资深工程师的严谨，用在一个客户最难的问题上”。</p>
+
+<h2 id="落地国内也在动">落地：国内也在动</h2>
+
+<p>谁在用？除了 OpenAI、Anthropic，Salesforce、Google Cloud 都设了相近岗位。国内也在跟上：WAIC 2026 上，多家科技企业把答案聚焦到 FDE；阿里云的实践反馈，FDE 介入后项目周期缩短、客户获得感提升。</p>
+
+<p>一个有代表性的国内案例是识渊科技。上海一条消费电子产线上，换线调机曾经是老大难：型号一换，工程师要在设备旁折腾几小时。识渊的团队白天在产线旁守着机器采集异常样本，晚上回实验室迭代模型，几个月后把换线时间从几小时压到 55 秒，可换型号从单日 5 款扩到近 300 款。这不是在办公室调参调出来的，是人在现场把模型”嵌”进真实业务流程里磨出来的。</p>
+
+<h2 id="我的判断不是丧钟是重新分配">我的判断：不是丧钟，是重新分配</h2>
+
+<p>回到我们这组主题：FDE 的爆火，不是编程的丧钟。</p>
+
+<p>恰恰相反。当前最稀缺、薪资追平资深 Staff Engineer 的 AI 时代岗位，本身就是一个”资深工程师”岗位。它要求能快速打原型、写集成 glue code、把 AI 接进真实系统、在现场验证产出。一个不会写代码的 FDE，退化成咨询顾问——而这个角色恰恰最容易被替代。</p>
+
+<p>所以 FDE 证明的是：模型越强，”会写代码的人”越被重新分配到离价值更近的位置。坐到客户现场、把模型变成系统的那个工程师，越贵。</p>
+
+<p>这对我们有什么启发？两点。</p>
+
+<p><strong>一，不是每个后端工程师都该转 FDE。</strong> 它需要特定气质——耐受模糊、愿意贴着客户、广度优先于深度。强扭没必要。</p>
+
+<p><strong>二，但 FDE 那套能力值得内化。</strong> 把混沌的真实问题翻成精确 spec、在边界处验证、做最后一公里集成——它和我们反复写的”上下文工程”“Harness”是同一件事的现场版。你用 AI Agent 的产出质量，会明显高过只懂”让 AI 写”的人。这正是一篇里 Orchestrator 比 Vibe Coder 增益 81% 而缺陷最低的来源。</p>
+
+<h2 id="小结">小结</h2>
+
+<p>模型越强，越不需要”只会手写实现”的工程师；但也越需要”能定义、能判断、能审、能坐到现场把模型变成系统”的工程师。编程没有死，它只是从后台执行，挪到了离价值更近的地方。</p>
+
+<hr />
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>打通AI落地最后1公里！上海加快培育FDE新型技术人才：https://news.qq.com/rain/a/20260323A06JF800</li>
+  <li>The Forward Deployed Engineer：The Role Behind AI That Actually Ships：https://mt-labs.net/forward-deployed-engineer</li>
+  <li>FDE 岗位 2026 年同比增长约 729%：https://codysolutions.com/blog/what-is-forward-deployed-engineer</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="FDE" /><category term="前沿部署工程师" /><category term="AI落地" /><category term="工程师成长" /><category term="职业演进" /><summary type="html"><![CDATA[摘要：FDE（前沿部署工程师）2026 年招聘同比增长约 729%，OpenAI、Anthropic 纷纷组建部署团队。这个把模型变成生产系统的岗位，恰好证明：模型越强，能坐到客户现场、把能力接进真实业务流程的工程师，越贵。]]></summary></entry></feed>
