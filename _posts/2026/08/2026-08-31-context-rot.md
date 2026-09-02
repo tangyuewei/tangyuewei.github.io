@@ -1,7 +1,7 @@
 ---
 title: "上下文越大，AI 越容易忘事"
 author: 唐悦玮
-date: 2026-08-31 09:00:00 +0800
+date: 2026-08-31 09:22:00 +0800
 categories: [AI编程, 工程师成长]
 tags: [上下文工程, ContextEngineering, AIAgent, 长上下文, ClaudeCode]
 pin: false

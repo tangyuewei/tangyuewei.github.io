@@ -1,7 +1,7 @@
 ---
 title: "MCP 之后，AI 开始摸硬件"
 author: 唐悦玮
-date: 2026-09-01 09:00:00 +0800
+date: 2026-09-01 09:03:00 +0800
 categories: [AI编程, 科技观察]
 tags: [MHS, Model Hardware Standard, MCP, 物理AI, 具身智能, Agent]
 pin: false
