@@ -42,7 +42,7 @@ Sonde 做的事不复杂：把仓库索引成符号级关系图，存进本地 S
 
 （来源：Sonde 仓库 `BENCHMARK-LARGE.md`，生成于 2026-08-24）
 
-![Sonde 与 Agentic 搜索循环的六项指标对比：召回、成功率、工具调用、上下文 token、延迟、干扰项](/imgs/202609/2026-09-03-code-graph-for-ai-infographic-1.png)
+![Sonde 与 Agentic 搜索循环的六项指标对比：召回、成功率、工具调用、上下文 token、延迟、干扰项](/imgs/202609/2026-09-03-code-graph-for-ai-infographic-1.jpg)
 
 ## 数字怎么读
 
@@ -114,7 +114,7 @@ git diff --name-only HEAD | codegraph affected --stdin --quiet
 
 至于怎么选，我的判断依据不是仓库行数，是**你问的问题有多依赖精确的调用关系**。同样是十万行代码，一个只做增删改查的后台服务，和一个满是回调、代理与抽象层次的框架，答案完全不同：前者粗筛就够，后者必须上编译器，否则"谁调用了它"返回空，你还得回头 grep。另一个信号是重复度——如果同一类结构性问题你一天要问好几次，索引的前期成本才摊得回来；只问一次，直接搜更便宜。
 
-![代码图工具的两条路线：编译器级精确 vs tree-sitter 快速，按问题形态选型](/imgs/202609/2026-09-03-code-graph-for-ai-infographic-2.png)
+![代码图工具的两条路线：编译器级精确 vs tree-sitter 快速，按问题形态选型](/imgs/202609/2026-09-03-code-graph-for-ai-infographic-2.jpg)
 
 ## 几个容易踩的坑
 

@@ -13,7 +13,7 @@ keyword: AI编程, Agent, Agent Plugins, 插件标准, MCP, 可移植, 企业治
 
 给同一个 AI 能力做打包，做四遍，是什么体验？
 
-![一次构建多端跑：以前 vs 现在](/imgs/202608/2026-08-30-agent-plugins-infographic.png)
+![一次构建多端跑：以前 vs 现在](/imgs/202608/2026-08-30-agent-plugins-infographic.jpg)
 
 *图：以前一份能力要打四份包装，改一处四处改；现在一个包分发到四端，一次构建到处装。*
 
@@ -89,7 +89,7 @@ company-deploy/
 
 最后是向后兼容。存量 Copilot 插件不迁也能继续用，没有强制迁移的 flag-day。规范文档也明确说，客户端可以忽略不支持的组件或命名空间，依然算合规。这套"旧的不坏、新的可试"的策略，是它能全量上线的底气。
 
-![企业怎么管 Agent 插件：受管市场 → 审批 → 安装 → MCP 白名单](/imgs/202608/2026-08-30-agent-plugins-infographic-2.png)
+![企业怎么管 Agent 插件：受管市场 → 审批 → 安装 → MCP 白名单](/imgs/202608/2026-08-30-agent-plugins-infographic-2.jpg)
 
 *图：企业管 Agent 插件的四步流程——先锁源（受管市场），再审单（enabledPlugins），再分发（开发者安装），最后配合 MCP 白名单。装前看一眼包里有什么，是基本动作。*
 

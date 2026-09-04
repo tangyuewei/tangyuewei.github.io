@@ -29,7 +29,7 @@ keyword: 推理档位, reasoning effort, thinking budget, thinking level, Claude
 | DeepSeek | `reasoning_effort` + `thinking.type` | low / high / max | high（思考默认开启） | 思考强度，官方文档附带一份实际映射表 |
 | 通义千问 | `enable_thinking` + `thinking_budget` | 开关 + 1–32768 的 token 预算 | 多数模型默认开启，预算默认 4000 | 是否思考，以及思维链长度上限 |
 
-![五家推理档位参数对照：参数名、档位、默认值与控制范围各不相同](/imgs/202609/2026-09-02-reasoning-effort-levels-infographic-1.png)
+![五家推理档位参数对照：参数名、档位、默认值与控制范围各不相同](/imgs/202609/2026-09-02-reasoning-effort-levels-infographic-1.jpg)
 
 关键差异在第一行的最后一列。Claude 的 effort 不只管"想多久"，它管整次响应花掉多少 token——包括工具调用的次数和正文的长度。Anthropic 官方文档的原话是：较低的努力程度会让 Claude 把多个操作合并成更少的工具调用、减少工具调用的总次数、直接动手而不加前言。同一个 `high`，在 Claude 这里是"整体节流阀"，在 OpenAI 那里只是"推理节流阀"——后者把输出长短交给了另一个独立的 `verbosity` 参数。
 
@@ -63,7 +63,7 @@ Claude Code 官方文档对 max 的描述同样克制：可能提升高难度任
 
 需要给这条证据划个边界：它衡量的是 Agent 整体运行的成本，不完全等同于单次请求的档位设置。但它指向的方向和厂商自己的结论一致——越过某个点之后，多花钱换不来准确率。
 
-![推理档位与准确率的非单调关系：准确率在中等成本处见顶，最高档回落](/imgs/202609/2026-09-02-reasoning-effort-levels-infographic-2.png)
+![推理档位与准确率的非单调关系：准确率在中等成本处见顶，最高档回落](/imgs/202609/2026-09-02-reasoning-effort-levels-infographic-2.jpg)
 
 ## 真正该做的是路由，不是调档
 
@@ -105,7 +105,7 @@ effort: low
 
 这套配法没什么技巧，真正的收益来自第三层：因为知道抬档是要手动做的，我在起一个会话前会先想清楚它属不属于"智能敏感"。分错的代价很直观——lint 子代理跑到 xhigh 是纯浪费，重构会话停在 medium 则是要返工。旋钮的存在本身就在逼你给任务分类。
 
-![按任务路由推理档位：主代理保持高档，工具型子代理压到低档，一次性难题用 ultrathink](/imgs/202609/2026-09-02-reasoning-effort-levels-infographic-3.png)
+![按任务路由推理档位：主代理保持高档，工具型子代理压到低档，一次性难题用 ultrathink](/imgs/202609/2026-09-02-reasoning-effort-levels-infographic-3.jpg)
 
 ## 几个容易踩的坑
 

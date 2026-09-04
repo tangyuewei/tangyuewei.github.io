@@ -21,7 +21,7 @@ keyword: Zero语言,agent-first,语义图,编译器,编程语言,Vercel,MoonBit,
 
 Zero 的核心假设一句话能说清：**程序的本质是符号、调用、类型、依赖组成的语义图，文本只是这张图的一种序列化视图。**
 
-![文字 vs 语义图：两种编辑载体的对比](/imgs/202609/2026-09-04-agent-first-languages-infographic-1.png)
+![文字 vs 语义图：两种编辑载体的对比](/imgs/202609/2026-09-04-agent-first-languages-infographic-1.jpg)
 
 在这个模型里，AI 的工作方式变了。传统流程是"读文本 → 改文本 → 让编译器/解释器告诉你改得对不对"，一个来回里藏着大量试错；Zero 把编译器挪进循环中间：Agent 用 `query` 读图、用 `patch` 改图，每次 patch 都带一个**图哈希**和字段期望值，编译器先校验——目标节点还是你读取时的状态吗？类型和形状对吗？
 
@@ -31,7 +31,7 @@ Zero 的核心假设一句话能说清：**程序的本质是符号、调用、�
 
 ## 编译器在环里，人在环外
 
-![Vercel Zero 的四步编辑循环：query / patch / graph hash / compiler guard](/imgs/202609/2026-09-04-agent-first-languages-infographic-2.png)
+![Vercel Zero 的四步编辑循环：query / patch / graph hash / compiler guard](/imgs/202609/2026-09-04-agent-first-languages-infographic-2.jpg)
 
 Zero 更激进的地方在于版本演进。到 v0.3.0，官方把"图优先"变成默认工作流：编译器输入直接是一个二进制图存储（`zero.graph`），`.0` 文本文件只是它的可读投影。这个决定是反复横跳后落下的——v0.1.4 用行语法、v0.2.0 把文本当原生载体、v0.3.0 又彻底拒绝文本输入，足以看出团队自己也还没想清楚终局。
 
@@ -49,7 +49,7 @@ Zero 更激进的地方在于版本演进。到 v0.3.0，官方把"图优先"变
 
 把 Zero 放进更大的背景里看更有意思。有个叫 [agentlanguages.dev](https://agentlanguages.dev) 的目录，专门收录"为 LLM 或 Agent 写代码而设计"的语言，到 2026 年 8 月底已经收了 41 个，分成三大阵营：
 
-![agent-first 语言三阵营：句法 / 验证 / 编排](/imgs/202609/2026-09-04-agent-first-languages-infographic-3.png)
+![agent-first 语言三阵营：句法 / 验证 / 编排](/imgs/202609/2026-09-04-agent-first-languages-infographic-3.jpg)
 
 - **句法派**：认为问题出在表示层，语法太复杂、歧义太多，AI 容易写错。代表如 NERD（把所有运算符换成英文单词，赌 tokenizer 对单词更省 token）、Mog（整份语言规范压到 3200 token 内）、X07（程序直接就是 JSON AST，编辑操作是标准 JSON Patch）。
 - **验证派**：认为模型不可能不犯错，关键是让编译器机械地抓住错误。代表如 Vera（每个函数强制带前置/后置契约，用 Z3 求解器验证）、NanoLang（每个函数强制配"影子测试块"，核心有 193 条零公理 Coq 定理）。
