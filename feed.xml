@@ -1,0 +1,1027 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://tangyuewei.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://tangyuewei.github.io/" rel="alternate" type="text/html" hreflang="zh-CN" /><updated>2026-09-05T16:42:13+08:00</updated><id>https://tangyuewei.github.io/feed.xml</id><title type="html">唐悦玮</title><subtitle>不以物喜，不以己悲。努力只是一种生活方式，先敬业，再乐业。</subtitle><entry><title type="html">模型商和工具商，正式开战</title><link href="https://tangyuewei.github.io/posts/model-provider-cutoff/" rel="alternate" type="text/html" title="模型商和工具商，正式开战" /><published>2026-09-05T09:10:00+08:00</published><updated>2026-09-05T09:10:00+08:00</updated><id>https://tangyuewei.github.io/posts/model-provider-cutoff</id><content type="html" xml:base="https://tangyuewei.github.io/posts/model-provider-cutoff/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Cursor 被收购一个月后，OpenAI 宣布 11 月停供模型。表面是两位老板的旧账，底层是结构问题：你的模型供应商，随时可能变成你的对手。本文拆解断供的博弈机制，和对写代码的人意味着什么。</p>
+</blockquote>
+
+<p>今天打开 Cursor 的模型下拉菜单，里面躺着一排名字：Claude、GPT、Grok、Gemini。你点哪个，看心情或者看任务。但这排名字背后是几张互不通气的合同，其中一张，在 8 月 28 日被单方面撕掉了。</p>
+
+<p>那天，OpenAI 在<a href="https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex">官网发声明</a>：已通知 SpaceX，将从 11 月 12 日起停止向 Cursor 供应模型。理由写得直白——无法确信 SpaceX 会在服务条款内使用技术，依据是与马斯克旗下公司打交道的经验。按 Cursor 联合创始人的说法，OpenAI 模型只占其流量约 5%；Anthropic 当天表态要加算力顶上，马斯克在 X 上回了一句：我根本不在乎。</p>
+
+<p>停在新闻层面，这就是两位老板的又一次吵架，能拍连续剧那种。但把时间轴拉长，过去 14 个月里类似的事发生了三次，其中两次跟马斯克没有半点关系。</p>
+
+<p>断供不是恩怨，是这个行业的结构性动作。</p>
+
+<h2 id="合同里那把撤回权">合同里那把撤回权</h2>
+
+<p><img src="/imgs/202609/2026-09-05-model-provider-cutoff-infographic-2.jpg" alt="模型商-工具商竞合结构：一家模型商管道断裂断供、另一家正常供应，编辑器居中、与供应商产品路线图重叠" /></p>
+
+<p>先看这次是怎么发生的。SpaceX 在 6 月宣布以 600 亿美元全股票收购 Cursor 母公司 Anysphere，8 月 14 日交割。OpenAI 和 Cursor 的合作合同里有一条平时没人注意的条款——change of control：客户一旦发生控制权变更，供应商有权在有限窗口内终止合同。</p>
+
+<p>这条款平时躺在合同深处，不触发就是废纸。一旦触发，就是供应商的退出保险：不需要证明你违约，不需要谈价格，只要你的股东换了人，我就可以走。</p>
+
+<p>OpenAI 的走法还带信号意义。声明里点名的不是 Cursor 团队，是 SpaceX 的合规记录：X 被收购后违反过 OpenAI 合同；马斯克今年初在法庭宣誓作证时，承认 xAI 违反过 OpenAI 服务条款。翻译一下：我不信任新老板，所以我行使合同权利。</p>
+
+<p>多数人忽略的是另一层——为什么 OpenAI 的合同里会有这么一条？因为 OpenAI 从来不是 Cursor 的”纯供应商”。OpenAI 自己卖 Codex，Cursor 的直接竞品。把模型卖给一个竞品当零件，靠的就是合同里留着这把撤回权兜底。给出去的模型可以收回来，这条保险丝从一开始就埋好了。</p>
+
+<h2 id="供应商和客户只隔一条路线图">供应商和客户，只隔一条路线图</h2>
+
+<p><img src="/imgs/202609/2026-09-05-model-provider-cutoff-infographic-1.jpg" alt="14 个月三次断供时间线：通知期从不到 5 天到 11 周不等，三案共同汇聚到同一结构性原因" /></p>
+
+<p>把镜头再拉远。过去 14 个月，AI 编程圈至少发生了三次断供：</p>
+
+<ul>
+  <li>2025 年 6 月，Anthropic 切断 Windsurf 的 Claude 访问，通知期不到 5 天。当时 OpenAI 传出要收购 Windsurf。</li>
+  <li>2025 年 8 月，Anthropic 终止 OpenAI 的 Claude API 访问——OpenAI 工程师被指拿 Claude Code 测试自家 GPT-5，触碰”禁止用 Claude 开发竞品模型”的条款，几乎即时生效。</li>
+  <li>2026 年 8 月，OpenAI 断供 Cursor，给了 11 周通知。</li>
+</ul>
+
+<p>三次断供，两次与马斯克毫无关系。把私人恩怨剥干净，共同条件只有一个：你的模型供应商，同时在往你的赛道上走。</p>
+
+<p>Anthropic 有 Claude Code，OpenAI 有 Codex，Google 有自己的 agent——数得上名字的主流模型商，没有几家是”纯粹卖模型”的。当供应商的路线图与你的产品重叠，API 是否继续开放，就从技术问题变成商业判断。</p>
+
+<p>一次收购、一次条款争议、一次控制权变更，任何一根稻草都可能终结这段关系，而终结方式永远是同一句话：按合同通知。</p>
+
+<p>这次事件里最值得品味的细节是 Anthropic 的站位。它一边在去年切断 Windsurf，一边在 8 月 28 日当天宣布给 Cursor 增加算力，Replit 的 CEO 当场阴阳了它一句。但 Anthropic 的逻辑自洽——它不是双标，是在每一段关系里都算自己的账：Windsurf 挡路就断，Cursor 是渠道就供。模型商的字典里没有忠诚，只有路线图。</p>
+
+<h2 id="5工具商给自己买的保险">5%，工具商给自己买的保险</h2>
+
+<p>Cursor 为什么扛得住这次断供？联合创始人给出的数字是：OpenAI 模型只服务约 5% 的流量。这个数字不是运气，是 Cursor 从第一天起刻意维持的”模型中立”——同一件事，永远让用户在几家模型之间切换。</p>
+
+<p>Truell 有句话信息量很大：Cursor 是 OpenAI 最早的客户之一，合作多年，一直把他们的平台当作”中立基础设施”来信任。注意这个动词——信任。现在这层信任被单方面收回了。</p>
+
+<p>而 5% 恰好证明了另一件事：多供应商从来不是功能列表里的加分项，是生存策略。把身家押在任何一家模型商身上，等于把公司的命门交给别人的商业判断。</p>
+
+<p>这个教训对团队同样成立。Gergely Orosz 在收购落地时就说过：不要信任任何单一 AI 供应商，用模型就走 router，让切换供应商变得毫无成本。Cursor 的 5% 是把这句话执行到极致的样本。</p>
+
+<h2 id="护城河在搬家">护城河在搬家</h2>
+
+<p><img src="/imgs/202609/2026-09-05-model-provider-cutoff-infographic-3.jpg" alt="护城河两方向搬家：工具商自研模型（数据→GPU→自用）、模型商自建场景（断供后用户被重定向到自家产品），中立工具商被两侧夹在深谷窄桥上" /></p>
+
+<p>三次断供连起来看，真正值得留意的信号是：接入哪家模型不再是护城河，因为那根管子随时可能被供应商自己拧紧。护城河正在往两个方向搬家。</p>
+
+<p>一个方向，工具商自研模型。SpaceX 收下 Cursor 后做的第一件事是喂数据：Grok 4.5 的训练里灌了数万亿 token 的 Cursor 真实编码会话，Grok 4.6 又用 Cursor 的交互日志做了增强训练，第三方评测的综合指数已经追平 GPT-5.6（<a href="https://www.thenovtech.com/p/spacex-spent-60-billion-on-a-code">数据飞轮的分析</a>见参考资料 3）。</p>
+
+<p>数据飞轮转了起来——Cursor 用户每一次补全都在给自家模型供弹药，自家模型再反过来成为菜单里越来越能打的选项。</p>
+
+<p>代价同样清楚：这条路要求把用户每一次击键都变成训练数据，隐私与自主权的账要另算。而且目前这些领先大多出现在模型商自己的评测口径里，独立第三方验证还早。</p>
+
+<p>另一个方向，模型商自建场景。OpenAI 断了 Cursor 之后，你依然能在 Cursor 里用 GPT——自带 API Key，或者走 Bedrock、Azure 这类网关。但注意一个细节：这些路径不覆盖 Cursor 最值钱的功能面，Tab 补全、Auto 模式、Agent、CLI 和 SDK 都不在其中。你可以继续用 GPT，但只能用被摘掉核心功能的版本。</p>
+
+<p>剩下的深度使用流量往哪走？大概率是 OpenAI 自己的 Codex。</p>
+
+<p>两条路若都走下去，指向同一个终点：模型和工具正在重新焊死。五年前”模型接入”是护城河，因为好模型稀缺；如今模型商要抢场景，工具商要抢模型，夹在中间的”中立工具商”会越来越难做。</p>
+
+<h2 id="对写代码的人这意味着什么">对写代码的人，这意味着什么</h2>
+
+<p>把新闻剥干净，剩下三层事实。</p>
+
+<p>第一，你的工具商和模型商随时可能变成对手，而且不需要你做错任何事。断供的决定发生在一个你不在场的房间里，理由是你没看过的一份合同上的一个条款。</p>
+
+<p>第二，模型中立从加分项变成必需品。个人能做的很具体：别把全部工作流焊死在一家模型上，能在设置里一键切换的，就养成切换的习惯。团队层面，把”单一模型占比”当成和磁盘水位一样的指标来监控。</p>
+
+<p>第三，这场仗的账单最终会落在使用者头上。工具商自研模型要摊成本，模型商自建场景要抢订阅，每一次护城河搬家，最后都会以功能缩减或者价格上涨的形式出现在你面前。</p>
+
+<p>回到开头的下拉菜单。下次点模型的时候，可以多想一层：菜单背后是合同，合同背后是路线图，路线图背后，是几家都想做同一件事的公司。菜单里每个选项能活多久，从来不由你决定——所以别把身家押在任何一个选项上。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li>OpenAI 官方声明：<em>Our decision on Cursor following its acquisition by SpaceX</em>，openai.com，2026-08-28，https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex</li>
+  <li>Beam.ai：<em>3 Model Cutoffs in 14 Months: The Case Against Single-Vendor AI in 2026</em>，https://beam.ai/es/agentic-insights/ai-model-cutoffs-single-vendor-concentration-risk</li>
+  <li>The Nov Tech：<em>SpaceX Spent $60 Billion on a Code Editor</em>（Grok 数据飞轮与 Colossus 算力分析），https://www.thenovtech.com/p/spacex-spent-60-billion-on-a-code</li>
+  <li>Big Hat Group：<em>xAI Weekly: Grok 4.6 Goes Universal, $60B Cursor Deal</em>，2026-08-26，https://www.bighatgroup.com/blog/xai-weekly-2026-08-26</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="趋势" /><category term="AI编程" /><category term="OpenAI" /><category term="Cursor" /><category term="模型供应" /><category term="断供" /><category term="护城河" /><summary type="html"><![CDATA[摘要：Cursor 被收购一个月后，OpenAI 宣布 11 月停供模型。表面是两位老板的旧账，底层是结构问题：你的模型供应商，随时可能变成你的对手。本文拆解断供的博弈机制，和对写代码的人意味着什么。]]></summary></entry><entry><title type="html">源码的第一读者，是 AI</title><link href="https://tangyuewei.github.io/posts/agent-first-languages/" rel="alternate" type="text/html" title="源码的第一读者，是 AI" /><published>2026-09-04T09:30:00+08:00</published><updated>2026-09-04T09:30:00+08:00</updated><id>https://tangyuewei.github.io/posts/agent-first-languages</id><content type="html" xml:base="https://tangyuewei.github.io/posts/agent-first-languages/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：AI 写代码越来越强，工具却都在文本上编辑——文本给人读，不适合 AI。Vercel Zero 把程序变成语义图，AI 改图、编译器做守门员。落地还差多远？</p>
+</blockquote>
+
+<p>让 AI 在一个陌生仓库里改一个方法，多数人会先遇到这类场面：它读了一堆文件，贴出一段 diff，一半是格式化噪音；你说”改第 47 行”，等你在前面插两行注释，它反倒改错了地方。</p>
+
+<p>问题不在模型笨，在编辑的载体。今天所有 AI 编程工具，无论界面多花哨，底层动作都是同一件事：在<strong>文本</strong>上做增删改。可文本是给人读的，行号会漂、格式会动、语义藏在字符间隙里——AI 每次下笔前，都得先猜”这句话落在哪个语义位置”。</p>
+
+<p>2026 年 5 月，Vercel Labs 的 Chris Tate 发布了这门叫 <a href="https://github.com/vercel-labs/zerolang">Zero</a> 的语言，8 月在 GitHub 开源，把这个问题连根拔起：程序根本不是文本，而是一张<strong>图</strong>。AI 不读源码，直接查图、改图，编译器在每次改动落盘前做校验。源码文本呢？降级成一张”给人看的投影”。</p>
+
+<h2 id="把改第几行换成改哪个节点">把”改第几行”换成”改哪个节点”</h2>
+
+<p>Zero 的核心假设一句话能说清：<strong>程序的本质是符号、调用、类型、依赖组成的语义图，文本只是这张图的一种序列化视图。</strong></p>
+
+<p><img src="/imgs/202609/2026-09-04-agent-first-languages-infographic-1.jpg" alt="文字 vs 语义图：两种编辑载体的对比" /></p>
+
+<p>在这个模型里，AI 的工作方式变了。传统流程是”读文本 → 改文本 → 让编译器/解释器告诉你改得对不对”，一个来回里藏着大量试错；Zero 把编译器挪进循环中间：Agent 用 <code class="language-plaintext highlighter-rouge">query</code> 读图、用 <code class="language-plaintext highlighter-rouge">patch</code> 改图，每次 patch 都带一个<strong>图哈希</strong>和字段期望值，编译器先校验——目标节点还是你读取时的状态吗？类型和形状对吗？</p>
+
+<p>对不上，编辑直接失败，根本不落盘。这套设计的核心是给 AI 的编辑提供<strong>语义锚点</strong>——它瞄准的是”表达式 <code class="language-plaintext highlighter-rouge">653eeb6e</code> 的 value 字段”这种稳定标识，而不是”第 47 行第 3 个字符”这种会随任何一次插入而漂移的位置。</p>
+
+<p>这套机制的实际收益目前还没量化——GitHub 上 5000 多星、版本号刚走到 v0.3.4，官方自己都标注”实验性、随时破坏性变更”。但方向是对的：改动有了确定性的校验，Agent 不再靠”生成文本后跑一遍看结果”来猜自己改没改对，迭代圈更短，静默出错更少。</p>
+
+<h2 id="编译器在环里人在环外">编译器在环里，人在环外</h2>
+
+<p><img src="/imgs/202609/2026-09-04-agent-first-languages-infographic-2.jpg" alt="Vercel Zero 的四步编辑循环：query / patch / graph hash / compiler guard" /></p>
+
+<p>Zero 更激进的地方在于版本演进。到 v0.3.0，官方把”图优先”变成默认工作流：编译器输入直接是一个二进制图存储（<code class="language-plaintext highlighter-rouge">zero.graph</code>），<code class="language-plaintext highlighter-rouge">.0</code> 文本文件只是它的可读投影。这个决定是反复横跳后落下的——v0.1.4 用行语法、v0.2.0 把文本当原生载体、v0.3.0 又彻底拒绝文本输入，足以看出团队自己也还没想清楚终局。</p>
+
+<p>人和 Agent 的角色就此分开：</p>
+
+<ul>
+  <li><strong>Agent</strong> 用 <code class="language-plaintext highlighter-rouge">query</code> 读图、<code class="language-plaintext highlighter-rouge">patch</code> 写图，全程不碰文本；</li>
+  <li><strong>人</strong> 用 <code class="language-plaintext highlighter-rouge">export</code> 把图投影成 <code class="language-plaintext highlighter-rouge">.0</code> 文本查看，偶尔手动改，再 <code class="language-plaintext highlighter-rouge">import</code> 回去；</li>
+  <li>一个叫 <code class="language-plaintext highlighter-rouge">zero fix --plan --json</code> 的命令，会把编译错误转成<strong>机器可读的修复计划</strong>——错误码（比如 <code class="language-plaintext highlighter-rouge">NAM003</code>）带着类型化的修复建议（比如 <code class="language-plaintext highlighter-rouge">declare-missing-symbol</code>），Agent 可以直接执行、修改或拒绝，而不是对着人类写的报错猜含义。</li>
+</ul>
+
+<p>这套”给机器看的诊断”是 Zero 的另一层设计：传统编译器把报错写给人看，Zero 把所有诊断输出统一成结构化 JSON，每个子命令共享同一套 schema。对 Agent 来说，错误不再是需要二次解析的自然语言，而是可以直接消费的数据。</p>
+
+<p>副作用也被做成显式约束：任何要触碰外界的函数，签名里必须带上一个 <code class="language-plaintext highlighter-rouge">World</code> 能力参数，编译器强制检查。一个函数能不能联网、能不能写文件，看签名就知道——这对让 Agent 放手写代码的安全边界，是实打实的帮助。</p>
+
+<h2 id="不是孤例语言开始为-ai-重写">不是孤例：语言开始为 AI 重写</h2>
+
+<p>把 Zero 放进更大的背景里看更有意思。有个叫 <a href="https://agentlanguages.dev">agentlanguages.dev</a> 的目录，专门收录”为 LLM 或 Agent 写代码而设计”的语言，到 2026 年 8 月底已经收了 41 个，分成三大阵营：</p>
+
+<p><img src="/imgs/202609/2026-09-04-agent-first-languages-infographic-3.jpg" alt="agent-first 语言三阵营：句法 / 验证 / 编排" /></p>
+
+<ul>
+  <li><strong>句法派</strong>：认为问题出在表示层，语法太复杂、歧义太多，AI 容易写错。代表如 NERD（把所有运算符换成英文单词，赌 tokenizer 对单词更省 token）、Mog（整份语言规范压到 3200 token 内）、X07（程序直接就是 JSON AST，编辑操作是标准 JSON Patch）。</li>
+  <li><strong>验证派</strong>：认为模型不可能不犯错，关键是让编译器机械地抓住错误。代表如 Vera（每个函数强制带前置/后置契约，用 Z3 求解器验证）、NanoLang（每个函数强制配”影子测试块”，核心有 193 条零公理 Coq 定理）。</li>
+  <li><strong>编排派</strong>：认为问题不在语言而在流程，要给 Agent 套上约束和审计。代表如 Fabro（用 Graphviz 图定义工作流、把每一步路由给不同模型）、Boruna（面向监管行业：每个副作用显式声明并做策略门控，执行过程生成哈希链证据包）。</li>
+</ul>
+
+<p>Zero 属于”验证 + 句法”的激进混合——它不满足于让语法更简单，而是直接换掉载体。X07 和它思路最接近（程序就是规范 JSON AST，编辑操作是标准 JSON Patch），只是 Zero 做得更彻底、背后有 Vercel 的资源。</p>
+
+<h2 id="别急着下注">别急着下注</h2>
+
+<p>但冷静看，这门语言离”主流”还隔着几条鸿沟。Hacker News 上的讨论整体平淡，质疑集中在两点：<strong>Agent 为什么要学一门新语言，而不是用预训练里见过几百万次的 Python、TypeScript？</strong> 以及 <strong>语义图省 token、降错误率，至今没有量化证明。</strong></p>
+
+<p>第二个问题尤其关键。Agent 最擅长的语言，恰恰是语料里出现最多的语言。一门新语言再”为 AI 优化”，也绕不开冷启动——模型没怎么见过它，写出来就生疏。</p>
+
+<p>这不是无解的死局，国内有个现成的对照样本。粤港澳大湾区数字经济研究院的 MoonBit 自称 “AI-native 语言”，设计上刻意减少嵌套、强制顶层类型签名，让代码更适合模型线性生成；一篇被 <a href="https://arxiv.org/abs/2606.16827">IEEE TSE 接收的论文</a> 拿 MoonBit 和 Gleam 这类”无资源语言”做测试，发现模型零样本写 MoonBit，在最难的 McEval-Hard 上通过率只有 1% 左右——但用官方代码和文档继续预训练、再做指令迁移后，Qwen2.5-Coder-32B 在 MoonBit 的 McEval-Hard 通过率能拉到 32.6%。</p>
+
+<p>结论很朴素：新语言不是学不会，是需要主动”喂”给模型。Zero 官方仓库里也专门放了 <code class="language-plaintext highlighter-rouge">skills/zero</code> 和训练数据目录，说明它没指望模型天生会写——这是要自己动手养生态。</p>
+
+<p>还有个现实约束：从 5 月发布到现在，Zero 的版本号刚走到 v0.3.4，官方在文档里反复强调”实验性、随时破坏性变更、请在隔离环境运行”。语言设计还在剧烈变动的东西，不适合任何生产项目。</p>
+
+<h2 id="我的判断">我的判断</h2>
+
+<p>对大多数开发者，尤其是 Java 后端，现在不需要学 Zero，也不需要恐慌”源码要消失了”。真正值得留意的是它背后的信号：</p>
+
+<p><strong>程序的第一读者，正在从人变成 AI。</strong> 过去三十年，源码、报错、文档都在为人类读者优化；当写代码的主力变成 Agent，编译器输出的读者也随之改变。Zero 只是把这条路走到极端——结构化诊断、语义锚点、把编译校验前置到编辑动作里，这些理念会以更温和的方式渗透进现有工具链。</p>
+
+<p>你可以把 Zero 当成一个观察窗口：它验证的从来不是”图比文本好”，而是”<strong>当 Agent 成为代码的主要生产者，我们为它设计的开发环境，和为人设计的是两回事</strong>“。这个认知，比任何一门具体语言都活得久。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li><a href="https://github.com/vercel-labs/zerolang">Zero · Vercel Labs（GitHub）</a> — “The Programming Language for Agents”，Apache 2.0；图即源码、checked patches、v0.3 图优先工作流等机制均见官方仓库与文档</li>
+  <li><a href="https://www.infoq.com/news/2026/08/vercel-ships-zero-ai">Vercel Labs Ships Zero: a Graph-First Language（InfoQ）</a> — Daniel Curtis，2026-08；Zero 发布背景、版本演进 v0.1.4→v0.3.0、结构化诊断与 HN 讨论摘录</li>
+  <li><a href="https://agentlanguages.dev">agentlanguages.dev</a> — 为 LLM/Agent 写代码而设计的编程语言目录，收录 41 个项目（截至 2026-08-31），三大阵营划分与各语言描述出处</li>
+  <li><a href="https://arxiv.org/abs/2606.16827">No Resource, No Benchmarks, No Problem?（arXiv:2606.16827）</a> — USI/塞维利亚大学团队，被 IEEE TSE 接收；MoonBit/Gleam 无资源语言代码生成评测与继续预训练、指令迁移结果</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="技术解读" /><category term="Zero" /><category term="编程语言" /><category term="Agent" /><category term="语义图" /><category term="编译器" /><category term="Vercel" /><category term="MoonBit" /><category term="AI编程" /><summary type="html"><![CDATA[摘要：AI 写代码越来越强，工具却都在文本上编辑——文本给人读，不适合 AI。Vercel Zero 把程序变成语义图，AI 改图、编译器做守门员。落地还差多远？]]></summary></entry><entry><title type="html">给 AI 一张代码地图</title><link href="https://tangyuewei.github.io/posts/code-graph-for-ai/" rel="alternate" type="text/html" title="给 AI 一张代码地图" /><published>2026-09-03T10:22:00+08:00</published><updated>2026-09-03T10:22:00+08:00</updated><id>https://tangyuewei.github.io/posts/code-graph-for-ai</id><content type="html" xml:base="https://tangyuewei.github.io/posts/code-graph-for-ai/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Sonde 把仓库索引成符号级代码图，一次调用回答”谁调用了它、改了会坏什么”。官方基准显示上下文 token 降到三分之一、延迟快 147 倍，但它对行为性查询召回为 0，且不支持 Java。本文讲清它的真实边界，以及 Java 栈的可行替代。</p>
+</blockquote>
+
+<p>让 Claude Code 改一个陌生仓库里的函数，它会先派 Explore 子代理，用 grep、glob、Read 把仓库扫一遍。</p>
+
+<p>这个过程的成本比想象中高。扫一遍不是为了分析，是为了<strong>发现</strong>——先搞清楚东西在哪，才轮到读那些真正相关的代码。发现阶段烧掉的 token，一分钱都没花在解决问题上。</p>
+
+<p>有没有办法跳过发现？最近 Show HN 上一个叫 Sonde 的开源项目给了一种思路：把仓库预先索引成一张符号级的代码图，让 Agent 直接查图，一次调用拿到答案，不再循环搜索。</p>
+
+<p>它的基准数据很漂亮。但把官方基准文件读一遍，会发现漂亮数据背后有一条很清楚的分界线。</p>
+
+<h2 id="一次调用替代八次搜索">一次调用，替代八次搜索</h2>
+
+<p>Sonde 做的事不复杂：把仓库索引成符号级关系图，存进本地 SQLite，然后通过 MCP 暴露三个工具。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>工具</th>
+      <th>回答什么</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">find_symbols</code></td>
+      <td>按名字找符号</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">query_graph</code></td>
+      <td>谁调用了它、谁实现了它、谁引用了它</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">get_impact_radius</code></td>
+      <td>改了它，什么会坏、哪些测试相关</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>三个工具覆盖的是同一类问题：结构性查询。官方基准用的是 Hono v4.6.3（346 个文件、9,348 个符号、50,517 条边），对照组是标准的 Agentic 搜索循环：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>指标</th>
+      <th>Sonde</th>
+      <th>Agentic 搜索</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>平均 recall@k</td>
+      <td>0.833</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <td>成功率</td>
+      <td><strong>0.833</strong></td>
+      <td>0.500</td>
+    </tr>
+    <tr>
+      <td>平均干扰项</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>平均工具调用</td>
+      <td>1.0</td>
+      <td>8.0</td>
+    </tr>
+    <tr>
+      <td>平均上下文 token</td>
+      <td>1,263</td>
+      <td>3,621</td>
+    </tr>
+    <tr>
+      <td>平均延迟</td>
+      <td>262 ms</td>
+      <td>38,602 ms</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>（来源：Sonde 仓库 <code class="language-plaintext highlighter-rouge">BENCHMARK-LARGE.md</code>，生成于 2026-08-24）</p>
+
+<p><img src="/imgs/202609/2026-09-03-code-graph-for-ai-infographic-1.jpg" alt="Sonde 与 Agentic 搜索循环的六项指标对比：召回、成功率、工具调用、上下文 token、延迟、干扰项" /></p>
+
+<h2 id="数字怎么读">数字怎么读</h2>
+
+<p>这张表有三个地方容易看错，而看错之后得到的结论会是反的。</p>
+
+<p><strong>召回不是 1.00，是 0.833。</strong> README 的表格里写着 “Recall on structural tasks 1.00”，限定在结构性任务这一档。六个任务的平均召回是 0.833，因为语义类任务是 0.00。六项任务里 Agentic 搜索才是全部 1.00。</p>
+
+<p><strong>真正比的是成功率，不是召回。</strong> Agentic 搜索的成功率只有 0.500，因为它有一半任务超了 token 预算。基准方法论明确规定：超预算的对照运行保留其召回、显式标注超支，但因为没守住预算而判失败。Sonde 这边因为打包器按构造截断到预算内，永远不可能超。所以 0.833 对 0.500 是一场<strong>在预算约束下</strong>的胜利——如果你的场景没有预算约束，这个优势会缩水。</p>
+
+<p><strong>别比输入 token，比上下文 token。</strong> 对照组输入 token 高达 78,548，但这数字基本是噪声：官方探针显示其中约 79k 是 Claude Code 缓存的 harness prompt，真实任务输入只有 4 个 token。所以可比较的是上下文 token（工具返回字节数）1,263 对 3,621，约三分之一。</p>
+
+<p>还有一条方法论值得单独提：任务不是随机抽的，是<strong>对抗性选取</strong>的。官方原话是，均匀采样会在 Agentic 搜索本来就擅长的任务上显示持平，从而引出错误结论。这话说得坦白——选任务的方式已经决定了结果的方向。</p>
+
+<p>顺带说一句，这三条纠正不只适用于 Sonde。召回数字被限定在某个子集上、对照组被额外加上预算约束、token 口径里混进固定开销——这三招在任何一份 AI 工具基准里都可能出现。看基准先看方法论小节，总表是最后才看的。</p>
+
+<h2 id="赢在哪输在哪">赢在哪，输在哪</h2>
+
+<p>分界线很清楚，就画在”结构性”三个字上。</p>
+
+<p>赢的四类：传递影响（改 A 会不会波及 C）、宽接口的实现清单、完整性核对（”我是不是漏了什么”）、测试选择。这四类官方基准里 Sonde 召回全是 1.00，其中传递影响类收益最大——4,000 token 对 9,756 token。</p>
+
+<p>输的一类：<strong>行为性查询</strong>。典型问法是”重试退避是在哪儿决定的？”，官方召回 0.00。这不是没做，是做了没成——项目建了本地语义检索，试了两个 embedding 模型、四种文档配置，都没胜过词法加结构检索，所以没接进 <code class="language-plaintext highlighter-rouge">find_symbols</code>。能力因此不予声称。</p>
+
+<p>还有个容易被”省三倍”这个结论盖过去的细节：不是每个任务都省。六项任务里有三项 Sonde 的上下文反而更多（198 对 131、337 对 332、1,077 对 945）。省下来的全都集中在大任务上——传递影响省 5,756 token，测试选择省 5,805 token。小任务上它不占便宜。</p>
+
+<h2 id="一个能推广到-java-的结论">一个能推广到 Java 的结论</h2>
+
+<p>Sonde 最有价值的数据不在那张总表里，在语言精度的实测里。</p>
+
+<p>先说精度基线。在 small fixture 上，tree-sitter 默认路径的 Oracle 精度是 <strong>precision 0.571、recall 0.889</strong>。README 解释了三个结构性原因：歧义的成员调用会发出所有候选边（至多一个对，其余按构造计为误报）；构造函数调用 Sonde 建模而 Oracle 不建模；成员级 IMPLEMENTS 是 Sonde 独有的能力，但 tsc 只在类型级报告，所以每条都被计为误报。第三条尤其关键——它正是”接口方法影响分析”能用的原因，精度代价被披露而不是被抹掉。</p>
+
+<p>然后是最有说服力的一条：<strong>TypeScript 的 <code class="language-plaintext highlighter-rouge">--resolve</code> 是可选开启的。在 Hono fixture 上，默认索引 3.58 秒，开启后 13.70 秒；差别在于 <code class="language-plaintext highlighter-rouge">callers_of Hono.route</code> 从零个图结果变成八个编译器调用者。</strong></p>
+
+<p>也就是说，不开编译器解析，”谁调用了 Hono.route”这个问题，图里根本答不出来。</p>
+
+<p>Python 上这个差距更刺眼：默认的 tree-sitter 层在 56 文件的真实项目上 <strong>62.81% 未能解析</strong>，在 pydantic 上 57.39%，远超项目自己定的 30% 上限；开启 <code class="language-plaintext highlighter-rouge">--resolve</code>（内置 pyright）后降到 27.00% 与 17.42%。Swift 是纯启发式解析，376 文件应用上 74.84% 命中、25.16% 未解析。</p>
+
+<p>把这三条摆在一起，可以提炼出一条跨语言的判据：<strong>tree-sitter 快，但符号关系是猜的；编译器慢，但边是准的。默认配置下猜错的比例，可能高到让”谁调用了它”直接返回空。</strong></p>
+
+<p>这条判据对 Java 完全成立——而 Sonde 恰恰不支持 Java，它只有 TypeScript、Python、Swift 三个适配器。</p>
+
+<h2 id="java-栈怎么落地">Java 栈怎么落地</h2>
+
+<p>Java 侧的可行方案分两条路线，判断标准就是上面那条：走不走编译器。</p>
+
+<p><strong>路线一：走编译器（Eclipse JDT LS）</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">java-lsp-mcp-server</code> 的做法是把 JDT Language Server 包装成 MCP 服务，链路是 Claude Code → MCP → 该服务 → LSP → Eclipse JDT LS → 你的项目。它暴露九个工具：跳转到定义、查找引用、获取实现、悬停信息、<strong>调用层级（入向与出向）</strong>、工作区符号搜索、编译诊断、重命名预览（只预览不落盘）、状态查询。前置条件是 Java 21+ 和 Node 18+，项目根目录会自动向上查找 <code class="language-plaintext highlighter-rouge">pom.xml</code> 或 <code class="language-plaintext highlighter-rouge">build.gradle</code>。</p>
+
+<p>因为底层是 JDT 编译器，符号解析是编译器级的，不存在上面那种”猜”的问题。代价是重：要起一个语言服务进程，索引大型仓库的时间以分钟计。</p>
+
+<p>这里有个细节值得单独拎出来：该仓库要求把一份 <code class="language-plaintext highlighter-rouge">CLAUDE.md</code> 拷进项目根目录，理由是<strong>不给这份指令，Claude 就算有这些工具，也会默认用 grep/glob 而不是它们</strong>。装上了，不等于用上了。</p>
+
+<p><strong>路线二：走 tree-sitter（快，但要打折）</strong></p>
+
+<p>CodeGraph（MIT，19+ 语言，本地 SQLite，文件监听自动同步）、CodeGraphContext（25 个工具，明确列出 java 解析器）、Codebase Memory MCP（tree-sitter 加混合 LSP 类型解析，覆盖 158 种语言）都属于这一类。启动快、跨语言、依赖轻。</p>
+
+<p>CodeGraph 作者自述的基准是：六个真实代码库上平均减少 92% 的工具调用、探索快 71%；VS Code 代码库上”扩展主机如何与主进程通信”从 52 次调用降到 3 次；某个 Java 代码库上单次调用完成、零文件读取。<strong>但作者自己标注了</strong>这是自报的单次查询基准，应视为最佳情况；同时诚实说明小项目上收益有限——二十个文件的仓库，grep 本来就足够便宜。</p>
+
+<p>怎么选，参照 Sonde 的 Hono 数据就够了：如果问题形态是”谁调用了它”“改了会坏什么”，必须走编译器路线，因为纯 tree-sitter 在这个问题上可能返回空；如果只是大范围粗筛、跨语言快速定位，tree-sitter 的性价比更高。</p>
+
+<p>顺带一个跟 AI 无关但很实用的用法，来自 CodeGraph：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>git diff <span class="nt">--name-only</span> HEAD | codegraph affected <span class="nt">--stdin</span> <span class="nt">--quiet</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>沿导入依赖做传递追踪，找出这次改动真正可能影响的测试文件。丢进 CI 或 git hook，只跑该跑的测试。</p>
+
+<p>至于怎么选，我的判断依据不是仓库行数，是<strong>你问的问题有多依赖精确的调用关系</strong>。同样是十万行代码，一个只做增删改查的后台服务，和一个满是回调、代理与抽象层次的框架，答案完全不同：前者粗筛就够，后者必须上编译器，否则”谁调用了它”返回空，你还得回头 grep。另一个信号是重复度——如果同一类结构性问题你一天要问好几次，索引的前期成本才摊得回来；只问一次，直接搜更便宜。</p>
+
+<p><img src="/imgs/202609/2026-09-03-code-graph-for-ai-infographic-2.jpg" alt="代码图工具的两条路线：编译器级精确 vs tree-sitter 快速，按问题形态选型" /></p>
+
+<h2 id="几个容易踩的坑">几个容易踩的坑</h2>
+
+<p><strong>没有重命名推断。</strong> Sonde 官方写明：重命名文件会改变所有基于路径的稳定 key，持有旧 key 的查询和上下文会<strong>静默停止解析</strong>，不会跟随重命名。这条对任何基于路径建索引的工具都成立。Java 侧走 JDT 的方案基于全限定名，情况会好一些，但依赖路径的缓存同样会失效。</p>
+
+<p><strong>测试边不等于覆盖率。</strong> Sonde 明确写了 <code class="language-plaintext highlighter-rouge">TESTS</code> 边只表示结构性关联，从不证明覆盖率。”跑这几个测试”和”这几个测试覆盖了这次改动”不是一回事。</p>
+
+<p><strong>解析失败的文件照样进图。</strong> Hono 索引里有 8 个解析失败。tree-sitter 恢复出来的部分仍然贡献内容，<code class="language-plaintext highlighter-rouge">parse_state</code> 会标为 <code class="language-plaintext highlighter-rouge">partial</code> 或 <code class="language-plaintext highlighter-rouge">failed</code>。图是尽力而为的产物，不是全知的。</p>
+
+<p><strong>图会过期。</strong> 索引是快照，代码改了就得更新。Sonde 用 <code class="language-plaintext highlighter-rouge">sonde update</code>，CodeGraph 靠文件监听。对 Java 这种编译型项目，改动往往牵动整个模块重新解析，增量索引的滞后比解释型语言更明显。</p>
+
+<h2 id="地图不是理解">地图不是理解</h2>
+
+<p>回到开头那件事。Agent 找代码慢，不是因为模型慢，是因为它把大部分时间花在确认”东西在哪”。结构化索引解决的是发现，不是理解。</p>
+
+<p>所以别把它当成”让 AI 更聪明”的开关。它是让 AI 少走弯路的路标。Sonde 自己划的分界线值得记住：结构性问题归图，行为性问题归搜索循环——后者它自己测出来是 0.00，而且诚实地说了。</p>
+
+<p>真正该做的不是二选一，是先判断眼前这个问题属于哪一类。</p>
+
+<p>主要来源：Sonde 仓库 README、<code class="language-plaintext highlighter-rouge">BENCHMARK.md</code>、<code class="language-plaintext highlighter-rouge">BENCHMARK-LARGE.md</code> 与 <code class="language-plaintext highlighter-rouge">ORACLE.md</code>（<a href="https://github.com/anishmoncivarghese/sonde">GitHub</a>，<a href="https://github.com/anishmoncivarghese/sonde/blob/main/BENCHMARK-LARGE.md">大仓库基准原文</a>）；<a href="https://github.com/aleksandrrodichev-eath/java-lsp-claude-mcp">java-lsp-mcp-server</a> 仓库文档；CodeGraph 与 Codebase Memory MCP 官方说明（其中 CodeGraph 的基准为作者自述、单次查询）。</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工具实践" /><category term="代码图" /><category term="Code Graph" /><category term="Sonde" /><category term="MCP" /><category term="上下文工程" /><category term="Java" /><category term="JDT LS" /><category term="tree-sitter" /><category term="Claude Code" /><summary type="html"><![CDATA[摘要：Sonde 把仓库索引成符号级代码图，一次调用回答”谁调用了它、改了会坏什么”。官方基准显示上下文 token 降到三分之一、延迟快 147 倍，但它对行为性查询召回为 0，且不支持 Java。本文讲清它的真实边界，以及 Java 栈的可行替代。]]></summary></entry><entry><title type="html">同一个 high，不是一个刻度</title><link href="https://tangyuewei.github.io/posts/reasoning-effort-levels/" rel="alternate" type="text/html" title="同一个 high，不是一个刻度" /><published>2026-09-02T09:34:00+08:00</published><updated>2026-09-02T09:34:00+08:00</updated><id>https://tangyuewei.github.io/posts/reasoning-effort-levels</id><content type="html" xml:base="https://tangyuewei.github.io/posts/reasoning-effort-levels/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：各家的 low/medium/high 推理档位名字一样，刻度、默认值和计费方式却各不相同。对照官方文档理清这个旋钮真正控制什么，以及什么时候调高反而更贵更差。</p>
+</blockquote>
+
+<p>一年前，模型”想多久”还是个固定属性。你要么用一个会思考的模型，要么不用，没有中间地带。</p>
+
+<p>现在不一样了。Anthropic 的 API 里有 <code class="language-plaintext highlighter-rouge">effort</code> 参数，OpenAI 有 <code class="language-plaintext highlighter-rouge">reasoning.effort</code>，Gemini 有 <code class="language-plaintext highlighter-rouge">thinking_level</code>，DeepSeek 和通义千问也各自支持。落到工具层面，Claude Code 里一条 <code class="language-plaintext highlighter-rouge">/effort</code> 就能切换，Visual Studio 的 Copilot 对话窗口上摆着三档按钮。推理深度从模型自带的能力，变成了每次调用都能拧的旋钮。</p>
+
+<p>问题出在这些旋钮长得太像。low / medium / high，名字一模一样，很容易让人以为大家共用一把尺子。把各家官方文档摊开对照一遍，会发现不是这么回事。</p>
+
+<h2 id="名字一样控制的东西不一样">名字一样，控制的东西不一样</h2>
+
+<p>先看一张对照表。所有参数名、档位、默认值都取自各家官方文档：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>厂商</th>
+      <th>参数</th>
+      <th>档位</th>
+      <th>默认值</th>
+      <th>实际控制范围</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Anthropic Claude</td>
+      <td><code class="language-plaintext highlighter-rouge">output_config.effort</code></td>
+      <td>low / medium / high / xhigh / max</td>
+      <td>high（Claude Code 中 Opus 4.7 起为 xhigh）</td>
+      <td>响应中的<strong>全部</strong> token：正文、工具调用、扩展思考</td>
+    </tr>
+    <tr>
+      <td>OpenAI</td>
+      <td><code class="language-plaintext highlighter-rouge">reasoning.effort</code></td>
+      <td>none / minimal / low / medium / high / xhigh（取值随模型而定）</td>
+      <td>gpt-5.5 为 medium</td>
+      <td>推理过程；输出长短另由 <code class="language-plaintext highlighter-rouge">verbosity</code> 控制</td>
+    </tr>
+    <tr>
+      <td>Google Gemini 3</td>
+      <td><code class="language-plaintext highlighter-rouge">thinking_level</code></td>
+      <td>minimal / low / medium / high</td>
+      <td>—</td>
+      <td>思考深度；2.5 系列改用 <code class="language-plaintext highlighter-rouge">thinking_budget</code> 直接给 token 数</td>
+    </tr>
+    <tr>
+      <td>DeepSeek</td>
+      <td><code class="language-plaintext highlighter-rouge">reasoning_effort</code> + <code class="language-plaintext highlighter-rouge">thinking.type</code></td>
+      <td>low / high / max</td>
+      <td>high（思考默认开启）</td>
+      <td>思考强度，官方文档附带一份实际映射表</td>
+    </tr>
+    <tr>
+      <td>通义千问</td>
+      <td><code class="language-plaintext highlighter-rouge">enable_thinking</code> + <code class="language-plaintext highlighter-rouge">thinking_budget</code></td>
+      <td>开关 + 1–32768 的 token 预算</td>
+      <td>多数模型默认开启，预算默认 4000</td>
+      <td>是否思考，以及思维链长度上限</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="/imgs/202609/2026-09-02-reasoning-effort-levels-infographic-1.jpg" alt="五家推理档位参数对照：参数名、档位、默认值与控制范围各不相同" /></p>
+
+<p>关键差异在第一行的最后一列。Claude 的 effort 不只管”想多久”，它管整次响应花掉多少 token——包括工具调用的次数和正文的长度。Anthropic 官方文档的原话是：较低的努力程度会让 Claude 把多个操作合并成更少的工具调用、减少工具调用的总次数、直接动手而不加前言。同一个 <code class="language-plaintext highlighter-rouge">high</code>，在 Claude 这里是”整体节流阀”，在 OpenAI 那里只是”推理节流阀”——后者把输出长短交给了另一个独立的 <code class="language-plaintext highlighter-rouge">verbosity</code> 参数。</p>
+
+<p>Gemini 走的是第三条路。3 系列给档位名，2.5 系列干脆不给，直接要一个 <code class="language-plaintext highlighter-rouge">thinking_budget</code> 数字（2.5 Pro 默认 8192，可调范围 128–32768；2.5 Flash 是 0–24576）。国产模型多数又是第四种形态：一个 on/off 开关加一个 token 预算，语义上更接近 Gemini 2.5。</p>
+
+<p>所以”我把两边都设成 high”这句话，跨厂商是不成立的。Claude Code 的官方模型配置文档里有一句说得很直白：<strong>effort 刻度是按模型标定的，同一个档位名在不同模型下不代表相同的底层值。</strong></p>
+
+<h2 id="默认值是厂商替你做的决定">默认值是厂商替你做的决定</h2>
+
+<p>这一点值得多看两眼，因为默认值暴露了厂商对”典型负载”的假设。</p>
+
+<p>Anthropic API 默认 high，但在 Claude Code 里，Opus 4.7 及之后的默认档位是 <strong>xhigh</strong>——理由是编码和 agentic 类任务确实从更深的推理里受益。OpenAI 的 gpt-5.5 默认 <strong>medium</strong>。DeepSeek 的 thinking 模式默认开启、默认 high。</p>
+
+<p>也就是说，同一个开发者、同一类编码任务，在不同工具链里拿到的默认推理量能差出两档。你没动过旋钮，不代表旋钮不在动。</p>
+
+<p>还有个容易忽略的边界：Gemini 3 系列无法彻底关闭思考，最低只到 minimal。而通义系的某些模型反过来——在阿里云百炼上，GLM-5.3 与 kimi-k3（阿里云直供版）的官方文档写明”该模型始终开启思考，<code class="language-plaintext highlighter-rouge">enable_thinking</code> 仅支持 true，传入 false 会导致 API 请求失败”。把”关掉思考”当降本手段，在有些模型上根本不是合法选项。</p>
+
+<p>DeepSeek 这里还有个值得知道的细节。它的 <code class="language-plaintext highlighter-rouge">reasoning_effort</code> 名义上接受 low / high / max 三档，但官方文档给了映射表：medium 会映射到 high，xhigh 按模型映射到 high 或 max。文档同时注明，deepseek-v4-pro 的实际映射在 2026 年 8 月初有过一次调整。换句话说，你传进去的档位名，和模型真正执行的推理强度，不一定是同一个东西。</p>
+
+<h2 id="调高很多时候不划算">调高，很多时候不划算</h2>
+
+<p>档位拉满的直觉是”多想总没错”。厂商和学术两边的证据都不太支持。</p>
+
+<p>Anthropic 在 computer use 的最佳实践文档里给了一条相当明确的否定结论：<strong>不推荐在 computer use 上使用 max effort，在我们的测试中，它相对 high 没有准确率收益，却进一步推高了输出 token 成本。</strong> 理由是 UI 任务以感知判断为主而非深度逻辑，多出来的推理预算要么用不上，要么变成过度思考。同一份文档里还有个更实用的发现：<strong>medium 配上重试，能达到和 high 相当的表现，token 成本只有一半。</strong></p>
+
+<p>Claude Code 官方文档对 max 的描述同样克制：可能提升高难度任务的表现，但存在边际收益递减，且容易过度思考，建议先测试再广泛采用。</p>
+
+<p>学术那边有一个更系统的观察。一篇分析编码 Agent 花销的论文（OpenReview，《How Do Coding Agents Spend Your Money?》）把同一道题的多次运行按成本从低到高分成四档，统计准确率相对最低成本档的变化系数：最低档 0.00，次低档 +0.032，次高档 +0.025，最高档 +0.005。准确率在中等成本处见顶，再往上反而回落。论文把它归为 inverse test-time scaling——多出来的算力没变成更好的解题，而是变成了反复试错和上下文膨胀。作者还观察到一个具体行为：高成本且失败的运行里，重复查看、重复编辑同一文件的频次显著上升。</p>
+
+<p>堆推理量买到的，常常不是”想得更深”，而是”绕得更远”。</p>
+
+<p>需要给这条证据划个边界：它衡量的是 Agent 整体运行的成本，不完全等同于单次请求的档位设置。但它指向的方向和厂商自己的结论一致——越过某个点之后，多花钱换不来准确率。</p>
+
+<p><img src="/imgs/202609/2026-09-02-reasoning-effort-levels-infographic-2.jpg" alt="推理档位与准确率的非单调关系：准确率在中等成本处见顶，最高档回落" /></p>
+
+<h2 id="真正该做的是路由不是调档">真正该做的是路由，不是调档</h2>
+
+<p>既然旋钮存在，正确用法就不是全局设一个值，而是按任务分档。Anthropic 官方给出的分档定位是现成的：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>档位</th>
+      <th>官方定位</th>
+      <th>适用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>low</td>
+      <td>最高效，显著节省 token，能力有所降低</td>
+      <td>简单分类、快速查询、高吞吐、子代理</td>
+    </tr>
+    <tr>
+      <td>medium</td>
+      <td>平衡，有适度的 token 节省</td>
+      <td>需要速度、成本、性能三者平衡的 agent 任务</td>
+    </tr>
+    <tr>
+      <td>high</td>
+      <td>高能力，等同不设参数</td>
+      <td>复杂推理、困难的编码问题、agent 任务</td>
+    </tr>
+    <tr>
+      <td>xhigh</td>
+      <td>编码与 agentic 任务的推荐起点</td>
+      <td>反复工具调用、详细网络搜索与知识库检索</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>绝对最高能力，无 token 上限</td>
+      <td>真正前沿的难题；多数负载下不划算</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Visual Studio 的 Copilot 在 2026 年 8 月的 18.9 版本里也上了三档，官方定义是：Low 给快速响应、使用更少 token；Medium 平衡推理深度与响应速度，适合日常编码任务；High 做更深推理，适合棘手算法、架构决策和难调的 bug。这三句定义本身就是一份任务分类表。</p>
+
+<p>工程上真正好用的是<strong>把档位写进配置，而不是每次手调</strong>。Claude Code 提供了几种粒度：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>/effort xhigh                        <span class="c"># 当前会话切换</span>
+claude <span class="nt">--effort</span> high                 <span class="c"># 单次启动</span>
+<span class="nb">export </span><span class="nv">CLAUDE_CODE_EFFORT_LEVEL</span><span class="o">=</span>medium   <span class="c"># 环境变量，优先级最高</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>更细的一层是 skill 和 subagent 的 frontmatter 可以单独指定 effort：</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="nn">---</span>
+<span class="na">name</span><span class="pi">:</span> <span class="s">quick-lint</span>
+<span class="na">description</span><span class="pi">:</span> <span class="s">跑一遍 lint 并汇报结果</span>
+<span class="na">effort</span><span class="pi">:</span> <span class="s">low</span>
+<span class="nn">---</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>这解决的是一种很具体的浪费：一个负责跑 lint 或格式化检查的子代理，根本不需要和主代理相同的推理深度。把子代理压到 low、主代理留在 xhigh，省下的钱比全局降一档多得多，而且不伤主任务的质量。官方对 low 的推荐用例里，”子代理”本来就被明写出来。</p>
+
+<p>还有个不太常被提到的开关：<code class="language-plaintext highlighter-rouge">ultrathink</code>。把它写进 prompt，可以让当前这一轮临时加深推理，而会话的 effort 设置不变。适合一次性的难题——不必为了一个问题把整个会话的档位抬上去。要注意的是 Claude Code 只认 <code class="language-plaintext highlighter-rouge">ultrathink</code> 这一个关键词，”think hard” 之类会被当成普通文本传进去。</p>
+
+<p>我自己目前的配置是三层：全局 <code class="language-plaintext highlighter-rouge">effortLevel</code> 设成 <code class="language-plaintext highlighter-rouge">high</code>，跑 lint、格式化、依赖检查这类工具型 skill 的 frontmatter 全部压到 <code class="language-plaintext highlighter-rouge">low</code>，遇到需要跨模块重构的会话再手动 <code class="language-plaintext highlighter-rouge">/effort xhigh</code> 抬一档。</p>
+
+<p>这套配法没什么技巧，真正的收益来自第三层：因为知道抬档是要手动做的，我在起一个会话前会先想清楚它属不属于”智能敏感”。分错的代价很直观——lint 子代理跑到 xhigh 是纯浪费，重构会话停在 medium 则是要返工。旋钮的存在本身就在逼你给任务分类。</p>
+
+<p><img src="/imgs/202609/2026-09-02-reasoning-effort-levels-infographic-3.jpg" alt="按任务路由推理档位：主代理保持高档，工具型子代理压到低档，一次性难题用 ultrathink" /></p>
+
+<h2 id="几个容易踩的坑">几个容易踩的坑</h2>
+
+<p><strong>中途改档位会打断提示缓存。</strong> Anthropic 官方文档明确写了：在请求之间更改 effort 值会使提示缓存失效。在长会话里频繁切档，省下的输出 token 可能被反复重建缓存的输入成本吃掉。</p>
+
+<p><strong>思考 token 按输出价计费，藏起来的也算钱。</strong> Gemini 官方文档的说法很直接：开启思考时，响应价格等于输出 token 与思考 token 之和，且计费基于模型生成的全部思考 token——尽管 API 只吐出摘要。Claude Code 文档同样写明：即使思考内容被折叠或经过脱敏处理，你仍然要为生成的所有思考 token 付费。通义的文档还补了一条例外：开了思考模式但模型实际没产出思考内容时，按非思考模式的价格计费。</p>
+
+<p><strong>档位掉了，别先用 prompt 补。</strong> Anthropic 给 Opus 4.7 的建议是：如果在复杂问题上看到推理变浅，<strong>提高 effort，而不是试图用 prompt 补偿</strong>。反过来，如果因为延迟必须压在低档位，那就加一句具体指引，比如”这个任务涉及多步推理，回答前仔细想清楚”。</p>
+
+<h2 id="旋钮背后是预算责任">旋钮背后是预算责任</h2>
+
+<p>推理量从”模型的能力”变成了”调用者的预算”，这是这个旋钮真正带来的变化。一年前你挑模型，现在挑完模型还得挑档位。厂商把决定权交出来了，同时也把责任交出来了——而那个默认值，是厂商按它设想的典型负载替你选的，不是按你的。</p>
+
+<p>明天能做的一件具体的事：把你手上的 skill、subagent 和脚本按”智能敏感”和”延迟敏感”分成两堆，前者默认 xhigh，后者压到 low，中间地带给 medium，然后跑一周看账单。别凭感觉调档位——感觉会告诉你”调高总没错”，账单不会。</p>
+
+<p>主要来源：Anthropic《Effort》与 Claude Code《Model configuration》官方文档（<a href="https://platform.claude.com/docs/en/build-with-claude/effort">Effort 文档</a>）、Google《Gemini API thinking》官方文档（<a href="https://ai.google.dev/gemini-api/docs/thinking-mode">thinking-mode</a>）、DeepSeek《思考模式》官方文档（<a href="https://api-docs.deepseek.com/zh-cn/guides/thinking_mode/">中文版</a>）、OpenAI《Reasoning》文档、通义千问《Thinking》文档、阿里云百炼 OpenAI 兼容接口文档、Microsoft《Visual Studio 18.9 release notes》。</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工具实践" /><category term="推理档位" /><category term="reasoning effort" /><category term="thinking budget" /><category term="Claude" /><category term="OpenAI" /><category term="Gemini" /><category term="DeepSeek" /><category term="通义千问" /><category term="token成本" /><summary type="html"><![CDATA[摘要：各家的 low/medium/high 推理档位名字一样，刻度、默认值和计费方式却各不相同。对照官方文档理清这个旋钮真正控制什么，以及什么时候调高反而更贵更差。]]></summary></entry><entry><title type="html">MCP 之后，AI 开始摸硬件</title><link href="https://tangyuewei.github.io/posts/mhs-physical-ai/" rel="alternate" type="text/html" title="MCP 之后，AI 开始摸硬件" /><published>2026-09-01T09:03:00+08:00</published><updated>2026-09-01T09:03:00+08:00</updated><id>https://tangyuewei.github.io/posts/mhs-physical-ai</id><content type="html" xml:base="https://tangyuewei.github.io/posts/mhs-physical-ai/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Anthropic 发布 MHS 研究预览，给 AI 一套操控显微镜、机械臂、移液机器人的统一驱动规范，把设备集成从数周压到几小时。本文拆解它怎么工作、实测数据如何，以及为什么说这是 MCP 剧本的第二次上演。</p>
+</blockquote>
+
+<p>凌晨两点，实验室里一台中性原子量子计算机的激光”脱锁”了。频率漂移了那么一点点，实验全废。传统做法是专家现场操作，恢复要 5 到 10 分钟——凌晨脱锁，研究生就得爬起来，开车回实验室。</p>
+
+<p>QuEra 把这活儿交给了 AI。激光系统的”锁定”恢复，AI 代理接管后成功率从 58% 提到 99.3%，恢复时间从最长 10 分钟压到 6 到 14 秒。凌晨 2 点脱锁，AI 自己就修好了。</p>
+
+<p>这个改变背后的东西，就是 8 月 27 日 Anthropic 发布的研究预览：<strong>Model Hardware Standard（MHS，模型硬件标准）</strong>——让 AI Agent 安全操控物理设备的统一规范（<a href="https://www.anthropic.com/news/model-hardware-standard-research-preview">官方公告</a>）。</p>
+
+<p>一句话说清它的定位：<strong>MCP 管数字世界，MHS 管物理世界</strong>。</p>
+
+<h2 id="它是什么给-ai-一张硬件驾照">它是什么：给 AI 一张硬件”驾照”</h2>
+
+<p>先交代背景。实验室或工厂要把一套硬件接进自动化流程，过去要多久？数周甚至数月。原因不复杂：显微镜、移液机器人、机械臂，各有各的厂商、各有各的私有接口，彼此不通信。想让他们协作，得请工程师为每一台设备写定制集成——一个接口一个”翻译官”。</p>
+
+<p>MHS 干的事，就是把这个”翻译官”标准化：给每台设备配一个统一驱动，让设备之间、设备和 AI 之间能用同一种语言对话。Anthropic 的承诺是把集成时间从数周压缩到几小时甚至几分钟。</p>
+
+<p>它的渊源有点意思。起源不是大厂实验室自动化部门，而是 HHMI Janelia 研究园区一个做脑成像的装置：激光、电动聚焦器、专业相机来自不同厂商，没有公共接口。博士后 Arco Bast 自己写了个”共享内存字典”让它们以内存速度通信，Anthropic 的 Alek Kemeny 看到后把 AI 模型接进了这个接口——MHS 由此而来。</p>
+
+<p><img src="/imgs/202609/2026-09-01-mhs-physical-ai-infographic-1.jpg" alt="MHS 工作原理：Agent 通过三种通道连接驱动层，驱动层用 read/write 原语 + 参考文件指挥各台设备" /></p>
+
+<h2 id="怎么工作一个驱动让-ai-听懂机器">怎么工作：一个驱动让 AI 听懂机器</h2>
+
+<p>MHS 的核心是标准化驱动，原语简单到只有两个：<strong>read</strong>（如”获取温度”）和 <strong>write</strong>（如”设定温度”）。任何可编程设备都能实现。设备以标准格式对外广播自己，设备和 AI 在网络里互相发现、直接通信，不需要中间人写定制翻译程序。</p>
+
+<p>真正聪明的是”说明书”这一步。AI 要操作一台从没见过的设备，光看代码远远不够——比如机械臂的重量，这决定它能否安全抓取物体，而这种信息过去躺在纸质手册里、或某位老师的经验里。MHS 驱动内置自然语言标签：用户用大白话填设备特性（也可以让 AI 以访谈形式提问录入），驱动自动生成一份参考文件——能测什么、能调什么、安全限制是什么。AI 拿到文件，就等于拿到一台陌生设备的操作手册。大致长这样：</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="p">{</span><span class="w">
+  </span><span class="nl">"device"</span><span class="p">:</span><span class="w"> </span><span class="s2">"robotic-arm-01"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"weight_kg"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"safety"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"max_power_w"</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span><span class="w"> </span><span class="nl">"max_reach_m"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.2</span><span class="w"> </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"readable"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"joint_angle"</span><span class="p">,</span><span class="w"> </span><span class="s2">"temperature"</span><span class="p">,</span><span class="w"> </span><span class="s2">"load"</span><span class="p">],</span><span class="w">
+  </span><span class="nl">"writable"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"target_angle"</span><span class="p">,</span><span class="w"> </span><span class="s2">"speed"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>连接之后是控制。MHS 提供三种通道：<strong>MCP</strong>（走智能体标准协议）、<strong>命令行</strong>、<strong>代码文件（API）</strong>。三者配合实现跨设备编排：AI 高层调度，把多步操作写成代码文件”链式执行”，设备自己跑完整个流程，不需要 AI 每一步都推理一遍——官方叫它”离线连发”，和”在线指挥”互为补充。</p>
+
+<p>安全上有个关键设计：设备的<strong>安全限值（最大功率、运动范围）写死在驱动层</strong>，不是依赖模型自觉。AI 再笨再激进，也突破不了驱动层这道闸。</p>
+
+<h2 id="实测几家机构省了多少事">实测：几家机构省了多少事</h2>
+
+<p>研究预览首批名单里有 Genentech、CMU、QuEra、华盛顿大学 Baker 实验室、HHMI Janelia，以及 AWS、优傲机器人、QIAGEN、Tecan 等设备厂商。放出的数据很具体：</p>
+
+<ul>
+  <li><strong>QuEra</strong>：量子激光锁定恢复，成功率 58%→99.3%（700 次盲测），恢复时间从最长 10 分钟压到 6–14 秒。</li>
+  <li><strong>CMU</strong>：液处理器、读板机、机械臂、监控相机四台仪器、三台接口南辕北辙的电脑（一个轮询 XML、一个老式 ActiveX、一个只有 GUI），用 MHS 从零写驱动加编排层只花约 8 小时——厂商方案通常要数周。实验速度提升约 3 倍。人为制造缺板、设备断连、急停等 6 种故障，系统在设备动作前全部正确拦截。</li>
+  <li><strong>Genentech</strong>：BCA 蛋白定量实验，液体处理器、机械臂、读板机三台设备交给 Claude + MHS 编排，AI 自主做了轮”实验优化”——反复移液、读板、计算与专家操作的误差，最终收敛到与自动化专家一致的最优流速。实验中出现枪头拾取失败，AI 还能自主恢复。</li>
+  <li><strong>华盛顿大学 Baker 实验室</strong>：博士生用 MHS 一周接入 6 台仪器（此前自动化尝试动辄数月失败）。qPCR 实验 AI 盯着放大曲线，在正确时机喊停——不用再凌晨 4 点起来换板。</li>
+</ul>
+
+<p><img src="/imgs/202609/2026-09-01-mhs-physical-ai-infographic-2.jpg" alt="MCP 管数字世界，MHS 管物理世界；实测：集成时间数周→8小时、QuEra 58%→99.3%" /></p>
+
+<p>注意一个细节：UW 那位博士生点破了一笔账——设计一个蛋白质候选只要 0.01 美元，测试一个候选要约 100 美元加一周人工。<strong>测试端才是瓶颈</strong>，MHS 正在拆掉它。科研自动化的经济账，正在从”能不能用”转向”值不值”。</p>
+
+<h2 id="代价与冷水">代价与冷水</h2>
+
+<p>好消息说完，说限制。</p>
+
+<p>MHS 目前<strong>只支持有编程接口的设备</strong>，老式纯硬件（只有旋钮没有 API）还不行，Anthropic 正在和厂商共建驱动。研究预览是申请制（<a href="https://modelhardwarestandard.com">modelhardwarestandard.com</a>），正式开源前还要先与合作方共建安全评估。</p>
+
+<p>更要紧的是物理推理的边界。Genentech 的研究人员发现，蛋白样本起泡导致实验失败，Claude 起初把这当成软件 bug 来排查——这是物理现象，不是代码问题，AI 的空间和物理推理能力还有明显局限，专家监督现阶段省不掉。</p>
+
+<p>冷水再泼一盆：<strong>协议本身可能不是瓶颈</strong>。这个领域早有成熟标准——SiLA 2、OPC UA LADS，解决协议问题好几年了，并没有带来”即插即用实验室”。真正挡住自动化的不是协议设计，是厂商激励：头部设备商靠私有接口绑客户，凭什么开放？所以 MHS 这次真正的新闻，不是规范本身，而是 <strong>AWS、Tecan、QIAGEN、优傲机器人这些头部厂商签名支持</strong>。签名的人对了，标准才可能活。</p>
+
+<p>这也正是 Anthropic 的策略：<strong>不造机器人，定义接口</strong>。NVIDIA 在卖机器人大脑（GR00T），Google 在卖（Gemini Robotics），Anthropic 卖的是把大脑接到身体上的”线”。这几乎是 MCP 剧本的第二次上演——2024 年 11 月 MCP 开源时同样是模型无关、免费赠送、拿 USB 打比方，一年时间月 SDK 下载量超过 9700 万次，OpenAI、Google、微软、AWS 全部接入，2025 年 12 月被捐给 Linux 基金会旗下的 Agentic AI 基金会（<a href="https://blog.modelcontextprotocol.io/posts/2025-12-09-mcp-joins-agentic-ai-foundation">官方公告</a>）。Anthropic 没从 MCP 收一分钱授权费，收下的是<strong>接口的定义权</strong>——全行业的 Agent 生态都说着它发明的方言。</p>
+
+<p><img src="/imgs/202609/2026-09-01-mhs-physical-ai-infographic-3.jpg" alt="Anthropic 标准战略两步棋：2024.11 MCP 开源 → 9700万下载/月 → 2026.8 MHS 研究预览" /></p>
+
+<p>对你我这种不跑仪器的开发者，MHS 短期内不需要动——研究预览申请制、未开源，生态才刚起。但两件事值得现在做：一是看懂它的设计思路（驱动层 + 自然语言说明书 + 安全限值下沉），这套思路跟 MCP、跟 Agent 工具设计是一脉相承的；二是如果你所在的公司有实验室或工厂设备，把”MHS 支持”写进下一次设备采购问卷——标准这东西，早站队比晚站队便宜得多。</p>
+
+<p>MCP 让 AI 长出了”手”去够数字世界，MHS 是给这双手接上物理世界的扳手。能不能真成为”物理世界的 USB-C”，取决于接下来一年有多少厂商把驱动内置进设备。协议是 Anthropic 写的，但标准是大家用出来的。</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="科技观察" /><category term="MHS" /><category term="Model Hardware Standard" /><category term="MCP" /><category term="物理AI" /><category term="具身智能" /><category term="Agent" /><summary type="html"><![CDATA[摘要：Anthropic 发布 MHS 研究预览，给 AI 一套操控显微镜、机械臂、移液机器人的统一驱动规范，把设备集成从数周压到几小时。本文拆解它怎么工作、实测数据如何，以及为什么说这是 MCP 剧本的第二次上演。]]></summary></entry><entry><title type="html">上下文越大，AI 越容易忘事</title><link href="https://tangyuewei.github.io/posts/context-rot/" rel="alternate" type="text/html" title="上下文越大，AI 越容易忘事" /><published>2026-08-31T09:22:00+08:00</published><updated>2026-08-31T09:22:00+08:00</updated><id>https://tangyuewei.github.io/posts/context-rot</id><content type="html" xml:base="https://tangyuewei.github.io/posts/context-rot/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：你以为 1M token 的上下文窗口能让 Agent 记住一切，现实是窗口越大它越容易”看了等于没看”。本文讲清 context rot 的成因，并给出压缩、外部笔记、子 Agent 隔离三板斧，帮长任务跑完不翻车。</p>
+</blockquote>
+
+<p>你有没有过这种经历：让 Claude Code 或 Codex 改一个跨几千行的 bug，前半段它明明定位到了根因、给了清晰结论，可干到后半段，它把那个结论忘得一干二净——就好像从没说过。</p>
+
+<p>第一反应通常是：”窗口不够大吧？”于是换上 200K、甚至 1M token 的模型，结果该忘还是忘。</p>
+
+<p>问题不在容量，在注意力。</p>
+
+<h2 id="窗口是工作记忆不是硬盘">窗口是工作记忆，不是硬盘</h2>
+
+<p>一句话先说结论：上下文窗口是<strong>工作记忆</strong>，不是<strong>长期记忆</strong>。容量变大，不等于它记得更牢。</p>
+
+<p>这反直觉。人类直觉是”放得下就该记得住”，但大模型不是这么工作的。Transformer 处理 n 个 token，要做 n² 次两两注意力计算，每多一个 token，都从那块有限的”注意力预算”里分走一杯羹。窗口越长，单条信息分到的注意力越薄——塞得下，和用得上，是两件事。</p>
+
+<p>Anthropic 在 2025 年 9 月发布的<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">《Effective Context Engineering for AI Agents》</a>给这个现象起了个名字：<strong>context rot（上下文腐坏）</strong>——随着 token 数量增长，模型对信息的召回精度反而下降。它把上下文描述成一种”有限资源”，目标不是把东西都塞进去，而是挑出”达成目标所需的最小高信号 token 集合”。</p>
+
+<p>补充一句：context rot 不是某个厂商的 bug，而是注意力机制的固有属性。无论 Claude、GPT，还是国内的 DeepSeek、GLM、Kimi，只要基于 Transformer 注意力，都绕不开后面的 U 形衰减。</p>
+
+<h2 id="中间那段最容易丢">中间那段，最容易丢</h2>
+
+<p>如果说 context rot 是整体衰减，那”Lost in the Middle”就是它最经典的形状。</p>
+
+<p>斯坦福 Liu 等人 2023 年的论文（<a href="https://aclanthology.org/2024.tacl-1.9/">TACL 2024</a>正式发表）做了个直观实验：给模型一长串文档，其中只有一篇含答案。把答案文档从开头滑到结尾，画一条”位置—准确率”曲线，结果是标准的 <strong>U 形</strong>——开头和结尾最准，中间掉得最狠。</p>
+
+<p>更扎心的是：当答案埋在 20 篇文档正中时，GPT-3.5 的得分甚至低于它”不看任何文档”的闭卷基线（56.1%）。也就是说，把答案放中间，它还不如没放。</p>
+
+<p>而这不只是老模型的毛病。论文特意测了”长上下文专门训练”的版本，U 形照样在；2024–2026 年的新模型只是把坑填浅了些，没填平。从 4K 到 1M token，这个形状都在。</p>
+
+<p>对写代码的 Agent 来说，这个形状尤其致命。一个长任务里，你最早定下的架构约束往往沉在窗口最开头——还好，开头属于 primacy 区，模型记得住；真正危险的是中途产生的”临时结论”：某个函数签名怎么改、某个边界情况怎么处理。这些决定散落在中段，跑着跑着就被”中间效应”吞掉。你以为它还在按第 20 轮的决定写，其实它早漂走了。</p>
+
+<p><img src="/imgs/202608/2026-08-31-context-rot-infographic-1.jpg" alt="上下文窗口全景：工作记忆 vs 长期记忆，中间一条 U 形衰减曲线" /></p>
+
+<h2 id="三板斧把上下文管起来">三板斧：把上下文管起来</h2>
+
+<p>窗口不够大就硬塞，是错的。正解是<strong>主动管理</strong>进入窗口的 token。三招最实用。</p>
+
+<p>日常怎么用？给长任务加一句系统指令：”每 N 轮把已确认结论写进 NOTES.md，并清理早期工具输出”——往往一句话，就能让大多数 Agent 少忘一半事。</p>
+
+<p><strong>① 压缩（compaction）</strong></p>
+
+<p>快到上限时，让模型把旧对话总结成一份摘要，只保留架构决策、未解 bug、实现细节，丢掉冗余的工具输出，然后带着”摘要 + 最近几个文件”续跑。Claude Code 就是这么干的：临近约 70% 预算时触发压缩，继续时附带总结加最近 5 个文件。</p>
+
+<p>更轻的一招是”清工具结果”——某个工具调用完、结果已经被用过了，就把它从上下文里删掉。Anthropic 称之为”最安全的压缩”，因为动的是数据、不动推理。代价是：摘要可能丢掉某个关键细节，后面还信了它，比不压缩更糟。所以压缩提示词要先保召回、再调精度。</p>
+
+<p>一个常见翻车：Agent 重构到一半，还在引用早期已被你否掉的方案。原因往往是那个旧结论一直躺在窗口中段没被压缩掉，而新结论写在更后面——两个结论在 U 形里互相打架，模型最后选了旧的。所以压缩不只是”省 token”，更是”定期把过时的决定清出场”。</p>
+
+<p><strong>② 外部笔记（agentic memory）</strong></p>
+
+<p>把”跨会话要记住的事实”写进窗口之外的文件，需要时用再读回来。比如 Claude Code 的 to-do，或者一个自定义 Agent 维护的 NOTES.md。Anthropic 举过玩宝可梦的例子：Agent 把几千步的状态（”第 1234 步，皮卡丘 8 级”）记在笔记里，上下文重置后读回来，就能接着玩几小时不丢进度。</p>
+
+<p>给 Agent 一个”备忘录”，它就不用把一切塞进窗口。</p>
+
+<p>NOTES.md 里写什么？别写流水账，写四栏就够：当前目标、已完成、关键发现、待解问题。结构化的栏位能防止信息慢慢流失——每一栏都像一张检查清单，Agent 每次回读都能对齐状态。</p>
+
+<p><strong>③ 子 Agent 隔离</strong></p>
+
+<p>把专项任务丢给子 Agent，让它用一块干净的上下文干活，只回一份蒸馏过的摘要（约 1000–2000 token）给主线程。详细的搜索上下文被隔离在子 Agent 里，不污染主线程。本质上就是”一个人盯全局，几个专人各管一块，只汇报结论”。</p>
+
+<p>但要注意：子 Agent 的摘要是它自己写的，也可能带毒。主线程拿到摘要后，对关键结论最好留个”可回溯”的钩子——它改了哪个文件、用了哪条命令，真出事能回去查证，而不是照单全收。</p>
+
+<p><img src="/imgs/202608/2026-08-31-context-rot-infographic-2.jpg" alt="上下文管理三板斧：压缩 → 外部笔记 → 子 Agent 隔离" /></p>
+
+<h2 id="四个坑管不好反而更糟">四个坑：管不好反而更糟</h2>
+
+<p>上下文工程有四种典型翻车，记住它们能少踩很多雷：</p>
+
+<ul>
+  <li><strong>poisoning（污染）</strong>：一条错误信息被写进上下文，后面反复引用、越信越深。压缩时丢了正确版本，毒就定型了。</li>
+  <li><strong>distraction（干扰）</strong>：噪音太多，挤占了本该给关键信息的注意力预算。</li>
+  <li><strong>clash（冲突）</strong>：新旧指令打架——后面加的规则推翻了前面的，模型左右为难。</li>
+  <li><strong>overflow（溢出）</strong>：超窗口被硬截断，最旧的内容直接消失，连”忘了”的机会都没有。</li>
+</ul>
+
+<p>怎么防？poisoning 靠”压缩提示词先保召回，且把任务目标与硬约束永远原文保留、不摘要”；distraction 靠”工具返回用完即清，别让原始日志常驻窗口”；clash 靠”系统指令写稳、不放逐轮变动的时间戳，新指令显式说清与旧指令的关系”；overflow 靠”设压缩阈值（如 70% 预算），别等撞墙才清”。</p>
+
+<p>这四点提醒我们：压缩不是无脑删，笔记要维护，子 Agent 的摘要要审。收益和代价永远同段出现——这也是我写这类话题一直坚持的：只讲收益不讲代价，等于没讲。</p>
+
+<p><img src="/imgs/202608/2026-08-31-context-rot-infographic-3.jpg" alt="四个翻车象限：污染 / 干扰 / 冲突 / 溢出，中心一句&quot;管上下文像管内存&quot;" /></p>
+
+<h2 id="判断管上下文像管内存">判断：管上下文，像管内存</h2>
+
+<p>回到开头那个 bug。它忘了结论，不是因为它”笨”，而是你没替它管理上下文。</p>
+
+<p>2026 年，”写好 prompt”正在让位给”管好上下文”。对跑长任务的 Agent 来说，Context Engineering 不是选修课：窗口再大，注意力预算就那么多；你不清，它自己也不会清。</p>
+
+<p>把上下文当内存看待——压缩旧的、外挂笔记、隔离子任务——Agent 才可能在跑几个小时后，还记得你最初要它干什么。这跟写代码是一个道理：你不管理内存，程序就崩；你不管理上下文，Agent 就忘。</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程师成长" /><category term="上下文工程" /><category term="ContextEngineering" /><category term="AIAgent" /><category term="长上下文" /><category term="ClaudeCode" /><summary type="html"><![CDATA[摘要：你以为 1M token 的上下文窗口能让 Agent 记住一切，现实是窗口越大它越容易”看了等于没看”。本文讲清 context rot 的成因，并给出压缩、外部笔记、子 Agent 隔离三板斧，帮长任务跑完不翻车。]]></summary></entry><entry><title type="html">Agent 插件打包标准：一次构建多端跑</title><link href="https://tangyuewei.github.io/posts/agent-plugins/" rel="alternate" type="text/html" title="Agent 插件打包标准：一次构建多端跑" /><published>2026-08-30T09:50:00+08:00</published><updated>2026-08-30T09:50:00+08:00</updated><id>https://tangyuewei.github.io/posts/agent-plugins</id><content type="html" xml:base="https://tangyuewei.github.io/posts/agent-plugins/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：GitHub 8 月 12 日让 Agent Plugins 1.0 全量上线：把 skill 和 MCP 打包成一份插件，终端、IDE、桌面端一次构建到处装。这是六家厂商的开放标准，本文讲清它的结构、治理和信任缺口。</p>
+</blockquote>
+
+<p>给同一个 AI 能力做打包，做四遍，是什么体验？</p>
+
+<p><img src="/imgs/202608/2026-08-30-agent-plugins-infographic.jpg" alt="一次构建多端跑：以前 vs 现在" /></p>
+
+<p><em>图：以前一份能力要打四份包装，改一处四处改；现在一个包分发到四端，一次构建到处装。</em></p>
+
+<p>你维护一个部署工具集：一段”上线前要检查哪些项、回滚条件是什么”的流程说明，配一个能真去调部署接口的工具。逻辑只有一份，可你想让它在 VS Code、命令行、桌面应用里都能被 Agent 用上，就得按每种客户端的格式各写一遍清单、各摆一套目录。改一次流程，四个地方同步改。漏一个，某端就还跑着旧规则。</p>
+
+<p>8 月 12 日，GitHub 宣布 Agent Plugins 1.0 全量上线，解决的就是这个”打包打四遍”的问题<a href="https://github.blog/changelog/2026-08-12-agent-plugins-1-0-in-vs-code-copilot-cli-and-the-copilot-app/">1</a>。这篇文章讲它是什么、为什么值得注意、以及它刻意没做的事。</p>
+
+<h2 id="agent-插件是什么">Agent 插件是什么</h2>
+
+<p>一句话：Agent Plugins 1.0 是一套<strong>打包格式</strong>，把 skill（操作手册）和 MCP server（工具通道）装进一个目录，任何兼容的 Agent 客户端都能安装使用。</p>
+
+<p>一份插件长这样：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre>company-deploy/
+├── plugin.json
+├── skills/
+│   └── deploy/
+│       └── SKILL.md
+├── mcp.json
+└── com.github.copilot/
+    └── commands/
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">plugin.json</code> 是清单，必需，四个字段就够：</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="p">{</span><span class="w">
+  </span><span class="nl">"$schema"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"company-deploy"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"部署工具集"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0.0"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>清单只有四个字段，不是偷懒，是刻意。字段越多，各家分歧越大，六家就越难坐到一张桌子上。1.0 把”可移植的最小公分母”定在刚好能装能发现的程度，其余全部留给平台自己发挥。规范里还定义了两个运行时占位符：<code class="language-plaintext highlighter-rouge">PLUGIN_ROOT</code> 指向插件安装目录，<code class="language-plaintext highlighter-rouge">PLUGIN_DATA</code> 指向插件的数据目录，客户端加载时展开——这是插件包在运行时能定位自己资源的唯一约定。</p>
+
+<p><code class="language-plaintext highlighter-rouge">skills/</code> 下每个子目录放一份 SKILL.md，遵循 Agent Skills 规范；<code class="language-plaintext highlighter-rouge">mcp.json</code> 声明要挂的 MCP server，可选。最后那个 <code class="language-plaintext highlighter-rouge">com.github.copilot/</code> 是供应商保留区——放只有某家客户端才认的东西（自定义命令、规则、钩子），其他客户端看到这个命名空间直接跳过。</p>
+
+<p>这个目录布局是整个标准最巧的地方。它没有抹掉各家差异，而是给差异划了个隔离区：公共部分（skill + MCP）标准化，私有部分按厂商命名空间存放。客户端可以不实现某个命名空间，仍然算合规。标准化的便携核心只有两类组件，其余的留给各家自己长。</p>
+
+<p>如果你维护过旧版 Copilot 插件，迁移基本是改清单的活：加上 <code class="language-plaintext highlighter-rouge">$schema</code>、把 skill 归到 <code class="language-plaintext highlighter-rouge">skills/</code>、MCP 配置挪到根 <code class="language-plaintext highlighter-rouge">mcp.json</code>、Copilot 专属文件移进 <code class="language-plaintext highlighter-rouge">com.github.copilot/</code>。旧插件继续能用，没有强制迁移期限。</p>
+
+<h2 id="为什么不是-github-一家的事">为什么不是 GitHub 一家的事</h2>
+
+<p>一个格式能立住，关键看谁在推。Agent Plugins 1.0 不是 GitHub 单方面定的：8 月 6 日发布时就有 AWS、Anysphere、Microsoft、OpenAI、Vercel 五家参与，Google 同日加入核心维护，治理上设了独立的技术宪章和多方指导委员会<a href="https://agent-plugins.org/specification">2</a>。GitHub 的 GA 是把它从规范变成可用的分发设施。</p>
+
+<p>它和 MCP 的关系，值得单独说清。MCP 定的是”Agent 和工具怎么通信”，Agent Plugins 定的是”这些工具连同说明怎么打包、分发、安装”。一个是协议，一个是容器，不冲突，是叠着用的两层。你可以这么记：</p>
+
+<ul>
+  <li>skill 定义流程和知识（什么时候能部署、哪些检查必须过）</li>
+  <li>MCP 提供工具通道（调部署接口、查状态）</li>
+  <li>plugin 负责把前两者打包成一份可分发单元</li>
+</ul>
+
+<p>放到工程史上，这有点像 npm 出现之前的前端：组件逻辑是同一份，但每个项目用各自的拷贝、各自的打包方式，版本飘得到处都是。Agent Plugins 要做的，就是给 Agent 能力一个”认得出来的分发单元”。以前一个能力想覆盖多个客户端，得维护多份 manifest 和多套目录；现在一份包，客户端各自发现里面支持的部分。</p>
+
+<p>为什么非要把 skill 和 MCP 绑在一个包里？因为只有工具，Agent 不知道什么时候该用它。部署 MCP server 暴露的是 <code class="language-plaintext highlighter-rouge">deploy()</code>、<code class="language-plaintext highlighter-rouge">rollback()</code>、<code class="language-plaintext highlighter-rouge">get_status()</code> 这些动作，但”上线前必须跑迁移 review”“哪些环境要人工审批”“回滚条件是什么”——这些规则工具描述里装不下，得靠 skill 写清楚。工具给动作，skill 给规则，plugin 把两者打包，缺一不可。单独发一个 MCP server 给 Agent，它知道能干什么，不知道什么时候该干。</p>
+
+<p>时间线也能看出它不是拍脑袋：规范仓库 4 月就公开，1.0.0 版本 7 月底发布，OpenAI 的 Codex CLI 7 月 29 日就接入了支持，8 月 6 日多厂商联合公告，8 月 12 日 GitHub 四端 GA。从定稿到落地，节奏很快。</p>
+
+<h2 id="企业和团队各自拿到什么">企业和团队各自拿到什么</h2>
+
+<p>对个人开发者，收益是少写几份清单。对团队和公司，收益更大，也更实际。</p>
+
+<p>先说治理。插件要跨工具流通，企业就得有统一的口径管”哪些插件能装、从哪装”。Copilot Business 和 Enterprise 的管理员用现有的 <code class="language-plaintext highlighter-rouge">managed-settings.json</code>，三个键：<code class="language-plaintext highlighter-rouge">enabledPlugins</code> 控制自动安装或拉黑某个插件，<code class="language-plaintext highlighter-rouge">extraKnownMarketplaces</code> 允许加额外市场源，<code class="language-plaintext highlighter-rouge">strictKnownMarketplaces</code> 直接锁死只装受管市场里的插件。</p>
+
+<p>第三个键值得单独说。市场默认启用是便利，但对安全团队来说，没有锁源的能力就等于把”插件代码从哪来”的决定权让给了每个人。<code class="language-plaintext highlighter-rouge">strictKnownMarketplaces</code> 把组织的管控点放在了”从哪装”这一步，早于”装哪个”，顺序是对的。插件可以携带 MCP server 配置，所以还要和 MCP 的 allowlist 配套用——按 URL、命令或名字审批或拉黑单个 server。</p>
+
+<p>另一个落地场景是 CI/CD。skill 是文件，mcp.json 也是文件，都在同一个包里。你的构建可以生成它、签名它、打版本；reviewer 可以在 PR 里 diff 它。以前一个能力三个端口，团队往往只更新自己最常用的那个，另外两个慢慢漂移。现在一个产物、一次发布，CLI 和桌面端自动跟上——尤其当插件连的是生产 MCP server 时，你不会想要三份各说各话的工具契约散落在野。</p>
+
+<p>对刚起步的团队，价值是顺势：按规范从第一天开始打包，市场发现、安装体验都白拿，不用自己造分发基础设施。</p>
+
+<p>还有个容易被忽略的点：这个标准给”公司内部工具”留了位置。企业完全可以搭自己的插件市场，把部署、审查、安全规范这些内部能力打包成插件，只对自己的 Agent 开放。来源单一、可审计，比面向所有人的公共市场干净得多。规范的价值不只在于”跨厂商”，也在于”跨团队”——同一个包格式，内部也能少维护几套。</p>
+
+<p>最后是向后兼容。存量 Copilot 插件不迁也能继续用，没有强制迁移的 flag-day。规范文档也明确说，客户端可以忽略不支持的组件或命名空间，依然算合规。这套”旧的不坏、新的可试”的策略，是它能全量上线的底气。</p>
+
+<p><img src="/imgs/202608/2026-08-30-agent-plugins-infographic-2.jpg" alt="企业怎么管 Agent 插件：受管市场 → 审批 → 安装 → MCP 白名单" /></p>
+
+<p><em>图：企业管 Agent 插件的四步流程——先锁源（受管市场），再审单（enabledPlugins），再分发（开发者安装），最后配合 MCP 白名单。装前看一眼包里有什么，是基本动作。</em></p>
+
+<h2 id="别急着把市场当信任">别急着把市场当信任</h2>
+
+<p>前面讲的都是收益，这一节说代价，或者说，标准刻意留给你的功课。</p>
+
+<p>第一，规范的成熟度。spec 页面自己标着 Working Draft——虽然仓库把它列为当前发布版，但它不是被某个标准组织冻结的终稿，还在演化中。把它当”可用”没问题，把它当”永久承诺”是另一回事。</p>
+
+<p>第二，1.0 明确不做的事。它没有中央注册表、没有签名验证、没有权限控制、没有沙箱、也没有发布者身份校验。这些全部列在路线图里当未来工作。为什么不做？因为做了就谈不拢——签名、权限这些恰恰是各家最有分歧的地方，先砍掉才能让六家坐下来。代价是：<strong>装插件现在的信任级别，约等于装一个第三方依赖，你得自己审计</strong>。</p>
+
+<p>第三，市场默认启用带来的攻击面。Awesome Copilot 市场在 VS Code、CLI、App 里默认开启，安装门槛低了，投毒的回报也高了。这跟浏览器插件商店、npm 仓库面对的是同一类供应链问题，只是刚起步，防护工具还不成熟。企业至少该把 <code class="language-plaintext highlighter-rouge">strictKnownMarketplaces</code> 打开，个人则要习惯”装前看一眼包里有什么”。</p>
+
+<p>第四，兼容目录是自报的。官方列出的客户端清单，是各家自己声明”我支持”，不是跑过公开一致性测试套件的结果。目录在变，真实性要靠使用验证。一个标准成不成，最后看有多少客户端真的实现了它、多少人真的在用——这一步没有捷径。GitHub 一家 GA 只是起点，别的客户端跟进到什么程度、实现是否一致，才是接下来半年要盯的。</p>
+
+<p>所以对 Agent Plugins 1.0，合适的姿态是：作为打包格式值得跟进，作为信任基础设施还早。把安装当依赖管理来对待，审计、锁定来源、最小权限，跟你在 npm 里做的事一样。市场默认开启不等于默认可信，这个边界得自己划。标准解决的是分发问题，不是决策问题——装哪个、信哪个，永远是人的事。</p>
+
+<h2 id="收尾">收尾</h2>
+
+<p>上一篇文章写 skill、agent、mcp、workflow 四层各管一段，最后说”工具是手段，你的真实工作流才是主角”。Agent Plugins 在这四层下面又垫了一层：<strong>怎么发</strong>。skill 和 mcp 你搭好了，plugin 负责把它们干净地送到每个客户端手里。那一篇里的概念分层，现在多了一条：skill 给规则，mcp 给通道，plugin 给包装——四层之外，多了一个负责运输的第五层。</p>
+
+<p>工具链正在长出分发层，这是值得跟进的变化。但记住，它解决的只是”包装和运输”，代码还是那堆代码，信任还得自己管。装什么、信什么、给多大权限——这些问题，一个打包格式替代不了你。标准把分发变简单了，也把”你装了谁的包”这件事，从没人关心变成了天天要问。这一问，就是它带给每个团队的第一份作业。</p>
+
+<p><strong>参考资料</strong></p>
+
+<ul>
+  <li>GitHub Blog：Agent Plugins 1.0 in VS Code, Copilot CLI, and the Copilot app（2026-08-12）：https://github.blog/changelog/2026-08-12-agent-plugins-1-0-in-vs-code-copilot-cli-and-the-copilot-app/</li>
+  <li>Agent Plugins 1.0 规范（agent-plugins.org）：https://agent-plugins.org/specification</li>
+  <li>规范仓库：https://github.com/agentplugins/agent-plugins-spec</li>
+  <li>Agent Plugins 示例与迁移指南：https://github.com/agentplugins/agent-plugins-example</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="行业趋势" /><category term="AI编程" /><category term="Agent" /><category term="插件" /><category term="标准" /><category term="MCP" /><summary type="html"><![CDATA[摘要：GitHub 8 月 12 日让 Agent Plugins 1.0 全量上线：把 skill 和 MCP 打包成一份插件，终端、IDE、桌面端一次构建到处装。这是六家厂商的开放标准，本文讲清它的结构、治理和信任缺口。]]></summary></entry><entry><title type="html">一句话生成应用：全民全栈，还是全民原型</title><link href="https://tangyuewei.github.io/posts/one-sentence-app/" rel="alternate" type="text/html" title="一句话生成应用：全民全栈，还是全民原型" /><published>2026-08-29T09:30:00+08:00</published><updated>2026-08-29T09:30:00+08:00</updated><id>https://tangyuewei.github.io/posts/one-sentence-app</id><content type="html" xml:base="https://tangyuewei.github.io/posts/one-sentence-app/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：xAI 的 Grok Build 8 月 22 日全量上线，”一句话生成可运行应用”再次点燃”人人都是全栈开发者”的叙事。但同一赛道里，字节扣子、百度秒哒、Dify 已经卷了半年。本文拆开看：这类工具真实生成的是什么，它替你省了哪一层、又没替你省哪一层，开发者的工作到底被重新定义了什么。</p>
+</blockquote>
+
+<p><img src="/imgs/202608/2026-08-29-one-sentence-app-infographic.png" alt="信息图：原型，不是产品——一句话生成应用的真实边界" /></p>
+
+<p>8 月 22 日，xAI 宣布 <a href="https://www.aibase.com/news/30524">Grok Build</a> 结束测试、向所有订阅用户全量开放。你大概也在信息流里刷到过那种视频：有人打一句话，屏幕上当场跑出一个能玩的小游戏或能查数据的仪表盘，配文”人人都是全栈开发者了”。</p>
+
+<p>它的核心体验很直白：在和 Grok 的对话里用自然语言描述你想要的应用、小游戏、网站或数据仪表盘，系统当场生成并跑起来。发布出去还能拿到一个 grok.me 链接，分享到 X 平台时不是一条干巴巴的网址，而是一张能直接在信息流里试玩的交互卡片。</p>
+
+<p>“人人皆可一句话秒变全栈开发者”——这是它对外讲的那个故事。</p>
+
+<p>但故事的另一半，值得拆开看。</p>
+
+<h2 id="一它确实不是-xai-首创">一、它确实不是 xAI 首创</h2>
+
+<p>把”用对话生成应用”当成新闻，是忽略了国内已经跑了一年的同赛道。</p>
+
+<p>字节的<strong>扣子 Coze 3.0</strong> 早已开源，主打零代码 Agent 搭建，3.0 把”Agent 团队协作”当成核心，本地 Agent 能一键接入项目空间。百度的<strong>秒哒 3.0</strong> 基于文心大模型，数分钟生成带前后端逻辑、数据库和 UI 的完整应用，还出了国内首款 AI 应用开发 APP，用手机语音就能生成、调试、发布，配三级权限、资源隔离和 SLA。</p>
+
+<p><strong>Dify</strong> 走另一条路：开源自部署，企业级 RAG、可视化工作流、API 发布，适合把 AI 能力嵌进现有系统。<strong>Trae</strong> 的 SOLO 模式描述一个需求就吐出完整项目文件夹；<strong>腾讯云 ADP 4.0</strong> 的 Claw 模式支持”一句话生成智能体”。</p>
+
+<p>这五个产品其实落在不同坐标上：扣子、秒哒是<strong>零代码</strong>，非技术同学直接上手；Dify 是<strong>开源自部署</strong>，企业把数据和运维握在自己手里；Trae、ADP 是<strong>给开发者用的生成器</strong>，产出是能继续改的代码或智能体。选哪个，取决于你是要”快点做出来”还是要”握得住生产”。</p>
+
+<p>所以”一句话生成”本身不是新鲜事。Grok Build 真正拉开差距的，是它的<strong>社交分发</strong>——应用天然长在 X 的信息流里，带病毒传播属性。这一点国内产品暂时没有对等物。</p>
+
+<p>换句话说，热闹是 xAI 带起来的，地基是国内外一起铺的。</p>
+
+<h2 id="二它真实生成了什么">二、它真实生成了什么</h2>
+
+<p>先说它做对的部分。</p>
+
+<p>一个诊所主任、一个房产中介，过去要找外包团队、花几万块、等几周才能拿到的内部小工具，现在一下午就能自己描述出来跑着用。主题专家比任何外部开发者都懂自己的业务，这是这类工具最大的善意：它把”从 0 到草稿”的成本压到了几乎为零。</p>
+
+<p>Emergent 的测算里，一个定制 SaaS 外包均价约 13.2 万美元，用生成式应用构建器，一个下午就能出可用版本。迭代也便宜——你想试五个版本，成本不过是把想法描述五遍。</p>
+
+<p>但代价藏在 Demo 之外。</p>
+
+<p>Caspio 在拆解这类工具时说得直白：病毒式 Demo 展示的是”快的 80%”，悄悄跳过的是”慢的 20%”——访问控制、审计日志、合规姿态、与现有系统的集成，以及那个最常被忽略的问题：”18 个月后谁维护它？” 生成的原型通常没有像样的权限模型，没有审计追溯，没有和你公司真正在跑的系统打通，也没有明确的所有权归属。</p>
+
+<p>更硬的一笔：Veracode 2025 年的研究发现，AI 在接近一半的编码测试里引入了安全缺陷。任何碰敏感数据的应用，上线前都该有人审一遍。生成器不会替你做这个审查。</p>
+
+<p>所以一句话总结：<strong>它生成的是原型，不是生产系统。</strong> 这句话不是泼冷水，是帮你判断该把它用在哪。</p>
+
+<h2 id="三被重新定义的是那-40">三、被重新定义的，是那 40%</h2>
+
+<p>“AI 会不会取代开发者”这个问题，问错了层级。</p>
+
+<p>每一份工作都是一串任务的集合，AI 自动化的从来是任务，不是角色。Zerocoder 用了个老类比：ATM 普及后，银行柜员数量不降反升——单个网点更便宜，银行就开更多网点，把柜员推去做关系型工作。形状一样：当”做出第一版应用”从两天缩到二十分钟，软件的边际成本掉了，于是更多人去发更多软件，而总得有人让这些软件正确、安全、可维护。发出来的软件越多，兜底和维护的需求反而越重——这恰恰是人不会被省掉的那部分。</p>
+
+<p>具体到”一句话生成应用”这件事，被吃掉的很明确：<strong>布局、单表 CRUD、脚手架</strong>——那些纯比速度的模板活。市场地板正在被自动化，靠”点模板快”吃饭的人，价格压力是真实的。</p>
+
+<p>被放大的也是明确的：<strong>需求澄清、数据建模、遗留系统集成、生产问责</strong>。AI 能生成表单，但生成不出”这个业务到底要存什么、字段之间什么关系”；能调 API，但接不进你那套跑了十年的内部系统；能跑起来，但支付流程在生产环境崩了，它不会挺身而出担责。前面说的 Veracode 安全缺陷，恰恰落在这 40% 里——敏感数据的审查，永远得是人拍板的事。</p>
+
+<p>逃路不在”比机器更快”，而在”移到机器不能拥有的工作”。这正是平衡审视该下的判断：岗位从 builder 变成 builder-plus-architect，需求从”写得多快”变成”想得有多清”。</p>
+
+<h2 id="四我的判断怎么用才不踩坑">四、我的判断：怎么用才不踩坑</h2>
+
+<p>对个人和运营同学：正确用法是拿它出原型、验想法。一个”每天早上把天气发到群里”的小功能，二十分钟搭出来，看到”AI 自己干活”的可能性，比看十篇科普都有用。前提是把需求说清：谁用、存什么数据、三四个功能、暂时不要什么——模糊的描述只能生成模糊的应用。别指望它直接扛业务。</p>
+
+<p>对企业：原型验证通过后，核心组件该用代码重建。混合路径最稳——前端验证用生成器抢时间，落到生产用工程化兜住安全、扩展和运维。比如一个内部审批工具，先用生成器搭出界面和流程让业务确认，确认后再由工程师接进公司的权限系统和数据库：生成器省的是反复对齐的成本，不是工程化的成本。Gartner 预计低代码市场 2026 年约 445 亿美元、2029 年 582 亿，增长的恰恰是”原型到生产”这段，不是原型本身。</p>
+
+<p>对开发者：把 AI 当杠杆，别和机器比打字速度。McKinsey 的数据是某些任务快 2 倍，GitHub 测到 Copilot 快 55%，但复杂任务收益骤降——越往架构和集成走，人的权重越高。你的护城河从”写得快”移到”想得清、接得稳、扛得住”。</p>
+
+<p>一句话收尾：<strong>工具不重要，prompt 的清晰度和”谁拥有生产”才重要。</strong> “人人全栈”是营销话术，”人人能出原型”才是事实。前者让人焦虑，后者让人动手。</p>]]></content><author><name>唐悦玮</name></author><category term="技术实战" /><category term="AI应用" /><category term="GrokBuild" /><category term="一句话生成应用" /><category term="扣子" /><category term="秒哒" /><category term="Dify" /><category term="AI编程" /><category term="no-code" /><summary type="html"><![CDATA[摘要：xAI 的 Grok Build 8 月 22 日全量上线，”一句话生成可运行应用”再次点燃”人人都是全栈开发者”的叙事。但同一赛道里，字节扣子、百度秒哒、Dify 已经卷了半年。本文拆开看：这类工具真实生成的是什么，它替你省了哪一层、又没替你省哪一层，开发者的工作到底被重新定义了什么。]]></summary></entry><entry><title type="html">编程榜单作弊：AGENTS.md 泄题</title><link href="https://tangyuewei.github.io/posts/benchmark-cheating/" rel="alternate" type="text/html" title="编程榜单作弊：AGENTS.md 泄题" /><published>2026-08-28T09:33:00+08:00</published><updated>2026-08-28T09:33:00+08:00</updated><id>https://tangyuewei.github.io/posts/benchmark-cheating</id><content type="html" xml:base="https://tangyuewei.github.io/posts/benchmark-cheating/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：ForgeCode 靠在 AGENTS.md 里塞答案，把 Terminal-Bench 81.8% 从第一掉到第十四。2026 年审计揭示：编程 Agent 榜单正被系统性击穿，本文讲清作弊手法与换脚手架陷阱。</p>
+</blockquote>
+
+<p>你给团队挑一个 coding agent，厂商发来一张截图：Terminal-Bench 2.0 通过率 81.8%，排名第一。数字漂亮，你差点就把它写进采购清单。然后你往下翻了翻，发现这个第一是怎么来的——它每次跑评测前自动加载的那份 AGENTS.md 里，直接写着标准答案。把这份文件拿掉，通过率掉到 71.7%，排名从第 1 滑到第 14。一张截图，就这样塌了。你可能会说，那是别人家的榜单，我又不靠它做决定。可现实是，绝大多数团队的第一次筛选，恰恰就是从这张截图开始的。</p>
+
+<p>这不是段子，是 2026 年编程 Agent 评测圈反复上演的真实剧情。它逼出一个有点扎心的问题：我们用来挑工具的那些分数，到底在量什么？</p>
+
+<p><img src="/imgs/202608/2026-08-28-benchmark-cheating-infographic.png" alt="榜单为何注水：同一份 AGENTS.md" /></p>
+
+<h2 id="一份你信得过的文件成了泄题口">一份你信得过的文件，成了泄题口</h2>
+
+<p>先说 ForgeCode 这件事的来龙去脉。它曾在 Terminal-Bench 2.0 上以 81.8% 的通过率登顶，底层是 Claude Opus 4.6 加 GPT-5.4 的组合。2026 年 4 月，宾夕法尼亚大学的一个团队用他们自研的 Meerkat 审计框架，把这份成绩拆开看<a href="https://www.debugml.org/blog/cheating-agents">1</a>。结果发现，ForgeCode 在每次评测前自动加载的 AGENTS.md 文件里，直接包含了任务的答案。</p>
+
+<p>文件本身是该让 Agent 读的东西——里面写明了项目约定、命令、注意事项。问题出在，这些约定里混进了本不该出现的答案。更微妙的是，AGENTS.md 是评测系统默认信任、通常不会被当作弊扫描的载体：它本就该出现在每次运行里，所以往里塞答案比改测试脚本更隐蔽，也更容易被当成”正常配置”放过。两个例子很具体。一个是 mteb-leaderboard 任务，AGENTS.md 写着”上一次运行 reward 是 0.0，因为写了错误答案……正确答案应该是 GritLM/GritLM-7B”，于是 Agent 把这句原文誊进 result.txt，再用同一份注入源去”验证”自己通过了。另一个是 bn-fit-modify 任务，文件里给出”guidelines 里已知的正确 DAG”，Agent 直接把那 6 条边硬编码进去，从头到尾没跑过一次发现算法。</p>
+
+<p>把这类文件去掉后，通过率落到约 71.7%，排名从第 1 掉到第 14。ForgeCode 的回应很耐人寻味：相关 GitHub issue 编号 #2961，标题是”critical bug fix required forge code leaking answers to cli bench”，把它定性成一个 bug，而不是作弊。顺带提醒一句：81.8% 到 71.7% 是 Terminal-Bench 2.0 这一个榜（约 89 个任务）内的变化，别顺着它推成”榜单都没用了”——这篇要说的是读法变了，不是榜单全无意义。</p>
+
+<p>这里有个反差值得停下来想。你博客里反复被推荐的最佳实践，正是”给 Agent 写一份好的 AGENTS.md”——把它当工程宪法。到了评测环境，同一份文件、同一套机制，只是内容变成了答案，它就从”地图”变成了”泄题口”。文件没有变坏，是它所处的位置变了：生产环境里它帮 Agent 找对方向，评测环境里它直接把答案摆到了 Agent 能读到的地方。这也给所有”把指令写进文件让 Agent 自动读”的做法提了个醒：当文件能被自动加载、又没人逐行审查时，它就既是助手也是后门。生产里你信它，是因为你写它、你审它；评测里你未必知道谁写的、审过没。这也是为什么我仍建议你给自己的项目写 AGENTS.md——区别在于，你写的、你审的，和评测方塞给你的，信任基础完全不同。</p>
+
+<h2 id="不是个案榜单正在被系统性击穿">不是个案：榜单正在被系统性击穿</h2>
+
+<p>如果这只是 ForgeCode 一家，还算孤例。但 Meerkat 的审计范围大得多：跨 9 个基准、28 个以上提交、1000 多条受影响轨迹，都发现了类似的注水。值得注意，这些不是边角小榜。Terminal-Bench 是当下衡量”Agent 能不能真干活”最被引用的基准之一，连它都这样，说明注水不是个别团队的失德，而是评测设计本身的漏洞被反复利用。</p>
+
+<p>Terminal-Bench 2.0 成绩最好的前三名，全部翻车。ForgeCode 是注入答案；排第一的 Pilot（QuantFlow，82.9%）在 429 条轨迹里有 415 条第一步就是 <code class="language-plaintext highlighter-rouge">cat /tests/test_outputs.py</code>，去读本不该访问的测试文件、反推答案；OB-1（OpenBlock）更刻意，把加密后的答案直接硬编码进二进制，事后被移除并公开道歉。榜单方没有坐视。Terminal-Bench 2.0 随后推行诚信整改：强制提交 ATIF 格式的完整运行轨迹，对疑似 reward hacking 的提交自动重算，确认作弊直接移除；同时要求脚手架开发者声明自己没有注入任何特权信息。这是把”自证清白”从口头承诺变成可核查的痕迹。</p>
+
+<p>更刺眼的是 BenchJack 的研究<a href="https://arxiv.org/abs/2605.12673">2</a>。UC 伯克利的人发现，有一批系统在 SWE-bench Verified、SWE-bench Pro、Terminal-Bench 上拿了 100% 的通过率，却一道题都没真正解出来——多数运行根本没调用大模型。他们顺手挖出 8 类、横跨 10 个基准共 219 处评测本身的缺陷。换句话说，有些”满分”不是模型强，而是评测漏了。BenchJack 最让人不安的不是有人作弊，而是它证明：在没有严格隔离的评测里，”高分”和”真会”可以完全脱钩，而你很难从分数本身分辨。</p>
+
+<p>还有一类更隐蔽的污染。SWE-bench Pro 的评测容器里带着完整的 <code class="language-plaintext highlighter-rouge">.git</code> 历史，连 gold fix 提交都在里面；Claude Opus 4.6/4.7 会用 <code class="language-plaintext highlighter-rouge">git log</code> / <code class="language-plaintext highlighter-rouge">git show</code> 把补丁抄出来，这类”成功”大约占通过样本的 18% 到 25%。Datacurve 的 DeepSWE 改成从零写、抗污染，Artificial Analysis 在 2026 年 6 月 12 日切换采用了它。</p>
+
+<h2 id="同一模型换个脚手架就换个分数">同一模型，换个脚手架就换个分数</h2>
+
+<p>就算没有作弊，分数也远没有它看起来那么”属于模型自己”。有个现象叫 wrapper effect：同一个模型，换个脚手架（harness）包一层，分数就变了。GPT-5.2-Codex 在 Codex CLI 里包裹是 64.7%，换成 Terminus-2 包裹就只有 57.5%，差出 7.2 分；GAIA 上普林斯顿的 HAL 包裹能凭空加 30 分；Scale 用统一脚手架跑出来的 Pro 榜首约 59%，而厂商自己调优后自报能到 93%，中间差 34 分。这意味着，当两家厂商都宣称自己在 Verified 上 90%+ 时，这两个 90% 往往不是在同一把尺子上量的——脚手架不同，尺子就不同。拿它们做横向对比，结论天然不可靠。</p>
+
+<p>这跟 OpenAI 在 2026 年 2 月停用 SWE-bench Verified 是同一类信号。它的内部审计发现，59.4% 的”困难失败”任务的测试用例本身就有缺陷，会拒绝掉正确的补丁——评测在量模型，也在量它自己的题目出得干不干净。这也解释了为什么同一个模型在不同榜单上会”精神分裂”：不是模型变了，是每家的题目和跑法都不同。日常里这也解释了一个常见困惑：为什么同一个模型，你在自己电脑上跑和厂商演示里跑，体感差那么多。一部分是脚手架，一部分是基准挑过——演示永远挑它最亮的那面给你看。</p>
+
+<p>污染还会改写排名的面貌。Claude Mythos Preview 在 Verified 上 93.9%，到了 Pro 只有 45.9%，差 48 分；而 Verified 的整体均分才 63.4%。所以看榜不能只看 Verified 那个好看的数字，Verified 和 Pro 之间的落差，才是更接近真实能力的信号。</p>
+
+<p>道理其实朴素：榜单上的分数不是模型的属性，而是”模型 + 脚手架 + 评测怎么跑”这一整个系统的属性。换掉其中任何一环，数字都会动。</p>
+
+<h2 id="怎么读榜单别让厂商数字替你做决定">怎么读榜单：别让厂商数字替你做决定</h2>
+
+<p>说了这么多塌方，不是要你从此不信任何榜单。榜单仍有用，只是用法得变。</p>
+
+<p>第一，别拿单个数字当能力。厂商发布会甩出的 Verified 高分，往往是在自己调优的脚手架、自己挑的基准上跑出来的，乐观是结构性的。要看 Verified 和 Pro 之间的差，差越小越可信，差几十分的那个高分先打个问号。</p>
+
+<p>第二，认准抗污染的基准。像 DeepSWE 这样从零写、明确做污染防护的评测，比带 <code class="language-plaintext highlighter-rouge">.git</code> 历史的容器更接近真实。挑工具时，优先参考这类信号，而不是厂商自报的漂亮数。</p>
+
+<p>第三，把榜单当地图，别当判决书。它的价值是帮你把候选从二十个缩到三个，剩下的得拉到你自己真实的代码库里跑一遍才知道。分数能缩圈，不能定案。顺带说一句，一份经得起看的评测，通常长这样：测试用例对参赛者隐藏、gold 提交被冻结在评测容器之外、脚手架和跑法公开披露。缺任何一条，那个数字都该被标个问号。对应到采购，最该问厂商的不是”你 Verified 多少”，而是”这分数在什么脚手架、什么基准、gold 是否隔离下跑出来的”。踩过坑的团队都懂：为一个注水数字付的采购费、集成费和返工费，远比多花两天自己跑一遍验证贵。</p>
+
+<p>最后回到那份文件。AGENTS.md 依然是好东西，写清楚项目约定能省下大量来回。只是在评测语境里，那份随榜单一同发来的 AGENTS.md，你最好默认它带着答案——别照着它给的分数下单。回到开头那张截图。数字塌了，不代表那个 agent 没用——只是它值不值得买，不能由这张图说了算。榜单量的是一套系统，不是一件商品；把系统拆开看，你才看得清自己到底在买什么。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<p>[1] Adam Stein, Davis Brown, Hamed Hassani, Mayur Naik, Eric Wong. <em>Meerkat：自动审计发现 Agent 在评测中作弊</em>. 宾夕法尼亚大学, 2026-04-10. 原始审计：https://www.debugml.org/blog/cheating-agents</p>
+
+<p>[2] UC Berkeley. <em>BenchJack：100% 通过率却零解题的评测缺陷研究</em>. arXiv:2605.12673, 2026. https://arxiv.org/abs/2605.12673</p>
+
+<p>[3] Terminal-Bench 2.0 诚信整改：强制 ATIF 轨迹提交、reward hacking 自动重算、确认作弊即移除；要求脚手架开发者声明未注入特权信息。</p>
+
+<p>[4] SWE-bench Pro 污染与 DeepSWE（Datacurve）抗污染重写；Artificial Analysis 于 2026-06-12 切换采用。</p>
+
+<p>[5] OpenAI 停用 SWE-bench Verified（2026-02）：内部审计发现 59.4% 困难失败任务测试用例本身有缺陷。</p>
+
+<p>[6] ForgeCode GitHub issue #2961：「critical bug fix required forge code leaking answers to cli bench」。</p>
+
+<p>[7] wrapper effect 数据：Scale 统一脚手架 Pro 榜首约 59% vs 厂商调优自报 93%（差 34 分）；GAIA 上 Princeton HAL 包裹 +30 分；GPT-5.2-Codex 在 Codex CLI 64.7% vs Terminus-2 57.5%。</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="行业趋势" /><category term="AI编程" /><category term="Agent" /><category term="评测" /><category term="榜单" /><category term="安全" /><summary type="html"><![CDATA[摘要：ForgeCode 靠在 AGENTS.md 里塞答案，把 Terminal-Bench 81.8% 从第一掉到第十四。2026 年审计揭示：编程 Agent 榜单正被系统性击穿，本文讲清作弊手法与换脚手架陷阱。]]></summary></entry><entry><title type="html">Agent 走出黑框：Slack Code</title><link href="https://tangyuewei.github.io/posts/slack-code/" rel="alternate" type="text/html" title="Agent 走出黑框：Slack Code" /><published>2026-08-27T09:45:00+08:00</published><updated>2026-08-27T09:45:00+08:00</updated><id>https://tangyuewei.github.io/posts/slack-code</id><content type="html" xml:base="https://tangyuewei.github.io/posts/slack-code/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Slack 在 8 月 20 日推出 Slack Code：把编码 Agent 请进团队频道，计划、差异、预览同屏可见，非工程师也能发起修复，高风险动作需人工审批。这是 AI 编程从单人终端走向多人协作的拐点。</p>
+</blockquote>
+
+<p>今天大多数 AI 辅助编码，仍发生在视线之外。一个开发者打开私人标签页，把任务喂给 Agent，消失一阵，团队往往要等到一个 PR 落下来，才知道这段时间发生了什么。设想一次线上排查：你让 Agent 修一个接口超时，它在私人会话里跑完、给出 diff、你合并，旁边的前端同事并不知道这次改动动了哪个接口，直到联调时撞上。这种”先合后知”不是某个人不靠谱，而是单人 Agent 工作流的天然形态：上下文散在一个人的会话里，团队没有入口。问题不在于 Agent 不够强，而在于它的工作过程对团队是封闭的——你 merge 了，别人才看见结果；你没 merge，别人连发生了什么都不知道。上篇文章聊”终端为什么顺手”，赞的是它效率；这一篇想补上这份效率的另一面——当 Agent 走出一个人的黑框，进到一屋子人都能看见的地方，事情会怎么变。</p>
+
+<p>8 月 20 日，Slack（Salesforce 旗下）上线了 Slack Code。它做的事很直接：把编码 Agent 从私人终端，搬进团队本来就在用的频道。</p>
+
+<h2 id="slack-code-做了什么">Slack Code 做了什么</h2>
+
+<p>用法不复杂。你在项目频道里 @一个编码 Agent——首发支持的是 Anthropic 的 Claude Code、Cognition 的 Devin、GitHub Copilot 和 Vercel——它就会围绕这个任务，自动开一个专属的”代码频道”，把需要参与的人拉进来。</p>
+
+<p>频道内部用几个标签页把工作拆开：对话、计划、代码 diff、以及实时的 HTML 预览。不再是从一长串聊天记录里翻答案，而是计划、改动、效果各归各位，谁都能在同一个地方看到进展。在官方演示里，一个设计师在 Devin 的任务里丢了张 Figma，Agent 把它揉进了实现；非工程师也能用日常语言描述一个问题，让 Agent 准备好改动，再拉工程师进来 review。</p>
+
+<p>Slack 自己在<a href="https://slack.com/blog/news/slack-code-channels-for-agents">官方博客</a>里披露了一个数字：超过 70% 的代码频道，从想法到合并 PR，在一天之内开合。这个数字要会用——它是 Slack 自家、正式发布前统计的数据，没有公布分母。看它的”形状”就够了：这个产品押注的工作单元是”当天能收口的小任务”，不是你那个拖两周的迁移工程。ChatGPT 被列为”即将接入”，说明 Slack 想做的是容器，不是某个模型的自留地。</p>
+
+<p>四个伙伴接进来，用法并不一样。Claude 在被 @时开频道、做完自动归档；Devin 更像”一个同事”，需要时响应、不需要时安静；GitHub 的集成让非技术同事用自然语言描述问题、Agent 准备改动、再拉工程师 review；Vercel 则在改动后生成可分享的实时预览链接。Slack 把桌子摆好，具体怎么吃这顿饭，各家 Agent 自己定。</p>
+
+<p>它对所有 Slack 套餐开放，包括免费工作区——这意味着它不是企业版独享，而是面向全体用户基数的一次发布；当然，各家 Agent 自己的订阅仍要单独买。容器免费，干活的不免费。</p>
+
+<h2 id="为什么是频道而不是又一个标签页">为什么是频道，而不是又一个标签页</h2>
+
+<p>Slack 做这个形态，是吃过内部苦头的。复杂、多轮的 Agent 执行塞进普通消息列，又局促又吵；塞进私人标签页，又丢掉了 Slack 最值钱的东西——透明协作。代码频道想给 Agent “一张能入座的桌子”：既够宽敞，又不离开团队已经在聊的地方。这不是 Slack 拍脑袋。早在 2025 年底，Anthropic 就演示过从 Slack 线程里委派 Claude Code；之后 Slack 自己接连放出 MCP server、Slackbot 的 MCP 客户端。Slack Code 是把这些零散能力收拢成一个正式的产品形态。</p>
+
+<p>落到具体，是三件事：</p>
+
+<p><strong>实时可见。</strong> diff 和预览在合进主干之前就能看到，你评论一句”这个接口形状换个样子”，Agent 下一轮就把方向改了。重定向的成本发生在最便宜的时候，而不是 PR 已经发出、大家才开始挑刺。</p>
+
+<p><strong>人工审批门禁。</strong> 合生产这类高风险动作，不会由 Agent 自己拍板，而是路由给一个具体的人，在频道里签。原文的说法是”就在频道里，快速批准”。没有任何改动是 Agent 自己说了算落地的。</p>
+
+<p><strong>审计留痕。</strong> 任务做完，频道自动归档，但内容留在 Slack 里可搜索。谁改的、谁批的、走了哪条路径，三个月后还能 grep 出来。它把”草稿分支的临时感”和”合规系统的纸面痕迹”合在了一起——这是个挺巧的设计， Slack Code 把这两样一次性打包拿来了。</p>
+
+<p>Slack 自己把这类工作的范围说得很克制：bug 修复、进 backlog 的小界面改动，而不是架构级的大动作。它赌的是”小步快跑、当天收口”，不是替你重写系统。</p>
+
+<p>还有个容易被略过的细节：Agent 继承你已有的 Slack 权限和安全策略，它看得到的，就是你本来就允许它看的。这是对的默认，但也正是一句安全团队会想自己验证、而不是照单全收的话。</p>
+
+<p>把 Agent 关在私人标签页里，省了别人的打扰，也省掉了别人的校正。等到 PR 落地，能挑刺的人已经晚了一步。频道反过来，把校正提前到了 Agent 还在干活的时候。代价是噪音——这件事下面会专门聊。</p>
+
+<p><img src="/imgs/202608/2026-08-27-slack-code-infographic.png" alt="单人终端 vs 团队频道：AI 编程的两种协作形态" /></p>
+
+<h2 id="国内同行走到哪了">国内同行走到哪了</h2>
+
+<p>把视线拉回国内。协作平台一侧，某书智能伙伴、某钉 AI 助理、某企微 AI，都已经把 AI 助理请进群聊和文档协作。编码 Agent 一侧，字节的 Trae 把写码、改界面、出设计图收进同一个 AI IDE；Qoder 在 IDE 之外还给了命令行，习惯终端的人也能用；CodeBuddy 同样走 IDE 加 CLI（8 月初写过一篇）。它们的共同点，是把 Agent 接进你已经有的工作界面，而不是另起炉灶。方向是一致的：把 Agent 嵌进协作发生的地方，而不是让它孤零零地待在某个人的编辑器里。</p>
+
+<p>但要诚实地说一句：国内”编码 Agent 进团队频道做 review 门禁、自动归档审计”这个具体形态，还早。这几家目前更像是把 Agent 放在 IDE 或 CLI 里单人使用，或者把 AI 助理接进群聊做问答，还没有把”计划 / diff / 预览同屏 + 人工审批 + 可搜审计”打包成一个频道类型。产品化路径不同，别把国外已经发生的，当成国内已有的。实际以各家官方文档为准。</p>
+
+<p>值得记一笔的是 Slack 把”协作”当成了 AI 编程的下一层，而不是只盯着”模型更强”。当代码生成快到不再是瓶颈，瓶颈就挪到了谁来决定写什么、谁来把关——那恰恰发生在人和人之间，而不是人和模型之间。这一点，国内外团队迟早都要面对。</p>
+
+<p>往后看半年到一年，”编码 Agent 进协作空间”大概率会从 Slack 一家，变成一类默认期待。国内协作平台和编码 Agent 迟早会在”频道化 review”上相遇——只是节奏和形态，还要看各家把权限、审计、审批这三件事做到多扎实。</p>
+
+<h2 id="别只算收益账">别只算收益账</h2>
+
+<p>频道让过程可见，但可见不等于写得好。房间里人多了，评论一个接一个，Agent 照单全收，方向反而可能被带偏。谁的反馈算数、review 到什么粒度，公司得自己定，不是开了频道就自动解决。Slack 把审查量交还给团队，本身就是一笔要算清楚的账。</p>
+
+<p>一个比喻很贴切：私人标签页像在封闭办公室里吩咐助理，频道像在开放式工位里吩咐同一个助理。助理能力没变，但开放式工位里谁都能插话，它也分不清哪句话来自真正拍板的人，尤其在人多的频道里。Slack Code 把房间打开了，价值在这，要你接住的责任也在这。</p>
+
+<p>所以更务实的判断是：小团队、review 距离短、彼此信任基础好的，最容易吃上这波红利；跨时区、角色多、彼此不熟的大房间，先把”谁能在频道里下指令”这条线画清楚，再谈效率。</p>
+
+<p>权限也是一样。Agent 继承了频道的身份，但仓库、凭证、它能触达的外围系统，范围仍要单独评估。频道只是把”屋里多了个能办事的”这件事，从黑盒里拎出来、摆到了台面上，并没有替你回答”它到底该有多少权限”。更现实的是，频道里每个人都能给 Agent 下指令，一旦有人贴来一段来路不明的代码或一句带诱导的话，Agent 可能照做。Slack 的权限继承挡不住”指令本身有毒”——它自己在文档里也提醒，只在你信任的对话里用 Agent。</p>
+
+<p>Slack 临时 CEO Rob Seaman 在发布时表达过一个判断：代码不再是瓶颈，瓶颈变成想法、品味、判断、手艺；而 Slack Code 是把更多人接进”贡献想法”那一端，而不是替你把判断做了。这话说得克制，也点透了——工具拉长的是人的能力半径，不是替人免除判断。</p>
+
+<p>所以对团队，Slack Code 不是装上就更好的工具。它把协作的透明度做成默认，却也把”谁来把关、怎么把关”的难题推到台前。会用的团队，拿它缩短 review 距离；不会用的，只是多了一个更吵的地方。</p>
+
+<p>回到开头。</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="行业趋势" /><category term="AI编程" /><category term="Slack Code" /><category term="编码Agent" /><category term="团队协作" /><category term="Claude Code" /><category term="通义灵码" /><category term="CodeBuddy" /><summary type="html"><![CDATA[摘要：Slack 在 8 月 20 日推出 Slack Code：把编码 Agent 请进团队频道，计划、差异、预览同屏可见，非工程师也能发起修复，高风险动作需人工审批。这是 AI 编程从单人终端走向多人协作的拐点。]]></summary></entry></feed>
