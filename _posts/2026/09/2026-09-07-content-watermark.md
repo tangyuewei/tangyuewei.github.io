@@ -117,5 +117,3 @@ Anthropic 实际交付的是两套独立机制，经常被混为一谈。
 2. Ground Truth：*Anthropic shipped a content checker that cannot tell you if Claude wrote it*，2026-09，https://groundtruth.day/news/anthropics-content-checker-cannot-tell-you-if-claude-wrote-it.html
 3. Apidog：*How Claude Marks AI-Generated Content?*，2026-09，https://apidog.com/blog/how-claude-marks-ai-generated-content
 4. LangProtect：*Anthropic's AI Watermarks: What Enterprises Need to Know*，2026-09，https://www.langprotect.com/blog/anthropic-ai-watermarks-enterprise-guide
-
-> 作者：[唐悦玮](https://tangyuewei.com)  |  从后端出发，用 AI 拓展到全栈的工程师。

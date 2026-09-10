@@ -155,5 +155,3 @@ Plan plan = planner.prompt().user(userQuestion)
 适用场景：Service 边界清晰、操作可枚举、对一致性要求不高的查询与辅助场景。不适用：一次动作横跨多库多事务、需要强一致的场景——那是人的活，别硬塞给 Agent。
 
 版本提示：本文代码基于 Spring AI 1.1.8（Java 17 + Spring Boot 3.5 可直接用，参考[官方文档](https://docs.spring.io/spring-ai/reference/1.1/api/tools.html)）。2.0 已于 2026 年 6 月 GA，要求 Java 21 + Boot 4，把工具循环挪进了 ToolCallingAdvisor，循环预算（`maxToolCalls`）和执行校验都有了原生配置（见[2.0.1 发布公告](https://spring.io/blog/2026/08/21/spring-ai-2-0-1-available-now/)）。老系统升 2.0，本质是一次 Boot 大版本升级，别当小版本顺手升。
-
-> 作者：[唐悦玮](https://tangyuewei.com)  |  从后端出发，用 AI 拓展到全栈的工程师。

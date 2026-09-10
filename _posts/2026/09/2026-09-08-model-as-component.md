@@ -101,5 +101,3 @@ Java 后端接 Agent 有个独有场景：企业内部系统批量通过 MCP 暴
 1. Spring AI 官方文档 · Tool Calling，https://docs.spring.io/spring-ai/reference/api/tools.html
 2. Spring AI 2.0.1 发布说明，Christian Tzolov，2026-08-21，https://spring.io/blog/2026/08/21/spring-ai-2-0-1-available-now
 3. spring-projects/spring-ai（GitHub），https://github.com/spring-projects/spring-ai
-
-> 作者：[唐悦玮](https://tangyuewei.com)  |  从后端出发，用 AI 拓展到全栈的工程师。
