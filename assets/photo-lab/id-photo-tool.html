@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>证件照工坊 — 本地 AI 证件照</title>
+<meta name="description" content="纯前端证件照工具：浏览器内 AI 抠图、换底色、标准规格裁剪、美颜、导出，照片不上传任何服务器。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f1ece2;
+  --card:#fffdf8;
+  --ink:#23211d;
+  --red:#d9001b;
+  --blue:#3b74c3;
+  --line:rgba(35,33,29,.16);
+  --soft:rgba(35,33,29,.5);
+  --faint:rgba(35,33,29,.38);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"PingFang SC","Noto Sans SC","Microsoft YaHei",-apple-system,sans-serif;
+  min-height:100vh;min-height:100dvh;
+  display:flex;flex-direction:column;
+  position:relative;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(1100px 720px at 78% -12%,rgba(217,0,27,.05),transparent 62%),
+    radial-gradient(900px 640px at 8% 108%,rgba(59,116,195,.06),transparent 60%);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.top{
+  max-width:1160px;margin:0 auto;padding:26px 40px 22px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:16px}
+.logo{
+  width:42px;height:42px;background:var(--red);color:#fff;
+  font-family:"Noto Serif SC",serif;font-weight:900;font-size:21px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:6px;box-shadow:0 8px 18px -8px rgba(217,0,27,.7);
+  flex:none;
+}
+.brand-txt h1{
+  font-family:"Noto Serif SC",serif;font-weight:700;font-size:23px;
+  letter-spacing:.14em;line-height:1.15;
+}
+.brand-txt p{font-size:9px;letter-spacing:.42em;color:var(--faint);margin-top:3px}
+.privacy{
+  font-size:12px;color:var(--soft);letter-spacing:.06em;
+  border:1px solid var(--line);border-radius:999px;padding:7px 16px;
+  display:flex;align-items:center;gap:8px;white-space:nowrap;background:rgba(255,253,248,.5);
+}
+.privacy .dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+.stage{
+  max-width:1160px;margin:10px auto 20px;/*padding:0 20px;*/
+  display:grid;grid-template-columns:minmax(320px,1fr) minmax(340px,1fr);
+  gap:48px;align-items:start;position:relative;z-index:1;
+}
+
+/* —— 预览 · 相纸 —— */
+.print-card{
+  background:var(--card);
+  border:1px solid rgba(35,33,29,.09);
+  border-radius:8px;padding:20px;
+  box-shadow:0 34px 64px -34px rgba(35,33,29,.4),0 2px 0 rgba(35,33,29,.05);
+  position:sticky;top:28px;
+}
+.frame{
+  position:relative;margin:0 auto;width:100%;max-width:100%;aspect-ratio:25/35;
+  background:repeating-conic-gradient(#e6e2d8 0 25%,#f0edE4 0 50%) 0 0/22px 22px;
+  overflow:hidden;
+}
+.frame canvas{
+  position:absolute;inset:0;width:100%;height:100%;display:block;
+  cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none;
+}
+.frame canvas.grabbing{cursor:grabbing}
+.mark{position:absolute;width:17px;height:17px;border:0 solid rgba(35,33,29,.55);z-index:2}
+.mark.tl{top:7px;left:7px;border-top:1.5px dashed;border-left:1.5px dashed}
+.mark.tr{top:7px;right:7px;border-top:1.5px dashed;border-right:1.5px dashed}
+.mark.bl{bottom:7px;left:7px;border-bottom:1.5px dashed;border-left:1.5px dashed}
+.mark.br{bottom:7px;right:7px;border-bottom:1.5px dashed;border-right:1.5px dashed}
+.meta{
+  margin-top:15px;padding-top:12px;border-top:1px dashed var(--line);
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  font-size:11px;letter-spacing:.1em;color:var(--soft);
+  font-family:ui-monospace,"SF Mono",Menlo,monospace;
+}
+.meta .bg-chip{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.meta .bg-chip i{width:12px;height:12px;border:1px solid rgba(35,33,29,.25);border-radius:3px;display:inline-block}
+
+/* —— 面板 —— */
+.upload{
+  position:relative;border:1.5px dashed rgba(35,33,29,.28);
+  border-radius:14px;padding:44px 28px 36px;text-align:center;cursor:pointer;
+  background:rgba(255,253,248,.55);transition:border-color .2s,background .2s;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  width:80%;margin:0 auto;box-sizing:border-box;
+}
+.upload input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.upload:hover,.upload.drag{border-color:var(--red);background:rgba(217,0,27,.03)}
+.upload .plus{
+  width:48px;height:48px;border-radius:50%;background:var(--ink);color:var(--paper);
+  font-size:26px;font-weight:300;line-height:1;display:flex;align-items:center;justify-content:center;
+  font-family:"Noto Serif SC",serif;transition:transform .25s,background .2s;flex:none;
+}
+.upload:hover .plus{transform:rotate(12deg) scale(1.05);background:var(--red)}
+.upload .u-title{font-family:"Noto Serif SC",serif;font-size:16px;letter-spacing:.1em}
+.upload .u-sub{font-size:12.5px;color:var(--soft);letter-spacing:.06em}
+.upload .u-hint{font-size:11px;color:var(--faint);letter-spacing:.04em;margin-top:4px}
+
+.ghost{
+  border:1px solid var(--ink);background:transparent;color:var(--ink);
+  padding:12px 18px;border-radius:8px;font-size:13px;letter-spacing:.14em;
+  cursor:pointer;transition:background .15s,color .15s;font-family:inherit;
+}
+.ghost:hover{background:var(--ink);color:var(--paper)}
+.ghost.small{padding:8px 16px;font-size:12px;letter-spacing:.1em}
+
+.progress-box{
+  border:1px solid var(--line);border-radius:14px;padding:44px 30px;
+  background:rgba(255,253,248,.55);text-align:center;
+}
+.progress-box p{font-size:13.5px;color:var(--soft);letter-spacing:.06em}
+.progress-box .pct{font-family:ui-monospace,Menlo,monospace;color:var(--faint);font-size:12px;margin-top:10px}
+.bar{height:5px;background:rgba(35,33,29,.12);border-radius:99px;margin-top:18px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--red);border-radius:99px;transition:width .18s}
+
+.editor{display:flex;flex-direction:column;gap:5px;opacity:1}
+.editor[hidden],.upload[hidden],.progress-box[hidden]{display:none}
+.editor-head{display:flex;justify-content:flex-end}
+.link{
+  background:none;border:none;color:var(--faint);font-size:12px;letter-spacing:.08em;
+  cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px;
+}
+.link:hover{color:var(--red)}
+
+.sec-head{display:flex;align-items:baseline;gap:10px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
+.sec-head .no{font-family:"Noto Serif SC",serif;font-weight:900;font-size:13px;color:var(--red)}
+.sec-head h2{font-family:"Noto Serif SC",serif;font-weight:600;font-size:15.5px;letter-spacing:.2em}
+.sec-head .tag,.sec-head .tip{margin-left:auto;font-size:10.5px;color:var(--faint);letter-spacing:.1em;white-space:nowrap}
+.sec-head .chev{display:none}
+
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.chips button{
+  border:1px solid var(--line);background:transparent;border-radius:9px;
+  padding:11px 4px 9px;cursor:pointer;display:flex;flex-direction:column;gap:3px;
+  align-items:center;transition:border-color .15s,background .15s;
+}
+.chips button b{font-family:"Noto Serif SC",serif;font-weight:700;font-size:14.5px;letter-spacing:.04em}
+.chips button .sub{font-size:9.5px;color:var(--soft);letter-spacing:.02em;line-height:1.35}
+.chips button .px{font-size:8.5px;color:var(--faint);letter-spacing:.02em;font-family:ui-monospace,Menlo,monospace}
+.chips button:hover{border-color:var(--ink)}
+.chips button.active{border-color:var(--red);background:rgba(217,0,27,.05)}
+.chips button.active b{color:var(--red)}
+
+.swatches{display:flex;gap:6px}
+.swatches button{
+  width:42px;height:42px;border-radius:50%;cursor:pointer;
+  border:2px solid rgba(35,33,29,.18);
+  transition:transform .15s,box-shadow .15s,border-color .15s;
+}
+.swatches button:hover{transform:scale(1.08)}
+.swatches button.active{border-color:var(--ink);box-shadow:0 0 0 2.5px var(--paper),0 0 0 4.5px var(--ink)}
+
+.ctl{
+  display:grid;grid-template-columns:46px 1fr 42px;align-items:center;gap:6px;
+  margin-bottom:15px;font-size:12.5px;color:var(--soft);letter-spacing:.14em;
+}
+.ctl em{font-style:normal;font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--faint);text-align:right}
+.ctl input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;height:16px;background:transparent;cursor:pointer;
+}
+.ctl input[type=range]::-webkit-slider-runnable-track{height:2px;background:rgba(35,33,29,.18);border-radius:99px}
+.ctl input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:15px;height:15px;border-radius:3px;
+  background:var(--paper);border:1.5px solid var(--ink);margin-top:-6.5px;
+  transition:background .15s,border-color .15s,transform .1s;
+}
+.ctl input[type=range]::-moz-range-track{height:2px;background:rgba(35,33,29,.18);border-radius:99px}
+.ctl input[type=range]::-moz-range-thumb{
+  width:13px;height:13px;border-radius:3px;background:var(--paper);border:1.5px solid var(--ink);
+}
+.ctl input[type=range]:hover::-webkit-slider-thumb{background:var(--red);border-color:var(--red);transform:rotate(45deg)}
+.ctl input[type=range]:hover::-moz-range-thumb{background:var(--red);border-color:var(--red)}
+
+.fmt{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-bottom:12px}
+.fmt button{
+  flex:1;padding:9px;background:transparent;border:none;font-size:12px;letter-spacing:.24em;
+  color:var(--soft);cursor:pointer;font-family:inherit;
+}
+.fmt button.active{background:var(--ink);color:var(--paper)}
+.fmt button:not(.active):hover{color:var(--red)}
+.fmt-hint{display:flex;flex-direction:column;gap:4px;font-size:10px;color:var(--faint);letter-spacing:.04em;line-height:1.4;margin:9px 2px 14px}
+.fmt-hint span{display:block}
+
+.primary{
+  width:100%;background:var(--red);color:#fff;border:none;border-radius:9px;padding:14px;
+  font-size:14px;letter-spacing:.24em;cursor:pointer;font-family:"Noto Serif SC",serif;font-weight:600;
+  box-shadow:0 12px 26px -12px rgba(217,0,27,.6);
+  transition:transform .12s,box-shadow .12s,opacity .2s;
+}
+.primary:hover{transform:translateY(-1px);box-shadow:0 16px 30px -12px rgba(217,0,27,.7)}
+.primary:active{transform:translateY(0)}
+.primary:disabled{opacity:.35;cursor:not-allowed;box-shadow:none;transform:none}
+
+footer{
+  max-width:1160px;margin:0 auto;padding:16px 10px 10px;text-align:center;
+  font-size:11px;color:var(--faint);letter-spacing:.12em;line-height:2;position:relative;z-index:1;
+  border-top:1px solid var(--line);flex:none;
+}
+main{flex:1 0 auto}
+
+#toast{
+  position:fixed;left:50%;bottom:30px;transform:translate(-50%,20px);
+  background:var(--ink);color:var(--paper);padding:11px 20px;border-radius:9px;
+  font-size:12.5px;letter-spacing:.04em;z-index:60;opacity:0;pointer-events:none;
+  transition:opacity .25s,transform .25s;max-width:86vw;text-align:center;
+}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:920px){
+  .stage{grid-template-columns:1fr;gap:10px;margin-top:20px;padding:0 15px 20px}
+  .top{padding:18px;flex-wrap:wrap}
+  .print-card{position:sticky;top:8px;z-index:5;margin-bottom:4px;padding:14px 14px 10px}
+  .upload{padding:24px 10px 10px}
+  body::after{opacity:.3}
+  /* 手风琴：section 折叠，点击 sec-head 切换（仅开放闭式 .open 类，body 默认隐藏） */
+  .sec-head .chev{display:inline;font-size:13px;color:var(--faint);transition:transform .2s}
+  .sec-head{cursor:pointer;user-select:none}
+  .editor section .body{display:none}
+  .editor section.open .body{display:block}
+  .editor section:last-of-type .body{display:block}   /* 导出栏始终展开，与桌面一致 */
+  .editor section:not(.open) .sec-head .chev{transform:rotate(-90deg)}
+  .editor section .sec-head{margin-bottom:0;padding-bottom:8px}
+  .editor section.open .sec-head{margin-bottom:12px;padding-bottom:10px}
+
+  /* 移动端横向 Tab：编辑区①顶部横滑 tab 栏(sticky)，点击切换内容面板；
+     面板高度固定、内容原地切换，页面不增高 → 预览(sticky)始终可见 */
+  .editor .mtab{
+    display:flex;gap:15px;overflow-x:auto;overflow-y:hidden;
+    position:sticky;top:8px;z-index:6;padding:4px 2px 8px;background:var(--paper);
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+  }
+  .editor .mtab::-webkit-scrollbar{display:none}
+  .editor .mtab-btn{
+    flex:none;border:1px solid var(--line);background:rgba(255,253,248,.7);
+    color:var(--ink);padding:5px 8px;border-radius:999px;font-size:13px;
+    letter-spacing:.12em;cursor:pointer;font-family:inherit;transition:all .15s;
+  }
+  .editor .mtab-btn.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .editor .mpanel{
+    position:relative;min-height:0;padding:6px 2px 4px;margin:10px;
+  }
+}
+@media (min-width:1024px) and (max-height:780px){
+  .top{padding:5px 10px 6px}
+  footer{padding:10px 8px 6px;font-size:10px;line-height:1.6}
+}
+@media (max-width:420px){
+  .brand-txt p{letter-spacing:.28em}
+  .privacy{display:none}
+}
+/* 桌面端：左侧预览 + 右侧整页菜单，1024×680 视口内无需滚动即可看全；
+   通过 5 列规格、压缩间距与控件高度实现 */
+@media (min-width:1024px){
+  .stage{
+    margin:10 auto;padding:0 38px;
+    grid-template-columns:minmax(300px,.9fr) minmax(380px,1.1fr);
+    align-items:center;min-height:0;gap:14px;
+  }
+  .preview-col{position:sticky;top:18px;align-self:center}
+  .panel{align-self:center;max-height:calc(100vh - 110px);overflow-y:auto;padding-right:6px}
+
+  .editor{gap:10px}
+  .editor .editor-head{margin-bottom:-2px}
+  .editor .sec-head{margin-bottom:5px;padding-bottom:5px}
+  .editor .sec-head .no{font-size:11px}
+  .editor .sec-head h2{font-size:13.5px}
+  .ctl{margin-bottom:2px;font-size:11.5px}
+  .ctl input[type=range]{height:12px}
+
+  /* 规格：5 列单行，去掉 px 行，小字场景只留两行 */
+  #specChips{grid-template-columns:repeat(5,1fr);gap:6px}
+  #specChips button{padding:5px 2px 5px;gap:1px}
+  #specChips button b{font-size:12.5px}
+  #specChips button .sub{font-size:8px;line-height:1.3}
+  #specChips button .px{display:none}
+
+  .swatches{gap:12px;margin:10px;}
+  .swatches button{width:34px;height:34px}
+
+  .fmt-hint{flex-direction:row;justify-content:space-between;gap:10px;margin:4px 2px 8px;font-size:9px}
+  .primary{padding:10px}
+}
+
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <span class="logo">证</span>
+    <div class="brand-txt">
+      <h1>证件照工坊</h1>
+      <p>ID PHOTO LAB · BROWSER EDITION</p>
+    </div>
+  </div>
+  <div class="privacy"><span class="dot"></span>纯本地处理 · 照片不上传</div>
+</header>
+
+<main class="stage">
+  <section class="preview-col">
+    <div class="print-card">
+      <div class="frame">
+        <canvas id="photo"></canvas>
+        <span class="mark tl"></span><span class="mark tr"></span>
+        <span class="mark bl"></span><span class="mark br"></span>
+      </div>
+      <div class="meta">
+        <span id="metaSpec">一寸　25×35 mm</span>
+        <span class="bg-chip"><i id="metaChip"></i><span id="metaPx">295×413 px · 300DPI</span></span>
+      </div>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <div id="upload" class="upload">
+      <span class="plus">+</span>
+      <span class="u-title">放入一张人像照片</span>
+      <span class="u-sub">点击选择 · 或拖拽到此处</span>
+      <span class="u-hint">建议：正面免冠 · 双肩入镜 · 光线均匀</span>
+      <input type="file" id="file" accept="image/*">
+    </div>
+
+    <div id="progressBox" class="progress-box" hidden>
+      <p id="stageTxt">正在准备…</p>
+      <div class="bar"><i id="barFill"></i></div>
+      <p class="pct" id="stagePct">0%</p>
+    </div>
+
+    <div id="editor" class="editor" hidden>
+      <div class="editor-head"><button class="link" id="reshoot">← 换一张照片</button></div>
+
+      <section>
+        <div class="sec-head" data-toggle><span class="no">01</span><h2>照片规格</h2><span class="chev">▾</span></div>
+        <div class="body"><div class="chips" id="specChips"></div></div>
+      </section>
+
+      <section>
+        <div class="sec-head" data-toggle><span class="no">02</span><h2>底色</h2><span class="tag" id="bgTag">白底</span><span class="chev">▾</span></div>
+        <div class="body"><div class="swatches" id="bgSwatches"></div></div>
+      </section>
+
+      <section>
+        <div class="sec-head" data-toggle><span class="no">03</span><h2>美颜</h2><span class="tip">拖动实时预览</span><span class="chev">▾</span></div>
+        <div class="body">
+          <label class="ctl"><span>磨皮</span><input type="range" id="beautySmooth" min="0" max="100" value="0"><em id="beautySmoothV">0</em></label>
+          <label class="ctl"><span>美白</span><input type="range" id="beautyWhite" min="0" max="100" value="0"><em id="beautyWhiteV">0</em></label>
+          <label class="ctl"><span>红润</span><input type="range" id="beautyRosy" min="0" max="100" value="0"><em id="beautyRosyV">0</em></label>
+        </div>
+      </section>
+
+      <section>
+        <div class="sec-head" data-toggle><span class="no">04</span><h2>构图</h2><span class="tip">可直接拖动照片</span><span class="chev">▾</span></div>
+        <div class="body">
+          <label class="ctl"><span>大小</span><input type="range" id="compSize" min="-100" max="100" value="0"><em id="compSizeV">100%</em></label>
+          <label class="ctl"><span>垂直</span><input type="range" id="compV" min="-100" max="100" value="0"><em id="compVV">居中</em></label>
+          <label class="ctl"><span>水平</span><input type="range" id="compH" min="-100" max="100" value="0"><em id="compHV">居中</em></label>
+        </div>
+      </section>
+
+      <section>
+        <div class="sec-head"><span class="no">05</span><h2>导出</h2><span class="tip" id="exportPx">单张 295×413 px</span></div>
+        <div class="body">
+          <div class="fmt">
+            <button data-fmt="jpg" class="active">JPG</button>
+            <button data-fmt="png">PNG</button>
+          </div>
+          <p class="fmt-hint"><span>JPG ｜ 文件小、通用，适合线上报名·打印</span><span>PNG ｜ 无损、边缘更清晰，适合二次编辑</span></p>
+          <button class="primary" id="dlSingle">下载图片</button>
+        </div>
+      </section>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  全部处理在本机浏览器完成：AI 抠图（@imgly/background-removal）、换底、裁剪、美颜、导出均无服务器参与。<br>
+  分割模型首次使用需从 CDN 下载约 80MB，随后由浏览器缓存。建议 Chrome / Edge / Safari 最新版。
+</footer>
+
+<div id="toast"></div>
+
+<script type="importmap">
+{"imports":{"@imgly/background-removal":"https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm"}}
+</script>
+<script type="module">
+import { removeBackground } from '@imgly/background-removal';
+
+const $ = s => document.querySelector(s);
+const DPI = 300, MM = DPI / 25.4;
+const mm2px = mm => Math.round(mm * MM);
+
+const SPECS = [
+  { name:'一寸',   w:25, h:35, sub:'就业·简历·社保·考试报名·资格证·体检·档案·入职·升学·居住证' },
+  { name:'大一寸', w:33, h:48, sub:'计算机等级·毕业证·学位证·普通话·职称·教师资格·执业资格·继续教育·补换证件·报名表' },
+  { name:'小二寸', w:35, h:45, sub:'美签·泰签·日签·健康证·入学·考试·社保证·工作证·居住证·签证' },
+  { name:'二寸',   w:35, h:49, sub:'护照·驾照·户口·身份证·工作证·学生证·结婚证·儿童入园·养老·医保' },
+  { name:'护照',   w:33, h:48, sub:'护照·港澳通行证·签证·留学·国际驾照·出境旅游·侨务·定居·务工·公务' },
+];
+const BGS = [
+  { name:'白底', c:'#ffffff' },
+  { name:'蓝底', c:'#438edb' },
+  { name:'红底', c:'#d9001b' },
+  { name:'灰底', c:'#d8d8d8' },
+];
+
+const state = {
+  spec: SPECS[0],
+  bg: BGS[0],
+  fmt: 'jpg',
+  beauty: { smooth:0, white:0, rosy:0 },
+  comp: { size:0, v:0, h:0 },
+  cutout:null, cw:0, ch:0, bbox:null, baseScale:0,
+  busy:false,
+};
+
+const cv = $('#photo'), ctx = cv.getContext('2d');
+
+/* ---------- 规格 / 底色 控件生成 ---------- */
+(function buildControls(){
+  const sc = $('#specChips');
+  SPECS.forEach((s,i)=>{
+    const b = document.createElement('button');
+    b.innerHTML = `<b>${s.name}</b><span class="sub">${s.sub}</span><span class="px">${s.w}×${s.h} mm · ${mm2px(s.w)}×${mm2px(s.h)} px</span>`;
+    b.classList.toggle('active', i===0);
+    b.onclick = () => {
+      if(state.busy || state.spec===s) return;
+      state.spec = s;
+      [...sc.children].forEach((c,j)=>c.classList.toggle('active', j===i));
+      state.baseScale = baseScaleFor(state.spec);
+      setFrameAspect();
+      updateMeta();
+      render();
+    };
+    sc.appendChild(b);
+  });
+  const sw = $('#bgSwatches');
+  BGS.forEach((g,i)=>{
+    const b = document.createElement('button');
+    b.style.background = g.c;
+    b.title = g.name; b.setAttribute('aria-label', g.name);
+    b.classList.toggle('active', i===0);
+    b.onclick = () => {
+      if(state.busy) return;
+      state.bg = g;
+      [...sw.children].forEach((c,j)=>c.classList.toggle('active', j===i));
+      $('#bgTag').textContent = g.name;
+      updateMeta();
+      render();
+    };
+    sw.appendChild(b);
+  });
+})();
+
+const slider = (id, vId, fn) => {
+  const el = $(id), out = $(vId);
+  const apply = () => { out.textContent = fn(el.value); stateChange(); };
+  el.addEventListener('input', apply);
+};
+slider('#beautySmooth', '#beautySmoothV', v => { state.beauty.smooth = +v; return v; });
+slider('#beautyWhite',  '#beautyWhiteV',  v => { state.beauty.white  = +v; return v; });
+slider('#beautyRosy',   '#beautyRosyV',   v => { state.beauty.rosy   = +v; return v; });
+const pctTxt = v => v===0 ? '居中' : (v>0?'+':'')+v+'%';
+const sizeTxt = v => Math.round((1 + v/100*0.4)*100)+'%';
+slider('#compSize', '#compSizeV', v => { state.comp.size = +v; return sizeTxt(v); });
+slider('#compV',    '#compVV',    v => { state.comp.v    = +v; return pctTxt(v); });
+slider('#compH',    '#compHV',    v => { state.comp.h    = +v; return pctTxt(v); });
+
+let renderTick = false;
+function stateChange(){
+  if(renderTick) return;
+  renderTick = true;
+  requestAnimationFrame(()=>{ renderTick=false; render(); });
+}
+
+$('#file').addEventListener('change', e => { if(e.target.files[0]) processFile(e.target.files[0]); });
+$('#pickBtn') && $('#pickBtn').addEventListener('click', ()=> $('#file').click());
+$('#upload').addEventListener('click', e => { if(e.target.tagName!=='INPUT') $('#file').click(); });
+$('#upload').addEventListener('dragover', e => { e.preventDefault(); $('#upload').classList.add('drag'); });
+$('#upload').addEventListener('dragleave', ()=> $('#upload').classList.remove('drag'));
+$('#upload').addEventListener('drop', e => {
+  e.preventDefault(); $('#upload').classList.remove('drag');
+  if(e.dataTransfer.files[0]) processFile(e.dataTransfer.files[0]);
+});
+window.addEventListener('dragover', e => e.preventDefault());
+window.addEventListener('drop', e => e.preventDefault());
+$('#reshoot').addEventListener('click', resetToUpload);
+
+$('.fmt').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  state.fmt = b.dataset.fmt;
+  [...$('.fmt').children].forEach(c=>c.classList.toggle('active', c===b));
+});
+$('#dlSingle').addEventListener('click', exportSingle);
+
+/* ---------- 加载 / 抠图 ---------- */
+async function processFile(file){
+  if(state.busy) return;
+  state.busy = true;
+  $('#upload').hidden = true;
+  $('#editor').hidden = true;
+  $('#progressBox').hidden = false;
+  setStage('正在准备…', 0);
+  try{
+    const blob = await removeBackground(file, {
+      progress: (key, cur, total) => {
+        const pct = total ? Math.min(100, Math.round(cur/total*100)) : 0;
+        setStage(key.startsWith('fetch') ? '下载分割模型（仅首次 · 约 80MB）' : '正在 AI 抠图…', pct);
+      },
+    });
+    const bmp = await createImageBitmap(blob);
+    state.cutout = bmp;
+    state.cw = bmp.width; state.ch = bmp.height;
+    state.bbox = computeBBox(bmp);
+    state.baseScale = baseScaleFor(state.spec);
+    $('#progressBox').hidden = true;
+    $('#editor').hidden = false;
+    updateMeta(); setFrameAspect(); render();
+  }catch(err){
+    $('#progressBox').hidden = true;
+    $('#upload').hidden = false;
+    toast('抠图失败：' + (err && err.message ? err.message : err));
+  }finally{
+    state.busy = false;
+  }
+}
+
+function resetToUpload(){
+  if(state.busy) return;
+  state.cutout = null; state.bbox = null;
+  $('#editor').hidden = true;
+  $('#upload').hidden = false;
+  ctx.clearRect(0,0,cv.width,cv.height);
+  $('#file').value = '';
+}
+
+function setStage(txt, pct){
+  $('#stageTxt').textContent = txt;
+  $('#barFill').style.width = pct + '%';
+  $('#stagePct').textContent = pct + '%';
+}
+
+/* ---------- 人像包围盒 + 头部定位（缩小采样后扫描 alpha） ---------- */
+function computeBBox(bmp){
+  const W = 96, S = bmp.width / W;
+  const H = Math.max(1, Math.round(bmp.height / S));
+  const t = document.createElement('canvas');
+  t.width = W; t.height = H;
+  const c = t.getContext('2d', { willReadFrequently:true });
+  c.drawImage(bmp, 0, 0, W, H);
+  const d = c.getImageData(0,0,W,H).data;
+  let x0=W,y0=H,x1=-1,y1=-1;
+  for(let y=0;y<H;y++) for(let x=0;x<W;x++){
+    if(d[(y*W+x)*4+3] > 10){
+      if(x<x0)x0=x; if(x>x1)x1=x;
+      if(y<y0)y0=y; if(y>y1)y1=y;
+    }
+  }
+  if(x1<0) return { x:0,y:0,w:bmp.width,h:bmp.height, cx:bmp.width/2, cy:bmp.height/2, hcx:bmp.width/2, hw:Math.max(bmp.width,bmp.height) };
+  const x=x0*S, y=y0*S, w=(x1-x0+1)*S, h=(y1-y0+1)*S;
+  /* 头部区域 = 包围盒顶部 15%（避开肩/手臂），头部中心 = 该带像素加权质心横坐标。
+     防污染：顶部带若混入举起的手臂/手，质心会被拽到一侧 → 头像整体平移出画。
+     钳制 hcx 在包围盒中心 ±12%（正面人像头与身体中线基本重合，仅允许轻微偏差采信）；
+     hw 上限 0.9×包围盒宽，防手臂把"头宽"撑大 */
+  const yB = Math.min(y1, y0 + Math.round((y1-y0+1)*0.15));
+  let xs=[], maxRowW=0;
+  for(let yy=y0; yy<=yB; yy++){
+    let r0=W, r1=-1;
+    const row = yy*W;
+    for(let xx=0; xx<W; xx++){
+      if(d[(row+xx)*4+3] > 10){
+        if(xx<r0)r0=xx; if(xx>r1)r1=xx;
+        xs.push(xx);
+      }
+    }
+    if(r1<0) continue;
+    const rw = r1-r0+1;
+    if(rw>maxRowW) maxRowW=rw;
+  }
+  xs.sort((a,b)=>a-b);
+  const cxB = x + w/2;
+  /* 水平中位数：头部像素占多数时不受单侧手臂/头饰偏移影响；
+     ±3% 钳制提供最后兜底 */
+  const medX = xs.length ? xs[Math.floor(xs.length/2)] : (x0+x1)/2;
+  const rawHcx = medX * S;
+  const hcx = Math.min(Math.max(rawHcx, cxB - w*0.03), cxB + w*0.03);
+  const hw = Math.min(Math.max(maxRowW*S, w*0.15), w*0.9);
+  return { x, y, w, h, cx:cxB, cy:y+h/2, hcx, hw };
+}
+
+/* 构图：头高 ≈ 头宽 × 1.3（headEst），目标占照片高度 62%。
+   scale 钳制使最终绘制头高 ∈ [48%, 80%] 照片高度：
+   钳制作用于 scale 而非 headEst，避免分母被钳后实际头高超限（头比照片还宽 → 半边出画） */
+function baseScaleFor(spec){
+  const ph = mm2px(spec.h);
+  const headEst = state.bbox ? state.bbox.hw * 1.3 : ph * 0.6;
+  const base = (0.62 * ph) / headEst;
+  const lo = (0.48 * ph) / headEst, hi = (0.80 * ph) / headEst;
+  return Math.min(Math.max(base, lo), hi);
+}
+
+/* 左侧预览框按规格实际像素比例/尺寸显示：
+   以最宽规格(413px)映射到 380px 显示宽，其余规格按同一比例缩放，
+   max-width:100% 保证小屏不溢出 */
+const FRAME_BASE_PX = 360, FRAME_REF_W = 413, FRAME_MAX_H = 440;
+function setFrameAspect(){
+  const s = state.spec;
+  const pw = mm2px(s.w), ph = mm2px(s.h);
+  const fr = $('.frame');
+  fr.style.aspectRatio = `${pw} / ${ph}`;
+  /* 手机端：限制预览框高度（默认 0101规格 55vh），高度优先 → 宽按比例缩放，
+     保证 ≤360px 宽的机型也能完整显示；桌面端按宽度等比 */
+  const isPh = window.matchMedia('(max-width:920px)').matches;
+  if(isPh){
+    const vh = window.innerHeight || 800;
+    fr.style.maxHeight = Math.min(FRAME_MAX_H, vh*0.55) + 'px';
+    fr.style.maxWidth = '100%';
+    fr.style.width = '100%';
+    fr.style.height = 'auto';
+  } else {
+    fr.style.maxHeight = 'none';
+    fr.style.height = 'auto';
+    fr.style.width = Math.round(pw / FRAME_REF_W * FRAME_BASE_PX) + 'px';
+  }
+}
+function updateMeta(){
+  const s = state.spec;
+  $('#metaSpec').textContent = `${s.name}　${s.w}×${s.h} mm`;
+  $('#metaPx').textContent = `${mm2px(s.w)}×${mm2px(s.h)} px · ${DPI}DPI`;
+  $('#exportPx').textContent = `单张 ${mm2px(s.w)}×${mm2px(s.h)} px`;
+  $('#metaChip').style.background = state.bg.c;
+}
+
+function geoFor(){
+  const b = state.bbox, s = state.spec;
+  const pw = mm2px(s.w), ph = mm2px(s.h);
+  /* 大小 -100..100 → 缩放 0.6x..1.4x（0 = 原尺寸）；
+     水平 -100..100 → ±40% 照片宽偏移（0 = 居中）；
+     垂直 -100..100 → ±35% 照片高偏移（0 = 默认留白） */
+  const sc = state.baseScale * (1 + state.comp.size/100 * 0.4);
+  /* 水平：头部中心 = 滑块目标中心。头中心钳制在 [10%, 90%] 照片宽——宽松钳制，
+     允许头比照片宽或用户主动裁边（不再因头宽≈照片宽而锁定/禁用水平控制） */
+  const cx = Math.min(Math.max(pw/2 + state.comp.h/100 * pw * 0.5, 0.10*pw), 0.90*pw);
+  const top = ph * (0.10 + state.comp.v/100 * 0.35);
+  const bw = b.w * sc, bh = b.h * sc;
+  let dx = cx - b.hcx * sc;
+  /* 垂直锚点 = 头顶（默认留白 10%），头部上半部必须留在画内 */
+  let dy = top - b.y * sc;
+  dy = Math.min(Math.max(dy, 0.04*ph - b.y*sc), 0.30*ph - b.y*sc);
+  return { s:sc, dx, dy, bw, bh };
+}
+
+function drawPhoto(pw, ph){
+  ctx.imageSmoothingQuality = 'high';
+  ctx.fillStyle = state.bg.c;
+  ctx.fillRect(0,0,pw,ph);
+  const g = geoFor();
+  ctx.drawImage(state.cutout, g.dx, g.dy, g.bw, g.bh);
+}
+
+function render(){
+  if(!state.cutout) return;
+  const s = state.spec;
+  const pw = mm2px(s.w), ph = mm2px(s.h);
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  /* 以 canvas 实际 CSS 尺寸（getBoundingClientRect）决定位图大小，
+     跟随滚动 / 工具栏收起 / 旋转后的真实尺寸，避免读到过期的 clientWidth */
+  const box = cv.getBoundingClientRect();
+  const cssW = box.width > 2 ? box.width : cv.clientWidth || 320;
+  cv.width  = Math.max(4, Math.round(cssW * dpr));
+  cv.height = Math.floor(cv.width * ph / pw);
+  ctx.setTransform(cv.width/pw, 0, 0, cv.height/ph, 0, 0);
+  drawPhoto(pw, ph);
+  ctx.setTransform(1,0,0,1,0,0);
+  applyBeautify(ctx, cv.width, cv.height);
+}
+
+/* 滚动 / 视口变化 / 旋转后台仍应重绘，避免手机端布局变化导致只显示部分画面 */
+let ro = new ResizeObserver(() => render());
+ro.observe(cv);
+window.addEventListener('orientationchange', () => requestAnimationFrame(render));
+window.addEventListener('resize', () => requestAnimationFrame(render));
+
+/* ---------- 美颜（逐像素 · 仅肤色区域，背景不受影响） ---------- */
+function skinAt(d,i){
+  const r=d[i], g=d[i+1], b=d[i+2];
+  /* 肤色：暖色调、r≥g≥b、通道差、亮度适中(防亮部误判) */
+  return r>70 && g>45 && b>35 && r>=g && g>=b && (r-b)>10 && (r+g+b)<720;
+}
+/* 3×3 中值滤波：去斑点/痘印而不糊掉眼眉、发际与轮廓（盒式模糊会糊细节） */
+function median3(d, W, H){
+  const out = new Uint8ClampedArray(d.length);
+  const nb = new Uint8Array(9);
+  for(let y=1;y<H-1;y++){
+    const row=y*W;
+    for(let x=1;x<W-1;x++){
+      const i=(row+x)*4;
+      if(!skinAt(d,i)){ out[i]=d[i];out[i+1]=d[i+1];out[i+2]=d[i+2];out[i+3]=d[i+3]; continue; }
+      for(let ch=0;ch<3;ch++){
+        let n=0;
+        for(let yy=-1;yy<=1;yy++) for(let xx=-1;xx<=1;xx++) nb[n++]=d[(row+yy*W+(x+xx))*4+ch];
+        nb.sort();
+        out[i+ch]=nb[4];
+      }
+      out[i+3]=d[i+3];
+    }
+  }
+  return out;
+}
+function beautifyPixels(d, W, H, f){
+  /* 磨皮：中值滤波 + 原图按强度混合，保留细节又去斑。高强度时再叠一层轻度盒式柔化 */
+  if(f.smooth > 0){
+    const med = median3(d, W, H);
+    const k = Math.min(1, f.smooth/100 * 1.25);
+    for(let i=0;i<d.length;i+=4){
+      if(!skinAt(d,i)) continue;
+      d[i]   += (med[i]  -d[i])  * k;
+      d[i+1] += (med[i+1]-d[i+1])* k;
+      d[i+2] += (med[i+2]-d[i+2])* k;
+    }
+    if(f.smooth > 45){
+      const k2 = (f.smooth-45)/55 * 0.4;
+      /* 二次 3×3 盒式模糊，仅轻度去噪，保持边缘 */
+      const src = new Uint8ClampedArray(d);
+      for(let y=1;y<H-1;y++){ const row=y*W;
+        for(let x=1;x<W-1;x++){ const i=(row+x)*4;
+          if(!skinAt(src,i)) continue;
+          let r=0,g=0,bl=0;
+          for(let yy=-1;yy<=1;yy++)for(let xx=-1;xx<=1;xx++){const j=((row+yy*W)+(x+xx))*4; r+=src[j];g+=src[j+1];bl+=src[j+2];}
+          const n=1/9, R=r*n,G=g*n,B=bl*n;
+          d[i]+=(R-d[i])*k2; d[i+1]+=(G-d[i+1])*k2; d[i+2]+=(B-d[i+2])*k2;
+        }
+      }
+    }
+  }
+  /* 美白：提亮 + 轻微降饱和，双线性系数更自然（肤色向明亮偏粉白走） */
+  if(f.white > 0){
+    const k = f.white/100 * 0.5;
+    for(let i=0;i<d.length;i+=4){
+      if(!skinAt(d,i)) continue;
+      const r=d[i], g=d[i+1], b=d[i+2];
+      const lum = 0.299*r + 0.587*g + 0.114*b;
+      const bright = lum + (255-lum)*k;               /* 向白提亮 */
+      const fd = bright / (lum || 1);                 /* 缩放系数，柔和且防灰 */
+      const sr = Math.min(255, r*fd);
+      const sg = Math.min(255, g*fd);
+      const sb = Math.min(255, b*fd);
+      /* 轻微降饱和(0.85) → 肤色不发蜡黄 */
+      const gray = 0.299*sr+0.587*sg+0.114*sb;
+      const dS = 0.85;
+      d[i]   = gray + (sr-gray)*dS;
+      d[i+1] = gray + (sg-gray)*dS;
+      d[i+2] = gray + (sb-gray)*dS;
+    }
+  }
+  /* 红润：整体向暖红偏移 + 提升亮度，色彩更鲜活 */
+  if(f.rosy > 0){
+    const k = f.rosy/100 * 0.65;
+    for(let i=0;i<d.length;i+=4){
+      if(!skinAt(d,i)) continue;
+      const r=d[i], g=d[i+1], b=d[i+2];
+      d[i]   = Math.min(255, r + (255-r)*k*0.30 + k*14);
+      d[i+1] = Math.min(255, g + (255-g)*k*0.06 + k*3);
+      d[i+2] = Math.max(0,   b - k*20);
+    }
+  }
+}
+function applyBeautify(c, w, h){
+  const f = state.beauty;
+  if(!(f.smooth || f.white || f.rosy)) return;
+  const img = c.getImageData(0,0,w,h);
+  beautifyPixels(img.data, w, h, f);
+  c.putImageData(img, 0, 0);
+}
+
+/* ---------- 拖动构图 ---------- */
+let drag = null;
+cv.addEventListener('pointerdown', e => {
+  if(!state.cutout) return;
+  cv.setPointerCapture(e.pointerId);
+  cv.classList.add('grabbing');
+  drag = { x:e.clientX, y:e.clientY, v:state.comp.v, h:state.comp.h };
+});
+cv.addEventListener('pointermove', e => {
+  if(!drag) return;
+  /* 拖拽手感：全幅横移 ≈ 水平 ±100%（即 ±0.3pw），全幅纵移 ≈ 垂直 ±100%（即 ±0.35ph） */
+  const dx = (e.clientX - drag.x) / (cv.clientWidth || 1);
+  const dy = (e.clientY - drag.y) / (cv.clientHeight || 1);
+  state.comp.h = Math.min(100, Math.max(-100, drag.h + dx * 100));
+  state.comp.v = Math.min(100, Math.max(-100, drag.v + dy * 100));
+  $('#compH').value = state.comp.h; $('#compHV').textContent = pctTxt(Math.round(state.comp.h));
+  $('#compV').value = state.comp.v; $('#compVV').textContent = pctTxt(Math.round(state.comp.v));
+  render();
+});
+cv.addEventListener('pointerup', e => { drag = null; cv.classList.remove('grabbing'); });
+cv.addEventListener('pointercancel', () => { drag = null; cv.classList.remove('grabbing'); });
+
+/* ---------- 导出 ---------- */
+function exportSingle(){
+  if(!state.cutout || state.busy) return;
+  state.busy = true;
+  $('#dlSingle').textContent = '生成中…';
+  try{
+    const s = state.spec, pw = mm2px(s.w), ph = mm2px(s.h);
+    const c = document.createElement('canvas');
+    c.width = pw; c.height = ph;
+    const g = c.getContext('2d');
+    g.setTransform(1,0,0,1,0,0);
+    g.imageSmoothingQuality = 'high';
+    g.fillStyle = state.bg.c; g.fillRect(0,0,pw,ph);
+    const geo = geoFor();
+    g.drawImage(state.cutout, geo.dx, geo.dy, geo.bw, geo.bh);
+    applyBeautify(g, pw, ph);
+    const name = `证件照_${s.name}_${state.bg.name}.${state.fmt}`;
+    /* 同步 toDataURL，点击手势路径内直接触发 <a download> ——
+       手机/桌面通用，避免 async toBlob 丢失 iOS 手势上下文导致下载被拦截。
+       PNG 证件照 dataURL 尺寸可接受；小程序内 <a download> 亦保留。 */
+    const href = c.toDataURL(state.fmt==='png' ? 'image/png' : 'image/jpeg', 0.92);
+    triggerDownload(href, name);
+    toast('已生成：' + s.name + ' ' + pw + '×' + ph + ' px');
+  }finally{
+    state.busy = false;
+    $('#dlSingle').textContent = '下载图片';
+  }
+}
+let dlShown = false;
+function triggerDownload(href, name){
+  const a = document.createElement('a');
+  a.href = href;
+  a.download = name;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  /* iOS Safari/WebView：<a download> 常被忽略。同步 window.open 展示图片，
+     用户可长按保存到相册（弹窗需在本次手势同步栈内，故紧跟 click）。 */
+  const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) ||
+                (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+  if(isIOS && !dlShown){
+    dlShown = true;
+    try{ window.open(href, '_blank'); }catch(e){}
+    setTimeout(()=> dlShown = false, 1500);
+  }
+  setTimeout(()=>{ a.remove(); if(href.indexOf('blob:')===0) URL.revokeObjectURL(href); }, 1500);
+}
+
+/* ---------- 提示 ---------- */
+let toastTimer;
+function toast(msg){
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.remove('show'), 2600);
+}
+
+/* 初始化 */
+/* 移动端手风琴：点击 sec-head 切换 section 展开/收起，单开互斥；导出栏默认展开 */
+(function(){
+  const isMobile = ()=> window.matchMedia('(max-width:920px)').matches;
+  document.querySelectorAll('#editor section').forEach((sec,i)=>{
+    const head = sec.querySelector('.sec-head[data-toggle]');
+    if(!head) return;  // 导出栏不折叠
+    head.addEventListener('click',()=>{
+      if(!isMobile()) return;
+      const wasOpen = sec.classList.contains('open');
+      /* 关闭同级所有 open section（单开互斥） */
+      document.querySelectorAll('#editor section.open').forEach(s=>s.classList.remove('open'));
+      if(!wasOpen){
+        sec.classList.add('open');
+        /* 展开后滚动到该 section；预览(sticky)粘顶保持可见，避免短屏丢预览。
+           nearest：若 section 已在可视区则不抢滚动，预览始终在顶部 */
+        requestAnimationFrame(()=> sec.scrollIntoView({block:'nearest', inline:'nearest'}));
+      }
+    });
+  });
+  /* 首次进入编辑器时（editor 由 hidden 变为可见），移动端自动展开"规格"section */
+  const ed=document.getElementById('editor');
+  const mo=new MutationObserver(()=>{
+    if(isMobile() && !ed.hidden){
+      document.querySelectorAll('#editor section.open').forEach(s=>s.classList.remove('open'));
+      const firstSec = ed.querySelector('section');
+      if(firstSec) firstSec.classList.add('open');
+    }
+  });
+  mo.observe(ed,{attributes:true,attributeFilter:['hidden']});
+  /* 初始页面加载时如果是移动端，把 01 展开，其余折叠 */
+  if(isMobile()){
+    document.querySelectorAll('#editor section').forEach(sec=>sec.classList.remove('open'));
+    const first = ed.querySelector('section'); if(first){ first.classList.add('open'); }
+  }
+})();
+
+/* 移动端横向 Tab 编辑器：编辑区顶部一排可横滑的 tab，点击后内容在原位面板切换，
+   页面高度不因展开而增高，预览(sticky)始终可见，无需下滑丢失实时预览。 */
+(function(){
+  if(!window.matchMedia('(max-width:920px)').matches) return;
+  const ed = document.getElementById('editor');
+  if(!ed || ed.dataset.tabs) return;
+  ed.dataset.tabs = '1';
+  const sections = Array.from(ed.querySelectorAll('section'));
+  /* 建 tab 栏 + 内容面板 */
+  const bar = document.createElement('div'); bar.className = 'mtab';
+  const panel = document.createElement('div'); panel.className = 'mpanel';
+  ed.insertBefore(bar, ed.querySelector('.editor-head').nextSibling);
+  ed.insertBefore(panel, bar.nextSibling);
+  const bodies = sections.map(sec => sec.querySelector('.body'));
+  /* 从 section 中移出 body 到面板（section 仅作结构容器，内容全部进面板） */
+  bodies.forEach(b => { if(b) panel.appendChild(b); });
+  const activate = (i) => {
+    sections.forEach((sec,j)=>{
+      sec.classList.toggle('open', j===i);
+      const tb = bar.children[j]; if(tb) tb.classList.toggle('active', j===i);
+      const body = bodies[j];
+      if(body){ body.style.display = (j===i) ? 'block' : 'none'; }
+    });
+  };
+  sections.forEach((sec,i)=>{
+    const head = sec.querySelector('.sec-head');
+    if(!head) return;
+    const t = document.createElement('button');
+    t.type = 'button';
+    t.className = 'mtab-btn' + (i===0?' active':'');
+    const name = head.querySelector('h2') ? head.querySelector('h2').textContent : ('第'+(i+1)+'项');
+    t.textContent = name;
+    t.addEventListener('click', ()=> activate(i));
+    bar.appendChild(t);
+    /* 隐藏原 sec-head（tab 已代替） */
+    head.style.display = 'none';
+  });
+  activate(0);
+})();
+setFrameAspect();
+updateMeta();
+render();
+</script>
+</body>
+</html>
