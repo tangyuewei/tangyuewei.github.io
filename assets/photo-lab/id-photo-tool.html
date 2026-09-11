@@ -42,7 +42,7 @@ body::after{
 }
 
 .top{
-  max-width:1160px;margin:0 auto;padding:26px 40px 22px;
+  width:100%;max-width:1160px;margin:0 auto;padding:26px 40px 22px;
   display:flex;align-items:center;justify-content:space-between;gap:16px;
   border-bottom:1px solid var(--line);
 }
@@ -68,7 +68,11 @@ body::after{
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 
 .stage{
-  max-width:1160px;margin:10px auto 20px;/*padding:0 20px;*/
+  /* width:100% 不可省：body 是纵向 flex 容器，本元素又写了左右 auto 外边距，
+     按 Flexbox 规范「交叉轴 auto 外边距使 align-self:stretch 失效」→ 会退化为
+     fit-content，宽度被面板内容的 max-content 左右（实测 685/690/752 三种值），
+     进而使预览框尺寸随 Tab 内容跳变。显式给宽度即消除该耦合。 */
+  width:100%;max-width:1160px;margin:10px auto 20px;/*padding:0 20px;*/
   display:grid;grid-template-columns:minmax(320px,1fr) minmax(340px,1fr);
   gap:48px;align-items:start;position:relative;z-index:1;
 }
@@ -82,7 +86,10 @@ body::after{
   position:sticky;top:28px;
 }
 .frame{
-  position:relative;margin:0 auto;width:100%;max-width:100%;aspect-ratio:25/35;
+  /* P0：尺寸由 layoutFrame() 以确定的像素宽高写入（宽高比恒等于规格比）；
+     下面这行仅在 JS 执行前作兜底 */
+  position:relative;margin:0 auto;flex:none;
+  width:100%;max-width:100%;aspect-ratio:25/35;
   background:repeating-conic-gradient(#e6e2d8 0 25%,#f0edE4 0 50%) 0 0/22px 22px;
   overflow:hidden;
 }
@@ -155,7 +162,6 @@ body::after{
 .sec-head .no{font-family:"Noto Serif SC",serif;font-weight:900;font-size:13px;color:var(--red)}
 .sec-head h2{font-family:"Noto Serif SC",serif;font-weight:600;font-size:15.5px;letter-spacing:.2em}
 .sec-head .tag,.sec-head .tip{margin-left:auto;font-size:10.5px;color:var(--faint);letter-spacing:.1em;white-space:nowrap}
-.sec-head .chev{display:none}
 
 .chips{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
 .chips button{
@@ -221,7 +227,7 @@ body::after{
 .primary:disabled{opacity:.35;cursor:not-allowed;box-shadow:none;transform:none}
 
 footer{
-  max-width:1160px;margin:0 auto;padding:16px 10px 10px;text-align:center;
+  width:100%;max-width:1160px;margin:0 auto;padding:16px 10px 10px;text-align:center;
   font-size:11px;color:var(--faint);letter-spacing:.12em;line-height:2;position:relative;z-index:1;
   border-top:1px solid var(--line);flex:none;
 }
@@ -235,80 +241,90 @@ main{flex:1 0 auto}
 }
 #toast.show{opacity:1;transform:translate(-50%,0)}
 
-@media (max-width:920px){
+/* —— P2：统一 Tab 编辑器（所有宽度共用一套菜单语义）——
+   原「宽屏 5 段全展开 / 窄屏横向 Tab」两套结构已合并为一套；
+   原手风琴（section.open 折叠）已随 .body 迁入 .mpanel 而成为死代码，整体移除 */
+.editor .mtab{
+  display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;
+  padding:2px 0 8px;border-bottom:1px solid var(--line);
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;
+}
+.editor .mtab::-webkit-scrollbar{display:none}
+.editor .mtab-btn{
+  flex:none;border:1px solid var(--line);background:rgba(255,253,248,.7);
+  color:var(--ink);padding:6px 11px;border-radius:999px;font-size:13px;
+  letter-spacing:.12em;cursor:pointer;font-family:inherit;transition:all .15s;
+}
+.editor .mtab-btn:hover{border-color:var(--ink)}
+.editor .mtab-btn.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.editor .mpanel{position:relative;min-height:0;margin:8px 0 0;padding:12px 2px 2px}
+.editor .mgroup{display:none}
+.editor .mgroup.active{display:block}
+.editor .mgroup .sec-head{
+  margin-bottom:10px;padding-bottom:0;border-bottom:0;align-items:center;
+}
+.editor .mgroup .sec-head .no{font-size:11.5px}
+.editor .mgroup .sec-head h2{font-size:14px}
+
+/* —— 窄屏（<640px，手机）：单列；预览在上，Tab + 面板在下 ——
+   面板高度由 layoutPanels() 写入固定值 → 切换 Tab 布局零位移 */
+@media (max-width:639px){
   .stage{grid-template-columns:1fr;gap:10px;margin-top:20px;padding:0 15px 20px}
-  .top{padding:18px;flex-wrap:wrap}
-  .print-card{position:sticky;top:8px;z-index:5;margin-bottom:4px;padding:14px 14px 10px}
+  .top{padding:14px 16px 12px;flex-wrap:wrap}
+  .brand-txt p{display:none}
+  .print-card{position:static;margin-bottom:0;padding:14px 14px 10px}
   .upload{padding:24px 10px 10px}
   body::after{opacity:.3}
-  /* 手风琴：section 折叠，点击 sec-head 切换（仅开放闭式 .open 类，body 默认隐藏） */
-  .sec-head .chev{display:inline;font-size:13px;color:var(--faint);transition:transform .2s}
-  .sec-head{cursor:pointer;user-select:none}
-  .editor section .body{display:none}
-  .editor section.open .body{display:block}
-  .editor section:last-of-type .body{display:block}   /* 导出栏始终展开，与桌面一致 */
-  .editor section:not(.open) .sec-head .chev{transform:rotate(-90deg)}
-  .editor section .sec-head{margin-bottom:0;padding-bottom:8px}
-  .editor section.open .sec-head{margin-bottom:12px;padding-bottom:10px}
-
-  /* 移动端横向 Tab：编辑区①顶部横滑 tab 栏(sticky)，点击切换内容面板；
-     面板高度固定、内容原地切换，页面不增高 → 预览(sticky)始终可见 */
-  .editor .mtab{
-    display:flex;gap:15px;overflow-x:auto;overflow-y:hidden;
-    position:sticky;top:8px;z-index:6;padding:4px 2px 8px;background:var(--paper);
-    -webkit-overflow-scrolling:touch;scrollbar-width:none;
-  }
-  .editor .mtab::-webkit-scrollbar{display:none}
-  .editor .mtab-btn{
-    flex:none;border:1px solid var(--line);background:rgba(255,253,248,.7);
-    color:var(--ink);padding:5px 8px;border-radius:999px;font-size:13px;
-    letter-spacing:.12em;cursor:pointer;font-family:inherit;transition:all .15s;
-  }
-  .editor .mtab-btn.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-  .editor .mpanel{
-    position:relative;min-height:0;padding:6px 2px 4px;margin:10px;
-  }
+  .editor .mtab{gap:12px}
 }
-@media (min-width:1024px) and (max-height:780px){
-  .top{padding:5px 10px 6px}
-  footer{padding:10px 8px 6px;font-size:10px;line-height:1.6}
+@media (min-width:640px) and (max-height:820px){
+  /* 视口不高时压缩页头，把省下的高度让给预览 */
+  .top{padding:14px 20px 14px}
+  footer{padding:8px 8px 5px;font-size:10px;line-height:1.6}
 }
 @media (max-width:420px){
-  .brand-txt p{letter-spacing:.28em}
   .privacy{display:none}
 }
-/* 桌面端：左侧预览 + 右侧整页菜单，1024×680 视口内无需滚动即可看全；
-   通过 5 列规格、压缩间距与控件高度实现 */
-@media (min-width:1024px){
+/* —— 宽屏（≥640px）：左预览 + 右 Tab 面板，两列同屏 ——
+   640px 断点使博客正文列实测宽（686~752px）落入本分支，不再被迫走单列窄屏 */
+@media (min-width:640px){
   .stage{
-    margin:10 auto;padding:0 38px;
-    grid-template-columns:minmax(300px,.9fr) minmax(380px,1.1fr);
-    align-items:center;min-height:0;gap:14px;
+    margin:12px auto 16px;padding:0 18px;
+    grid-template-columns:minmax(280px,1.05fr) minmax(260px,.95fr);
+    align-items:start;gap:16px;
   }
-  .preview-col{position:sticky;top:18px;align-self:center}
-  .panel{align-self:center;max-height:calc(100vh - 110px);overflow-y:auto;padding-right:6px}
+  /* min-width:0 防止栅格子项用 min-content 撑开轨道、反向影响另一列宽度 */
+  .preview-col{min-width:0;align-self:start}
+  .panel{min-width:0;align-self:start;max-height:calc(100vh - 96px);overflow-y:auto;padding-right:6px}
 
-  .editor{gap:10px}
+  .editor{gap:8px}
   .editor .editor-head{margin-bottom:-2px}
-  .editor .sec-head{margin-bottom:5px;padding-bottom:5px}
-  .editor .sec-head .no{font-size:11px}
-  .editor .sec-head h2{font-size:13.5px}
+  .editor .mgroup .sec-head{margin-bottom:8px}
+  .editor .mgroup .sec-head .no{font-size:11px}
+  .editor .mgroup .sec-head h2{font-size:13.5px}
   .ctl{margin-bottom:2px;font-size:11.5px}
   .ctl input[type=range]{height:12px}
 
-  /* 规格：5 列单行，去掉 px 行，小字场景只留两行 */
-  #specChips{grid-template-columns:repeat(5,1fr);gap:6px}
-  #specChips button{padding:5px 2px 5px;gap:1px}
+  /* 规格：3 列，去掉 px 行，小字场景只留两行 */
+  #specChips{grid-template-columns:repeat(3,1fr);gap:6px}
+  #specChips button{padding:6px 3px;gap:1px}
   #specChips button b{font-size:12.5px}
-  #specChips button .sub{font-size:8px;line-height:1.3}
+  #specChips button .sub{font-size:8.5px;line-height:1.3}
   #specChips button .px{display:none}
 
-  .swatches{gap:12px;margin:10px;}
+  .swatches{gap:12px;margin:8px 0 4px}
   .swatches button{width:34px;height:34px}
 
   .fmt-hint{flex-direction:row;justify-content:space-between;gap:10px;margin:4px 2px 8px;font-size:9px}
   .primary{padding:10px}
 }
+@media (min-width:1024px){
+  /* 面板列更宽时，规格回到 5 列单行 */
+  #specChips{grid-template-columns:repeat(5,1fr);gap:6px}
+  #specChips button{padding:5px 2px 5px}
+}
+/* 旧的 @media (max-width:920px) 手风琴段、@media (min-width:1024px) 全展开桌面段
+   及其 5 列规格覆盖，已由上方的统一 Tab 结构与 700px 断点取代，此处不再重复定义 */
 
 </style>
 </head>
@@ -359,17 +375,17 @@ main{flex:1 0 auto}
       <div class="editor-head"><button class="link" id="reshoot">← 换一张照片</button></div>
 
       <section>
-        <div class="sec-head" data-toggle><span class="no">01</span><h2>照片规格</h2><span class="chev">▾</span></div>
+        <div class="sec-head"><span class="no">01</span><h2>照片规格</h2></div>
         <div class="body"><div class="chips" id="specChips"></div></div>
       </section>
 
       <section>
-        <div class="sec-head" data-toggle><span class="no">02</span><h2>底色</h2><span class="tag" id="bgTag">白底</span><span class="chev">▾</span></div>
+        <div class="sec-head"><span class="no">02</span><h2>底色</h2><span class="tag" id="bgTag">白底</span></div>
         <div class="body"><div class="swatches" id="bgSwatches"></div></div>
       </section>
 
       <section>
-        <div class="sec-head" data-toggle><span class="no">03</span><h2>美颜</h2><span class="tip">拖动实时预览</span><span class="chev">▾</span></div>
+        <div class="sec-head"><span class="no">03</span><h2>美颜</h2><span class="tip">拖动实时预览</span></div>
         <div class="body">
           <label class="ctl"><span>磨皮</span><input type="range" id="beautySmooth" min="0" max="100" value="0"><em id="beautySmoothV">0</em></label>
           <label class="ctl"><span>美白</span><input type="range" id="beautyWhite" min="0" max="100" value="0"><em id="beautyWhiteV">0</em></label>
@@ -378,7 +394,7 @@ main{flex:1 0 auto}
       </section>
 
       <section>
-        <div class="sec-head" data-toggle><span class="no">04</span><h2>构图</h2><span class="tip">可直接拖动照片</span><span class="chev">▾</span></div>
+        <div class="sec-head"><span class="no">04</span><h2>构图</h2><span class="tip">可直接拖动照片</span></div>
         <div class="body">
           <label class="ctl"><span>大小</span><input type="range" id="compSize" min="-100" max="100" value="0"><em id="compSizeV">100%</em></label>
           <label class="ctl"><span>垂直</span><input type="range" id="compV" min="-100" max="100" value="0"><em id="compVV">居中</em></label>
@@ -456,7 +472,7 @@ const cv = $('#photo'), ctx = cv.getContext('2d');
       state.spec = s;
       [...sc.children].forEach((c,j)=>c.classList.toggle('active', j===i));
       state.baseScale = baseScaleFor(state.spec);
-      setFrameAspect();
+      layoutFrame();
       updateMeta();
       render();
     };
@@ -502,7 +518,6 @@ function stateChange(){
 }
 
 $('#file').addEventListener('change', e => { if(e.target.files[0]) processFile(e.target.files[0]); });
-$('#pickBtn') && $('#pickBtn').addEventListener('click', ()=> $('#file').click());
 $('#upload').addEventListener('click', e => { if(e.target.tagName!=='INPUT') $('#file').click(); });
 $('#upload').addEventListener('dragover', e => { e.preventDefault(); $('#upload').classList.add('drag'); });
 $('#upload').addEventListener('dragleave', ()=> $('#upload').classList.remove('drag'));
@@ -543,7 +558,7 @@ async function processFile(file){
     state.baseScale = baseScaleFor(state.spec);
     $('#progressBox').hidden = true;
     $('#editor').hidden = false;
-    updateMeta(); setFrameAspect(); render();
+    updateMeta(); layoutPanels(); layoutFrame(); render();
   }catch(err){
     $('#progressBox').hidden = true;
     $('#upload').hidden = false;
@@ -627,29 +642,77 @@ function baseScaleFor(spec){
   return Math.min(Math.max(base, lo), hi);
 }
 
-/* 左侧预览框按规格实际像素比例/尺寸显示：
-   以最宽规格(413px)映射到 380px 显示宽，其余规格按同一比例缩放，
-   max-width:100% 保证小屏不溢出 */
-const FRAME_BASE_PX = 360, FRAME_REF_W = 413, FRAME_MAX_H = 440;
-function setFrameAspect(){
-  const s = state.spec;
-  const pw = mm2px(s.w), ph = mm2px(s.h);
-  const fr = $('.frame');
-  fr.style.aspectRatio = `${pw} / ${ph}`;
-  /* 手机端：限制预览框高度（默认 0101规格 55vh），高度优先 → 宽按比例缩放，
-     保证 ≤360px 宽的机型也能完整显示；桌面端按宽度等比 */
-  const isPh = window.matchMedia('(max-width:920px)').matches;
-  if(isPh){
-    const vh = window.innerHeight || 800;
-    fr.style.maxHeight = Math.min(FRAME_MAX_H, vh*0.55) + 'px';
-    fr.style.maxWidth = '100%';
-    fr.style.width = '100%';
-    fr.style.height = 'auto';
-  } else {
-    fr.style.maxHeight = 'none';
-    fr.style.height = 'auto';
-    fr.style.width = Math.round(pw / FRAME_REF_W * FRAME_BASE_PX) + 'px';
+/* ---------- P0：预览框尺寸 = 一次性算出的确定像素宽高 ----------
+   旧实现把 width:100% + aspect-ratio + max-height 三条约束叠在一起，没有唯一解，
+   浏览器会在两种解析结果间摇摆（实测 302×422 ⇄ 692×422）：既造成「切换时整页变大变小」，
+   也让画面被横向拉伸 2.30 倍。现在宽高直接用 px 写入、宽高比恒等于规格比 → 单一确定解。
+   高度对所有规格取同一值（由最宽规格约束），切换规格时页面高度恒定不变。 */
+const FRAME_MAX_RATIO = Math.max(...SPECS.map(x => mm2px(x.w) / mm2px(x.h)));
+const NARROW_PANEL_MIN = 150, NARROW_PANEL_MAX = 224;
+/* 编辑区固定件：#editor 处于 [hidden] 时其子元素测不到高度，故取实测标定常量 */
+const EDITOR_HEAD_H = 18, EDITOR_GAP = 5, TAB_BAR_H = 44, MPANEL_TOP = 8, BREATH = 8;
+const isNarrow = () => window.matchMedia('(max-width:639px)').matches;
+
+/* P1：窄屏面板高度固定（由视口算出）→ 切换 Tab 布局零位移 */
+function layoutPanels(){
+  const pan = $('.mpanel');
+  if(!pan) return;
+  if(isNarrow()){
+    const H = window.innerHeight || 800;
+    pan.style.height = Math.round(Math.max(NARROW_PANEL_MIN, Math.min(H * 0.26, NARROW_PANEL_MAX))) + 'px';
+    pan.style.overflowY = 'auto';
+  }else{
+    pan.style.height = '';
+    pan.style.overflowY = '';
   }
+}
+
+function layoutFrame(){
+  const fr = $('.frame');
+  if(!fr) return;
+  const card = fr.parentElement;
+  const stage = $('.stage');
+  const ratio = mm2px(state.spec.w) / mm2px(state.spec.h);
+  const H = window.innerHeight || 800;
+  const cs = getComputedStyle(card);
+  const availW = Math.max(120,
+    card.clientWidth - (parseFloat(cs.paddingLeft) || 0) - (parseFloat(cs.paddingRight) || 0) - 2);
+
+  /* 卡片内除 .frame 以外的固定高度（padding + meta 行）：与 frame 尺寸无关，可安全测量 */
+  const meta = card.querySelector('.meta');
+  const metaH = meta ? meta.offsetHeight + (parseFloat(getComputedStyle(meta).marginTop) || 0) : 0;
+  const chromeH = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0) + metaH;
+  const headH = $('.top') ? $('.top').offsetHeight : 0;
+
+  let budget;
+  if(isNarrow()){
+    /* 首屏预算 = 视口 −【页头 + stage上边距 + 卡片(除frame) + stage行距 + 编辑区 + 面板】− 呼吸余量
+       → 保证「预览 + Tab 栏 + 面板」同时落在首屏内。
+       编辑区在 #editor[hidden] 时整体测不到高度，故用实测的 .stage 行距 + 标定常量拼出 */
+    const css = stage ? getComputedStyle(stage) : null;
+    const pane = $('.mpanel');
+    const panelH = pane ? (parseFloat(pane.style.height) || NARROW_PANEL_MIN) : NARROW_PANEL_MIN;
+    const editorChrome = EDITOR_HEAD_H + 2 * EDITOR_GAP + TAB_BAR_H + MPANEL_TOP;
+    budget = H - headH
+           - (css ? (parseFloat(css.marginTop) || 0) : 0)
+           - chromeH
+           - (css ? (parseFloat(css.rowGap) || 0) : 0)
+           - editorChrome - panelH
+           - BREATH;
+    budget = Math.min(budget, H * 0.5, 440);
+  }else{
+    /* 宽屏两列同屏：高度按视口预算，上限 560 */
+    budget = Math.min(H - headH - 12 - chromeH - 28, H * 0.68, 560);
+  }
+
+  const h = Math.max(160, Math.min(budget, availW / FRAME_MAX_RATIO));
+  const w = h * ratio;
+
+  fr.style.aspectRatio = 'auto';
+  fr.style.maxHeight = 'none';
+  fr.style.maxWidth  = 'none';
+  fr.style.width  = Math.round(w) + 'px';
+  fr.style.height = Math.round(h) + 'px';
 }
 function updateMeta(){
   const s = state.spec;
@@ -703,11 +766,17 @@ function render(){
   applyBeautify(ctx, cv.width, cv.height);
 }
 
-/* 滚动 / 视口变化 / 旋转后台仍应重绘，避免手机端布局变化导致只显示部分画面 */
-let ro = new ResizeObserver(() => render());
-ro.observe(cv);
-window.addEventListener('orientationchange', () => requestAnimationFrame(render));
-window.addEventListener('resize', () => requestAnimationFrame(render));
+/* 视口 / 容器变化 → 面板高度、预览框尺寸、画面按序重算（合并到同一帧，避免连续重排） */
+let relayoutTick = false;
+function relayout(){
+  if(relayoutTick) return;
+  relayoutTick = true;
+  requestAnimationFrame(() => { relayoutTick = false; layoutPanels(); layoutFrame(); render(); });
+}
+/* 预览卡片尺寸变化（断点切换、列宽变化）同样触发重算 */
+new ResizeObserver(() => { layoutFrame(); render(); }).observe($('.print-card'));
+window.addEventListener('orientationchange', relayout);
+window.addEventListener('resize', relayout);
 
 /* ---------- 美颜（逐像素 · 仅肤色区域，背景不受影响） ---------- */
 function skinAt(d,i){
@@ -881,83 +950,60 @@ function toast(msg){
   toastTimer = setTimeout(()=> t.classList.remove('show'), 2600);
 }
 
-/* 初始化 */
-/* 移动端手风琴：点击 sec-head 切换 section 展开/收起，单开互斥；导出栏默认展开 */
-(function(){
-  const isMobile = ()=> window.matchMedia('(max-width:920px)').matches;
-  document.querySelectorAll('#editor section').forEach((sec,i)=>{
-    const head = sec.querySelector('.sec-head[data-toggle]');
-    if(!head) return;  // 导出栏不折叠
-    head.addEventListener('click',()=>{
-      if(!isMobile()) return;
-      const wasOpen = sec.classList.contains('open');
-      /* 关闭同级所有 open section（单开互斥） */
-      document.querySelectorAll('#editor section.open').forEach(s=>s.classList.remove('open'));
-      if(!wasOpen){
-        sec.classList.add('open');
-        /* 展开后滚动到该 section；预览(sticky)粘顶保持可见，避免短屏丢预览。
-           nearest：若 section 已在可视区则不抢滚动，预览始终在顶部 */
-        requestAnimationFrame(()=> sec.scrollIntoView({block:'nearest', inline:'nearest'}));
-      }
-    });
-  });
-  /* 首次进入编辑器时（editor 由 hidden 变为可见），移动端自动展开"规格"section */
-  const ed=document.getElementById('editor');
-  const mo=new MutationObserver(()=>{
-    if(isMobile() && !ed.hidden){
-      document.querySelectorAll('#editor section.open').forEach(s=>s.classList.remove('open'));
-      const firstSec = ed.querySelector('section');
-      if(firstSec) firstSec.classList.add('open');
-    }
-  });
-  mo.observe(ed,{attributes:true,attributeFilter:['hidden']});
-  /* 初始页面加载时如果是移动端，把 01 展开，其余折叠 */
-  if(isMobile()){
-    document.querySelectorAll('#editor section').forEach(sec=>sec.classList.remove('open'));
-    const first = ed.querySelector('section'); if(first){ first.classList.add('open'); }
-  }
-})();
-
-/* 移动端横向 Tab 编辑器：编辑区顶部一排可横滑的 tab，点击后内容在原位面板切换，
-   页面高度不因展开而增高，预览(sticky)始终可见，无需下滑丢失实时预览。 */
-(function(){
-  if(!window.matchMedia('(max-width:920px)').matches) return;
+/* ---------- P2：统一 Tab 编辑器（所有宽度共用一套菜单语义）----------
+   原「宽屏 5 段全展开 / 窄屏横向 Tab」两套结构合并为一套：
+   宽屏下点 sec-head 无反应、窄屏下点了变化却落在首屏之外，是同一个结构问题的两种表现。
+   顺带清除原手风琴死代码（.body 早已迁入面板，section.open 不再影响显示）。 */
+(function buildTabs(){
   const ed = document.getElementById('editor');
   if(!ed || ed.dataset.tabs) return;
   ed.dataset.tabs = '1';
-  const sections = Array.from(ed.querySelectorAll('section'));
-  /* 建 tab 栏 + 内容面板 */
-  const bar = document.createElement('div'); bar.className = 'mtab';
+
+  const bar   = document.createElement('div'); bar.className = 'mtab';
   const panel = document.createElement('div'); panel.className = 'mpanel';
-  ed.insertBefore(bar, ed.querySelector('.editor-head').nextSibling);
+  const head  = ed.querySelector('.editor-head');
+  ed.insertBefore(bar,   head.nextSibling);
   ed.insertBefore(panel, bar.nextSibling);
-  const bodies = sections.map(sec => sec.querySelector('.body'));
-  /* 从 section 中移出 body 到面板（section 仅作结构容器，内容全部进面板） */
-  bodies.forEach(b => { if(b) panel.appendChild(b); });
-  const activate = (i) => {
-    sections.forEach((sec,j)=>{
-      sec.classList.toggle('open', j===i);
-      const tb = bar.children[j]; if(tb) tb.classList.toggle('active', j===i);
-      const body = bodies[j];
-      if(body){ body.style.display = (j===i) ? 'block' : 'none'; }
-    });
-  };
-  sections.forEach((sec,i)=>{
-    const head = sec.querySelector('.sec-head');
-    if(!head) return;
+
+  const groups = [], labels = [];
+  Array.from(ed.querySelectorAll('section')).forEach((sec, i) => {
+    const sh = sec.querySelector('.sec-head');
+    const bd = sec.querySelector('.body');
+    const h2 = sh ? sh.querySelector('h2') : null;
+    labels.push(h2 ? h2.textContent.trim() : ('第' + (i + 1) + '项'));
+    const g = document.createElement('div');
+    g.className = 'mgroup' + (i === 0 ? ' active' : '');
+    if(sh) g.appendChild(sh);          /* 保留 01/标题/tag/tip，作为面板内的小标题 */
+    if(bd) g.appendChild(bd);
+    panel.appendChild(g);
+    groups.push(g);
+    sec.remove();                      /* 内容已迁出，原 section 不再占位 */
+  });
+
+  labels.forEach((name, i) => {
     const t = document.createElement('button');
     t.type = 'button';
-    t.className = 'mtab-btn' + (i===0?' active':'');
-    const name = head.querySelector('h2') ? head.querySelector('h2').textContent : ('第'+(i+1)+'项');
+    t.className = 'mtab-btn' + (i === 0 ? ' active' : '');
+    t.dataset.i = String(i);
     t.textContent = name;
-    t.addEventListener('click', ()=> activate(i));
     bar.appendChild(t);
-    /* 隐藏原 sec-head（tab 已代替） */
-    head.style.display = 'none';
+  });
+
+  function activate(i){
+    groups.forEach((g, j) => g.classList.toggle('active', j === i));
+    Array.from(bar.children).forEach((b, j) => b.classList.toggle('active', j === i));
+    panel.scrollTop = 0;               /* 切 Tab 后面板回到顶部 */
+  }
+  bar.addEventListener('click', e => {
+    const b = e.target.closest('.mtab-btn');
+    if(b) activate(+b.dataset.i);
   });
   activate(0);
 })();
-setFrameAspect();
+
+/* 初始化：面板高度 → 预览框尺寸 → 文案 → 画面 */
+layoutPanels();
+layoutFrame();
 updateMeta();
 render();
 </script>
