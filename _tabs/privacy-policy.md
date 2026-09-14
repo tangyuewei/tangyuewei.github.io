@@ -3,6 +3,7 @@ title: 隐私政策
 icon: fas fa-shield-alt
 order: 9
 permalink: /privacy-policy/
+hidden: true   # 仅从侧边栏导航隐藏；页面照常发布，入口在每页页脚
 ---
 
 **生效日期：2026 年 9 月 14 日**

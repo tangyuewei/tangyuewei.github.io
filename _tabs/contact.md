@@ -3,6 +3,7 @@ title: 联系我们
 icon: fas fa-envelope
 order: 10
 permalink: /contact/
+hidden: true   # 仅从侧边栏导航隐藏；页面照常发布，入口在每页页脚
 ---
 
 ## 联系方式
