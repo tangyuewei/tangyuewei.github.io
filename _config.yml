@@ -26,7 +26,7 @@ description: 不以物喜，不以己悲。努力只是一种生活方式，先�
 
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
-url: 'https://tangyuewei.github.io'
+url: 'https://tangyuewei.com'
 
 github:
   username: tangyuewei             # change to your github username
@@ -38,7 +38,7 @@ social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
   name: tangyuewei
-  email: 472680811@qq.com             # change to your email address
+  email: tangyuewei@vip.qq.com        # change to your email address
   links:
     # The first element serves as the copyright owner's link
     - https://gitee.com/tangyuewei      # change to your twitter homepage

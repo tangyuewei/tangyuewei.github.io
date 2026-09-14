@@ -8,6 +8,8 @@
       <p class="mb-0">
         © {{ 'now' | date: "%Y" }}
         <a href="{{ site.social.links[0] }}">{{ site.social.name }}</a>.
+        <a href="{{ '/privacy-policy/' | relative_url }}">隐私政策</a> ·
+        <a href="{{ '/contact/' | relative_url }}">联系我们</a>
         {% if site.data.locales[lang].copyright.brief %}
         <span data-toggle="tooltip" data-placement="top"
           title="{{ site.data.locales[lang].copyright.verbose }}">{{ site.data.locales[lang].copyright.brief }}</span>
