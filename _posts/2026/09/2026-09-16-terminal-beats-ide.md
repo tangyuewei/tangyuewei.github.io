@@ -158,5 +158,3 @@ JetBrains 的应对很直接。Claude Agent、Codex、Copilot、OpenCode 被接�
 终端赢的是这一件事。编辑器输的也不是界面，是"代码在你这里写"这个默认位置。
 
 它要证明自己值钱的地方，换到了别处。
-
-> 作者：[唐悦玮](https://tangyuewei.com)  |  从后端出发，用 AI 拓展到全栈的工程师。

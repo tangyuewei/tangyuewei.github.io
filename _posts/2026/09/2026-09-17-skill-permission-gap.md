@@ -198,5 +198,3 @@ npx skills add https://docs.x.com
 6. [智能体应用安全基本要求（20263116-Q-252）](https://std.samr.gov.cn/gb/search/gbDetailed?id=4C5277928DA2411EE06397BE0A0AE436) — 国家标准化管理委员会国家标准项目公示，中央网信办提出，TC260 归口
 7. [网络安全标准化工作月报（2026 年 7 月）](https://www.tc260.org.cn/portal/article/1/961ec446f2294c4b8c353c186b0e4cf5) — 全国网络安全标准化技术委员会（《智能体部署使用安全指引》发布记录）
 8. [An agent skill can hand a stranger your shell](https://grith.ai/blog/skill-md-permissions-manifest) — Grith，技能权限清单缺口的机制分析
-
-> 作者：[唐悦玮](https://tangyuewei.com)  |  从后端出发，用 AI 拓展到全栈的工程师。

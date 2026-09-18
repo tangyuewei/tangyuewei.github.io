@@ -192,5 +192,3 @@ SlopCodeBench 那组数据已经把这条界线画出来了——更好的提示
 10. [Autonomous Teams Ship Cleaner AI Code](https://www.span.app/blog/autonomous-teams-ai-code) — Span
 11. [AI can write code. It just can't maintain it.](https://www.artificialstudio.ai/blog/ai-can-write-code-it-just-can-t-maintain-it-about-the-future-of-creative-work) — ArtificialStudio，2026（引述 SlopCodeBench：威斯康星大学麦迪逊分校 / MIT / 华盛顿州立大学）
 12. Best Kept Secrets of Peer Code Review — SmartBear（对 Cisco 约 2,500 次评审的规模统计，业界常引用的经典研究）
-
-> 作者：[唐悦玮](https://tangyuewei.com)  |  从后端出发，用 AI 拓展到全栈的工程师。

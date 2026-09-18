@@ -183,5 +183,3 @@ claude plugin eval --trust-plugin \
 你会很快发现一件事：**有些 skill 你以为是它在起作用，其实不是。**
 
 这个发现本身，比任何一条 skill 都值钱。
-
-> 作者：[唐悦玮](https://tangyuewei.com)  |  从后端出发，用 AI 拓展到全栈的工程师。
