@@ -140,5 +140,3 @@ AI 写代码带来的知识产权风险，方向是反的：出口这一侧，�
 11. [Open-source licensing for engineers: a corporate codebase guide](https://www.flowverify.co/blog/open-source-licensing-engineers-corporate-codebase) — FlowVerify
 12. [AI-Generated Content and Intellectual Property: Who Owns What in 2026](https://misterwolflaw.com/ai-generated-content-intellectual-property-ownership-2026) — Mister Wolf Law
 13. [工业和信息化部关于印发《"人工智能+软件"专项行动实施方案》的通知](https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_49783ce685f042029111c8b6e94f0f30.html) — 工信部信发〔2026〕209号，2026-09-02
-
-> 作者：[唐悦玮](https://tangyuewei.com)  |  从后端出发，用 AI 拓展到全栈的工程师。

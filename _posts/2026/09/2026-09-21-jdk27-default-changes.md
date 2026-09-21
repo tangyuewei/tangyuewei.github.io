@@ -219,4 +219,3 @@ JDK 27 值得记住的不是某个新特性，而是它暴露的一类问题：*
 12. [Azul Zulu 27 General Availability Release Notes](https://docs.azul.com/core/release-notes/cck/icedteaweb/cck/cck/icedteaweb/uninstall/install/tpl) — Azul（支持周期至 2027-03、JEP 转正与预览清单）
 13. [Oracle ships JDK 27 with post-quantum TLS and compact headers](https://www.worldprogramming.org/posts/oracle-ships-jdk-27-with-post-quantum-tls-and-compact-headers-yvctve) — World Programming（外部贡献者占比与新 jcmd 能力）
 
-> 作者：[唐悦玮](https://tangyuewei.com)  |  从后端出发，用 AI 拓展到全栈的工程师。
