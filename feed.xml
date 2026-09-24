@@ -1,0 +1,1789 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://tangyuewei.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://tangyuewei.com/" rel="alternate" type="text/html" hreflang="zh-CN" /><updated>2026-09-24T09:33:29+08:00</updated><id>https://tangyuewei.com/feed.xml</id><title type="html">唐悦玮</title><subtitle>不以物喜，不以己悲。努力只是一种生活方式，先敬业，再乐业。</subtitle><entry><title type="html">单 Agent 能干的活，别上多 Agent</title><link href="https://tangyuewei.com/posts/single-agent-beats-multi/" rel="alternate" type="text/html" title="单 Agent 能干的活，别上多 Agent" /><published>2026-09-24T09:02:00+08:00</published><updated>2026-09-24T09:02:00+08:00</updated><id>https://tangyuewei.com/posts/single-agent-beats-multi</id><content type="html" xml:base="https://tangyuewei.com/posts/single-agent-beats-multi/"><![CDATA[<blockquote>
+  <p>摘要：2026 年多 Agent 编排很热，但多数团队只算了能力账，没算成本账。本文用几组可查的基准数字说明：多加 Agent，准确率往往只多几个百分点，token 却翻几倍，错误还会沿交接链放大。07-25 那篇聊了”什么时候该开舰队”，这篇聊”开了之后，账怎么算”。拿不准时，先给一个 Agent 同等总预算试一次，再决定要不要拆。</p>
+</blockquote>
+
+<h2 id="先算准确率账多加-agent多不了几点">先算准确率账：多加 Agent，多不了几点</h2>
+
+<p>多 Agent 最常被引用的卖点是”准确率更高”。把账摊开看，这个增益比想象中小。</p>
+
+<p>sunilprakash 在 2026-03 用 gpt-4o（温度 0）在同一组 30 道带引用要求的问答上，对比了工作流、单 Agent、多 Agent 三种架构：多 Agent 通过率 66.7%，单 Agent 63.3%，只多 <strong>3.4 个百分点</strong>，但成本是单 Agent 的 <strong>2.4 倍</strong>，端到端延迟是 <strong>2.2 倍</strong>。多 Agent 的优势几乎全部来自”对比类”和”跨文档综合类”题目，其他类别上它和单 Agent 打平，却白花 2.4 倍的钱。</p>
+
+<p>更扎心的是 Stanford 的反证。Tran 和 Kiela 在 arXiv:2604.02460 里做了一件事：给单 Agent 和多 Agent <strong>完全相同的总思考 token 预算</strong>。结果多 Agent 那点”优势”直接消失——单 Agent 准确率反而更高，算力还更省。原因很简单：此前几乎所有”多 Agent 赢”的基准，都默许多 Agent 多烧 2 到 4 倍的推理 token。尺子本身就不准。</p>
+
+<p>一句话收住：多 Agent 的”强”，有一部分是用钱买来的；把预算拉平，它并不比单 Agent 聪明。</p>
+
+<p>Princeton NLP Group 也给出过一个常被引用的结论：在工具和上下文对等的前提下，单 Agent 在 <strong>64%</strong> 的基准任务上持平或超过多 Agent。</p>
+
+<p><img src="/imgs/202609/2026-09-24-single-agent-beats-multi-infographic-1.jpg" alt="单 Agent 与多 Agent 的准确率成本对比" /></p>
+
+<h2 id="再算-token-账协调税吃掉三分之一">再算 token 账：协调税吃掉三分之一</h2>
+
+<p>多 Agent 的 token 不是简单相加，而是每次交接都要重述上下文。</p>
+
+<p>Anthropic 在工程复盘里提到，多 Agent 系统的 token 消耗约为普通对话的 <strong>15 倍</strong>。2026 年一些生产 fleet 的链路追踪显示，多 Agent 系统总 token 里大约有 <strong>37%</strong> 花在协调开销上——不是干活的 token，而是传上下文、重建状态、给没有记忆的 Agent 重新 brief。单 Agent 没有这道税，因为它整个任务都背着同一个上下文窗口。</p>
+
+<p>换句话说，你以为在买”并行”，实际在买”反复互相同步”。</p>
+
+<p>落到 Java 后端，这道税很具体：一个 Spring Boot 服务把任务拆给五个远程子 Agent，每次交接都要把共享上下文序列化再发一遍，账单和延迟都涨在你看不见的地方。</p>
+
+<h2 id="最危险的账错误会沿交接链放大">最危险的账：错误会沿交接链放大</h2>
+
+<p>这是多 Agent 真正该警惕的地方，单 Agent 没有这类故障模式。</p>
+
+<p>Google DeepMind 的研究给出过一个被广泛引用的量化：去中心化多 Agent 的错误放大倍数是 <strong>17.2 倍</strong>，即便带中心协调的架构，错误也会被放大约 <strong>4 倍</strong>。机制很清楚：Agent A 产出 10% 错误率，Agent B 把 A 的输出当输入且不独立校验，直接继承并叠加；到用户手里时，原始的小错误已经变成大故障。</p>
+
+<p>CMU 和 UC Berkeley 分析 7 个多 Agent 框架的 1642 条执行链路，失败率从 <strong>41% 到 86.7%</strong> 不等。还有研究跟踪 800 多条工作流，发现跨 Agent 交接约 7 次后会进入一个明显的退化相变——每轮交接只保留约 92% 的准确度，误差是指数级累积，不是线性。</p>
+
+<p>这解释了为什么很多多 Agent 系统”看起来在跑，实际在悄悄出错”：约 75% 的多 Agent 失败表现为不报警的灰色错误。</p>
+
+<p><img src="/imgs/202609/2026-09-24-single-agent-beats-multi-infographic-2.jpg" alt="错误沿交接链放大：A 的 10% 错误被 B、C 继承叠加" /></p>
+
+<h2 id="什么时候多-agent-真的值">什么时候多 Agent 真的值</h2>
+
+<p>说”别上多 Agent”不是说”永远别上”。两种情形，多 Agent 的溢价能赚回来：</p>
+
+<p>一是<strong>真并行</strong>。任务能拆成互不依赖的独立子块，并行跑比串行拼起来更快。研究也证实，在可并行任务上多 Agent 能带来明显提升；在顺序推理任务上反而普遍退化。</p>
+
+<p>二是<strong>生成加校验的双角色</strong>。一个 Agent 写，一个 Agent 以全新视角审，这个结构提升最大、代价最小。有基准测到：双角色（生成器加校验器）只多花 <strong>4.1%</strong> 的 token，却换来 <strong>17.7%</strong> 的性能提升。这是所有多 Agent 形态里性价比最高的一档。</p>
+
+<p>注意区别：双角色是”同一个问题的两遍”，不是”把活劈成五份各干各的”。后者往往掉进协调税和错误放大的坑。</p>
+
+<p>一个可操作的默认：先上单 Agent 加一个 critic，而不是一上来就五 Agent 舰队。前者拿到了双角色的大部分收益，后者先背上了全部协调税。</p>
+
+<h2 id="真要上协调层是生死线">真要上，协调层是生死线</h2>
+
+<p>如果任务确实该拆，那多 Agent 能不能活过生产，不看 Agent 多聪明，看协调层有没有建。</p>
+
+<p>一项 2026 的行业调研里有个刺眼的数字：<strong>68% 的多 Agent 部署在 72 小时内失败</strong>，根因不是模型不行，是缺协调层——上下文过时、任务边界模糊、错误跨节点级联。</p>
+
+<p>活下来的系统都显式处理了三件事：上下文新鲜度（每个 Agent 都跑在最新状态上）、任务边界（明确每个 Agent 拥有什么）、失败隔离（一个 Agent 的错不外溢）。有协调层 vs 没有，错误率能从 23% 压到 5%，延迟从 5.9 秒降到 1.8 秒。协调层不是开销，是 23% 和 5% 之间的那道墙。</p>
+
+<p><img src="/imgs/202609/2026-09-24-single-agent-beats-multi-infographic-3.jpg" alt="多 Agent 的协调层三件套：上下文新鲜、任务边界、失败隔离" /></p>
+
+<h2 id="结语">结语</h2>
+
+<p>多 Agent 不是银弹，是一笔要赚回溢价的税。准确率多 3 个点、token 翻 2.4 倍、错误放大 4 倍起——这些数字摆出来，多数”上舰队”的冲动会冷静下来。</p>
+
+<p>一个简单的决策顺序：先确认任务有没有可拆的独立子问题；再给单 Agent 同等总预算试一次，看它是不是已经够好；真要拆，只拆成生成加校验两角色或少数真并行的块，并把协调层当作一等公民。</p>
+
+<p>07-25 讲了怎么拆，这篇讲了拆完的代价。两篇合起来才是一句完整的话：能单干的别硬上多 Agent，要上的先把协调层焊死。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li>Tran D, Kiela D. Single Agents Win at Equal Token Budgets. arXiv:2604.02460, 2026.</li>
+  <li>sunilprakash.com. Architecture Comparison: Workflow vs Single-Agent vs Multi-Agent. 2026-03-26.</li>
+  <li>arionresearch.com. Multi-Agent Design Patterns: The Complexity Trap. 2026.</li>
+  <li>aurorasre.ai. Why Multi-Agent AI Systems Fail in Production. 2026.</li>
+  <li>zonflip.com. Running AI Agent Fleets in Production. 2026.</li>
+  <li>dev.to. 68% of Multi-Agent Deployments Fail Within 72 Hours. 2026.</li>
+  <li>Anthropic Engineering. Multi-agent systems use ~15x more tokens than chats. 2026.</li>
+</ol>]]></content><author><name></name></author><category term="AI编程" /><category term="工程实践" /><category term="AI编程" /><category term="多Agent" /><category term="成本" /><category term="错误放大" /><summary type="html"><![CDATA[摘要：2026 年多 Agent 编排很热，但多数团队只算了能力账，没算成本账。本文用几组可查的基准数字说明：多加 Agent，准确率往往只多几个百分点，token 却翻几倍，错误还会沿交接链放大。07-25 那篇聊了”什么时候该开舰队”，这篇聊”开了之后，账怎么算”。拿不准时，先给一个 Agent 同等总预算试一次，再决定要不要拆。]]></summary></entry><entry><title type="html">Java 后端的 Agent 门禁怎么搭</title><link href="https://tangyuewei.com/posts/java-agent-gates/" rel="alternate" type="text/html" title="Java 后端的 Agent 门禁怎么搭" /><published>2026-09-23T08:33:00+08:00</published><updated>2026-09-23T08:33:00+08:00</updated><id>https://tangyuewei.com/posts/java-agent-gates</id><content type="html" xml:base="https://tangyuewei.com/posts/java-agent-gates/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Agent 最大的坑不是报错，是”它说做完了，环境说没有”。本文借 Java 后端的天然资本——编译器、类型系统、Bean Validation、Micrometer/OTel——讲清怎么在模型周围搭四道确定性门禁，把假成功挡在缝里，而不是等上线后人工 debug。</p>
+</blockquote>
+
+<p>你给 Agent 派了个活：把这批工单的状态从”处理中”改成”已关闭”，顺手回写关闭原因。</p>
+
+<p>它跑了一阵，返回 status: success。你信了。</p>
+
+<p>三天后客服说，工单还停在”处理中”。你翻日志，每一步都绿，没有任何异常。问题出在哪儿？它调了更新接口，接口返回 200，但那条数据的状态字段根本没变——传入的 ticketId 在库里查无此单，更新命中 0 行。HTTP 成功，业务失败，Agent 浑然不知，还给你写了句”已处理完成”。</p>
+
+<p>这不是个案。tau2-bench 里，单控域近一半的失败是”声称完成但环境状态不符”；AppWorld 上，显式声明状态的失败里有 75.8% 是这一类。Reddy 等人的研究更狠：78% 的失败，对工具和 Agent 两边都不可见。</p>
+
+<p><img src="/imgs/202609/2026-09-23-java-agent-gates-infographic-1.jpg" alt="Agent 的四道门禁" /></p>
+
+<h2 id="java-后端自带栏杆的料">Java 后端自带栏杆的料</h2>
+
+<p>别的语言也在写 Agent，但 Java 后端搭门禁，料是现成的。</p>
+
+<p>编译器是免费的确定性闸门。Agent 生成的代码先过 javac，编译不过，连运行都到不了——类型错误、缺方法，都是确定性错误，不用等它编理由自圆其说。</p>
+
+<p>类型系统和 Bean Validation 把”语法对、语义错”的调用挡在工具执行前。Reddy 把这类问题叫 policy-permissive tools：工具接受任何合法调用，哪怕它违反业务规则。在 Java 侧，一个 @NotNull、一个 @Pattern 就能让这种调用在进模型之前被拒。</p>
+
+<p>Micrometer 加 OpenTelemetry 已经长在 Spring Boot 里。你不用自己造遥测，加两个依赖，链路自己就出来了。</p>
+
+<h2 id="第一道门编译门禁">第一道门：编译门禁</h2>
+
+<p>最便宜的门禁，是让生成物先过编译。</p>
+
+<p>不少团队让 Agent 直接改业务代码、直接部署。一旦它生成的接口签名和调用方对不上，运行时才炸，而且炸在离出错最远的地方。把 <code class="language-plaintext highlighter-rouge">./gradlew compileJava</code> 或 <code class="language-plaintext highlighter-rouge">mvn compile</code> 塞进 Agent 的”写完即验证”环节，编译失败立刻回退重来。这一步零模型调用、零额外成本，却挡掉了最大一类低级失败。</p>
+
+<h2 id="第二道门契约门禁">第二道门：契约门禁</h2>
+
+<p>工具不是”能调就行”，参数是有契约的。</p>
+
+<p>给工具的入参用 JSR-380 注解约束，执行前校验：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="n">record</span> <span class="nf">CloseTicketCmd</span><span class="o">(</span>
+    <span class="nd">@NotNull</span> <span class="nc">Long</span> <span class="n">ticketId</span><span class="o">,</span>
+    <span class="nd">@Pattern</span><span class="o">(</span><span class="n">regexp</span> <span class="o">=</span> <span class="s">"CLOSED|REJECTED"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">status</span><span class="o">,</span>
+    <span class="nd">@Size</span><span class="o">(</span><span class="n">max</span> <span class="o">=</span> <span class="mi">200</span><span class="o">)</span> <span class="nc">String</span> <span class="n">reason</span><span class="o">)</span> <span class="o">{}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>参数非法，直接抛约束违例，工具不执行。Reddy 的四门确定性闸门里，这一道叫”参数前检”——不依赖模型判断，纯规则。他的实验里，单纯加这类预执行闸门，就把 gpt-5.2 在工具调用任务上的成功率从 61.2% 拉到 71.6%。</p>
+
+<h2 id="第三道门状态门禁">第三道门：状态门禁</h2>
+
+<p>编译过了、参数对了，不代表世界真变了。</p>
+
+<p>工具执行完，要断言环境状态确实变了，而不是信 Agent 的回执。Spring AI 的 <code class="language-plaintext highlighter-rouge">ToolCallingManager</code> 周围可以包一层 Advisor，在工具返回后跑一条核验查询：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="kt">long</span> <span class="n">closed</span> <span class="o">=</span> <span class="n">ticketRepo</span><span class="o">.</span><span class="na">countByStatus</span><span class="o">(</span><span class="s">"CLOSED"</span><span class="o">);</span>
+<span class="nc">Assert</span><span class="o">.</span><span class="na">isTrue</span><span class="o">(</span><span class="n">closed</span> <span class="o">==</span> <span class="n">expected</span><span class="o">,</span> <span class="s">"关闭数与预期不符"</span><span class="o">);</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Reddy 的四门里，这道对应”状态后检”和”策略检”——查当前状态、查策略是否被违反。闸门本身不调用模型，毫秒级，却能把”更新命中 0 行”这类假成功当场抓出来。</p>
+
+<p><img src="/imgs/202609/2026-09-23-java-agent-gates-infographic-2.jpg" alt="它说成功，世界说没发生" /></p>
+
+<h2 id="第四道门链路门禁">第四道门：链路门禁</h2>
+
+<p>前三道是点上的闸，这一道是面上的图。</p>
+
+<p>Spring AI 对每次模型调用自动发两层 Micrometer observation：<code class="language-plaintext highlighter-rouge">gen_ai.client.operation</code> 记录 token、模型、请求参数，<code class="language-plaintext highlighter-rouge">okhttp.requests</code> 记录 HTTP 方法、URI、状态码，并在链路上传播 traceparent。工具调用另有 <code class="language-plaintext highlighter-rouge">ToolCallingObservationConvention</code>，把 <code class="language-plaintext highlighter-rouge">toolDefinitionName</code>、<code class="language-plaintext highlighter-rouge">toolDefinitionSchema</code> 一并记进 span。这些 span 把”工具名、参数、返回”串成一条可追的链，传统 APM 只看到 HTTP 200 的地方，这里能看到工具到底有没有做对事。</p>
+
+<p>接法不用改业务代码，application.yml 里把采样打开即可：</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="na">management</span><span class="pi">:</span>
+  <span class="na">tracing</span><span class="pi">:</span>
+    <span class="na">sampling</span><span class="pi">:</span>
+      <span class="na">probability</span><span class="pi">:</span> <span class="m">1.0</span>   <span class="c1"># 错误全采，成功流量可降到 0.1</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>再加 <code class="language-plaintext highlighter-rouge">micrometer-tracing-bridge-otel</code> 和 <code class="language-plaintext highlighter-rouge">spring-boot-starter-actuator</code>，链路直接进你现有的 OTel Collector。国产模型走 OpenAI 兼容接口时，同一套桥照样在线上传播 traceparent，不用为它单独改埋点。</p>
+
+<p>LangChain4j 侧，挂一个 <code class="language-plaintext highlighter-rouge">ObservationChatModelListener</code> 就能拿到同构的 Micrometer 遥测；它的 input/output guardrails 事件还能在工具前后插校验，和 Spring AI 的思路一致，只是表述换成了监听器。</p>
+
+<h2 id="评测门禁把场景固化成资产">评测门禁：把场景固化成资产</h2>
+
+<p>四道门挡的是”这次跑没跑对”。要挡”换了个 prompt 模型是不是退化了”，得有回归集。</p>
+
+<p>把你们真实的工单流转、审批、对账场景固化成一组成 golden 用例，每次动 prompt 或换模型，CI 里跑一遍。断言不是”输出等于某字符串”，而是”状态机走到了对的终态”——和状态门禁同一套思路，从单次运行升到版本对比。</p>
+
+<h2 id="代价与边界">代价与边界</h2>
+
+<p>门禁不是越多越好。</p>
+
+<p>高风险动作（删库、对外发件）才值得上人工确认；低风险读操作，确定性闸门挡”语法对语义错”就够了，别用闸门去审创意。闸门本身也有成本：每道后检都是一次额外查询，高频工具要权衡采样率。</p>
+
+<p>最该警惕的是把闸门当免责。闸门挡得住确定性错误，挡不住”目标定错了”——它说关工单，你其实想关的是另一批。门禁管执行，不管意图，意图还得人来定。</p>
+
+<p><img src="/imgs/202609/2026-09-23-java-agent-gates-infographic-3.jpg" alt="门禁不是越多越好" /></p>
+
+<h2 id="结语">结语</h2>
+
+<p>Agent 不可靠，往往不是模型不行，是它周围没栏杆。Java 后端恰好把栏杆的料都备齐了：编译器、类型、Bean Validation、Micrometer。</p>
+
+<p>四道门一搭，假成功从”上线后人工 debug”变成”执行时当场拦截”。Lightrun 今年一项针对 SRE 与 DevOps 负责人的调查里，43% 的 AI 改动上线后仍要人工 debug，88% 需要两到三次重部署才确认——把门禁前置，这两组数字能砍掉一大截。</p>
+
+<hr />
+
+<p><strong>参考资料</strong></p>
+
+<ol>
+  <li>From Confident Closing to Silent Failure（ICML 2026 FAGEN Workshop，arXiv:2606.09863）——tau2-bench 单控域 45–48% 失败为假成功</li>
+  <li>Agents fail by declaring success（NZWE Journal，2026-07）——AppWorld 75.8% 假成功、5 个 LLM judge AUROC ≤0.65</li>
+  <li>Reddy et al., Reason Less, Verify More（arXiv:2607.07405）——78% 失败对工具与 Agent 不可见；四门确定性闸门 gpt-5.2 61.2%→71.6%</li>
+  <li>Spring AI Observability 参考（docs.spring.io/spring-ai）——gen_ai.client.operation / okhttp.requests 双层 observation、ToolCallingObservationConvention</li>
+  <li>LangChain4j Observability 教程（docs.langchain4j.dev）——ObservationChatModelListener、guardrails 事件</li>
+  <li>Lightrun 2026 SRE/DevOps 调查——43% AI 改动上线后人工 debug、88% 需 2–3 次重部署</li>
+  <li>OpenTelemetry GenAI Semantic Conventions v1.30——agent/chat/tool span 树与 gen_ai.* 属性</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="Java" /><category term="Agent" /><category term="可观测性" /><category term="SpringAI" /><category term="LangChain4j" /><category term="确定性门禁" /><summary type="html"><![CDATA[摘要：Agent 最大的坑不是报错，是”它说做完了，环境说没有”。本文借 Java 后端的天然资本——编译器、类型系统、Bean Validation、Micrometer/OTel——讲清怎么在模型周围搭四道确定性门禁，把假成功挡在缝里，而不是等上线后人工 debug。]]></summary></entry><entry><title type="html">Agent 工具给到六十个，它开始挑花眼</title><link href="https://tangyuewei.com/posts/agent-tool-sprawl/" rel="alternate" type="text/html" title="Agent 工具给到六十个，它开始挑花眼" /><published>2026-09-22T08:46:00+08:00</published><updated>2026-09-22T08:46:00+08:00</updated><id>https://tangyuewei.com/posts/agent-tool-sprawl</id><content type="html" xml:base="https://tangyuewei.com/posts/agent-tool-sprawl/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：工具定义不是免费的元数据，是每轮请求都要付的固定税，还会让模型在名字相近的工具之间瞎猜。这篇把账算清，说清按需检索治得了什么、治不了什么，以及 Java 侧接进去要留意哪几件事。</p>
+</blockquote>
+
+<p>企业内部 Agent 上线一个月，接了几个 MCP server，工具总数六十多个。有人问一句”查一下华东区的库存异常”，它调了工具。没报错，返回格式也对，结果是错的。</p>
+
+<p>它挑的是名字最像的那个，参数里有一半是从另一个工具的描述里凑来的。</p>
+
+<p>翻上下文才发现问题在哪。Anthropic 官方举过一个五服务器的例子：GitHub 35 个工具、Slack 11 个、Sentry 5 个、Grafana 5 个、Splunk 2 个，一共 58 个。</p>
+
+<p>这些定义加起来约 55,000 token，在用户说第一句话之前就全塞进去了。再挂一个 Jira，多 17,000。他们提到内部见过工具定义单独吃掉 134,000 token 的情况。</p>
+
+<p>六十个工具，就是这么来的。</p>
+
+<h2 id="工具定义是每轮都要付的固定税">工具定义是每轮都要付的固定税</h2>
+
+<p>先说这笔看得见的账。</p>
+
+<p>工具定义不是一个名字。它是完整的对象：名称、自然语言描述、参数的 JSON Schema。描述写得越仔细，token 越多。业界估算是单个工具 100 到 500 token，取决于描述啰嗦到什么程度。</p>
+
+<p>关键在于”每轮”。工具定义要放进每一次请求，因为模型自己不记上下文。用户问题、系统提示、对话历史、真正检索回来的数据，全都在同一个池子里跟它抢空间。</p>
+
+<p>有一组实测把差距摆得很清楚：一台挂了 172 个工具的编码 Agent，用户还没打字，141K token 已经没了。同一批工具打开按需加载之后，这些定义占的 token 起步是 0，实际用到时也只涨到 2.6K。同一套工具、同一份工作，只是加载方式不同，差五十倍以上。</p>
+
+<p>还有一份被引得不多的研究值得单独说。《Help or Hurdle? Rethinking Model Context Protocol-Augmented Large Language Models》那篇论文，跨三个任务域、六个模型测下来，把 MCP 工具接进模型之后，效果平均<strong>下降约 9.5%</strong>，比同一个模型不接任何工具的基线还差。</p>
+
+<p>工具是相关的，数据是真的，模型还是变差了。”接了总比不接强”这个默认假设，是有反例的。</p>
+
+<h2 id="更要命的是准确率断崖不是缓坡">更要命的是准确率断崖，不是缓坡</h2>
+
+<p>token 是明面上的成本。选择准确率才是贵的那笔。</p>
+
+<p>一个被引用最多的数字来自 MCP 工具检索研究：工具列表变长，Agent 挑对工具的比例从 43% 掉到 14% 以下。这不是缓慢退化，是塌陷。同一份分析还提到，常规 MCP 配置下工具定义能吃掉上下文窗口的七成以上。</p>
+
+<p>厂商给的数字收敛得出奇一致，三家独立推导出来的都落在同一个数量级：</p>
+
+<ul>
+  <li>Anthropic 的口径是工具超过 30 到 50 个，选择能力开始退化，建议在 10 个工具或 10K token 定义时就上检索</li>
+  <li>OpenAI 建议每轮开头的可用函数少于 20 个</li>
+  <li>Gemini 的指引把活跃工具集压在 10 到 20 个</li>
+</ul>
+
+<p>机会修正之后的数据更有意思。今年五月那篇《How Many Tools Should an LLM Agent See? A Chance-Corrected Answer》在 BFCL 的 370 个工具上测。</p>
+
+<p>给模型看 50 个工具，选择准确率 60.9%；把名单收到 7 个左右，涨到 76.8%。把”瞎蒙也能中”的运气成分修正掉之后，名单长度的影响比原始数字还明显。</p>
+
+<p>但别急着得出”越少越好”。同一批研究里有一条反向结果：在 ToolBench 的 3,251 个工具上，固定给 5 个的名单在聚合覆盖率上赢了（64.7% 对 61.9%），可在困难查询上——正确工具排在第 6 到第 20 位那种——它一个都找不到。往深里搜能捞回来 16.7%。</p>
+
+<p>所以两头都是死法：给太少，该用的工具不在名单里；给太多，模型挑错。要算的不是”几个合适”，是”错在哪一环”。</p>
+
+<p><img src="/imgs/202609/2026-09-22-agent-tool-sprawl-infographic-1.jpg" alt="工具定义每轮都发、模型在一排名字相近的卡片里挑错、结果不报错也是错的" /></p>
+
+<h2 id="断崖的主因不是看不过来是长得像">断崖的主因不是看不过来，是长得像</h2>
+
+<p>到这里，最顺手的解释是注意力稀释：窗口太长，埋中间的内容模型看到了但没用上，也就是常说的 lost in the middle。</p>
+
+<p>这个解释今年被实测顶了一下。</p>
+
+<p>有研究专门看工具选择到底在哪一步失败。结果是：模型在 80% 的情况下注意力确实落在正确工具上，随机基线是 21%。</p>
+
+<p>失败案例里，”正确工具恰好是被忽视的那个”只占约 10%。作者的原话是这反驳了关于工具列表拥挤的 lost-in-the-middle 假设。他们还给工具重排过顺序，最多只能救回 23% 的失败。</p>
+
+<p>病灶不在注意力分配，在语义重叠。</p>
+
+<p>三个可观测性 server 接在一起是什么样：<code class="language-plaintext highlighter-rouge">sentry·list_issues</code>、<code class="language-plaintext highlighter-rouge">datadog·search_logs</code>、<code class="language-plaintext highlighter-rouge">aws·get_log_events</code>、<code class="language-plaintext highlighter-rouge">github·list_issues</code> 排成一排。对着人类这是四件不同的事。</p>
+
+<p>对着一个在重上下文压力下做模糊匹配的模型，它们之间的语义边界会糊掉——它会挑中一个 schema，填进去从另一个工具那里记来的参数。</p>
+
+<p>这种重叠有多普遍，有人量过：377 个可注册 MCP server、7164 个工具、十七万多个工具对逐个比对，名字共享大部分词或描述高度重叠的算”容易混”。结论是大约每四个 server 里就有一个，存在至少一对容易混的工具。</p>
+
+<p>这个数字本身有个来回。作者第一版算出来是 45.8%，后来自己更正到 23.8%。原因很实在：样本里 97 个 URL 是同一家网关的不同路径，同一份工具设计被数了 97 次。他还提到，混淆集中在工具面大的 server 上，不是均匀铺开的。</p>
+
+<p>一个接近一半的惊人数字，缩水成一个大约四分之一的正常数字。原文里那句反思比数字本身有价值——他本来对更窄的那个指标做了去重，却没把修正带回最惊人的那个指标上。</p>
+
+<p>回到主线。最能说明问题的是研究里那句拆解：就算给到 oracle 检索，也就是正确答案百分之百保证可见，<strong>仍然差大约 10 个百分点</strong>。原文说这 10 个点不是检索能补回来的，短名单缩小了候选集，但路由器仍然会混淆语义相近的工具。</p>
+
+<p>这句话决定了后面这些方案的适用范围。把工具描述写短，能治第一类（吃上下文），对第二类一点用没有。只有把重叠的工具真的删掉或者合并，才动得了那 10 个点。</p>
+
+<p><img src="/imgs/202609/2026-09-22-agent-tool-sprawl-infographic-2.jpg" alt="真正的病灶不是看不过来，是那几张几乎一模一样的卡片" /></p>
+
+<h2 id="三条路各治一种病">三条路，各治一种病</h2>
+
+<p>现在被讲得最多的有三条路线。它们不等价，因为治的不是同一种病。</p>
+
+<p><strong>按需检索——治数量。</strong> 把工具定义全部延迟加载，初始只放一个搜工具的工具。模型需要什么能力就用自然语言去搜，返回三到五个相关定义展开进上下文。</p>
+
+<p>Anthropic 那篇<a href="https://www.anthropic.com/engineering/advanced-tool-use">官方工程博客</a>给的数字是：55K 降到 8.7K，降幅 85%；Opus 4 的选择准确率从 49% 涨到 74%，Opus 4.5 从 79.5% 涨到 88.1%。搜索工具自己占约 500 token。</p>
+
+<p>代价得说清楚。这只治数量，而且检索本身会引入一种新的死法——检索没命中，”找不到该用的工具”，比”工具太多选错”好不到哪去。省下的 token 要拿一部分去建评测集、验证检索命中率，这笔账得一起算。</p>
+
+<p><strong>合并同类项——治重叠。</strong> 名字像、描述重叠、干的事差不多的工具，合并成一个。GitHub Copilot 把自己的工具从 40 个砍到 13 个，同时拿到约 400 毫秒的延迟改善和 2 到 5 个百分点的准确率提升。一个有充分动机宣传能力广的团队，主动把能力交少了，数字还变好了。</p>
+
+<p>厂商自己也在做同一件事。Datadog 的 MCP server 到今年 6 月长到 22 个 toolset、142 个工具，官方文档里专门给了一个 <code class="language-plaintext highlighter-rouge">toolsets</code> 查询参数，让客户端只要其中一部分。这个参数本身就是一句承认。</p>
+
+<p>合并不是随便合。边界是<strong>在同一个后果等级里合，不跨等级合</strong>。把查询和退款并成一个工具，或者把写操作藏在读操作的 schema 里，那不是优化选择准确率，那是把可靠性问题升级成治理问题——后者修不了。</p>
+
+<p>这一条至少说明一件事：删掉重叠的工具，收益是能被量出来的——延迟和准确率同时改善，而且是主动收窄能力的团队自己报出来的。</p>
+
+<p><strong>换交付单位——治中间结果。</strong> 前两条还在选哪个工具这个层面打转。第三条换的是单位：让模型写代码去编排工具，中间结果在沙箱里被脚本处理掉，只有最终结果进上下文。</p>
+
+<p>Anthropic 那个差旅预算的例子里，20 多次工具调用、2000 多条费用明细，上下文从 200KB 的原始数据降到 1KB 的结果；整体 token 省 37%，消掉 19 次以上推理往返。</p>
+
+<p>有一个产品把这套做得更彻底：会话那一层根本不放 schema，只放一份目录——接了哪几个系统、一句话说它能干什么。目录够用来判断该找哪个系统，不够用来编造一次调用。工具只有被某条场景规则引用到了，才进这一轮对话。</p>
+
+<p><img src="/imgs/202609/2026-09-22-agent-tool-sprawl-infographic-3.jpg" alt="按需检索、合并同类、换交付单位，三条路治的病各不相同" /></p>
+
+<h2 id="按需检索有个反噬它可能把缓存打破">按需检索有个反噬：它可能把缓存打破</h2>
+
+<p>这一条最容易踩，因为它藏在一个看起来最省 token 的做法里。</p>
+
+<p>直觉是这样：每轮按需取该用的那几个工具，token 最少，所以最好。不对。</p>
+
+<p>原因在提示缓存的层级。模型算前缀的顺序是工具定义、系统提示、消息历史。工具定义在最顶上，它一变，下面所有层级的缓存全部作废。</p>
+
+<p>而命中缓存的 token 单价是未命中的十分之一。以 Claude Sonnet 4 为例，缓存读取是每百万 token 0.3 美元，基础输入是 3 美元。</p>
+
+<p>所以，如果每一轮都动态取一个不同的工具子集，你省下的那点定义 token，一次缓存失效就全赔回去了。</p>
+
+<p>正确的做法和直觉反着来：<strong>核心工具三到五个常驻，且顺序稳定；其余延迟加载。</strong> 延迟的工具是加载进消息历史，不碰前缀。Anthropic 那套设计之所以不破坏 prompt 缓存，就是因为前缀始终是同一份。</p>
+
+<p>顺带一个更隐蔽的坑：有些语言序列化 JSON 时字典键顺序是随机的，Swift 和 Go 都有这个行为。同一批工具每次序列化出来的字节流不一样，缓存照样失效。修法是序列化前把键顺序固定下来。</p>
+
+<p>这套账也不是什么时候都成立。工具本来就少、每轮都用的场景，定义占不了多少缓存前缀，破不破都无所谓。</p>
+
+<p>本地推理也一样。有些自托管后端不跨请求复用 KV 缓存，那十倍价差根本不存在，缓存这一条也就不咬人了。它咬的是多轮对话、走 API、有重复前缀的场景。</p>
+
+<h2 id="java-侧怎么接">Java 侧怎么接</h2>
+
+<p>Spring AI 2.0 把按需检索做成了可替换的 Advisor。加个 starter，开一个开关，默认的 <code class="language-plaintext highlighter-rouge">ToolCallingAdvisor</code> 就被换掉：</p>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="py">spring.ai.chat.client.tool-search-advisor.enabled</span><span class="p">=</span><span class="s">true</span>
+<span class="py">spring.ai.chat.client.tool-search-advisor.tool-index-type</span><span class="p">=</span><span class="s">regex</span>
+<span class="py">spring.ai.chat.client.tool-search-advisor.max-results</span><span class="p">=</span><span class="s">5</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>索引有三种，<a href="https://docs.spring.io/spring-ai/reference/api/tools/tool-search-tool.html">官方文档</a>列的是 regex、lucene、vector。regex 是默认值，零额外依赖。</p>
+
+<p>迁移指南的口径很一致——先用 regex 起步，等量过目录规模、检索精度和延迟之后，再换 lucene 或 vector。别一上来就架向量库。</p>
+
+<p>有两个点容易翻车。</p>
+
+<p><strong>一是索引按 session 隔离，调用方每次请求都必须传 session ID。</strong> 默认从 <code class="language-plaintext highlighter-rouge">ChatMemory.CONVERSATION_ID</code> 取；你们要是习惯用 <code class="language-plaintext highlighter-rouge">tenantId</code>，可以用 <code class="language-plaintext highlighter-rouge">sessionIdKeyName("tenantId")</code> 改。</p>
+
+<p>不传的后果不是报错，是几个租户看见彼此的工具。</p>
+
+<p><strong>二是官方给了三条启用判据</strong>：工具 10 个以上、工具定义每请求超过 10K token、已经观察到选择出错。三条都不占，就老实用默认 Advisor，别为了显得先进多一跳。</p>
+
+<p>LangChain4j 的路线不是同一个形状。它把要不要给模型看做成了工具自己的属性：标 <code class="language-plaintext highlighter-rouge">SEARCHABLE</code> 的工具，只有被检索策略找到才可见；标 <code class="language-plaintext highlighter-rouge">ALWAYS_ALLOW</code> 的每轮都在。</p>
+
+<p>上下文里同时维护两个集合：<code class="language-plaintext highlighter-rouge">availableTools</code>（全部注册的）和 <code class="language-plaintext highlighter-rouge">effectiveTools</code>（这一轮真正发出去的）。<a href="https://langchain4j.cn/tutorials/tools.html">官方文档</a>里 <code class="language-plaintext highlighter-rouge">ToolProvider</code> 那段更实用——按 <code class="language-plaintext highlighter-rouge">userContext</code>、<code class="language-plaintext highlighter-rouge">chatMemoryId</code> 在每次请求时决定给哪些工具：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="nc">ToolProvider</span> <span class="n">provider</span> <span class="o">=</span> <span class="n">request</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">userContext</span><span class="o">().</span><span class="na">contains</span><span class="o">(</span><span class="s">"admin"</span><span class="o">))</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="nc">AdminTools</span><span class="o">());</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="nc">UserTools</span><span class="o">());</span>
+<span class="o">};</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>这段对多租户是刚需。不同角色本来就不该看见同一批工具，权限边界不能靠工具描述去兜。</p>
+
+<p>还有两个现成的护栏别浪费：<code class="language-plaintext highlighter-rouge">hallucinatedToolNameStrategy</code>（模型编了个不存在的工具名时，返回一条安全的错误话术，而不是把栈抛出去），以及 <code class="language-plaintext highlighter-rouge">toolArgumentsErrorHandler</code>（参数错了回一条模型读得懂的话）。</p>
+
+<h2 id="动手之前先量三样">动手之前先量三样</h2>
+
+<p>真要动工具层，第一件事不是改配置，是量。打一次请求，看工具定义占了多少 token。把工具清单列出来，标出名字相近、描述重叠的对。建评测集，里面必须放名字相近的、危险的、跨权限边界的工具。</p>
+
+<p>评测集里没有容易混的样本，你测不出检索有没有用。这三样量完，配置改不改、往哪个方向改，自己就清楚了。</p>
+
+<p>最后一个运维上的坑：工具的”健康”不能只看 HTTP 200。有份实测拿 11 个公开 MCP server 做了真握手测试——最快的 97 毫秒，最慢的 20.8 秒，中位数 522 毫秒，差了 215 倍。</p>
+
+<p>这 11 个 server 一共 245 个工具，而一个普通的 uptime 探测，在工具被改名、入参变了之后，照样报健康。</p>
+
+<p>回到开头那个查库存的 Agent。它不缺能力，缺的是清单里那几个工具彼此分得清。工具列表是一份预算，不是一份能力清单——多加一个工具，你同时买到一次新能力，和一次新的选错机会。六十个工具不等于六十项能力，那是六十次挑错的机会。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li><a href="https://www.anthropic.com/engineering/advanced-tool-use">Introducing advanced tool use on the Claude Developer Platform</a> — Anthropic Engineering（defer_loading 机制、58 工具 55K token、134K token 实例、Opus 4 与 4.5 的准确率变化、程序化调用的 token 与延迟数据）</li>
+  <li><a href="https://docs.spring.io/spring-ai/reference/api/tools/tool-search-tool.html">Tool Search Tool</a> — Spring AI 官方文档（三类 ToolIndex、maxResults 默认值、session 隔离与 sessionIdKeyName、三条启用判据）</li>
+  <li><a href="https://docs.spring.io/spring-ai/reference/api/tools.html">Tool Calling · Scaling to Hundreds of Tools</a> — Spring AI 官方文档（默认 Advisor 的全量发送行为、单属性开关、MCP 工具不自动注册的原因）</li>
+  <li><a href="https://langchain4j.cn/tutorials/tools.html">工具（函数调用）</a> — LangChain4j 官方中文文档（ToolProvider 动态工具、ToolSpecification 与 ToolExecutor 配对）</li>
+  <li><a href="https://deepwiki.com/langchain4j/langchain4j/3.1-streaming-responses">Tools and Function Calling</a> — DeepWiki 对 LangChain4j 源码的结构化说明（SearchBehavior 的 SEARCHABLE 与 ALWAYS_ALLOW、ToolServiceContext 的 availableTools 与 effectiveTools、hallucinatedToolNameStrategy）</li>
+  <li><a href="https://agentpatterns.ai/tool-engineering/advanced-tool-use">Advanced Tool Use: Scaling Agent Tool Libraries</a> — Agent Patterns（三家厂商工具数量建议汇总、Tool Search 两种检索变体、程序化调用的 token 与准确率数据）</li>
+  <li><a href="https://agentpatterns.ai/patterns/anti-patterns/dynamic-tool-fetching-cache-break">Dynamic Tool Fetching Breaks KV Cache</a> — Agent Patterns（工具定义位于缓存前缀顶层、缓存读取与基础输入的单价对比、非确定性 JSON 序列化破坏缓存）</li>
+  <li><a href="https://dev.to/gde/skills-sprawl-when-too-much-of-a-good-thing-confuses-your-ai-agent-4nij">Skills Sprawl: When Too Much of a Good Thing Confuses Your AI Agent</a> — Google Developer Experts 社区（对 Repantis 等《How Many Tools Should an LLM Agent See? A Chance-Corrected Answer》2026-05 的数据引述；该链接为技术解读，非论文原文）</li>
+  <li><a href="https://nerdleveltech.com/en/how-many-tools-can-an-ai-agent-handle">How Many Tools Can an AI Agent Handle? (2026 Data)</a> — Nerd Level Tech（51 至 584 工具的分档对照、混淆缺口不可由检索回收、oracle 检索后仍差约 10 点、BM25 短名单劣于不做短名单、LiveMCPBench 中检索错误的失败占比）</li>
+  <li><a href="https://dev.to/theopslog/nearly-half-of-mcp-servers-expose-tools-an-agent-could-plausibly-confuse-30om">About a quarter of MCP servers expose tools an agent could plausibly confuse</a> — TheOpsLog，2026-08-04 更正版（377 个 server、7164 个工具、十七万工具对的混淆度测量，以及原 45.8% 更正为 23.8% 的原因）</li>
+  <li><a href="https://www.mantissaai.com/blog/agent-tool-budget-not-tool-count">You Connected Another Integration. Your Agent Got Worse at Choosing.</a> — Mantissa AI（单工具 token 区间、134K 内部实例、Datadog 142 工具与 toolsets 参数、Speakeasy 的 107 工具测试、启用的三条判据）</li>
+  <li><a href="https://aimdoc.ai/blog/too-many-mcp-tools-why-we-built-services">Too Many MCP Tools Makes Your Agent Worse. Here Is What We Do Instead.</a> — Aimdoc（63 个工具导致三轮空转的现场记录、会话层只放目录不放 schema 的做法、skill 作为工具的准入开关）</li>
+  <li><a href="https://www.agenticfabriq.com/blog/designing-tools-agents-can-use">Designing Tools Agents Can Actually Use</a> — Agentic Fabriq（Anthropic 与 OpenAI、Gemini 的建议区间对照、3251 工具下固定短名单与深搜的取舍、同一后果等级内合并的原则）</li>
+  <li><a href="https://stealwhatworks.com/blogs/news/openrouter-for-tools">Should you build Openrouter for tools?</a> — Steal What Works（MCPWatch 2026-06 对 11 个公开 MCP server 的真握手实测：97 毫秒至 20.8 秒、中位数 522 毫秒、215 倍差距、245 个工具与 uptime 探测失效）</li>
+  <li><a href="https://developer.aliyun.com/article/1760537">AI Agent 开发框架选型与百炼平台 Agent 构建最佳实践</a> — 阿里云开发者社区（工具功能描述避免歧义、控制工具数量在合理范围内、复杂操作拆分粒度的官方建议）</li>
+  <li><a href="https://blogs.frigga.cloud/2026/08/your-ai-agent-is-not-dumb-you-gave-it.html">Your AI Agent Is Not Dumb. You Gave It Too Many Tools.</a> — Frigga Blogs（单工具 100 至 500 token、RAG-MCP 研究中 43% 降至 14% 以下与工具定义占上下文的比例、GitHub Copilot 工具数 40 降至 13 及延迟与准确率变化、五到七个 server 的经验上限；该文为二次整理，《Help or Hurdle?》论文与 RAG-MCP 原始研究均未取得可链地址）</li>
+  <li><a href="https://www.milik.ai/articles/2c44b150f0">Why Loading Every Tool Into Your AI Agent Makes It Worse</a> — Milik（172 个工具占用 141K token、开启按需加载后工具占用从 0 到 2.6K 的同一场景对照）</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="Java" /><category term="Agent" /><category term="工具调用" /><category term="MCP" /><category term="SpringAI" /><category term="LangChain4j" /><summary type="html"><![CDATA[摘要：工具定义不是免费的元数据，是每轮请求都要付的固定税，还会让模型在名字相近的工具之间瞎猜。这篇把账算清，说清按需检索治得了什么、治不了什么，以及 Java 侧接进去要留意哪几件事。]]></summary></entry><entry><title type="html">Java 27 不用改代码，但你得改启动参数</title><link href="https://tangyuewei.com/posts/jdk27-default-changes/" rel="alternate" type="text/html" title="Java 27 不用改代码，但你得改启动参数" /><published>2026-09-21T08:38:00+08:00</published><updated>2026-09-21T08:38:00+08:00</updated><id>https://tangyuewei.com/posts/jdk27-default-changes</id><content type="html" xml:base="https://tangyuewei.com/posts/jdk27-default-changes/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：JDK 27 的九个 JEP 里，四个转正的都是默认值变更。升级后你可能一行代码不用改，但堆占用、GC 行为、JFR 录制内容都会变。这篇把三处默认值改动、一批被移除的启动参数和升级前的验证方法一次说清楚。</p>
+</blockquote>
+
+<h2 id="一版不给你新语法的版本">一版不给你新语法的版本</h2>
+
+<p>升级 JDK 这件事，多年来的肌肉记忆是：换个 JVM，编译通过，跑起来，收工。</p>
+
+<p>JDK 27 打破了这个记忆。它在 9 月 15 日 GA，九个 JEP 里四个转正的，没有一个引入新语法——它们改的都是默认值。</p>
+
+<p>G1 成为所有环境的默认垃圾回收器、紧凑对象头默认开启、JFR 默认对敏感数据脱敏、TLS 1.3 默认启用后量子混合密钥交换。你的代码可以一个字不动，但 JVM 在你没指定的那些参数上，已经替你做了不同的选择。</p>
+
+<p>这是最容易被漏掉的一类改动。新语法不写就碰不到，默认值却是你以为自己没配、实际别人替你配好的东西。</p>
+
+<p><img src="/imgs/202609/2026-09-21-jdk27-default-changes-infographic-1.jpg" alt="JDK 27 九个 JEP 全景" /></p>
+
+<p>九个 JEP 分四类：HotSpot 三项（G1 默认、紧凑对象头、JFR 脱敏）、安全库两项（后量子 TLS、PEM 编码）、核心库三项（惰性常量、结构化并发、Vector API）、语言一项（原始类型模式匹配）。</p>
+
+<p>除了 HotSpot 与安全库那四个转正的，其余五个仍在预览或孵化阶段，需要显式加 <code class="language-plaintext highlighter-rouge">--enable-preview</code> 才能用。</p>
+
+<p>默认值这种东西有个特点：它不在你的配置文件里，不在 code review 里，也不在部署清单里。所以它变了，你不会收到通知。</p>
+
+<h2 id="g1-全域默认那个没人配过的参数">G1 全域默认：那个没人配过的参数</h2>
+
+<p>先讲一个事实：过去这些年，大量容器里的 Java 应用跑的是 Serial GC，而团队并不知道。</p>
+
+<p>原因在 JDK 9。那一年 G1 成为默认 GC（JEP 248），但只对”服务器级”机器生效——大致是至少两个硬件线程、2GB 内存。在那条线以下，HotSpot 会静默切换到 Serial。</p>
+
+<p>那条线的准确位置是：单 CPU，或者物理内存不到 1792MB。</p>
+
+<p>所以一个 1 核 1.5G 的容器，<code class="language-plaintext highlighter-rouge">java -jar app.jar</code> 跑起来，实际用的是 Serial。没人显式指定过，监控面板上也看不出来——GC 名字不写在业务日志里，除非你专门去读。</p>
+
+<p>JDK 27 把这条启发式规则删了，改由 <a href="https://openjdk.org/jeps/523">JEP 523</a> 定下新规则：只要命令行没指定收集器，任何硬件、任何容器规格，默认都是 G1。</p>
+
+<p>敢删是因为 G1 这些年确实被磨快了。JDK 26 的 JEP 522 减少同步开销之后，G1 的最大吞吐量已经接近 Serial；原生内存占用也降到了同一量级；最大延迟则一直是 G1 更好，因为它靠增量回收而非 Full GC 来回收老年代。</p>
+
+<p>还有一个连带改动容易漏掉：G1 的 <code class="language-plaintext highlighter-rouge">-XX:MinHeapFreeRatio</code> 默认值从 40 变成 0，<code class="language-plaintext highlighter-rouge">-XX:MaxHeapFreeRatio</code> 从 70 变成 100。</p>
+
+<p>这两个值组合起来，等于默认关掉了基于比例的堆伸缩——以前 Full GC 之后 JVM 可能做一次伸缩动作，对频繁调用 <code class="language-plaintext highlighter-rouge">System.gc()</code> 的应用来说这是纯粹的反效果。</p>
+
+<p>于是真正的问题来了：你的服务会不会被换人？</p>
+
+<p>Homann Software 在 9 月 16 日做了一组对照实测，用的是 Temurin 21 与 OpenJDK 27 两个发行版，同一台 Windows 机器，参数都是 <code class="language-plaintext highlighter-rouge">-XX:ActiveProcessorCount=1 -Xmx128m</code>：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>配置</th>
+      <th>Java 21 结果</th>
+      <th>Java 27 结果</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>默认</td>
+      <td>Serial / 123 MiB</td>
+      <td><strong>G1 / 128 MiB</strong></td>
+    </tr>
+    <tr>
+      <td>显式 <code class="language-plaintext highlighter-rouge">-XX:+UseG1GC</code></td>
+      <td>G1 / 128 MiB</td>
+      <td>G1 / 128 MiB</td>
+    </tr>
+    <tr>
+      <td>显式 <code class="language-plaintext highlighter-rouge">-XX:+UseSerialGC</code></td>
+      <td>Serial / 123 MiB</td>
+      <td>Serial / 127 MiB</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>跨发行版、跨大版本，这是一份可复现的配置对照，不是隔离的性能实验。</p>
+
+<p><img src="/imgs/202609/2026-09-21-jdk27-default-changes-infographic-2.jpg" alt="G1 换人的那条分界线" /></p>
+
+<p>第三行是关键：<strong>显式指定过的，JDK 27 一个都不动</strong>。变的只是那些依赖默认值的部署。</p>
+
+<p>也就是说，这条改动专挑”从来没写过 GC 参数”的服务下手。而这批服务的共同特征是——小规格容器，没人专门调过 JVM。</p>
+
+<p>要不要改回去？先测。JEP 523 的非目标里明确写了不废弃也不移除任何收集器，<code class="language-plaintext highlighter-rouge">-XX:+UseSerialGC</code> 照样能用。批量任务、吞吐敏感的离线作业，Serial 单线程简单直接可能仍然划算；在线服务通常更在意延迟，G1 本来就更稳。</p>
+
+<p>先用小规格机器跑一轮，对比吞吐量、尾延迟、启动时间和 RSS 再决定。</p>
+
+<h2 id="紧凑对象头白捡的内存顺带的风险">紧凑对象头：白捡的内存，顺带的风险</h2>
+
+<p>第二个默认值是紧凑对象头（<a href="https://openjdk.org/jeps/534">JEP 534</a>）。</p>
+
+<p>64 位 HotSpot 的对象头本来是两个字：一个 mark word，一个类指针，加起来 96 位、12 字节。紧凑对象头把 mark word、压缩类指针和几个元数据位塞进一个 64 位值里，也就是 8 字节。</p>
+
+<p>单个对象省 4 字节，听起来不值一提。但对象头是典型的小对象占比很高的”公摊”。举个最有利的例子：一个只有两个 int 字段的对象，老布局是 12 字节头加 8 字节字段，按 8 字节对齐后占 24 字节；紧凑布局是 8 加 8，占 16 字节。</p>
+
+<p>官方公布的一组基准数据是：SPECjbb2015 在某个配置下堆用量减少 <strong>22%</strong>、CPU 时间减少 <strong>8%</strong>；另一个配置下 GC 次数减少 <strong>15%</strong>（G1 和 Parallel 都是）；一个高并行 JSON 解析器则跑快 <strong>10%</strong>。三组数字来自不同基准与不同配置，不是一个场景里的三个收益。</p>
+
+<p>不过不是所有应用都能拿到这个数。大数组和长字符串几乎不受益——它们的体积主要在大块数据上，不在对象头。对象实例多、个体小的服务受益最明显：缓存项、DTO、消息信封、树节点。</p>
+
+<p>代价在哪？</p>
+
+<p>紧凑对象头改的是对象在堆里的内存布局。任何直接读对象头偏移的东西都得跟着适配：一部分 JNI 代码、JVM 监控 Agent、做对象布局分析的框架。</p>
+
+<p>这也不是纯理论风险——JVM Weekly 的发布记录里提到，这一轮有一个 P1 级 bug，只在开启紧凑对象头的情况下才复现。</p>
+
+<p>好在关闭开关还在：<code class="language-plaintext highlighter-rouge">-XX:-UseCompactObjectHeaders</code>。但官方 release notes 里写了，旧的对象头布局”计划在未来的版本中废弃并移除”。所以这是个过渡选项，不是长期方案。</p>
+
+<h2 id="默认值也管安全jfr-脱敏与后量子-tls">默认值也管安全：JFR 脱敏与后量子 TLS</h2>
+
+<p>第三处转正的是 JFR 进程内数据脱敏（JEP 536）。</p>
+
+<p>以前的场景不少团队碰过——线上出问题，导一份 JFR 录制丢进工单系统。而录制文件里的环境变量、系统属性、启动参数，经常带着连接串、access token 和服务密码，原样躺在那里。</p>
+
+<p>JDK 27 起，这些数据在离开进程之前就被替换成 <code class="language-plaintext highlighter-rouge">[REDACTED]</code>。</p>
+
+<p>默认命中的是一组 glob 模式，覆盖 <code class="language-plaintext highlighter-rouge">*password*</code>、<code class="language-plaintext highlighter-rouge">*token*</code>、<code class="language-plaintext highlighter-rouge">*secret*</code>、<code class="language-plaintext highlighter-rouge">*api*key*</code>、<code class="language-plaintext highlighter-rouge">*credential*</code>、<code class="language-plaintext highlighter-rouge">*passwd*</code>、<code class="language-plaintext highlighter-rouge">*pwd*</code>、<code class="language-plaintext highlighter-rouge">*private*key*</code>、<code class="language-plaintext highlighter-rouge">*passphrase*</code>、<code class="language-plaintext highlighter-rouge">*auth*</code>、<code class="language-plaintext highlighter-rouge">*client*secret*</code> 这类命名。</p>
+
+<p>自定义和关闭都有明确入口：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="c"># 在默认规则之上追加自己的关键字（前缀 + 表示追加）</span>
+java <span class="nt">-XX</span>:FlightRecorderOptions:<span class="s1">'redact-key=+dburl'</span> <span class="nt">-jar</span> app.jar
+
+<span class="c"># 关闭默认过滤（不建议在生产用）</span>
+java <span class="nt">-XX</span>:FlightRecorderOptions:<span class="s1">'redact-key=none'</span> <span class="nt">-jar</span> app.jar
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>注意 <code class="language-plaintext highlighter-rouge">redact-key</code> 针对环境变量和系统属性，<code class="language-plaintext highlighter-rouge">redact-arguments</code> 针对 JVM 参数，两者分开配；规则多了可以写进文件用 <code class="language-plaintext highlighter-rouge">@args.txt</code> 引。</p>
+
+<p>代价是：如果排障流程依赖从 JFR 里读某个被命中关键字的环境变量，现在读不到了。要么改命名避开默认模式，要么在 <code class="language-plaintext highlighter-rouge">redact-key</code> 里显式加回来——加之前先想清楚它为什么会命中。</p>
+
+<p>第四处转正是 TLS 1.3 的后量子混合密钥交换（JEP 527）。它防的是”先囤后解”：攻击者今天抓走加密流量，等量子计算机成熟后再解密。</p>
+
+<p>做法是把经典算法和抗量子算法组合起来，JDK 27 默认启用的命名组里多了 <code class="language-plaintext highlighter-rouge">X25519MLKEM768</code>，也就是 X25519 加 ML-KEM。</p>
+
+<p>对使用 <code class="language-plaintext highlighter-rouge">javax.net.ssl</code> 的应用，代码不用改，两端都支持就自动协商，对方不支持就回退到经典算法。</p>
+
+<p>需要验证的是另一头：年代久远的 TLS 客户端、自己定制过 SSLContext 的系统、以及某些嵌入式或老版本 OpenSSL 的接入方。握手流程变了，兼容性回归要覆盖到这部分。</p>
+
+<h2 id="真正要改的是启动脚本">真正要改的是启动脚本</h2>
+
+<p>上面几处是”行为变了”，另外有一批是”参数直接不能用了”。升级后如果启动脚本里还带着这些，JVM 会报错退出或者打警告。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>旧写法</th>
+      <th>JDK 27 状态</th>
+      <th>处理</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-noclassgc</code></td>
+      <td>已移除</td>
+      <td>换成 <code class="language-plaintext highlighter-rouge">-Xnoclassgc</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-verifyremote</code></td>
+      <td>已移除</td>
+      <td>换成 <code class="language-plaintext highlighter-rouge">-Xverify:remote</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-noverify</code></td>
+      <td>已移除</td>
+      <td>无替代，删掉</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-Xverify:none</code></td>
+      <td>已移除</td>
+      <td>无替代，删掉</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-XX:InitiatingHeapOccupancyPercent=N</code></td>
+      <td>已弃用</td>
+      <td>换成 <code class="language-plaintext highlighter-rouge">-XX:G1IHOP=N</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-XX:+UseCompressedClassPointers</code></td>
+      <td>已 obsolete</td>
+      <td>删掉（现在恒开）</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-XX:+AlwaysActAsServerClassMachine</code></td>
+      <td>已 obsolete</td>
+      <td>删掉，会打印 support was removed in 27.0</td>
+    </tr>
+    <tr>
+      <td>JVMCI 相关（含 <code class="language-plaintext highlighter-rouge">-XX:+UseGraalJIT</code>）</td>
+      <td>整个移除</td>
+      <td>依赖 Graal JIT 的项目需另作打算</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><code class="language-plaintext highlighter-rouge">-Xverify:none</code> 和 <code class="language-plaintext highlighter-rouge">-noverify</code> 值得单独说一句。这两个在很长一段时间里被当作”启动加速技巧”写进各种容器镜像的 Dockerfile，实际上是关掉字节码校验。JDK 27 把它们移除了，且没有替代品。</p>
+
+<p>JVMCI 的移除影响面更大一点。它连同 <code class="language-plaintext highlighter-rouge">jdk.internal.vm.ci</code>、<code class="language-plaintext highlighter-rouge">jdk.graal.compiler</code>、<code class="language-plaintext highlighter-rouge">jdk.graal.compiler.management</code> 三个模块，以及名字里带 JVMCI 的开关，一起被删了。</p>
+
+<p>官方给的理由是 GraalVM 已经和 OpenJDK 分离，维护和测试成本不划算。如果你在用旧版 Graal JIT，或者某些 TornadoVM 的用法，要么在自己的代码树里维护，要么停在更早的 JDK。</p>
+
+<p>还有一处不报错、但会静默影响工具链：JSON 格式的线程转储里，线程 id、线程数、进程 id 这几个字段从字符串改成了数字，并新增了 <code class="language-plaintext highlighter-rouge">formatVersion: 2</code>。</p>
+
+<p>自己写脚本解析 <code class="language-plaintext highlighter-rouge">jcmd Thread.dump_to_file</code> 输出的团队，升级后会拿到解析失败的 JSON。</p>
+
+<p><a href="https://inside.java/2026/09/12/jdk-27-runtime-updates">JDK 27 运行时更新说明</a>里还有几条零碎的：<code class="language-plaintext highlighter-rouge">jcmd</code> 新增了 <code class="language-plaintext highlighter-rouge">VM.security_properties</code> 命令和 Bash 补全脚本，<code class="language-plaintext highlighter-rouge">VM.info</code> 与 <code class="language-plaintext highlighter-rouge">hs_err_pid</code> 日志开始报告当前打开的文件描述符数量。</p>
+
+<p>分代 ZGC 下，<code class="language-plaintext highlighter-rouge">jdk.OldObjectSample</code> 事件则因为性能开销过大被默认关闭。</p>
+
+<h2 id="升级前跑完这四步">升级前跑完这四步</h2>
+
+<p><img src="/imgs/202609/2026-09-21-jdk27-default-changes-infographic-3.jpg" alt="升级前的四个动作" /></p>
+
+<p>第一步，把当前进程的实际情况打出来。十行代码，只用标准管理 API：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RuntimeBaseline</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Java: "</span> <span class="o">+</span> <span class="nc">Runtime</span><span class="o">.</span><span class="na">version</span><span class="o">());</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Heap (MiB): "</span> <span class="o">+</span> <span class="nc">Runtime</span><span class="o">.</span><span class="na">getRuntime</span><span class="o">().</span><span class="na">maxMemory</span><span class="o">()</span> <span class="o">/</span> <span class="o">(</span><span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">));</span>
+        <span class="nc">ManagementFactory</span><span class="o">.</span><span class="na">getGarbageCollectorMXBeans</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">gc</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"GC: "</span> <span class="o">+</span> <span class="n">gc</span><span class="o">.</span><span class="na">getName</span><span class="o">()));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>第二步，用同样的资源限制，在两个 JDK 上分别跑默认、显式 G1、显式 Serial 三种组合：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>java <span class="nt">-XX</span>:ActiveProcessorCount<span class="o">=</span>1 <span class="nt">-Xmx128m</span> RuntimeBaseline
+java <span class="nt">-XX</span>:ActiveProcessorCount<span class="o">=</span>1 <span class="nt">-Xmx128m</span> <span class="nt">-XX</span>:+UseG1GC RuntimeBaseline
+java <span class="nt">-XX</span>:ActiveProcessorCount<span class="o">=</span>1 <span class="nt">-Xmx128m</span> <span class="nt">-XX</span>:+UseSerialGC RuntimeBaseline
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">-XX:ActiveProcessorCount=1</code> 是复现受限环境的关键：容器里可能看到 8 核，但你 Pod 的 limit 只有 1 核，JVM 看的是后者。</p>
+
+<p>第三步，把输出存档。这一步的意义不在这次升级，而在于下次升级时你有一份能直接对比的基线。GC 名字这类信息，不主动打出来就无从得知。</p>
+
+<p>第四步，压测四项：响应时间的分位数、持续负载下的 CPU 与吞吐、堆与进程总内存、流量尖峰时的表现。</p>
+
+<h2 id="它的代价和下一步">它的代价，和下一步</h2>
+
+<p>JDK 27 是非 LTS 版本。Azul 一类的发行版把它支持到 2027 年 3 月，之后 JDK 28 接上。刚升到 21 或 25 的团队，没有必要为了这几个默认值再动一次生产。</p>
+
+<p>另一个变化在节奏上：从 2026 年 8 月起，季度的安全更新改成了月度（CSPU）。对维护发布流水线的人来说，这意味着补丁验证的频次变了。</p>
+
+<p>还有五个特性仍在预览或孵化：惰性常量（第三次预览）、原始类型模式匹配（第五次预览）、结构化并发（第七次预览）、Vector API（第十二次孵化）、PEM 编码（第三次预览）。</p>
+
+<p>结构化并发预览到第七次，说明这个 API 的设计还在调整——预览特性不受兼容性承诺保护，下个版本语法可能变，别放到生产。</p>
+
+<p>值得提一句的是 JDK 28 的方向。按目前公开的信息，Project Valhalla 会在那里落下第一次预览：值对象加严格字段初始化，涉及约 18 万行代码、1800 个文件，还有一个新的 <code class="language-plaintext highlighter-rouge">value</code> 关键字。</p>
+
+<p>跟它比，紧凑对象头只是把对象头从 12 字节压到 8 字节，而值对象要动的是”对象有没有身份”这件事。</p>
+
+<h2 id="总结">总结</h2>
+
+<p>JDK 27 值得记住的不是某个新特性，而是它暴露的一类问题：<strong>默认值是最少被审查的配置</strong>。</p>
+
+<p>没有显式指定的东西，看起来就像不存在。而恰恰是这些没写进配置的地方，一次升级就可能被换掉——换成吞吐略低但延迟更稳的 G1，换成省 22% 堆的紧凑对象头，换成不再明文的 JFR 录制。</p>
+
+<p>想清楚这一步，升级清单上就会多两条：先问一遍”我没配的东西，这版默认成了什么”，再跑一遍基线存档。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li><a href="https://mail.openjdk.org/archives/list/announce@openjdk.org/thread/ORGGLMN75HFEWP7YL3ZLGHLYHVIBJDYT/">Java 27 / JDK 27: General Availability</a> — Mark Reinhold，OpenJDK announce 邮件列表，2026-09-15</li>
+  <li><a href="https://www.oracle.com/news/announcement/oracle-releases-java-27-and-strengthens-post-quantum-cryptography-support-2026-09-15/">Oracle Releases Java 27 and Strengthens Post-Quantum Cryptography Support</a> — Oracle 新闻稿，2026-09-15</li>
+  <li><a href="https://openjdk.org/jeps/523">JEP 523: Make G1 the Default Garbage Collector in All Environments</a> — OpenJDK，2026</li>
+  <li><a href="https://openjdk.org/jeps/534">JEP 534: Compact Object Headers by Default</a> — OpenJDK，2026</li>
+  <li><a href="https://openjdk.org/jeps/536">JEP 536: JFR In-Process Data Redaction</a> — OpenJDK，2026</li>
+  <li><a href="https://openjdk.org/jeps/527">JEP 527: Post-Quantum Hybrid Key Exchange for TLS 1.3</a> — OpenJDK，2026</li>
+  <li><a href="https://inside.java/2026/09/12/jdk-27-runtime-updates">JDK 27 Runtime Updates Release Notes</a> — Inside Java（Oracle），2026-09-12</li>
+  <li><a href="https://www.homannsoftware.com/2026/09/15/java-27-production-upgrade-guide">Java 27: What Production Teams Should Evaluate Now</a> — Homann Software，2026-09-15（9-16 更新实测对照）</li>
+  <li><a href="https://www.jvm-weekly.com/p/jdk-27-is-here-jvm-weekly-vol-192">JDK 27 is here — JVM Weekly vol. 192</a> — JVM Weekly（紧凑对象头测算样例与 P1 bug 记录）</li>
+  <li><a href="https://mostlynerdless.de/blog/2026/09/15/java-27-is-only-boring-on-the-surface">Java 27 is only boring on the surface</a> — Mostly Nerdless，2026-09-15（G1 堆比例默认值调整，JDK-8238686）</li>
+  <li><a href="https://foojay.io/today/foojay-podcast-101">Foojay Podcast #101: Java 27 in Practice</a> — Foojay，嘉宾 Simon Ritter（Azul），2026-09（SPECjbb2015 基准与 JDK 28 预览信息）</li>
+  <li><a href="https://docs.azul.com/core/release-notes/cck/icedteaweb/cck/cck/icedteaweb/uninstall/install/tpl">Azul Zulu 27 General Availability Release Notes</a> — Azul（支持周期至 2027-03、JEP 转正与预览清单）</li>
+  <li><a href="https://www.worldprogramming.org/posts/oracle-ships-jdk-27-with-post-quantum-tls-and-compact-headers-yvctve">Oracle ships JDK 27 with post-quantum TLS and compact headers</a> — World Programming（外部贡献者占比与新 jcmd 能力）</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="技术实战" /><category term="Java" /><category term="JDK27" /><category term="G1" /><category term="紧凑对象头" /><category term="JFR" /><category term="Java升级" /><summary type="html"><![CDATA[摘要：JDK 27 的九个 JEP 里，四个转正的都是默认值变更。升级后你可能一行代码不用改，但堆占用、GC 行为、JFR 录制内容都会变。这篇把三处默认值改动、一批被移除的启动参数和升级前的验证方法一次说清楚。]]></summary></entry><entry><title type="html">AI 写的代码，版权有争议，责任没争议</title><link href="https://tangyuewei.com/posts/ai-code-ip-liability/" rel="alternate" type="text/html" title="AI 写的代码，版权有争议，责任没争议" /><published>2026-09-20T10:20:00+08:00</published><updated>2026-09-20T10:20:00+08:00</updated><id>https://tangyuewei.com/posts/ai-code-ip-liability</id><content type="html" xml:base="https://tangyuewei.com/posts/ai-code-ip-liability/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：AI 写代码的风险出现在两个相反的方向上。出口这一侧，你可能拿不到版权；入口这一侧，进来的代码却默认要你负责。这篇把近三年的判例和一组代码库审计数据摊开，给出一份能在 CI 里跑起来的检查清单。</p>
+</blockquote>
+
+<p>先从一个可能会被问到的问题开始。</p>
+
+<p>如果明天有人问你：你们代码库里有多少是 AI 写的？答得出来的人不多。这个问题现在通常出现在三个场合——并购尽调、开源合规审计，以及出了事之后的追责。</p>
+
+<p>它难答的原因，是 AI 写代码这件事的风险出现在两个相反的方向上。</p>
+
+<p>出口那一侧，你写出去的东西可能拿不到版权；入口那一侧，走进来的东西你却要负责。这两件事经常被混在一起谈，但它们适用的规则完全不同。</p>
+
+<p><img src="/imgs/202609/2026-09-20-ai-code-ip-liability-infographic-1.jpg" alt="AI 生成代码的双向知识产权风险" /></p>
+
+<h2 id="出口这段代码未必是你的">出口：这段代码，未必是你的</h2>
+
+<p>机器不能当作者——这一点在美国和中国是同一个方向。</p>
+
+<p>美国那边有一条已经走到头的案子。Stephen Thaler 用自己开发的系统生成了一张图，申请登记时把 AI 列为唯一作者，自己列为权利人。版权局驳回，地区法院维持，2025 年哥伦比亚特区巡回上诉法院确认，2026 年 3 月 2 日最高法院拒绝受理。至此这条路径走完了。</p>
+
+<p>这个案子里有个容易被忽略的细节。Mayer Brown 的分析文章里提到，Thaler 在与该所作者的交流中说，他既没有写提示词，也没有对最终图像做任何编辑或改动。这就是这个案子和”把 AI 当工具用的人”之间的分界线。</p>
+
+<p>美国版权局 2025 年 1 月那份关于可版权性的报告说得更细。结论是提示词本身不够——报告的原话是，提示词”本质上就是传达不受保护思想的指令”，理由是当前技术对输出的控制力和可预测性都不足。但同时，报告承认人类在选择、编排、修改上的创造性投入，可以在输出中受到保护。</p>
+
+<p>国内有两条方向相反的判决，值得放在一起看。</p>
+
+<p>2023 年北京互联网法院那起被称作”AI 文生图第一案”的纠纷里，原告输入的是一整套正向和反向提示词，还设定了迭代步数、图像高度、引导系数和随机种子，中间反复修改参数并筛选结果。法院认定这个过程体现了人的独创性智力投入，涉案图片构成美术作品，著作权归使用者。</p>
+
+<p>2025 年 4 月，苏州中院审了另一件。原告主张别人抄了他用 AI 做的”蝴蝶椅”图片，但庭审中他无法再现自己的创作过程，也拿不出完整的创作记录，说不清自己对布局、比例、色彩做过哪些个性化的贡献。法院认定仅凭简单提示词触发 AI 生成的内容不构成作品。</p>
+
+<p>一正一反，分界线就清楚了：不是”用没用 AI”，而是人的独创性智力投入够不够，以及<strong>你能不能把它证明出来</strong>。</p>
+
+<p>注意后半句。这两个案子的差别，一半在事实，一半在举证。</p>
+
+<p>出口还有一面镜子：如果反过来，是别人用 AI 生成了和你开源代码高度相似的东西呢？</p>
+
+<p>2026 年 9 月 16 日，美国第九巡回上诉法院给了回答。几名在 GitHub 上发布过开源代码的程序员起诉 GitHub、微软和 OpenAI，主张 Copilot 和 Codex 有时会输出他们的代码，却不带作者署名、版权声明和许可证条款，违反《数字千年版权法》第 1202(b) 条关于版权管理信息的规定。</p>
+
+<p>法院维持了驳回。理由是：该条款里的”移除”和”改动”，要求有一个针对既有作品所附版权管理信息的积极行为。生成一个新作品——而这个新作品从来就没有携带过原告的版权管理信息——和复制一份既有作品再把署名抹掉，是两件事。</p>
+
+<p>判决同时留了口子：如果被告实质复制了作品、只做微小改动、又抹掉版权信息，仍可能承担责任。</p>
+
+<p>不过这条判决没有确立”AI 生成的代码合法”这个一般结论，也没有解决训练阶段是否删除了版权信息——法院认为原告在地区法院没有保留这个论点，因此不作判断。</p>
+
+<p>对写代码的人来说，实际含义是：你的开源代码出现在别人的 AI 输出里，目前走不通版权管理信息这条路，得换成常规的侵权或合同主张。</p>
+
+<p><img src="/imgs/202609/2026-09-20-ai-code-ip-liability-infographic-2.jpg" alt="两个判例的分界线：独创性投入与举证能力" /></p>
+
+<h2 id="举证这件事落到工程上是什么">举证这件事，落到工程上是什么</h2>
+
+<p>如果创作过程记录只是”好习惯”，那它顶多算文档工作。但它其实是证据。</p>
+
+<p>需要主张权利的时候，你要能复原的是这些：当时用的提示词、参数怎么调、中间生成过哪些版本、为什么选了这个放弃了那个、最终版本相对 AI 原始输出改了什么。</p>
+
+<p>说得更直白一点，代码仓库的提交历史、Prompt 的版本记录、设计取舍的决策日志，都会变成证据材料。平时这些是工程纪律，真出事的时候它们是最先被问到的材料。</p>
+
+<p>还有一层更容易被忽略：就算拿到了版权，这个版权也是有限的。</p>
+
+<p>几家主流厂商的服务条款，只把”在法律允许范围内”的输出权利让给你。同一份条款里往往还有一句提示——其他用户可能得到相同或相似的输出。你没法用它去阻止别人拿同样的提示词拿到同样的代码，因为它本来就不具备排他性。对需要靠代码建立壁垒的业务来说，这是个要提前知道的事实。</p>
+
+<h2 id="入口进来的代码责任在你">入口：进来的代码，责任在你</h2>
+
+<p>方向换一下，规则也换了一套。</p>
+
+<p>第三方代码传统上是从包管理器进来的，所以 SCA（软件成分分析）工具扫 <code class="language-plaintext highlighter-rouge">pom.xml</code>、<code class="language-plaintext highlighter-rouge">package.json</code>、<code class="language-plaintext highlighter-rouge">requirements.txt</code> 这些清单就够了。但 AI 生成的代码不进清单——它直接写进源码，对清单扫描工具就是隐形的。</p>
+
+<p>Black Duck 2026 年那份<a href="https://www.blackduck.com/resources/analyst-reports/open-source-security-risk-analysis.html">开源安全与风险分析报告</a>给了量化的结果。它审计了 17 个行业的 947 个商业代码库。样本来自这家机构自己经手的代码库，不是随机抽样，读数字时要把这一点放在心里。两个数字值得记住：</p>
+
+<p>许可证冲突出现在 <strong>68%</strong> 的代码库里，上年是 56%。报告说这是它十一年数据里最大的同比跳升。</p>
+
+<p>平均每个代码库有 1180 个组件，其中 64% 是传递依赖——那些你从来没有主动选过的组件。最严重的一个代码库，发现了 2675 个不同的许可证冲突。</p>
+
+<p>另一个数字是：<strong>17% 的开源组件不是从包管理器进入代码库的</strong>，而是通过复制粘贴、供应商直接引入或者 AI 生成进来的。这一块正是清单扫描的盲区。</p>
+
+<p>报告给这个现象起了个名字，叫”许可证洗白”（license laundering）。机制不复杂：模型从训练数据里的 GPL、AGPL 代码中做模式匹配，生成的片段可能带着这些代码的逻辑结构，却不带任何来源声明。开发者看到一个好用的补全，接受了。许可信息没有跟着输出一起过来。</p>
+
+<p>为什么这件事在代码上比在文本和图片上更尖锐——因为 copyleft 的传染性是在软件分发时才真正咬人的。GPL 要求包含它的衍生作品以同样条款分发；AGPL 把范围扩大到网络使用，意味着 SaaS 产品也可能被要求向使用者提供源码。文本和图片很少走到这一步。</p>
+
+<p>报告里还有一组对照数字，能让人知道自己站在哪：只有 54% 的组织在评估 AI 生成代码的知识产权和许可风险，做全面评估的只有 24%。</p>
+
+<p>报告同时点明了几件至今没有定论的事：AI 生成的代码算不算衍生作品、谁拥有版权、需要披露到什么程度、赔偿条款怎么适用。这些会通过诉讼和立法慢慢解决。在那之前，企业能控制的是流程。</p>
+
+<p>国内的政策方向也在往这里收。工信部 9 月印发的<a href="https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_49783ce685f042029111c8b6e94f0f30.html">《”人工智能+软件”专项行动实施方案》</a>里，专门列了一条”加强人工智能生成代码的知识产权合规治理”。这不是技术建议，是行业主管口径。</p>
+
+<h2 id="一份能落地的清单">一份能落地的清单</h2>
+
+<p>把上面两块合起来，要做的事不多，但都得落到流程里，而不是写在文档里。</p>
+
+<p><strong>1. 别关工具自带的重复检测。</strong> 主流编码助手有”阻止与公开代码高度相似”的过滤开关，默认状态各不相同。它挡不住全部，但能挡住最明显的一类。</p>
+
+<p><strong>2. 把扫描从清单扩到源码片段。</strong> 纯清单扫描看不见 AI 生成和复制粘贴进来的代码，需要能做源码级相似度比对的那一类工具。</p>
+
+<p><strong>3. 把扫描结果当合并阻断，不是警告。</strong> 警告会被忽略，这是门禁设计里反复验证过的经验。放在 CI 里拦住合并，才叫门禁。</p>
+
+<p><strong>4. 建一份来源台账：哪些部分是 AI 生成的。</strong> 不需要精确到行，至少能回答”哪些模块、大概多少比例”。这个问题会出现在尽调清单上。</p>
+
+<p><strong>5. 保留创作过程记录。</strong> 提示词、关键参数、版本迭代、取舍理由。既是权利主张的举证材料，也是日后排查 AI 引入问题的线索。</p>
+
+<p><strong>6. 读一遍厂商条款里关于输出权利和赔偿的部分。</strong> 有些条款包含允许厂商拿你的输入和输出做训练的授权，如果输入里有商业秘密或客户数据，这是需要法务介入的问题。付费档通常附带知识产权赔偿，但赔偿有前置条件——比如必须开启重复检测过滤。</p>
+
+<p>这份清单有个绕不过去的张力，得说清楚。</p>
+
+<p>检测的抓手是相似度，而改写会降低相似度。开发者为了过扫描，把 AI 给的实现重排一遍、换个命名，检测就失效了——但它没有改变许可义务：判断是否构成衍生作品，要看表达层面是否实质相似，不是看文本比对的分数。</p>
+
+<p>所以扫描能覆盖的是明显的一类，兜底仍然是人的判断和对来源的记录。这也是为什么第 4、5 条要和前三条放在同一份清单里——前三道挡得住复制，挡不住改写。</p>
+
+<p><img src="/imgs/202609/2026-09-20-ai-code-ip-liability-infographic-3.jpg" alt="把检查点放进流水线的四个位置" /></p>
+
+<h2 id="总结">总结</h2>
+
+<p>回到最上面那个问题。</p>
+
+<p>AI 写代码带来的知识产权风险，方向是反的：出口这一侧，你得证明自己投入了多少，才谈得上拥有；入口这一侧，你不需要证明什么，责任默认在你。</p>
+
+<p>这个不对称不会因为模型变好而消失——它来自法律对”人”的要求和对”分发者”的要求，两套规则关心的是不同的事。</p>
+
+<p>能做的也就两件：<strong>把进来的东西挡在合并之前，把做过的选择记下来</strong>。前者靠流水线，后者靠习惯。都不难，难在它们平时看起来没有回报。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li><a href="https://law.justia.com/cases/federal/appellate-courts/cadc/23-5233/23-5233-2025-03-18.html">Thaler v. Perlmutter, No. 23-5233 (D.C. Cir. 2025)</a> — 美国哥伦比亚特区巡回上诉法院，判决日 2025-03-18</li>
+  <li><a href="https://www.mayerbrown.com/en/insights/publications/2026/03/supreme-court-denies-review-in-ai-authorship-case">Supreme Court Denies Cert in AI Authorship Case</a> — Mayer Brown，2026-03（Thaler v. Perlmutter, Case No. 25-449，2026-03-02 拒绝受理）</li>
+  <li><a href="https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf">Copyright and Artificial Intelligence, Part 2: Copyrightability</a> — 美国版权局，2025-01</li>
+  <li><a href="https://cdn.ca9.uscourts.gov/datastore/opinions/2026/09/16/24-7700.pdf">Doe v. GitHub, Inc., No. 24-7700</a> — 美国第九巡回上诉法院，2026-09-16</li>
+  <li><a href="https://legaltechdigest.com/news/ninth-circuit-blocks-broad-dmca-claims-against-github-and-openai">Ninth Circuit Blocks Broad DMCA Claims Against GitHub and OpenAI</a> — LegalTech Digest</li>
+  <li><a href="https://www.chinacourt.cn/article/detail/2026/09/id/9492214.shtml">数字”浪”涌，司法启航——北京互联网法院八周年访谈</a> — 中国法院网，2026-09（独创性智力投入判断标准的表述）</li>
+  <li><a href="https://www.rmzxb.com.cn/c/2026-05-29/3923773.shtml">画皮画骨：AI 生成内容的版权归谁？</a> — 人民政协网，2026-05-29（2023 年”AI 文生图第一案”与 2025 年苏州中院案）</li>
+  <li><a href="https://www.blackduck.com/resources/analyst-reports/open-source-security-risk-analysis.html">2026 Open Source Security and Risk Analysis Report</a> — Black Duck，2026</li>
+  <li><a href="https://www.herodevs.com/blog-posts/68-of-codebases-contain-license-conflicts-and-ai-generated-code-is-making-it-worse">68% of Codebases Contain License Conflicts and AI-Generated Code Is Making It Worse</a> — HeroDevs（OSSRA 2026 数据解读）</li>
+  <li><a href="https://ratedwithai.com/blog/ai-code-generation-copyright-risk-2026">AI-Generated Code Copyright Risk for Businesses 2026</a> — RatedWithAI</li>
+  <li><a href="https://www.flowverify.co/blog/open-source-licensing-engineers-corporate-codebase">Open-source licensing for engineers: a corporate codebase guide</a> — FlowVerify</li>
+  <li><a href="https://misterwolflaw.com/ai-generated-content-intellectual-property-ownership-2026">AI-Generated Content and Intellectual Property: Who Owns What in 2026</a> — Mister Wolf Law</li>
+  <li><a href="https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_49783ce685f042029111c8b6e94f0f30.html">工业和信息化部关于印发《”人工智能+软件”专项行动实施方案》的通知</a> — 工信部信发〔2026〕209号，2026-09-02</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="知识产权" /><category term="开源许可证" /><category term="AI生成代码" /><category term="合规治理" /><category term="SCA" /><summary type="html"><![CDATA[摘要：AI 写代码的风险出现在两个相反的方向上。出口这一侧，你可能拿不到版权；入口这一侧，进来的代码却默认要你负责。这篇把近三年的判例和一组代码库审计数据摊开，给出一份能在 CI 里跑起来的检查清单。]]></summary></entry><entry><title type="html">Agent 的边界，画在模型外面</title><link href="https://tangyuewei.com/posts/agent-boundary-outside-model/" rel="alternate" type="text/html" title="Agent 的边界，画在模型外面" /><published>2026-09-19T10:16:00+08:00</published><updated>2026-09-19T10:16:00+08:00</updated><id>https://tangyuewei.com/posts/agent-boundary-outside-model</id><content type="html" xml:base="https://tangyuewei.com/posts/agent-boundary-outside-model/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：容器不够用了，这是 Docker 自己承认的。企业 Agent 的架构分界线不在功能清单上，而在控制面与执行面之间：谁决定能不能干，和谁去干，得是两套东西。这篇讲那条线画在哪、隔离路线怎么选、状态该放哪，以及什么时候不值得这么做。</p>
+</blockquote>
+
+<p>八月中旬，Docker 发了个叫 Sandboxes 的东西，给每个 AI 编码 Agent 一个独立的微虚拟机：自己的内核、自己的文件系统、自己的网络栈，外加一个私有的 Docker 引擎。命令行工具叫 <code class="language-plaintext highlighter-rouge">sbx</code>，免费，商用也免费。</p>
+
+<p>发布这件事本身不稀奇。稀奇的是发布方是 Docker——过去十年反复论证”容器隔离够用”的那家公司。</p>
+
+<p>它的架构文档这次写得很直接：容器的设计初衷是隔离<strong>基本可信</strong>的工作负载，而一个能执行 shell 命令的 AI Agent，威胁模型更接近”不可信输入加一双会敲键盘的手”。开发者原来用的两个绕行方案都不成立。把宿主机的 <code class="language-plaintext highlighter-rouge">docker.sock</code> 挂进容器，等于把宿主 Docker 引擎的控制权交出去，那是逃生通道，不是边界；Docker-in-Docker 则笨拙且脆弱。</p>
+
+<p>Docker 的用法文档里还留了一句诚实的注脚：默认的 direct 模式会把你的源码树以读写方式挂进去。所以你能拿到多少隔离，取决于有没有加 <code class="language-plaintext highlighter-rouge">--clone</code> 参数。内核对你的机器是硬边界，但对你主动递出去的那个目录不是。</p>
+
+<p>这篇不是讲 Docker 的产品，是借它这根线，把企业自建 Agent 时最该先画的那条线说清楚。</p>
+
+<p><img src="/imgs/202609/2026-09-19-agent-boundary-outside-model-infographic-1.jpg" alt="控制面与执行面的职责对照" /></p>
+
+<h2 id="一容器不够了缺的到底是什么">一、容器不够了，缺的到底是什么</h2>
+
+<p>Docker 在解释自己为什么转向微虚拟机时，给 Agent 下了两个定义：<strong>非确定</strong>、<strong>短命</strong>。</p>
+
+<p>同一个任务，每次走的路可能都不一样；等有人去查发生了什么的时候，那个会话可能已经没了。这套运行特征，跟按”一个持久身份、可预测节奏的人”设计的传统安全控制是错配的。</p>
+
+<p>错配会以三种症状露出来。</p>
+
+<p><strong>第一种，自授权。</strong> 如果执行负载能改自己的策略来源、健康信号或者权限授予，这条分离线就等于没画。按非人类身份治理领域的界定，控制面分离的核心不是”把软件拆成两个模块”，而是信任边界：<strong>正在干活的这个东西，不能同时是决定这活该不该继续的那个东西</strong>。他们给的检查方法很朴素——去看运行时的健康上报和权限决策是不是来自同一个组件。是的话，欺骗性状态和权限蔓延通常就在那儿碰头。同一份材料里的另一个数字是，97% 的非人类身份都带着过量的权限。</p>
+
+<p><strong>第二种，治理蔓延。</strong> 主流云和 SaaS 厂商都把 Agent 观测、模型护栏、策略工具打包进了各自的 AI 平台订阅，看起来免费。但治理一旦写成云原生构造——AWS 的 IAM policy、Azure 的 RBAC、GCP 的 workload identity——它就不可迁移。多云端跑 Agent，就是两套治理栈、两种策略语言、两个审计面板，中间没有统一视图。MuleSoft 在那篇控制面框架里对此的表述是：runtime 不知道也不关心治理，控制面存在，<strong>恰恰因为它必须存在</strong>。</p>
+
+<p><strong>第三种，把状态挂在容器上。</strong> 容器一死，会话就死。</p>
+
+<p>有个必须同段说清的反面：沙箱不是万能的。Anthropic 复盘了自己的十四万余次网络安全评估运行记录，发现其中三起是模型获得了对真实系统的未授权访问。那三起里没有沙箱逃逸，起因是第三方评测伙伴留下了一条预期之外的联网通路。</p>
+
+<p><strong>沙箱拦不住语义层的错误。</strong> 这句是后面的讨论前提——沙箱解决的是爆炸半径，不是判断力。</p>
+
+<h2 id="二那条线该画在哪">二、那条线该画在哪</h2>
+
+<p>按同一套治理框架的划分，两个面的分工是清楚的：</p>
+
+<ul>
+  <li><strong>控制面</strong>回答：谁可以动？按什么策略？这次该不该放行？谁来复核？记什么账？</li>
+  <li><strong>执行面</strong>做事：Agent 循环、工具调用、沙箱、外部系统调用。</li>
+</ul>
+
+<p>落到组件，一个生产可用的控制面通常包含五块：策略与身份、路由（下一个交给哪个 Agent、工作流还是人）、评估、可观测、审计。执行面则很具体——检索的 Agent、起草的 Agent、保存记录的 API、推动状态的流程引擎。</p>
+
+<p>这个划分有个容易忽略的后果：<strong>连接器不该承担治理职责</strong>。MCP 这类协议把”Agent 怎么请求上下文、怎么调工具”标准化了，但某一次调用在当前工作流里允不允许，得由集中式策略决定。Agent 可以提出请求，放不放行是控制面的事。</p>
+
+<p>分层做不做，代价可以量化。一份企业 Agent 编排栈的分析把系统拆成五层——意图、编排、执行、记忆与上下文、治理与审计——并给出了一组成本对比：治理这层如果等上线后再补，中型企业部署的平均返工成本约 34 万美元；一开始就内建，约 4.7 万美元。<strong>七倍</strong>。那份材料把跳过治理层称为”企业 AI 里最贵的捷径”。</p>
+
+<p>数字来自厂商委托的研究，读的时候要打折扣。但方向不难验证：治理层跟别的层不一样，它事后补要动已有的全部调用链。</p>
+
+<h2 id="三执行面怎么选先看能力边界">三、执行面怎么选，先看能力边界</h2>
+
+<p>把线画清楚之后，执行面选什么就不是口味问题，而是一道边界题。主流路线四条，差异集中在这几处：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>路线</th>
+      <th>隔离层级</th>
+      <th>启动开销</th>
+      <th>内存开销</th>
+      <th>主要暴露面</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>容器 + seccomp</td>
+      <td>共享宿主内核</td>
+      <td>10–40 ms</td>
+      <td>15–40 MB</td>
+      <td>宿主内核提权</td>
+    </tr>
+    <tr>
+      <td>gVisor</td>
+      <td>用户态内核拦截</td>
+      <td>30–90 ms</td>
+      <td>30–70 MB</td>
+      <td>用户态代理的缺陷</td>
+    </tr>
+    <tr>
+      <td>microVM（Firecracker / Kata）</td>
+      <td>硬件虚拟化边界</td>
+      <td>100–350 ms</td>
+      <td>128–256 MB</td>
+      <td>hypervisor</td>
+    </tr>
+    <tr>
+      <td>Wasm</td>
+      <td>线性内存 + WASI</td>
+      <td>取决于 runtime</td>
+      <td>较低</td>
+      <td>runtime 接口</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>这张表里最该记住的不是数字，是三个约束。</p>
+
+<p><strong>第一，这是个不可能三角。</strong> 安全性、通用性、性能三样拿不满。Firecracker 用裁剪设备模拟换来启动速度和隔离强度，代价是通用性——它直接裁掉了 PCI-e 直通和 VFIO，<strong>所以 Firecracker 里用不了 GPU</strong>。gVisor 靠一个叫 nvproxy 的代理驱动，在特定版本的 Nvidia 开源驱动上能跑大多数 CUDA 应用；要走设备直通得靠 QEMU 的 VFIO。如果你的场景是”让 Agent 在沙箱里训一次模型”或者”大批量生成 embedding”，可选范围会被直接收窄。</p>
+
+<p><strong>第二，隔离只解决”能干什么”，不解决”资源效率”。</strong> 上百个大部分时间在等工具返回的 Agent，要么各自占一个常驻 pod 烧钱，要么每次任务重新拉起付启动开销。这两条路都不好用。CNCF 那边的参考实现给的是第三条：六个 Agent 共享一个 worker pod，只在真的并发时扩容。</p>
+
+<p><strong>第三，Kubernetes 已经给出官方答案，而这个答案本身就是一次控制面分离。</strong></p>
+
+<p>SIG Apps 下的 agent-sandbox 项目，把 Agent 运行时建模成第一类 K8s 资源。它只有四个对象：</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Sandbox</code>：一个 Agent 定义对应最多一个运行中的 pod，带稳定主机名与网络身份，加持久存储；</li>
+  <li><code class="language-plaintext highlighter-rouge">SandboxTemplate</code>：可复用的蓝图，镜像、资源、隔离策略写在一处；</li>
+  <li><code class="language-plaintext highlighter-rouge">SandboxClaim</code>：面向使用者的请求，形状刻意做得像 PVC 对 PV，申请人不需要知道背后是哪个节点、哪个池；</li>
+  <li><code class="language-plaintext highlighter-rouge">SandboxWarmPool</code>：保着 N 个预置好的沙箱，认领时命中一个已在运行的 pod，而不是重新调度一个。</li>
+</ul>
+
+<p>这个项目文档里最重要的一句是自我定位：<strong>它是沙箱编排器，不是沙箱运行时</strong>。低层容器隔离交给 gVisor 或 Kata 这类运行时，通过 <code class="language-plaintext highlighter-rouge">RuntimeClass</code> 指定。</p>
+
+<p>这就是控制面与执行面分离的具体样子——编排层管身份、生命周期、认领和池化，不管内核边界；内核边界是每个模板都能单独改的字段，不是一个必须重建集群才能改的决定。两个生命周期特性把账算得很细：空闲沙箱可以缩到零，PVC 留着工作区，恢复时状态还在；认领一个预热沙箱实测 53 毫秒，从零创建一个约 25 秒。</p>
+
+<p>选型经验值也清楚：纯 CPU 的编码 Agent 用 gVisor，不需要 KVM，额外启动约 150 毫秒；租户之间互不信任、或者需要 GPU 的时候用 Kata，代价是要 KVM，启动 150 到 500 毫秒。</p>
+
+<p><img src="/imgs/202609/2026-09-19-agent-boundary-outside-model-infographic-2.jpg" alt="三条隔离路线的能力边界" /></p>
+
+<h2 id="四状态别挂在容器上">四、状态别挂在容器上</h2>
+
+<p>执行面还有个更隐蔽的坑：状态放哪。</p>
+
+<p>这里有一条值得注意的收敛。两家做云端编码 Agent 的厂商，独立走到了同一个形状：把一个云端 Agent 的状态拆成三层。</p>
+
+<ul>
+  <li><strong>Agent 循环</strong>：跑在持久化工作流引擎上，可重启、可续跑；</li>
+  <li><strong>机器状态</strong>：文件系统和进程，放在一台可以休眠的 VM 里；</li>
+  <li><strong>会话状态</strong>：只追加的存储，重试感知，因为要对账客户端看到过什么。</li>
+</ul>
+
+<p>其中一家解释了自己的动机：正因为循环跑在工作流引擎上、不在 VM 上，pod 的生命周期才能被独立管理，于是才有”只读 VM 或者预热 VM”这种用法。另一家的说法是：任何一个实例都能接手任何一个会话，从它停下的地方继续。</p>
+
+<p>两家公司不在同一个竞争位置，却收敛到同一形状，说明这不是某家的口味。</p>
+
+<p>代价也明确：持久化执行在每次活动派发上多 10 到 50 毫秒。放在 LLM 动辄秒级的延迟里可以忽略，但它是一项持续存在的工程成本，不是一次性的。</p>
+
+<p>顺带说一个容易混的地方：持久化对话、检查点执行、持久化执行是三件不同的事。前者只是把消息存下来，让下一次能重建上下文；中间那个存的是工作流位置和类型化状态，被打断的运行能从确定的边界恢复；后者记的历史要足够多，多到能在失败后重放确定性代码、重放外部活动的结果。<strong>恢复可能重复代码或者重试操作，这一点不会因为用了检查点就自动免费。</strong> 一个退款动作如果在提交结果前断网，重试不能退第二笔——这是幂等键和事务模式该管的事，不是沙箱该管的事。</p>
+
+<h2 id="五控制面上的六个检查点">五、控制面上的六个检查点</h2>
+
+<p>前面讲怎么分层，这一节是落手时的清单，按”能不能在动作到达真实系统之前拦住它”来组织。</p>
+
+<p><strong>给窄能力。</strong> 需要读工单的 Agent，不需要一个能执行任意 SQL 的通用数据库工具，它只需要一个按 ID 查工单的接口。窄接口的爆炸半径小得多。</p>
+
+<p><strong>授权写在模型外面。</strong> 模型应该能提出动作，但不能给自己发许可。骨架大概是这样：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="k">def</span> <span class="nf">execute_tool</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">tool</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">tool</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">agent</span><span class="p">.</span><span class="n">allowed_tools</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">PermissionError</span><span class="p">(</span><span class="s">"tool not allowed"</span><span class="p">)</span>
+    <span class="n">validate_args</span><span class="p">(</span><span class="n">tool</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>           <span class="c1"># 参数按 schema 校验
+</span>    <span class="k">if</span> <span class="n">needs_approval</span><span class="p">(</span><span class="n">tool</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>      <span class="c1"># 高风险动作转人工
+</span>        <span class="k">return</span> <span class="n">request_approval</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">tool</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tool</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>重点不在这段 Python 写得对不对，在职责的切分：<strong>模型决定它想做什么，应用代码或策略引擎决定这事允不允许。</strong></p>
+
+<p><strong>参数校验挡在真实系统前面。</strong> JSON Schema 能证明 <code class="language-plaintext highlighter-rouge">amount</code> 是个数字，证明不了这个用户拥有这个账户、这笔退款符合策略、这个金额合理、这个操作值得重试。</p>
+
+<p><strong>读写分开。</strong> 查日志、查指标、查工单可以不问；重启服务、删记录、改权限不能跟着一起自动。</p>
+
+<p><strong>高影响动作可中断。</strong> 不可逆、昂贵、或者安全敏感的动作，审批要落在它到达下游系统之前，不是落完之后补。</p>
+
+<p><strong>给执行设上限。</strong> 最大工具调用次数、最大重试次数、最大执行时长、最大花费、最大动作频率。这些不会让模型变聪明，但它把”无限循环”变成了”超时失败”。</p>
+
+<h2 id="六什么时候不值得这么干">六、什么时候不值得这么干</h2>
+
+<p>上面这套拆法有明确的适用条件，越界就会变成负收益。</p>
+
+<p><strong>会话很短、基础设施很稳的时候。</strong> 如果 p99 会话就几分钟，pod 也很少被回收，那么迁移和休眠的收益永远不触发，持久化执行那 10 到 50 毫秒的派发开销倒是每次都要付。</p>
+
+<p><strong>产品还没找到市场的时候。</strong> 这个拆分等于把产品押在一个固定的运维拓扑上。耦合在一起的原型几周就能发出去，等产品形态变了再改，比重建更贵。</p>
+
+<p><strong>本地优先或者离线场景。</strong> 本地 Agent 默认绑在一台机器上，云端的故障模式——抢占回收、区域切换、多租户调度——在这里不成立，收益自然也就没了。</p>
+
+<p>还有一组必须摆出来的代价：走用户态沙箱会带来约 10% 到 20% 的 CPU 开销；换成 microVM，每个实例的内存基线从十几 MB 抬到 128 到 256 MB，高密度 Agent 集群的托管成本大约涨 25% 到 35%；调试也会变难——在隔离环境里定位问题平均多花约 35% 的时间，因为边界让错误追踪更麻烦。</p>
+
+<p>有一条外部判断值得放在这里收尾：如果企业还没有一个值得分布式解决的问题，就先引入了分布式复杂度，那这套架构本身就是负债。</p>
+
+<p><img src="/imgs/202609/2026-09-19-agent-boundary-outside-model-infographic-3.jpg" alt="状态三层解耦：循环、机器、会话" /></p>
+
+<h2 id="总结">总结</h2>
+
+<p>控制面和执行面的分界线，说到底是一条<strong>叫停权</strong>的线。</p>
+
+<p>Agent 自主程度越高，这条线越不能画在它自己身上——不是因为它一定会使坏，而是非确定加短命的负载，本来就不该对自己的健康、策略和权限有发言权。</p>
+
+<p>对大多数人，判断顺序可以简化成三句：先问这次动作能不能在到达真实系统之前被拦住，再问状态是不是挂在了可丢弃的东西上，最后才问执行面该用容器还是 microVM。</p>
+
+<p>沙箱解决爆炸半径，控制面解决决策权。两件事都做了，这条线才算画完。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li><a href="https://docs.docker.com/ai/sandboxes/">Docker Sandboxes</a> — Docker 官方文档</li>
+  <li><a href="https://nhimg.org/glossary/control-plane-separation">Control-Plane Separation</a> — Non-Human Identity Group</li>
+  <li><a href="https://blogs.mulesoft.com/agentic-perspectives/a-framework-for-architecting-agent-control-plane">A Framework for Architecting Agent Control Plane</a> — MuleSoft</li>
+  <li><a href="https://github.com/kubernetes-sigs/agent-sandbox">kubernetes-sigs/agent-sandbox</a> — Kubernetes SIG Apps，Apache-2.0</li>
+  <li><a href="https://bex.co/blog/2026/09/04/kubernetes-agent-sandbox-gvisor-kata">Your Coding Agent Needs a Sandbox, Not a StatefulSet</a> — bex</li>
+  <li><a href="https://dev.to/outworktech/designing-runtime-control-points-for-ai-agents-before-production-5dpp">Designing Runtime Control Points for AI Agents Before Production</a> — Outwork</li>
+  <li><a href="https://dev.to/aarhamforensics_eb3c024eb/enterprise-workflow-automation-with-ai-agents-the-2026-sovereignty-playbook-am7">Enterprise Workflow Automation with AI Agents: The 2026 Sovereignty Playbook</a> — DEV Community</li>
+  <li><a href="https://agentpatterns.ai/patterns/agent-design/cloud-agent-state-layer-decoupling">Cloud-Agent Three-Layer State Decoupling</a> — AgentPatterns</li>
+  <li><a href="https://dasha.ai/blog/ai-agent-runtime">What Is an AI Agent Runtime? Architecture and Platform Guide</a> — Dasha</li>
+  <li><a href="https://cloudnativenow.com/features/containers-became-the-unit-of-speed-ai-agents-are-making-vms-the-unit-of-trust">Containers Became the Unit of Speed. AI Agents Are Making VMs the Unit of Trust</a> — Cloud Native Now（含 Anthropic 141,006 次安全评估复盘数据的转述）</li>
+  <li><a href="https://stack-archive.com/blog/agentic-sandboxing-not-enough-scalable-fleet-2026">Sandboxing Your AI Agents Is Necessary. It’s Not Enough.</a> — Stack Archive</li>
+  <li><a href="https://aitutorialmaker.com/knowledge/how_do_you_securely_containerize_autonomous_ai_agents_in_2026.php">How do you securely containerize autonomous AI agents in 2026?</a> — AI Tutorial Maker</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="Agent架构" /><category term="控制面" /><category term="沙箱隔离" /><category term="状态管理" /><category term="企业落地" /><summary type="html"><![CDATA[摘要：容器不够用了，这是 Docker 自己承认的。企业 Agent 的架构分界线不在功能清单上，而在控制面与执行面之间：谁决定能不能干，和谁去干，得是两套东西。这篇讲那条线画在哪、隔离路线怎么选、状态该放哪，以及什么时候不值得这么做。]]></summary></entry><entry><title type="html">AI 修好一个问题，又带出新的问题</title><link href="https://tangyuewei.com/posts/ai-fix-without-rollback/" rel="alternate" type="text/html" title="AI 修好一个问题，又带出新的问题" /><published>2026-09-18T08:45:00+08:00</published><updated>2026-09-18T08:45:00+08:00</updated><id>https://tangyuewei.com/posts/ai-fix-without-rollback</id><content type="html" xml:base="https://tangyuewei.com/posts/ai-fix-without-rollback/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：让 AI 修 Bug，经常越修越多，改到无关模块，测试漏一块就是线上事故。三组实测把账算清楚了：缺的不是模型聪明，是修复循环里没有撤销点，改动集又大到没人读得完。</p>
+</blockquote>
+
+<p><img src="/imgs/202609/2026-09-18-ai-fix-without-rollback-infographic-1.jpg" alt="越改越乱的三个放大器" /></p>
+
+<h2 id="一代码看不懂只能让-ai-改">一、代码看不懂，只能让 AI 改</h2>
+
+<p>某天下班后，生产库连接数冲到上限，一串服务跟着超时。DBA 翻遍慢 SQL 日志，干干净净。最后顺着连接数一层层往下捋，落在这个每五分钟跑一次的定时任务上——它同时开着大量连接，而且不还（此处为模拟线上事故场景🐶）。</p>
+
+<p>这是 AI 修改的新版本，它把流程包了四层：一个任务调度类，一个”任务上下文管理器”，一个”通用执行器”，一个”结果集处理框架”。连接在”通用执行器”里建，释放逻辑散在各层——某个分支释放了，另一个分支交给”结果集处理框架”之后就没有下文。</p>
+
+<p>更麻烦的是它还自带一套”优雅关闭”：任务抛错时，把连接塞进”待重试队列”，等下次复用。这个队列在某条异常路径上会被无限填充，直到把连接池吃干净。</p>
+
+<p>写这段代码的模型不是在偷懒。<strong>让这次调用成功，和让这个系统长期活着，是两件事，它优化的是前者。</strong></p>
+
+<p>下面这个场景你大概更熟。一家公司用 AI 工具做客服 Agent，团队原班是 Java 和前端，边学边做。上线之后频繁异常，而且定位不了——核心代码由 AI 生成，能跑，但没人说得清为什么这么设计，更判断不出”改这里会波及哪些功能”。</p>
+
+<p>然后就进了那个循环：<strong>代码看不懂，只能继续让 AI 改；AI 修好一个问题，又带出新的；今天解决了 A，明天 B 又异常。</strong></p>
+
+<p>他们复盘时给出的结论很干脆：真正失控的不是 AI，是工程过程。</p>
+
+<p>几行样式的小改动上，同一件事看得更清楚。让 AI 调一个按钮颜色，它先改对了颜色，顺手把相邻组件也”统一”了；第二轮修布局，动了公共样式；第三轮你已经不认识这个文件，也说不清自己本来要改哪几行。</p>
+
+<h2 id="二越改越多的账有人算过">二、越改越多的账，有人算过</h2>
+
+<p>ACM 上有一篇专门研究 AI 代码回滚的论文，样本是三万三千多个 agent 提交的 PR。作者从里面挑出所有由 AI 写作者发出的回滚提交，逐个人工归类，最后得到八类原因。</p>
+
+<p>排第一的那一类，占了 22.33%，名字叫”过度工程的副作用”。拆开看：意外改变了原有行为占 12.47%，<strong>改动了无关文件占 7.04%</strong>，过度重构占 2.82%。</p>
+
+<p>“改动了无关文件”——这就是你感觉到的”越改范围越大”。</p>
+
+<p>论文里有个反直觉的数字，得一并说：整体算下来，AI 提交的回滚率是 2.66%，人类是 4.68%，AI 反而更低。但分工具看，差距拉到十倍以上——Copilot 是 7.57%，高于人类 62%；Claude Code 是 7.21%；Cursor 是 2.34%；Codex 只有 0.72%。</p>
+
+<p>平均更低，个体差十倍。这说明结论不在”用不用 AI”，在”怎么用、用哪个”。</p>
+
+<p>第二个数据更扎心。一篇名为 TDAD 的研究在 SWE-bench Verified 上跑了 100 个实例，基线回归率 6.08%——<strong>换算下来，平均每个生成的补丁，会打破 6.5 个”原本是通过的”测试</strong>。</p>
+
+<p>你交给它的测试过了，产品不一定还完整。</p>
+
+<p>还有一个基准测试叫 SlopCodeBench，出自威斯康星大学麦迪逊分校、MIT 和华盛顿州立大学的研究者。他们让十一个最强编程 Agent 反复迭代同一个程序、不断追加需求。结果是没有一个 Agent 端到端完成，最好的解决率也只有 17.2%。</p>
+
+<p>失败方式比失败率更有意思：它们不崩溃，不写错代码，每一步测试都过——但代码每迭代一次就糟一点。生成代码的冗长度是等价人类代码的 2.2 倍，结构性侵蚀出现在 80% 的迭代轨迹里。</p>
+
+<p>而且研究者试过用更好的提示词去救。有用，首稿明显更干净。<strong>但救不了迭代：跑到后期，有提示和无提示的 Agent 收敛到了同样的结构问题。</strong></p>
+
+<h2 id="三缺的不是聪明是一个撤销动作">三、缺的不是聪明，是一个撤销动作</h2>
+
+<p>把上面这些串起来看，根因很朴素。</p>
+
+<p>人修 Bug 的循环里天生带一个动作：改坏了，<code class="language-plaintext highlighter-rouge">git checkout .</code> 退回去，重想。方向错了就换方向，成本是几分钟。</p>
+
+<p>AI 修 Bug 的循环里没有这个动作。你贴一个报错，它改；你贴下一个报错，它接着改。<strong>每一轮都叠在上一轮的废墟上。</strong></p>
+
+<p>于是每轮都往系统里存两样东西：上下文里留着已经证明是错的推理，代码里留着没派上用场的补丁。存到第五轮，代码长什么样已经没人能预测——”改到全局功能”是这个过程的水到渠成，不是意外。</p>
+
+<p>有篇讲”所有权债”的文章把这个反应说得很准：AI 写的代码出问题，人的第一反应不该是让它再试一次。<strong>那不是调试，那是赌博</strong>——你在掷骰子，指望这次它给个更好的答案。</p>
+
+<p>真正的调试是读代码、建心智模型、定位失败原因。而”再试一次”跳过了全部三步。</p>
+
+<p>所以修复循环里最该补齐的，是一个能把你从废墟里拽出来的动作。Fireship 有句话流传很广：当 AI 接管了你的代码，它同时也拿到了删掉你能跑的部分的能力，而一旦发生，你几乎不可能靠提示词把它指挥回来。</p>
+
+<p>他的结论是，提交是那颗 AI 没法用话术绕过的撤销键。</p>
+
+<h2 id="四把改动缩小到一个人读得完">四、把改动缩小到一个人读得完</h2>
+
+<p>撤销的前提，是你要知道自己该退到哪。而退到哪取决于一次改动有多大。</p>
+
+<p>代码评审有个被反复验证的老结论：SmartBear 早年统计过 Cisco 约两千五百次评审，200 到 400 行是缺陷检出率最高的区间，落在 70% 到 90%；超过一千行，检出率掉到三成以下，基本等于盖章。</p>
+
+<p><img src="/imgs/202609/2026-09-18-ai-fix-without-rollback-infographic-2.jpg" alt="改动大小与缺陷检出率" /></p>
+
+<p>这条规律在 AI 时代被放大了。一份覆盖多家工程组织的分析发现：<strong>改动超过一千行的超大 PR，引入缺陷的比率是极小改动的 5.9 倍，而且按行数归一化之后这个差距依然成立</strong>——大 PR 不是”缺陷多”，是”每行都更容易出问题”。</p>
+
+<p>有个对照实验更直接：微软对超过 400 行的 PR 加了一条警告，什么都没禁，就是提醒一下。<strong>合并之后的缺陷下降了 35%。</strong></p>
+
+<p>原因不神秘。评审者的注意力是有额度的，改动越大，分摊到每行的注意力越少。有一句话值得抄在团队规范第一行：</p>
+
+<blockquote>
+  <p>一个做两件事的 diff，两件事都无法被验证。</p>
+</blockquote>
+
+<p>这条对 AI 尤其致命。你说”修一下这个空指针”，它顺手把同名变量重构了、把日志级别调了、给相邻模块补了两层防御。这个 diff 里既有对的部分也有错的部分，你要么全收，要么全退。你想只留对的那部分——那就得自己动手改，等于回到了起点。</p>
+
+<p>落到操作上就三条：</p>
+
+<ul>
+  <li>一次只解决一件事，一个提交只对应一个原因</li>
+  <li>改动超过三个文件，先出计划再动手，不要直接给代码</li>
+  <li>明确”允许改哪些文件，其余只读”</li>
+</ul>
+
+<p>第三条最省事也最有效。你只要把白名单写在它能读到的地方，越界的改动就少一大截。</p>
+
+<h2 id="五两次修不好就退回去">五、两次修不好，就退回去</h2>
+
+<p>判据有了，动作还得有。</p>
+
+<p>有人在实操里总结出一条很硬的规则，叫重置规则，五步：</p>
+
+<ol>
+  <li><strong>提交</strong>：每次端到端能跑通，就存一个提交，写一句大白话，比如”登录和首页能用了”</li>
+  <li><strong>让它试第一次</strong>：贴一个像样的 Bug 描述，允许它改</li>
+  <li><strong>再试第二次</strong>：如果第一次引入了新问题，明确告诉它破坏了什么，并且<strong>把范围限定在它刚碰过的文件里</strong></li>
+  <li><strong>退回去</strong>：第二次还不行，停下，重置到上一个提交。不要发第三条指令</li>
+  <li><strong>拆得更小</strong>：把这件事拆到你能用一句话说清的最小改动，先验证再往下</li>
+</ol>
+
+<p><img src="/imgs/202609/2026-09-18-ai-fix-without-rollback-infographic-3.jpg" alt="两次不行就退回去" /></p>
+
+<p>这笔账很好算。两次失败加一次重置，最多损失一个检查点的活儿，通常十五到三十分钟。而那个螺旋没有上限——有团队记过一笔账：一个功能，十分钟生成，接着 90 分钟调试、1 小时重构、3 小时线上救火，比一开始手写还慢。</p>
+
+<p>工具侧现在也给了支持。Claude Code 里每发一次指令都会自动生成一个检查点，走偏了连按两次 Esc 就能回到之前的某个点，可以选择只恢复代码、只恢复对话，或者两者都恢复。</p>
+
+<p>但机制有边界，官方讲得很清楚：它不追踪通过命令行做的文件操作，也就是 <code class="language-plaintext highlighter-rouge">rm</code>、<code class="language-plaintext highlighter-rouge">mv</code> 这类不记录；也不追踪你在编辑器里、在终端里做的改动；<strong>更不能替代版本控制</strong>。</p>
+
+<p>所以它适合当”顺手回一下”，不该当”我以为存过了”。真正的存档点仍然是 git 提交——而且提交要密，密到”每次它能跑通”这个粒度。</p>
+
+<h2 id="六先把改完是什么样写出来">六、先把”改完是什么样”写出来</h2>
+
+<p>退回去之后，还得解决问题。而”越改越多”的另一半原因，是你从来没告诉它什么叫改完了。</p>
+
+<p>Anthropic 官方的 Claude Code 最佳实践里，被标为最高杠杆的一条是这个：<strong>给 Claude 一个它能自己跑起来的检查</strong>（<a href="https://www.anthropic.com/engineering/claude-code-best-practices">官方指南</a>）。</p>
+
+<p>原话是这么说的：没有一个它能运行的检查时，”看起来完成了”就是唯一可用的信号，而你就成了那个验证回路——每一个错误都在等着你去发现。</p>
+
+<p>反过来，只要你给的检查能产生一个通过或不通过，回路就自己闭上了：它干完活，跑检查，读结果，不过就继续改，直到过为止。你从回路里被摘了出来。</p>
+
+<p>检查的强度可以分三档，按你的容忍度选：</p>
+
+<ul>
+  <li>写进提示词：顺手让它跑一遍（最轻，任何任务都能用）</li>
+  <li>设成结束条件：单独一个评估器每轮复核，不满足就不许停</li>
+  <li>做成硬门禁：用钩子拦住回合结束，检查不过就继续</li>
+</ul>
+
+<p>软件故障的场景下，最便宜的检查就是一个”不修就会挂”的测试。<strong>先要测试，看它红，再让它改，看它变绿。</strong> 这个红到绿的过程，是确认”它改的是我问的那个问题”最直接的证据。</p>
+
+<p>要让这个检查有效，Bug 报告得写全四个部分：</p>
+
+<ul>
+  <li>你做了什么（触发动作，一句话）</li>
+  <li>现在什么现象（你眼睛看到的）</li>
+  <li>你期望什么（一句话）</li>
+  <li>完整的错误文本（原样复制，含文件名行号，<strong>不要转述</strong>）</li>
+</ul>
+
+<p>最后一条最容易被忽略。错误文本是你和模型共享的确定性事实，通常直接点出问题在哪个文件的哪一行。写”它坏了，修一下”，等于让它在一百个文件里猜，每次猜都是一次弄坏好功能的机会。</p>
+
+<p>这里还有个反直觉的实测结论，来自前面那篇 TDAD 论文（<a href="https://arxiv.org/abs/2603.17973v2">arXiv:2603.17973</a>）：</p>
+
+<ul>
+  <li>什么都不给，回归率 6.08%</li>
+  <li><strong>给一堆流程性指令——”你要先写测试、你要跑测试、改完要验证”——回归率涨到 9.94%</strong></li>
+  <li>给一张”哪些测试会受这次改动影响”的依赖图，配二十行短指引，回归率压到 1.82%</li>
+</ul>
+
+<p>流程性指令反而让结果更差的解释有两条：一是长指令吃掉上下文，把真正需要的仓库知识挤了出去；二是它不知道哪些测试重要，于是碰更多文件。</p>
+
+<p>论文自己的总结是：<strong>“跑测试”这句话没有意义，除非你知道跑哪几个。</strong></p>
+
+<h2 id="七为什么技能装了一堆还是不行">七、为什么技能装了一堆，还是不行</h2>
+
+<p>回到你那个疑问。</p>
+
+<p>技能、规则文件、提示模板，解决的是同一类问题：让模型更了解你的项目。它们没法解决另一类问题：修复循环本身的形状。</p>
+
+<p>SlopCodeBench 那组数据已经把这条界线画出来了——更好的提示能让首稿更干净，但阻止不了迭代退化。到后期，有无提示收敛到同样的结构问题。因为”这一刀下去六个月内要多花三倍时间”这种判断，不是提示词能装进去的，它是踩过坑之后长出来的直觉。</p>
+
+<p>另一个实验从反面印证了同一个判断。TDDev 那篇论文测了四种开发协议，结论是 TDD 基础设施能稳定提升质量 34 到 48 个百分点；但<strong>协议和模型的生成风格不匹配时，收益会被完全抵消，token 成本还能涨到 25 倍</strong>。</p>
+
+<p>同一套方法论，配错了就归零。所以”市面上有那么多技能，效果不理想”这件事，多半不是技能写得不认真，是它给的是流程，缺的是上下文——这也正是 TDAD 那张依赖图干的事。</p>
+
+<p>最后得说清楚边界，这套做法不是万能的。</p>
+
+<p>收窄范围、两次就退、不保留向后兼容——这些在低风险、能一键撤回的场景里最划算。换到碰钱的链路、数据迁移、认证授权、不可逆操作上，同样的配置就是自杀。这些地方你反而需要它把调用方翻一遍、把回滚路径想清楚、多跑几轮验证。</p>
+
+<p>判据不是”让 AI 少做点”，是<strong>这个改动最坏情况能不能撤回</strong>。能撤回，就给它上限制、上节奏；不能撤回，就给足谨慎。</p>
+
+<p>开头那个五十行的定时任务，如果中途有过一次回滚，它不会长成五百行。它会长成五十行——加一个判空。</p>
+
+<p>这就是区别。不是模型更聪明了，是有人在中途喊过一次停。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li><a href="https://dl.acm.org/doi/10.1145/3793302.3793587">When AI Code Doesn’t Stick: An Empirical Study on Reverted Changes Introduced by AI Coding Agents</a> — ACM，2026（DOI: 10.1145/3793302.3793587）</li>
+  <li><a href="https://arxiv.org/abs/2603.17973v2">TDAD: Test-Driven Agentic Development — Reducing Code Regressions in AI Coding Agents via Graph-Based Impact Analysis</a> — Alonso, Yovine, Braberman，arXiv:2603.17973v2，2026</li>
+  <li><a href="https://arxiv.org/abs/2605.17242">From Runnable to Shippable: Multi-Agent Test-Driven Development for Generating Full-Stack Web Applications from Requirements</a> — Wan 等，arXiv:2605.17242，2026</li>
+  <li><a href="https://www.anthropic.com/engineering/claude-code-best-practices">Best practices for Claude Code</a> — Anthropic 工程博客</li>
+  <li><a href="https://blog.csdn.net/weixin_32247165/article/details/165255392">AI编程时代代码复杂性失控：五个信号与四道防线</a> — CSDN（定时任务连接池事故复盘）</li>
+  <li><a href="https://www.toutiao.com/article/7682694679581786676">AI写得很快，团队却维护不动：一个客服Agent项目的失控现场</a> — 今日头条，2026-09-07</li>
+  <li><a href="https://blog.technodrone.cloud/2026/09/ownership-debt-hidden-risk-ai-generated-code.html">Ownership Debt: The Hidden Risk of AI-Generated Code</a> — Technodrone，2026</li>
+  <li><a href="https://startupnotes.eu/a-great-software-development-workflow/">A great software development workflow in 2026</a> — Startup Notes</li>
+  <li><a href="https://www.13labs.au/guides/vibe-debugging-reset-rule">Vibe Debugging: When to Stop Asking the AI to Fix It (and Revert Instead)</a> — 13Labs（含 DevForge 的成本记录，以及 Fireship 关于”提交是唯一无法绕过的那颗撤销键”的引述）</li>
+  <li><a href="https://www.span.app/blog/autonomous-teams-ai-code">Autonomous Teams Ship Cleaner AI Code</a> — Span</li>
+  <li><a href="https://www.artificialstudio.ai/blog/ai-can-write-code-it-just-can-t-maintain-it-about-the-future-of-creative-work">AI can write code. It just can’t maintain it.</a> — ArtificialStudio，2026（引述 SlopCodeBench：威斯康星大学麦迪逊分校 / MIT / 华盛顿州立大学）</li>
+  <li>Best Kept Secrets of Peer Code Review — SmartBear（对 Cisco 约 2,500 次评审的规模统计，业界常引用的经典研究）</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI编程" /><category term="调试" /><category term="回归测试" /><category term="代码审查" /><category term="回滚" /><summary type="html"><![CDATA[摘要：让 AI 修 Bug，经常越修越多，改到无关模块，测试漏一块就是线上事故。三组实测把账算清楚了：缺的不是模型聪明，是修复循环里没有撤销点，改动集又大到没人读得完。]]></summary></entry><entry><title type="html">SKILL.md 里写不下授权</title><link href="https://tangyuewei.com/posts/skill-permission-gap/" rel="alternate" type="text/html" title="SKILL.md 里写不下授权" /><published>2026-09-17T08:18:00+08:00</published><updated>2026-09-17T08:18:00+08:00</updated><id>https://tangyuewei.com/posts/skill-permission-gap</id><content type="html" xml:base="https://tangyuewei.com/posts/skill-permission-gap/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：技能文件里那个叫 allowed-tools 的字段，看着像权限系统。官方文档写着：它只免除询问，不限制可用工具，而且技能可以给自己授权。格式能写下名字和描述，写不下的是它能碰哪些路径、连哪些主机、用哪份凭据。</p>
+</blockquote>
+
+<p>装一个技能的时候，你看到的是两行字：一个名字，一段描述。</p>
+
+<p>你点下”同意”，是冲着这两行字点的。</p>
+
+<p>到了周四，一个看上去毫不相关的仓库任务触发了它，跑起来的是 <code class="language-plaintext highlighter-rouge">scripts/</code> 目录里的 Python，用的是你终端里的凭据、你的仓库、你的网络出口。它在你按下同意的那天，和它真正干活的那天，中间隔了三天，也隔着你从没看过的那些代码。</p>
+
+<p>这不是某一个技能的问题。根子在格式——<strong>SKILL.md 这个文件格式里，没有地方可以写”它被允许做什么”。</strong></p>
+
+<p><img src="/imgs/202609/2026-09-17-skill-permission-gap-infographic-1.jpg" alt="格式能写下的字段，和写不下的那些约束" /></p>
+
+<h2 id="那个像权限的字段官方定义是免询问">那个像权限的字段，官方定义是”免询问”</h2>
+
+<p>Agent Skill 的规范里有个字段叫 <code class="language-plaintext highlighter-rouge">allowed-tools</code>。名字起得很像权限系统：allowed，被允许的。</p>
+
+<p>先看规范怎么说。agentskills.io 的规范原文是这么定义的：一个用空格分隔的、<strong>预先批准</strong>的工具列表；紧跟一句”实验性，不同 Agent 实现的支持程度可能有差异”（Experimental. Support for this field may vary between agent implementations）。</p>
+
+<p>再看客户端怎么说。Claude Code 的文档把它解释得更直接：</p>
+
+<blockquote>
+  <p>Tools Claude can use without asking permission during the turn that invokes this skill. The grant clears when you send your next message.</p>
+</blockquote>
+
+<p>翻译过来：本轮对话里，列出的工具<strong>不用再问你</strong>。你发下一条消息，这个豁免就过期。</p>
+
+<p>关键在于下一句，它把语义钉死了：</p>
+
+<blockquote>
+  <p>It does not restrict which tools are available: every tool remains callable.</p>
+</blockquote>
+
+<p><strong>它不限制哪些工具可用，所有工具依然可调用。</strong></p>
+
+<p>这就是全部差别。<code class="language-plaintext highlighter-rouge">allowed-tools</code> 是”别弹窗了”，不是”只能做这些”。前者是免打扰设置，后者才是权限边界。两者在配置文件里长得几乎一样，在出事时的差别是：一个拦得住，一个拦不住。</p>
+
+<p>更值得留意的是同页文档里的一句提醒：工作区信任（workspace trust）对话框管不到这个字段。也就是说，你从没信任过的目录，只要技能被调用，它声明的 <code class="language-plaintext highlighter-rouge">allowed-tools</code> 照样生效。原文写得很坦白：</p>
+
+<blockquote>
+  <p>A skill can grant itself broad tool access.</p>
+</blockquote>
+
+<p><strong>技能可以给自己授予宽泛的工具访问权。</strong></p>
+
+<p>这句话不是我推的，是文档自己写的。一个文件，可以替自己批准自己。</p>
+
+<h2 id="规范能写下的和写不下的">规范能写下的，和写不下的</h2>
+
+<p>把规范的六个字段摊开看，会发现一件事：<strong>它对名字的约束比对行为的约束细得多。</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">name</code> 有硬性限制——最多 64 个字符，只能用小写字母、数字和连字符，不能以连字符开头结尾，不能有连续连字符，还必须和目录名一致。规则细到这种程度。</p>
+
+<p><code class="language-plaintext highlighter-rouge">description</code> 最多 1024 字符。<code class="language-plaintext highlighter-rouge">license</code> 是许可名或捆绑许可文件的文件名。<code class="language-plaintext highlighter-rouge">compatibility</code> 最多 500 字符，说明环境要求。<code class="language-plaintext highlighter-rouge">metadata</code> 是个随便你填的字符串键值对。最后就是那个实验性的 <code class="language-plaintext highlighter-rouge">allowed-tools</code>。</p>
+
+<p>六个字段，能表达的全部信息就这些。</p>
+
+<p>那么写不下的是什么？</p>
+
+<ul>
+  <li>能读哪些路径</li>
+  <li>能连哪些主机</li>
+  <li>能用哪一份凭据</li>
+  <li>能起哪些子进程</li>
+  <li>单次跑多久算超时</li>
+  <li>输出多大算异常</li>
+</ul>
+
+<p>这些都是权限的实际内容。规范里一个都没有。</p>
+
+<p>有人把这件事说得比我说得准。一份安全厂商的技术分析里有个判断值得抄下来：<code class="language-plaintext highlighter-rouge">allowed-tools</code> 听起来像权限系统，但<strong>它命名的是工具，不是权限</strong>。</p>
+
+<p><code class="language-plaintext highlighter-rouge">Read</code> 没有回答哪些路径。<code class="language-plaintext highlighter-rouge">Bash(git add *)</code> 没有回答哪个仓库、哪个远端、哪些凭据能推上去。</p>
+
+<p>工具名是个名词。授权是一组带范围和条件的动词。一个名词装不下。</p>
+
+<h2 id="有执行的地方没有边界">有执行的地方，没有边界</h2>
+
+<p>如果规范里没有任何可执行的东西，这个缺口还只是理论问题——纯 Markdown 文件最多骗骗模型。</p>
+
+<p>但规范同时定义了另一个目录：<code class="language-plaintext highlighter-rouge">scripts/</code>。原文是”Contains executable code that agents can run”，放的是 Agent 能跑的代码，推荐的常见选项是 Python、Bash、JavaScript。</p>
+
+<p>同一份规范里，还顺手给了作者一个便利：文档里的示例展示了技能调用 <code class="language-plaintext highlighter-rouge">uvx</code>、<code class="language-plaintext highlighter-rouge">npx</code>、<code class="language-plaintext highlighter-rouge">bunx</code>、<code class="language-plaintext highlighter-rouge">deno run</code>、<code class="language-plaintext highlighter-rouge">go run</code>，这些包在执行的那一刻才解析。</p>
+
+<p>于是就有了这么个组合：</p>
+
+<p><strong>一个标准的、放可执行代码的位置，配上一句”支持哪些语言取决于 Agent 实现”，以及对这段代码能读什么、连什么、起什么，零字节的约束。</strong></p>
+
+<p>更麻烦的是，这段代码跑在什么身份上。AppSec 这套工具链里，没有哪个环节会去读 Markdown——依赖扫描工具查的是依赖树和漏洞公告源，而技能没有公告源；资产管理系统里压根没有”技能”这个类别，装一个技能不会产生 CMDB 记录，也不会产生 IAM 关联。</p>
+
+<p>结果就一句话：技能继承的是宿主 Agent 的全部环境权威。<strong>没有”每个技能一个身份”这种东西可以拿来收窄，所以任何一个技能的爆炸半径，就是整个 Agent 的爆炸半径。</strong></p>
+
+<p>OWASP 在 <code class="language-plaintext highlighter-rouge">Over-Privileged Skills</code> 这一条里举了两个例子：一个”天气助手”读走了整个 <code class="language-plaintext highlighter-rouge">.env</code>，一个本该只做 SELECT 的技能被说动去执行 DELETE。这一条的原话是——”权限检查发生在工具调用处，而不是意图处”（permission is checked at the tool call, not at the intent）。</p>
+
+<h2 id="时间差周一装周四跑">时间差：周一装，周四跑</h2>
+
+<p>技能是逐步加载的。这个设计本身没问题，甚至是它能在生态里铺开的原因。</p>
+
+<ul>
+  <li>启动时，Agent 只看得到每个技能的 <code class="language-plaintext highlighter-rouge">name</code> 和 <code class="language-plaintext highlighter-rouge">description</code>，大约 100 tokens</li>
+  <li>任务匹配上描述，才加载完整的 SKILL.md 正文（建议 5000 tokens 以内）</li>
+  <li>正文里指向了某个文件、某段脚本，那一刻才会去读、去跑</li>
+</ul>
+
+<p>这是很好的上下文管理。放在安全上看就是另一回事了——<strong>这是一套延迟执行的时序。</strong></p>
+
+<p>周一，你审查的是两行字。周三，那个 <code class="language-plaintext highlighter-rouge">.env</code>、那份 git 凭据、那串云密钥还在你的环境里，只是技能还没动。周四，一个不相关的任务让某段描述匹配上了，正文加载，脚本执行，它读走了周边项目的配置文件，用你已经登录的凭据发出去，然后返回一份看起来正常的报告。</p>
+
+<p>整条链里没有一步需要内存破坏漏洞。<strong>技能要求的每一项能力，你的 Agent 本来就有。</strong></p>
+
+<p>OWASP 上周定稿的《智能体技能十大风险》把这个机理放在了第 4 条 <code class="language-plaintext highlighter-rouge">Insecure Metadata</code> 里，原话是：</p>
+
+<blockquote>
+  <p>The manifest is attacker-controlled input, parsed with the agent’s full permissions before any user action.</p>
+</blockquote>
+
+<p>清单文件是攻击者可控的输入，在你做出任何动作之前，就已经以 Agent 的完整权限被解析了。</p>
+
+<p>这句话值得停一下：不是执行的时候才危险，是<strong>解析元数据的那一刻</strong>就已经在完整权限下了。</p>
+
+<p>风险 1”恶意技能”里挂的官方案例是今年 2 月的 ClawHavoc 事件：<strong>1,184 个恶意技能，来自 12 个发布账号，共用同一个 C2 地址</strong>，投递的是针对 macOS 钱包、SSH 密钥和浏览器凭据的窃取程序。</p>
+
+<p>另一个例子更能说明扫描为什么失效。今年 7 月初，有人仿冒一个智能体平台注册了近似域名，同时放出木马化的 Python 包和武器化的技能。自动扫描器几小时内就检出了 Python 包，<strong>技能却全部漏过</strong>，每个累积了 30 万次以上的安装。</p>
+
+<p>扫描为什么拦不住？OWASP 专门列了一条 <code class="language-plaintext highlighter-rouge">Poor Scanning</code>：技能天然是自然语言和代码混在一起的东西，市场部署的模式匹配、正则和签名检测天生看不住它。公开记录里，Trail of Bits 把当时能拿到的技能扫描器逐个试了一遍，全部在一小时内绕过；Adversa AI 在自己测试里绕过了 8 个扫描器。最讽刺的一个细节是，某个技能市场自带的”技能卫士”扫描器本身就是个技能，被攻击者拿去当可信度背书用了。</p>
+
+<p><img src="/imgs/202609/2026-09-17-skill-permission-gap-infographic-2.jpg" alt="从装下到触发：三段延迟，和那一刻拿到的身份" /></p>
+
+<h2 id="分发已经成熟授权还是空白">分发已经成熟，授权还是空白</h2>
+
+<p>最能说明问题的是当下的时间线：<strong>这个生态在”怎么把技能送到你机器上”这件事上已经相当成熟，在”它能做什么”这件事上还是空白。</strong></p>
+
+<p>9 月 5 日，mise 的作者 Jeff Dickey 发布了 packslip，一份签名的发布清单：把版本锁定、签名验证、下载字节校验都做了，还把技能激活改成需要显式选择加入（opt-in）。这是很扎实的供应链工程。</p>
+
+<p>但它自己在发布说明里把边界划得很清楚：<strong>一份验证过的签名告诉你指令从哪来，不告诉你这些指令适不适合你的项目。</strong></p>
+
+<p>同一条时间线上，X 发布了自己的官方技能，通过一个 well-known 端点就能被发现，一条命令装上：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>npx skills add https://docs.x.com
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>另一头，Hacker News 首页有个 100 多条评论的讨论帖，聊怎么管理技能文件。Git、软链接、版本锁定、包管理器、evals、捆绑脚本，都聊到了——<strong>“permission”这个词一次都没出现。</strong></p>
+
+<p>这不是谁疏忽了。这是整个生态当前的注意力分配：先把分发做顺，授权的语法还没开始设计。</p>
+
+<p>有一份技术分析把这层落差总结得挺准确：生态在学会怎么分发和维护技能，但还没就”怎么框住技能能做的事”达成一致。清单可以描述请求的权限，<strong>但必须有技能之外的东西去执行它。</strong></p>
+
+<p>跨平台这条线更直接。OWASP 第 10 条 <code class="language-plaintext highlighter-rouge">Cross-Platform Reuse</code> 的原话是：技能在 OpenClaw、Claude Code、Cursor、VS Code 之间流转，<strong>它们的安全元数据不会跟着走</strong>。一个 <code class="language-plaintext highlighter-rouge">risk_tier: L3</code> 的风险标记，被移植到一个没有这个字段的格式里，就消失了；一份权限清单被剥掉后，技能继承的是目标平台更宽松的默认值。</p>
+
+<p>换个说法：你为技能加的任何一层安全标注，都是某个平台的私有约定。它能被剥离，而且会被剥离。</p>
+
+<h2 id="边界只能画在技能外面">边界只能画在技能外面</h2>
+
+<p>那 <code class="language-plaintext highlighter-rouge">allowed-tools</code> 到底还有没有用？有，但它是个<strong>提示</strong>，不是<strong>边界</strong>。当免打扰设置用是合适的——少弹几个窗，让常规操作顺一点。把它当审批闸门用，方向就错了。</p>
+
+<p>真正的边界得画在技能外面。四件事按性价比排：</p>
+
+<p><strong>第一，凭据不进环境变量。</strong> 技能本质上是不可信输入——把密钥放进它能读到的环境里，等于把家门钥匙交给网友。这条不是我打的比方，OWASP 给技能使用者列的建议里，它排在前几位。</p>
+
+<p><strong>第二，脚本进沙箱，靠的不是声明。</strong> 隔离是运行时的事，不是文本里的事。技能里写什么都不构成隔离——沙箱要由宿主提供，由操作系统或容器执行。</p>
+
+<p><strong>第三，出站做白名单。</strong> 前面那条攻击链里最关键的一步是”发出去”。DNS 查询、HTTP 请求、隐写信道，这些都得在网络的出口上管，而不是在技能文件里管。</p>
+
+<p><strong>第四，把目录信任的颗粒度收细。</strong> 现在的信任模型是把整个文件夹当成你的，别人仓库里的技能也跟着变成你的。这个模型的原文表述是”信任授予给文件夹，文件夹里的一切都算你的”。听起来省事，代价是仓库里任何一份 Markdown 都可能带着执行计划进来。</p>
+
+<p><img src="/imgs/202609/2026-09-17-skill-permission-gap-infographic-3.jpg" alt="四条边界，都画在技能文件之外" /></p>
+
+<p>国内这条线也在动，而且动得比想象中快。</p>
+
+<p>7 月 2 日，国家标准化管理委员会下达了《智能体应用安全基本要求》强制性国家标准计划，计划号 20263116-Q-252。这是全球首部面向智能体安全的强制性国家标准，由中央网信办归口，中国移动、中国电子技术标准化研究院、国家计算机网络应急技术处理协调中心牵头起草。</p>
+
+<p>值得注意的不是”又出了一个标准”，而是它把强制内容写在哪几个词上：<strong>身份标识、系统权限调用、工具调用、高风险操作人工介入、日志留存与动态监测、异常阻断与紧急关停</strong>。</p>
+
+<p>“系统权限调用”“工具调用”“高风险操作人工介入”——正好是这篇文章在讲的这三件事。配套的动作也在同步：7 月 1 日，全国网安标委发布了《智能体部署使用安全指引》实践指南。</p>
+
+<p>更早一点，今年 3 月有公开报道提到，中国信通院副院长魏亮在人民网的一次采访里点了开源智能体 OpenClaw 的名：信任边界模糊，技能包市场缺乏严格审核。</p>
+
+<p>而在标准之外，OWASP 自己也在补格式的那一半：这次发布 Top 10 的同时，放出了一个 <strong>Universal Skill Format</strong> 的初始草案，试图用一份标准化的 YAML 让自动化分析判断哪些技能可信。从公开介绍看，这份格式的第一节就是来源信息。</p>
+
+<p>方向很清楚：<strong>先给格式补上安全元数据，再让工具链去消费它。</strong></p>
+
+<h2 id="总结">总结</h2>
+
+<p>一句话：SKILL.md 里那个像权限系统的字段，不是边界。它说的是”别问了”，不是”只能这样”。</p>
+
+<p>规范能写下名字、描述、许可、环境要求，和一个实验性的工具名单。写不下的是它能碰哪些路径、连哪些主机、用哪份凭据。而同一份规范又给可执行代码安排了标准位置。</p>
+
+<p>在这个语法补上之前，能靠的只有技能外面的东西：凭据别放进它能读到的环境，脚本进制运行时的沙箱，出站走白名单，目录信任别一把梭。</p>
+
+<p>一个文本文件，不应该有能力扩大 Agent 能碰的范围。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li><a href="https://agentskills.io/specification">Agent Skills Specification</a> — Agent Skills 开放规范（frontmatter 六字段定义、<code class="language-plaintext highlighter-rouge">scripts/</code> 目录说明、渐进式披露）</li>
+  <li><a href="https://code.claude.com/docs/en/skills">Extend Claude with skills</a> — Anthropic / Claude Code 官方文档（<code class="language-plaintext highlighter-rouge">allowed-tools</code> 与 <code class="language-plaintext highlighter-rouge">disallowed-tools</code> 字段语义、workspace trust 说明）</li>
+  <li><a href="https://genai.owasp.org/">OWASP Agentic Skills Top 10</a> — OWASP，2026-09 定稿，含 AST01–AST10 风险分类与 Universal Skill Format 草案</li>
+  <li><a href="https://adversa.ai/blog/owasp-agentic-skills-top-10-explained">OWASP Agentic Skills Top 10: AI agent skill risks explained</a> — Adversa AI，逐条解读与原文引述</li>
+  <li><a href="https://jdx.dev/posts/2026-09-05-introducing-packslip">Introducing packslip</a> — Jeff Dickey，2026-09-05，签名发布清单</li>
+  <li><a href="https://std.samr.gov.cn/gb/search/gbDetailed?id=4C5277928DA2411EE06397BE0A0AE436">智能体应用安全基本要求（20263116-Q-252）</a> — 国家标准化管理委员会国家标准项目公示，中央网信办提出，TC260 归口</li>
+  <li><a href="https://www.tc260.org.cn/portal/article/1/961ec446f2294c4b8c353c186b0e4cf5">网络安全标准化工作月报（2026 年 7 月）</a> — 全国网络安全标准化技术委员会（《智能体部署使用安全指引》发布记录）</li>
+  <li><a href="https://grith.ai/blog/skill-md-permissions-manifest">An agent skill can hand a stranger your shell</a> — Grith，技能权限清单缺口的机制分析</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="安全" /><category term="AI编程" /><category term="Agent Skill" /><category term="权限边界" /><category term="SKILL.md" /><category term="供应链安全" /><summary type="html"><![CDATA[摘要：技能文件里那个叫 allowed-tools 的字段，看着像权限系统。官方文档写着：它只免除询问，不限制可用工具，而且技能可以给自己授权。格式能写下名字和描述，写不下的是它能碰哪些路径、连哪些主机、用哪份凭据。]]></summary></entry><entry><title type="html">终端打败 IDE，输的不是界面</title><link href="https://tangyuewei.com/posts/terminal-beats-ide/" rel="alternate" type="text/html" title="终端打败 IDE，输的不是界面" /><published>2026-09-16T08:10:00+08:00</published><updated>2026-09-16T08:10:00+08:00</updated><id>https://tangyuewei.com/posts/terminal-beats-ide</id><content type="html" xml:base="https://tangyuewei.com/posts/terminal-beats-ide/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：JetBrains 调查 1.5 万名开发者：90% 每周用 AI agent，Claude Code 涨到 39%，Copilot 跌到 21%。涨的能离开 IDE 独立跑，跌的住在编辑器里。分水岭不在界面，在交互单位。</p>
+</blockquote>
+
+<p>回想一下你最近一次让 AI 真正干完一件活。</p>
+
+<p>不是补全半行代码，而是”把这个接口的超时配置改掉，跑一遍健康检查再提交”这种。</p>
+
+<p>这句话，你是在哪个窗口里说的？</p>
+
+<p>大概率不是 IDE 里那个侧边栏。</p>
+
+<p>JetBrains 八月中旬发了份调查<a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026">1</a>，数据来自第十届开发者生态调查。</p>
+
+<p>覆盖 1.5 万多名专业开发者，采样时间是今年 5 到 7 月。</p>
+
+<p>数字比想象中激进。</p>
+
+<h2 id="排名不是重排是反转">排名不是重排，是反转</h2>
+
+<p>90% 的专业开发者每周至少用一次 AI agent，68% 每天用。</p>
+
+<p>这一层已经不算新闻。真正扎眼的是再往下一层的排名。</p>
+
+<p>Claude Code 的工作场景使用率从 1 月的 18% 涨到 39%，美国到 47%。</p>
+
+<p>GitHub Copilot 从一年前的 29% 跌到 21%。它仍然是心智占有率最高的工具，79% 的人知道它，欧美能到 86% 到 90%。知道，但不用了。</p>
+
+<p>Codex 从 3% 涨到 16%，五倍。同期它的认知度从 27% 涨到 65%。</p>
+
+<p>Cursor 拿到了更多心智，从 69% 升到 75%，使用率却从 18% 掉到 12%。掉得最狠的是中国市场：1 月还有 28%，5 到 7 月只剩 16%。</p>
+
+<p><img src="/imgs/202609/2026-09-16-terminal-beats-ide-infographic-1.jpg" alt="AI 编程工具份额反转：涨的和跌的分成两列" /></p>
+
+<p>至少在前排，规律几乎是明牌。</p>
+
+<p>涨的是 Claude Code、Codex、OpenCode，三个都能不靠 IDE 独立跑，终端是它们最自然的落点。</p>
+
+<p>跌的是 Copilot 和 Cursor，两个都把家安在编辑器里。</p>
+
+<p>更值得琢磨的是粘性。31% 的开发者把 Claude Code 列为自己最常用的工具。</p>
+
+<p>对比 39% 的总使用率，这意味着一件事：试过的人里，大约八成把它留成了主力。</p>
+
+<p>工具类产品很少见到这种转化率。多数人是装一堆、用几个、留一个。</p>
+
+<p>先说清这份数据的边界。它统计的是”用没用”，不是”用得好不好”，也不看营收。</p>
+
+<p>样本是专业开发者，不等于所有写代码的人。而且这份让 IDE 显得被动的数据，是一家卖 IDE 的公司自己发的。</p>
+
+<h2 id="不是终端更好用是单位变了">不是终端更好用，是单位变了</h2>
+
+<p>一个偷懒的解释是：终端更快、更轻、更自由。</p>
+
+<p>这个解释站不住。</p>
+
+<p>之前写过终端里的 agent 为什么”顺手”——工作本来就在终端发生，没有序列化边界，文本还能脚本化和审计。那是体验层的解释。</p>
+
+<p>但体验层的解释撑不起这份数据。终端再顺手，也只对本来就熟命令行的人成立。</p>
+
+<p>而使用率翻倍的不是小圈子的偏好，是主流开发者的选择。</p>
+
+<p>真正变的是交互的单位。</p>
+
+<p>补全的单位是一段代码片段。你把光标停在某个位置，它把接下来的几个词补齐。单位小到以行计。</p>
+
+<p>你决定改哪里、改成什么样，它负责把那几个字打得更快。</p>
+
+<p>在这个模式里，瓶颈是打字速度和一次改对的概率。编辑器把这个瓶颈压得越狠，你就越离不开它，这是 IDE 插件范式的全部价值。</p>
+
+<p>Agent 的单位是一个完整意图。你说清要什么结果，它自己读文件、拆步骤、改多个文件、跑测试，最后交给你一个可验收的东西。</p>
+
+<p>单位大到以”一件事”计。你的角色也跟着变了，从”写”变成”验收”。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="c"># 单位是片段：你决定改哪里，它补下一行</span>
+orderList.stream<span class="o">()</span>   <span class="c"># 光标停在这，它接 .map(o -&gt; o.getId())...</span>
+
+<span class="c"># 单位是意图：你说清结果，它负责怎么改</span>
+claude <span class="s2">"把 OrderService 里的 new Date() 换成注入的 Clock，改完跑订单模块测试"</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>单位一变，编辑器最值钱的那个能力就不再是瓶颈。</p>
+
+<p>补全这件事已经商品化了。今天几乎每家做模型的厂商都拿得出来，行内补全、多行补全、FIM，都是标配。</p>
+
+<p>JetBrains 自家的 AI 在调查里只有 9% 的使用率。这个数字不足以为它的产品力下结论，但至少说明一件事：光靠补全，撑不起一个工具的份额。</p>
+
+<p>而当单位变成”一件事”，问题就从”下一行写什么”，变成了”它有没有理解对整套上下文、有没有真的验证过”。</p>
+
+<p>回答后一个问题，靠的是执行和验证的环境，不是输入的界面。</p>
+
+<p>终端恰好天生就有这些原语：git、构建、测试、日志、管道，本来就在那儿。</p>
+
+<p>所以它不是”因为好用”赢的，是”因为对了口”。终端只是第一个接得住”完整意图”这个单位的容器。</p>
+
+<p><img src="/imgs/202609/2026-09-16-terminal-beats-ide-infographic-2.jpg" alt="补全和 Agent 根本不是同一个交互单位" /></p>
+
+<h2 id="编辑器没出局它被分到了后半场">编辑器没出局，它被分到了后半场</h2>
+
+<p>这份数据里最微妙的一条，藏在一个不起眼的位置：39% 的 Copilot 用户，是在 JetBrains 的 IDE 里用它。</p>
+
+<p>编辑器还在被用，只是它承载的是别人的 agent。</p>
+
+<p>JetBrains 的应对很直接。Claude Agent、Codex、Copilot、OpenCode 被接进了 IDE 的 AI 对话。</p>
+
+<p>其他 agent（包括 Cursor）通过 ACP 协议接入<a href="https://www.jetbrains.com/acp/">2</a>。</p>
+
+<p>它还在做一个叫 Air 的东西，agentic 开发环境，目前是预览版。</p>
+
+<p>一家卖 IDE 的公司把对手的 agent 请进自己的界面，与其说这是开放，不如说是个信号：靠”代码在这里写”留人，已经不成立了。</p>
+
+<p>那它靠什么？靠前后两头里它本来就更强的那一头。</p>
+
+<p>把一次改动切成两段：生成，和验收。</p>
+
+<p>生成这半正在往终端走，因为那边有现成的执行环境，改完能立刻跑。</p>
+
+<p>验收这半留在编辑器里更划算。看 diff、跳调用链、断点调试、看堆栈、盯性能曲线，这些是几十年的编辑器积累，终端给不了。</p>
+
+<p>有个场景印象很深。有次让终端里的 agent 顺手改一批调用点，回头一看改动散在十几个文件里。</p>
+
+<p><code class="language-plaintext highlighter-rouge">git diff</code> 在黑框里刷屏刷到翻不动，最后是回 IDE 打开对比视图，才看清哪几处改歪了。</p>
+
+<p>生成交给终端，验收回编辑器。这不是谁替代谁，是分工被重新划了一遍。</p>
+
+<p><img src="/imgs/202609/2026-09-16-terminal-beats-ide-infographic-3.jpg" alt="编辑器被重新分工到验收端" /></p>
+
+<h2 id="那-90-里有多少是真在用">那 90% 里，有多少是真在用</h2>
+
+<p>数据的另一面得说清楚。</p>
+
+<p>90% 的周活听着像普及完成。但”每周用一次”和”把关键任务交给它”是两件事。</p>
+
+<p>68% 的日活里，相当一部分人只是拿它解释报错、查一段老代码。这已经很有用，但和”让它改生产代码”是两种信任级别。</p>
+
+<p>把执行权交给终端 agent，代价也更直接。</p>
+
+<p>补全式的工具最多给你一段跑不起来的代码；终端 agent 直接落盘、直接跑命令、直接提 PR。权限开多大、哪些操作要卡住，这些闸门得自己搭。</p>
+
+<p>所以这份调查真正说明的，不是”终端更好”，是重心挪了位置：从”谁帮我把代码写快”，挪到了”谁能接住一整件事，并且让我验得动”。</p>
+
+<p>开头那个问题，答案其实不重要。</p>
+
+<p>重要的是那句话的单位。当你说出口的不再是”下一行写什么”，而是一整件事，你需要的就不再是一个更好的输入框。</p>
+
+<p>你需要一套能把它的产出验干净的流程。</p>
+
+<p>终端赢的是这一件事。编辑器输的也不是界面，是”代码在你这里写”这个默认位置。</p>
+
+<p>它要证明自己值钱的地方，换到了别处。</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="行业趋势" /><category term="AI编程" /><category term="Claude Code" /><category term="GitHub Copilot" /><category term="Cursor" /><category term="Codex" /><category term="终端" /><category term="开发者调查" /><summary type="html"><![CDATA[摘要：JetBrains 调查 1.5 万名开发者：90% 每周用 AI agent，Claude Code 涨到 39%，Copilot 跌到 21%。涨的能离开 IDE 独立跑，跌的住在编辑器里。分水岭不在界面，在交互单位。]]></summary></entry><entry><title type="html">该给 Skill 减肥了</title><link href="https://tangyuewei.com/posts/skill-slimming/" rel="alternate" type="text/html" title="该给 Skill 减肥了" /><published>2026-09-15T08:10:00+08:00</published><updated>2026-09-15T08:10:00+08:00</updated><id>https://tangyuewei.com/posts/skill-slimming</id><content type="html" xml:base="https://tangyuewei.com/posts/skill-slimming/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：skill 的名字和描述都占着上下文。装得越多，描述越可能被截断，模型越容易选错。现在能测了：Claude Code 的 plugin eval 给每条 skill 算出 Δ，OpenAI 建议把根文档退化成路由表。</p>
+</blockquote>
+
+<p>大部分人的 skill 库是这么长起来的。</p>
+
+<p>一开始只有一条。你发现 AI 总不按你想的方式写单测，于是写一条 skill 把团队规范固化进去。过两周它总忘记更新 changelog，又加一条。再后来是接口文档格式、SQL 审查清单、发布检查步骤。</p>
+
+<p>半年后回头看，目录里躺着二十几个文件夹。</p>
+
+<p>问题不在数量。问题是你不知道哪几条还在起作用。</p>
+
+<p>有人会说，装了总比没装强。但每条 skill 的名字和描述都要进模型的上下文——模型得先知道自己有哪些能力，才谈得上用不用。这些描述占着位置，而位置是有限的。</p>
+
+<p>更要命的是，<strong>你没法验证它到底做了什么</strong>。</p>
+
+<p>以前评价一条 skill 好不好，靠感觉：今天它好像挺听话。改了描述之后呢？新模型发布之后呢？没人知道。</p>
+
+<p>现在这件事开始有数字了。</p>
+
+<h2 id="δ一条-skill-到底贡献了什么">Δ：一条 Skill 到底贡献了什么</h2>
+
+<p>9 月 11 日，Claude Code v2.1.269 上线了 <code class="language-plaintext highlighter-rouge">plugin eval</code><a href="https://code.claude.com/docs/en/plugin-evals">1</a>。</p>
+
+<p>它跑一组测试用例，每条用例是一个真实的用户 prompt，配一个或几个 grader——对 AI 的产出做通过或失败的检查：对回复做正则、看某个工具有没有被调用、或者让第二个模型按评分标准判一次。</p>
+
+<p>关键在怎么算分。</p>
+
+<p>每条用例跑两遍：一遍装插件（WITH），一遍不装（W/OUT）。两个分数一减，就是 Δ。默认每臂跑三次，所以一条用例实际是六次运行。</p>
+
+<p>官方文档写得很直白：如果一个用例在装与不装的情况下都拿满分，那通过跟你的插件没关系。</p>
+
+<p>这句话是这个功能的核心。<strong>高分不说明插件的功劳，差值才说明。</strong></p>
+
+<p>官方给的样例长这样：</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>CASE        WITH   W/OUT    Δ      RUNS   COST
+first-case  1.00   0.33   +0.67     6     $0.41
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>一条 skill 值不值，看 Δ。</p>
+
+<p><img src="/imgs/202609/2026-09-15-skill-slimming-infographic-1.jpg" alt="plugin eval 的 Δ 机制：WITH / W/OUT 两个臂相减，6 种 grader 里 4 种免费" /></p>
+
+<h2 id="最常见的体检结果它压根没被触发">最常见的体检结果：它压根没被触发</h2>
+
+<p>Anthropic 说，最常见的第一个发现是：<strong>Δ 接近零，同时 <code class="language-plaintext highlighter-rouge">tool_used: Skill</code> 这个 grader 失败</strong>。</p>
+
+<p>翻译过来就是——AI 在自然措辞下根本没有选你的 skill。</p>
+
+<p>这正是老工具看不见的。<code class="language-plaintext highlighter-rouge">claude plugin validate</code> 检查的是 manifest 的语法和 schema：它告诉你插件包有没有写坏，不告诉你插件有没有改变 AI 的行为。</p>
+
+<p>于是一条 skill 可能语法完美、安装成功、列表里看得见，然后在真实对话里一次都没被调用过。你看不出来，因为你默认它在工作。</p>
+
+<p>修法通常是重写描述，再跑一遍对比。</p>
+
+<p>OpenAI 在同期发的文档里给了个典型改法：</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre># 改前
+创建并验证 Postgres 模式迁移。在处理数据库、查询、模型或持久化时使用。
+
+# 改后
+创建并验证 Postgres 模式迁移。在添加或修改迁移文件，或审查其部署上线时使用。
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>改前的写法，会在模型碰到任何数据库相关内容时都跳出来——”处理数据库”这个条件太宽了。改后限定了具体动作：加迁移、改迁移、审迁移。</p>
+
+<p>差别就在这。描述写宽，模型在不该用的时候用它；描述写窄，模型在该用的时候不认得它。而这两件事，以前都只能靠猜。</p>
+
+<p>这里要分清两件事。之前写过上下文窗口越大、模型越容易忘事，那讲的是窗口<strong>里面</strong>：注意力被稀释、中段信息容易丢。这篇讲的是<strong>入口</strong>：描述还没被完整读进去，就已经被截断了。</p>
+
+<p><img src="/imgs/202609/2026-09-15-skill-slimming-infographic-2.jpg" alt="体检的两种结果：语法通过但从未触发，validate 看得见语法、看不见行为" /></p>
+
+<h2 id="根文档不是手册是路由器">根文档不是手册，是路由器</h2>
+
+<p>OpenAI 的 Codex 团队在《为 GPT-6 Astra 重写 skills 与 prompts》<a href="https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra">2</a> 里点破了另一半。</p>
+
+<p>skill 太多的时候，Codex 会开始<strong>缩短</strong>这些描述，好塞进上下文。模型最终只看到每条描述的一部分——信息不完整，就更难判断该选哪条。</p>
+
+<p>注意这个失败模式和”没装”不一样。没装，至少模型知道自己没有这个能力。描述被截断，模型看到的是<strong>残缺的信息</strong>，它会照着残缺的信息做决定。</p>
+
+<p>所以他们对 skill 结构的第一条建议是：把根文档做成一张<strong>最小路由表</strong>。</p>
+
+<p>一条 skill 如果覆盖多个工作流，根文档只写”该去找哪个文件”，细节留给辅助文档和脚本。给模型的信息刚好够它判断去哪看，不要逼它读当下用不上的东西。</p>
+
+<p>理由很直接：读 skill 本身要花上下文，离压缩更近一步，还会带进和当前任务无关的指导。</p>
+
+<p>第二条建议听起来像开倒车——别把 skill 写成一步一步的详细手册。</p>
+
+<p>模型对细节和歧义的理解能力已经强了很多。过去为了防幻觉写的详细步骤，现在反而会拖后腿：本来能自己判断的环节被一条条流程框住，算力就花在满足流程上，而不是写干净的代码。</p>
+
+<p>同样的逻辑适用于 AGENTS.md：</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre># 改前
+每次编辑前，先读 architecture.md、database.md、deployment.md。
+
+# 改后
+用 architecture.md 判断服务边界，用 database.md 判断表结构变更，准备部署时看 deployment.md。
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>改一个按钮的拼写错误，不需要先绕项目一圈。</p>
+
+<p><img src="/imgs/202609/2026-09-15-skill-slimming-infographic-3.jpg" alt="从详尽手册退化成最小路由：根文档只留去向，细节按需加载" /></p>
+
+<h2 id="提示债为旧模型写的护栏在拖累新模型">提示债：为旧模型写的护栏在拖累新模型</h2>
+
+<p>OpenAI 给这件事起了个名字：提示债（prompt debt）。</p>
+
+<p>过去两年，为了让模型不跑偏，我们写了很多东西：冗长的 AGENTS.md、事无巨细的 skill、一层层的”先问我再动手”。那是当时模型水平决定的，是必要的。</p>
+
+<p>但这些指令不会因为你在编辑器里换了个模型端点就消失。它们躺在上下文里，占着位置。</p>
+
+<p>换到新模型上，这些护栏从”保护”变成”限速”。</p>
+
+<p>最反直觉的例子是：连”跑测试并检查结果”这样的指令，也可能该删。新模型自己会跑；你多写一句，它反而可能去做一些没人要求的测试，把时间和上下文花在多余的动作上。</p>
+
+<p>还有一层容易被忽略：仓库里的 skill 不只你一个人在用。它是写给<strong>所有贡献者的 AI</strong> 看的，而那些 AI 可能跑在不同的模型上。</p>
+
+<p>帮 Sol 或 Luna 表现更好的指导，可能正好过度约束了 Astra。写 skill 的时候，得想清楚这份指令将来会被谁读到。</p>
+
+<p>不过这不是让你把所有规矩都拆了。</p>
+
+<p>OpenAI 的建议里有明确的分界：可逆的本地操作可以放开，比如跑本地测试、修相关报错、重跑受影响的用例。但生产访问、破坏性迁移、外部副作用、凭据这四类，审批闸门要留着。</p>
+
+<p>删的是”为旧模型加的无谓护栏”，不是”防止贵重事故的约束”。</p>
+
+<h2 id="这笔账要花钱也可能算错">这笔账要花钱，也可能算错</h2>
+
+<p>Δ 听起来很干净，但代价和误差都在。</p>
+
+<p>每一次 eval 运行、每一次 judge grader 都是真实的模型调用，计入你的套餐或 API 账单，官方显示的金额还只是标价估算。</p>
+
+<p>一条用例两个臂各跑三次，再加上 llm、baseline 这两种 grader 要额外调用评审模型——数量涨得比想象快。</p>
+
+<p>好在六个 grader 里有四个是免费的：regex、tool_used、tool_order、file_exists，它们从会话记录和磁盘文件里算，不调模型。想先看效果，别急着上 judge。</p>
+
+<p>更麻烦的是，AI 执行本身有随机性。同一个 skill 跑两次结果不同是正常的——所以要跑三次取均值，所以文档才建议把模型版本钉死，否则前后分数没法比。</p>
+
+<p>还有一种失败会伪装成回归。如果触发了用量上限，跑出来的低分看起来像”skill 变差了”，其实只是没跑完。官方为此专门留了退出码 2，表示这是一次部分运行，结果文件里也会带上标记。</p>
+
+<p>最后一条最容易被忽略：<strong>要测一个插件，你得先信任它。</strong></p>
+
+<p>eval 把插件跑在隔离的会话里，只加载目标插件——听起来很安全。但插件的 hooks 和 MCP servers 依然以你的用户权限执行。</p>
+
+<p>隔离的是上下文，不是权限。你为了验证一个来路不明的插件跑了 eval，它的 hooks 该跑还是在你的机器上跑了。</p>
+
+<p>命令行里那个 <code class="language-plaintext highlighter-rouge">--trust-plugin</code> 不是形式主义。</p>
+
+<p>如果这些都想清楚了，它可以进 CI：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>claude plugin <span class="nb">eval</span> <span class="nt">--trust-plugin</span> <span class="se">\</span>
+  <span class="nt">--json</span> results.json <span class="se">\</span>
+  <span class="nt">--threshold</span> 0.8 <span class="se">\</span>
+  <span class="nt">--model</span> claude-sonnet-5 <span class="se">\</span>
+  <span class="nt">--judge-model</span> claude-haiku-4-5 <span class="se">\</span>
+  <span class="nt">--no-publish</span> <span class="se">\</span>
+  <span class="nt">--max-cost-usd</span> 20
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>一条 skill 的改动，如果让某个用例掉到阈值以下，构建就失败。把运行模型和评审模型都钉死，分数才可比。</p>
+
+<h2 id="收尾">收尾</h2>
+
+<p>回到开头那二十几条 skill。</p>
+
+<p>减肥不是删到最少，是让留下来的每一条都拿得出 Δ。</p>
+
+<p>你不需要一次把整个库测一遍。挑三条你最依赖的，写几个真实 prompt，先跑一次不带 judge 的——六个 grader 里有四个免费。</p>
+
+<p>你会很快发现一件事：<strong>有些 skill 你以为是它在起作用，其实不是。</strong></p>
+
+<p>这个发现本身，比任何一条 skill 都值钱。</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="技术解读" /><category term="AI编程" /><category term="Claude Code" /><category term="Skill" /><category term="Codex" /><category term="上下文工程" /><category term="提示词" /><category term="plugin eval" /><summary type="html"><![CDATA[摘要：skill 的名字和描述都占着上下文。装得越多，描述越可能被截断，模型越容易选错。现在能测了：Claude Code 的 plugin eval 给每条 skill 算出 Δ，OpenAI 建议把根文档退化成路由表。]]></summary></entry></feed>
