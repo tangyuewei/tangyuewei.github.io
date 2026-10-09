@@ -74,4 +74,3 @@ OpenAI 原计划 10 月把 GPT-6.1 Astra 送进 ChatGPT 和 Codex。9 月 28 日
 - OpenAI DevDay 发布 GPT-6.1 Sol 与 Dots 常驻 Agent
 - Nvidia Open Agent Safety Platform（毫秒级隔离越界 Agent）：AMP Times（https://www.amptimes.com/article/openai-halts-training-rogue-ai-agents-2026）
 
-> 作者：[唐悦玮](https://tangyuewei.com)  |  从后端出发，用 AI 拓展到全栈的工程师。
