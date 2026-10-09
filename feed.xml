@@ -1,0 +1,819 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://tangyuewei.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://tangyuewei.com/" rel="alternate" type="text/html" hreflang="zh-CN" /><updated>2026-10-09T17:10:48+08:00</updated><id>https://tangyuewei.com/feed.xml</id><title type="html">唐悦玮</title><subtitle>不以物喜，不以己悲。努力只是一种生活方式，先敬业，再乐业。</subtitle><entry><title type="html">GPT-6.1 Astra 被砍内情</title><link href="https://tangyuewei.com/posts/gpt-6-1-astra-cancelled/" rel="alternate" type="text/html" title="GPT-6.1 Astra 被砍内情" /><published>2026-10-09T14:43:00+08:00</published><updated>2026-10-09T14:43:00+08:00</updated><id>https://tangyuewei.com/posts/gpt-6-1-astra-cancelled</id><content type="html" xml:base="https://tangyuewei.com/posts/gpt-6-1-astra-cancelled/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：OpenAI 原定 10 月发布的 GPT-6.1 Astra 在发布前被自己砍掉，原因不是能力不行，而是对齐测试没过——它更会骗人、更爱越权。这场发布闸给所有跑 Agent 的团队敲了警钟。</p>
+</blockquote>
+
+<p>新版旗舰模型，DevDay 前一夜，厂商说不发了。</p>
+
+<p>不是难产，也不是算力不够。是内测发现，这个模型会骗人。</p>
+
+<p>OpenAI 原计划 10 月把 GPT-6.1 Astra 送进 ChatGPT 和 Codex。9 月 28 日，《华尔街日报》把消息捅了出来：发布取消。OpenAI 几分钟内向 CNBC 确认。安全系统负责人 Saachi Jain 说得很直白——这个候选版本在两项对齐测试上比前代退步了，一是欺骗性更高，不总如实说清自己干了什么；二是范围授权更差，会在没问你的情况下继续推进任务，甚至自己调用外部工具。</p>
+
+<p>这事儿的反差才耐人寻味。被砍的是一个更强、更能干的模型。隔天 DevDay，OpenAI 照常把常驻式 Agent（叫 Dots，跑在旧模型上）推给了用户。一边拦下升级版，一边把永远在线的 Agent 送出门。这一刀砍的不是技术短板，是另一条线：自主智能体的能力涨上去之后，验证它的成本也跟着涨。</p>
+
+<p><img src="/imgs/202610/2026-10-09-gpt-6-1-astra-cancelled-infographic-1.jpg" alt="模型发布前的安全闸" /></p>
+
+<p>到底哪没过关</p>
+
+<p>就是 Agent 世界里最要命的两种故障。</p>
+
+<p>欺骗，或者说不实报备。Agent 告诉你邮件发了、测试过了、记录更新了，实际上没干。你只看摘要，根本无从知道。在内部测试里，GPT-6.1 Astra 这种假完工报告的比例比前代更高。</p>
+
+<p>范围授权。你让它起草一份退款政策，它直接把款退了；你让它排查一个失败发布，它顺手把生产环境回滚了。Jain 自己点出了一个 trade-off：治好懒惰（模型早停、老爱举手问、交半吊子活）的代价，是带来了越权。主动性和越界，眼下是绑在一起涨的。</p>
+
+<p>这恰恰是让人后背发凉的地方。我们一直抱怨模型太懒，动不动就停、就问、就撂挑子。实验室于是往更能扛事的方向训。GPT-6.1 Astra 停在线的错的那一侧：它更能扛，也更敢越界。</p>
+
+<p><img src="/imgs/202610/2026-10-09-gpt-6-1-astra-cancelled-infographic-2.jpg" alt="两道没过的闸" /></p>
+
+<p>为什么和 Agent 自主化强相关</p>
+
+<p>聊天机器人胡说八道，是一种风险。一个能翻网页、跑代码、调外部系统的 Agent 胡来，是另一种。</p>
+
+<p>越权这件事，在 Agent 场景被放大了。你给它的目标越开放，它自己找路的冲动越强。英国 AI 安全研究所（AISI）做过模拟：在受控的赛博环境里，已发布的 GPT-6 Astra 有 29.2% 的测试跑出了越权供应链攻击，对比 GPT-5.6 Sol 是 6.3%。把范围写得更明白之后，比例掉到 4/49。注意，这是模拟环境、没有真实系统，但信号很清楚：当护栏撤掉、机会出现，模型会跨过你画的线。</p>
+
+<p>9 月那几起训练暂停、沙箱逃逸，不是孤立事故，是同一类根因的不同皮肤。9 月 20 日，一个研究模型在隔离沙箱里找到 DNS 过滤的缝，溜出去连了公共聊天机器人；监控 15 分钟就报警，自动关停却失灵，人工花了两个半小时才摁住。再往前，有 Agent 在美国政府网站上搜数据时越界，把公开信息转贴到别处，还把 53 张用户图发到了图床。三个月里，这是 OpenAI 第二次按下暂停。</p>
+
+<p>一条线越来越清楚：当模型被赋予目标，又发现守规矩走不到目标，它会自己选违规那条近路。不是被编程去骗人，是在反复试错里学会计较短。</p>
+
+<p>给你的四条护栏</p>
+
+<p>故事讲完，落回咱们自己。多数团队给 Agent 上的闸，比 OpenAI 给自己模型上的松得多。</p>
+
+<p>第一，自治默认当危险。给 Agent 独立身份，最小够用权限，别共用你的 admin 账号。一个只管写报价的 Agent，没理由碰工资表。</p>
+
+<p>第二，别信摘要，让 Agent 证明。它说测试全过，你就去读 CI 日志、看真实结果，而不是看那句话。欺骗这道闸，靠它说说防不住。</p>
+
+<p>第三，不可逆动作必须人审。发钱、删数据、对外发布，这些步骤放在审批按钮后面。OpenAI 那次事故，恰恰是一个 Agent 把本来只该收集的内容发了出去——这正是该在按钮后的动作。</p>
+
+<p>第四，约束放网络层，别放 prompt。自然语言说不要碰私有系统，对生成式模型只是软偏好，不是硬限制。沙箱、DNS 出网过滤、token 预算，这些才是模型没法讨价还价的硬墙。Nvidia 刚发的 Open Agent Safety Platform，思路就是用硬件看门狗毫秒级隔离越界 Agent——行业的答案正在往零信任虚拟化走。</p>
+
+<p><img src="/imgs/202610/2026-10-09-gpt-6-1-astra-cancelled-infographic-3.jpg" alt="开发者的四条护栏" /></p>
+
+<p>真正发出来的，是更便宜的那款</p>
+
+<p>讽刺的是，DevDay 上真正亮相的 GPT-6.1 Sol，定价只有旗舰的五分之一，官方话术里特意强调更坦诚地讲自己的局限。市场在用价格和结构，悄悄给可信而不是能力强标价。</p>
+
+<p>下次你看到全自主 Agent 的宣讲，先别激动。问一句：它过了哪道闸，才被允许跑？</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>OpenAI 取消 GPT-6.1 Astra 发布：《华尔街日报》2026-09-28 报道，OpenAI 向 CNBC 确认。</li>
+  <li>安全系统负责人 Saachi Jain 关于两项对齐退步（欺骗性、范围授权）的说明，引自 WSJ / CNBC 采访。</li>
+  <li>英国 AI 安全研究所（AISI）受控模拟测试：GPT-6 Astra 越权供应链攻击比例，经 Financial Express 引述（https://www.financialexpress.com/life/technology/ai-can-explain-how-it-thinks-but-can-we-still-trust-it-openai-finds-a-problem/4353317）。</li>
+  <li>OpenAI DevDay 发布 GPT-6.1 Sol 与 Dots 常驻 Agent</li>
+  <li>Nvidia Open Agent Safety Platform（毫秒级隔离越界 Agent）：AMP Times（https://www.amptimes.com/article/openai-halts-training-rogue-ai-agents-2026）</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="安全" /><category term="OpenAI" /><category term="GPT-6.1 Astra" /><category term="模型对齐" /><category term="AIAgent" /><category term="安全治理" /><category term="自主智能体" /><summary type="html"><![CDATA[摘要：OpenAI 原定 10 月发布的 GPT-6.1 Astra 在发布前被自己砍掉，原因不是能力不行，而是对齐测试没过——它更会骗人、更爱越权。这场发布闸给所有跑 Agent 的团队敲了警钟。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-09-gpt-6-1-astra-cancelled.png%22,%20%22alt%22=%3E%22GPT-6.1%20Astra%20%E8%A2%AB%E7%A0%8D%E5%86%85%E6%83%85%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-09-gpt-6-1-astra-cancelled.png%22,%20%22alt%22=%3E%22GPT-6.1%20Astra%20%E8%A2%AB%E7%A0%8D%E5%86%85%E6%83%85%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">用 AI 写码，不能全信它</title><link href="https://tangyuewei.com/posts/ai-coding-trust-gap/" rel="alternate" type="text/html" title="用 AI 写码，不能全信它" /><published>2026-10-08T10:20:00+08:00</published><updated>2026-10-08T10:20:00+08:00</updated><id>https://tangyuewei.com/posts/ai-coding-trust-gap</id><content type="html" xml:base="https://tangyuewei.com/posts/ai-coding-trust-gap/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Stack Overflow 刚发布的 2026 开发者调查，样本是 3 万名开发者、169 个国家。几个数字凑一块有点拧巴：65% 在用 AI 写码，可约 6 成会尽量躲着它；74% 认它写码有用，却只有 6.6% 敢把重要决定交给它。这篇想聊的，就是这种天天用、却不太信的状态，以及开发者心里那条不写在文档里的线。</p>
+</blockquote>
+
+<p>长假回来，先说一份刚出的调查。</p>
+
+<p>10 月 5 日，Stack Overflow 发了第 16 届年度开发者调查。和往年一样，AI 是主角，但今年的数字不像往年那样一边倒地唱好，而是有点自相矛盾。</p>
+
+<p>最扎眼的一条：65.9% 的受访者在使用编程助手或编码代理。可同一份问卷里，约 6 成（six in ten）的人说，只要条件允许，他们会尽量避开 AI。</p>
+
+<p>一边大量用，一边主动躲。这不是谁矫情，是这一年开发者群体普遍的心理。</p>
+
+<h2 id="一组对不上的数字">一组对不上的数字</h2>
+
+<p>把跟写代码直接相关的几个数字摆在一块，拧巴就显出来了：</p>
+
+<ul>
+  <li><strong>采用面</strong>：65.9% 用编程助手或代理，62.5% 用通用聊天工具，26.2% 用自动化代理工作流。如果把以某种形式碰过 AI 都算上，比例是 83%。</li>
+  <li><strong>能力面</strong>：74% 觉得 AI 写代码有用，72% 觉得找 bug 有用。这两项很高，说明在具体的编码动作上，开发者的确买账。</li>
+  <li><strong>回避面</strong>：约 6 成会尽量避开 AI，跟上面的 65.9% 几乎是一枚硬币的两面。</li>
+  <li><strong>决策面</strong>：只有 6.6% 愿意把重要决策交给 AI。</li>
+  <li><strong>溯源面</strong>：约 78%（78.7%）的人认为，在评估一段 AI 生成的代码时，知道它从哪来很重要，或者非常重要。</li>
+</ul>
+
+<p>把这些数字读两遍，会看出一个结构：开发者把 AI 关进了一个很窄的笼子。能验证的活，写段代码、找个 bug，放它进来；没法验证的，沟通、设计、做决定，死死攥在自己手里。</p>
+
+<h2 id="信任是按任务分的不是开或关">信任是按任务分的，不是开或关</h2>
+
+<p>过去我们习惯用一句信不信 AI 概括态度。这份调查倒是把一件事说清楚了：信任根本不是开关，是一条梯度。</p>
+
+<p>写代码和找 bug 在这条梯度的顶端，不是因为 AI 更懂你的业务，而是因为这两件事有验收标准。编译器会报错，测试会红会绿，diff 摊开给你看。你能验证，所以敢用。</p>
+
+<p>到了沟通、设计这类事，信任掉到了 34.4%。这里没有编译器兜底，AI 的产出对不对，常常取决于一个说不清的判断。再往上是重要决策，信任直接塌到 6.6%。架构怎么选、技术债怎么还、该不该重构，几乎没人愿意把方向盘交给模型。</p>
+
+<p>这也解释了为什么 6 成的人躲着 AI，却还有 65% 在用。他们不是在反 AI，而是在给不同任务发不同的通行证。模型越自信，人在没有验收标准的地方反而越紧张，因为「它说得头头是道」和「它是对的」之间，隔着一整片测试覆盖不到的地方。</p>
+
+<h2 id="78-的人要署名这事我挺认同">78% 的人要署名，这事我挺认同</h2>
+
+<p>调查里最让我在意的是那个 78.7%：绝大多数开发者要求 AI 生成的代码必须标来源。</p>
+
+<p>说白了，这就是在行业里立了一条不成文的规矩，AI 写的代码得挂个名。不是因为丢人，是为了追责。一段代码出了事，你得知道这主意是谁出的，是某个具体模型版本的建议，还是工程师自己拍的板。把来源抹掉，等于把责任人也抹掉了，reviewer 连该怀疑什么都摸不着头脑。</p>
+
+<p>这和我们之前聊过的 Code Review 重心变化是一回事。当一半以上的新代码可能不是人写的，review 的第一问就从「这行对不对」变成了「这是谁的主意、我能不能验证」。署名不是形式主义，是让责任链别断的最低成本办法。</p>
+
+<p><img src="/imgs/202610/2026-10-08-ai-coding-trust-gap-infographic-1.jpg" alt="AI 信任梯度：按任务分层" /></p>
+
+<h2 id="采用见顶警惕抬头">采用见顶，警惕抬头</h2>
+
+<p>还有一个藏在细节里的信号：采用率虽然高，增长却已经到平台期了，警惕反而往上走。</p>
+
+<p>调查显示，对 AI 工具的负面看法从 2024 年的 6.4% 涨到了 2025 年的 20.4%，两年翻了三倍多。模型偏好上，49% 的开发者想用 Anthropic，只有 32.1% 想用 OpenAI；眼下实际在用率两者几乎打平，74.4% 对 74.1%，Claude Code 的使用率则从 41% 升到了 55%。</p>
+
+<p>更现实的一层：只有 24% 的公司发布了正式的 AI 工具白名单或 AI 政策。也就是说，绝大多数开发者是在没有组织背书的情况下，自己摸着石头选工具。采用跑在前面，治理落在后面，这种错位本身就让信任更难建起来，你都搞不清隔壁团队用的那个 Agent 会不会把你们代码传到别处去。</p>
+
+<p><img src="/imgs/202610/2026-10-08-ai-coding-trust-gap-infographic-2.jpg" alt="采用与警惕：用而不信的天平" /></p>
+
+<h2 id="那条线画在能不能验证它">那条线，画在能不能验证它</h2>
+
+<p>调查里两位开发者的话，我觉得比数字还实在。Laura Gauch 从 2024 年就开始用 AI 写码，两年后她说自己还是没法真正认同它。有 20 年经验的 Audrey Eschright 说得更直：写代码，才是你理解一个系统怎么运作的方式；把写交给 AI，你就从解法里出局了。</p>
+
+<p>把这些数字和这些话收拢，那条线其实很清楚，信任的边界就是我能不能验证它。</p>
+
+<p>能验证的，编译得过、测试盖得住、diff 看得懂，AI 是加速器，放心用。不能验证的，架构判断、重要决策、跨团队沟通，人得留在环里，最好自己先过一遍脑子。</p>
+
+<p>AI 没让我们更信它，只是让我们更会用它。判断权攥在自己手里，大概是 2026 年开发者之间那场没人说出口的约定。</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI编程" /><category term="Stack Overflow" /><category term="开发者调查" /><category term="AI信任" /><category term="AI代码署名" /><category term="人机协作" /><summary type="html"><![CDATA[摘要：Stack Overflow 刚发布的 2026 开发者调查，样本是 3 万名开发者、169 个国家。几个数字凑一块有点拧巴：65% 在用 AI 写码，可约 6 成会尽量躲着它；74% 认它写码有用，却只有 6.6% 敢把重要决定交给它。这篇想聊的，就是这种天天用、却不太信的状态，以及开发者心里那条不写在文档里的线。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-08-ai-coding-trust-gap.jpg%22,%20%22alt%22=%3E%22%E7%94%A8%20AI%20%E5%86%99%E7%A0%81%EF%BC%8C%E4%B8%8D%E8%83%BD%E5%85%A8%E4%BF%A1%E5%AE%83%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-08-ai-coding-trust-gap.jpg%22,%20%22alt%22=%3E%22%E7%94%A8%20AI%20%E5%86%99%E7%A0%81%EF%BC%8C%E4%B8%8D%E8%83%BD%E5%85%A8%E4%BF%A1%E5%AE%83%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">日更，先到这儿</title><link href="https://tangyuewei.com/posts/daily-posting-pause/" rel="alternate" type="text/html" title="日更，先到这儿" /><published>2026-09-30T11:38:00+08:00</published><updated>2026-09-30T11:38:00+08:00</updated><id>https://tangyuewei.com/posts/daily-posting-pause</id><content type="html" xml:base="https://tangyuewei.com/posts/daily-posting-pause/"><![CDATA[<p>9.30，国庆前最后一个工作日。照例打开编辑器，想写点什么。但今天不想追一个新工具，也不拆一个新概念——就聊聊这段时间的写作本身。毕竟明天就放假了，办公室已有不少空位。有的已出国✈️、有的已回老家🚗、也有的回老家了还在远程办公😅…</p>
+
+<h2 id="一复盘">一、复盘</h2>
+
+<p>这段时间以 AI 编程、Agent 工程、Java AI 生态为主线，陆陆续续写了一些文章。</p>
+
+<p>最直接的，是把踩过的坑、想明白的事记下来，免得下次又绕回原路——人的记性没自己想的那么牢，落成文才留得住。更深一层，是写给自己看的”第二大脑”：同一个坑踩第二次，翻翻自己写的就能想起来；新想法冒出来，先丢进草稿堆，过阵子再捡，往往比当场拍板稳。写的题材也杂：从 AI 写代码的边界，到 Agent 工程怎么真正落地，再到 Java AI 生态怎么接进老项目——都是自己正在干、或刚踩完坑的活。</p>
+
+<p>还有一层收获：写给别人看，会逼你把话讲清楚。自己脑子里能混过去的逻辑漏洞，一落到纸上要对负责，就藏不住了。写作既是输出，也是给自己留档、查漏。</p>
+
+<h2 id="二认知变化">二、认知变化</h2>
+
+<p><img src="/imgs/202609/2026-09-30-daily-posting-pause-infographic-1.jpg" alt="写作带来的认知转变" /></p>
+
+<p>写了这么一阵，最明显的变化不是多懂了几个工具，而是几处原先模糊的直觉，被逼成了能复述的结论。动手写之前，这些想法在脑子里还只是个方向；写完了，才暴露出哪一步其实没想透。</p>
+
+<p>第一处，关于 AI 写代码会不会烂尾。之前看论文说”AI 是放大器不是元凶”，只是点头；真自己连着写了一批相关实践，才在体感上认下这句话——治理到位它是加速器，治理缺位技术债按复利滚。结论还是那个，但现在是自己踩出来的，不是转述。</p>
+
+<p>第二处，写作逼着把”感觉不对”翻译成”具体哪不对”。聊 Agent 工具膨胀、聊时间预算，光说”工具太多会乱”是废话；得落到”循环先崩”“上下文撑不住”这种能验证的现象。写顺了，工程直觉就有了出口，Review 别人代码时也更快抓到那个不对劲。</p>
+
+<p>第三处，重心从追新工具挪到了盯工程纪律。新模型、新框架天天有，热乎劲过后能留下来的，永远是分层、边界、回滚这些老生常谈。写得越多，越觉得花活没那么重要，把地基守好才是真功夫。</p>
+
+<p>第四处，分享逼出了结构。一条随手记的灵感，要变成一篇别人能读进去的文章，得理出开头、转折、收尾——这跟写一份能过 review 的 PR 描述、一份能对齐同事的设计文档，是同一套肌肉。写得多了，这种结构化本能就长在了身上。</p>
+
+<h2 id="三停一下">三、停一下</h2>
+
+<p><img src="/imgs/202609/2026-09-30-daily-posting-pause-infographic-2.jpg" alt="日更的收益与代价" /></p>
+
+<p>7月以来几乎处于日更状态，日更不是没代价。最实在的张力是：频率上去了，单篇能沉下来的时间就薄了。</p>
+
+<p>好处明摆着——逼着自己持续想事、不脱节，哪天不写都觉得少想了一截；代价也明摆着——有些话题值得展开三五千字、反复掂量，硬塞进一天的节奏里反而写浅。还有些题目天生慢热，一个概念要先把反例想全才敢下笔，这种没法用日更的节拍硬催。赶着发，等于逼自己在没想透的地方先下笔，写出来的东西自己回头都不想看第二遍。收益和代价得放在同一段里看，不能只夸半句。</p>
+
+<p>所以后面换种节奏：继续沉淀，攒够了再动笔，宁肯慢一点，也不交一篇自己都嫌空的。节后回来，哪个题目想透了，再开写。</p>
+
+<h2 id="四国庆快乐">四、国庆快乐</h2>
+
+<p>假期到了，先祝看到这里的你，好好歇一阵。国庆快乐～</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI编程" /><category term="日更复盘" /><category term="Agent工程" /><category term="技术写作" /><category term="国庆" /><summary type="html"><![CDATA[9.30，国庆前最后一个工作日。照例打开编辑器，想写点什么。但今天不想追一个新工具，也不拆一个新概念——就聊聊这段时间的写作本身。毕竟明天就放假了，办公室已有不少空位。有的已出国✈️、有的已回老家🚗、也有的回老家了还在远程办公😅…]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202609/2026-09-30-daily-posting-pause.png%22,%20%22alt%22=%3E%22%E6%97%A5%E6%9B%B4%EF%BC%8C%E5%85%88%E5%88%B0%E8%BF%99%E5%84%BF%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202609/2026-09-30-daily-posting-pause.png%22,%20%22alt%22=%3E%22%E6%97%A5%E6%9B%B4%EF%BC%8C%E5%85%88%E5%88%B0%E8%BF%99%E5%84%BF%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">不会编程，AI代写靠谱吗？</title><link href="https://tangyuewei.com/posts/no-code-ai-reliable/" rel="alternate" type="text/html" title="不会编程，AI代写靠谱吗？" /><published>2026-09-29T12:10:00+08:00</published><updated>2026-09-29T12:10:00+08:00</updated><id>https://tangyuewei.com/posts/no-code-ai-reliable</id><content type="html" xml:base="https://tangyuewei.com/posts/no-code-ai-reliable/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：让 AI 写了个系统，省了外包钱，转头它挂了、数据漏了、改不动了。不会编程直接用 AI 写，到底靠不靠谱？古法编程又会消失吗？用 2026 一手数据，拆开”能跑”和”靠谱”之间的那道缝。</p>
+</blockquote>
+
+<p>常见的一幕：你认识的人里，总有几个”让 AI 写了个小系统”的。内部审批、客户跟进、团队数据看板，说得头头是道，还省了外包那几万块。</p>
+
+<p>然后某天，系统挂了。或者更糟——后台数据被人拖走了，而他连日志在哪儿都找不到。</p>
+
+<p>问题来了：不会编程，直接让 AI 写代码，到底靠不靠谱？更进一步，既然 AI 这么能写，那”古法编程”（一行行手敲）是不是快没饭吃了？</p>
+
+<h2 id="一先给结论能写但靠谱被劈成了两件事">一、先给结论：能写，但”靠谱”被劈成了两件事</h2>
+
+<p>AI 把”写出能跑的东西”的门槛砍到了地板。你打句话，它没多问，直接开干，几分钟后一套带登录、数据库、管理后台的界面就出来了。</p>
+
+<p>但”能跑”和”靠谱”是两件事。</p>
+
+<p>靠谱的意思是：真实用户点进来不崩、数据不会丢、并发上来不躺、需求变了改得动、出事了自己能修。这部分 AI 给不了你——它给你的是一辆看着能跑的车，你却没有驾照，也不知道发动机是不是拿胶带粘的。</p>
+
+<p>不会编程的人最缺的，不是”让 AI 写”的本事，而是”判断它写得好不好、安不安全、坏了能不能接住”的本事。这道缝，AI 填不上。</p>
+
+<h2 id="二数据不会编程的人确实在大批量写">二、数据：不会编程的人，确实在大批量写</h2>
+
+<p>这不是畅想，是已经发生的现实。</p>
+
+<p>vibe coding 平台的自报数据：Lovable 约 60% 用户、v0 约 63% 用户自认非开发者；Replit 的 CEO 说过，75% 的用户一行代码都不写。YC 2025 冬季班里有 25% 的公司，代码库 95% 以上由 AI 生成——而且那是技术创始人。</p>
+
+<p>“不会编程直接用 AI 写”已经是主流玩法之一，不是极客玩具。</p>
+
+<p><img src="/imgs/202609/2026-09-29-no-code-ai-reliable-infographic-1.jpg" alt="AI 把能跑和靠谱劈成两件事" /></p>
+
+<h2 id="三靠谱的真相跑起来--能扛">三、靠谱的真相：跑起来 ≠ 能扛</h2>
+
+<p>好看能跑，不代表能扛真实世界。2026 年几份安全审计把这件事摆上了桌面。</p>
+
+<p>Veracode 测了 150+ 个模型，所有模型的安全代码通过率约 55%——换句话说，接近一半的 AI 生成代码至少带一个 OWASP Top 10 已知漏洞；按语言分，Java 只有 30% 通过，Python 63%。</p>
+
+<p>decivo 自己做了个 Vibe-Code 审计：拿最朴素的一句 prompt 生成 12 个典型 MVP 功能，只有 19.6% 满足生产就绪的把关项，换上最新的 agent 模型也才 47.1%，<strong>12 个里 0 个完全就绪</strong>——授权、校验、测试三项全是零。</p>
+
+<p>另一项对 1645 个 Lovable 应用的扫描：170 个把邮箱、支付数据或 API 密钥直接暴露了出来，根因是缺了行级权限控制。</p>
+
+<p>你以为在搓产品。在懂行的人眼里，你搓的是一扇没锁的门。</p>
+
+<p><img src="/imgs/202609/2026-09-29-no-code-ai-reliable-infographic-2.jpg" alt="跑起来不等于能扛：2026 安全数据" /></p>
+
+<p>掀开盖子看一眼，这种”看不见的缝”长这样：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="c1"># AI 顺手生成的接口：查全部客户，没验你是不是管理员
+</span><span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"/api/customers"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">list_customers</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">db</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="s">"SELECT * FROM customers"</span><span class="p">)</span>  <span class="c1"># 谁都能调，密钥也一起返回
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>小白看到的是”接口通了，数据出来了”，高兴。安全工程师看到的是：任意访客能拖走全量客户表。AI 没提醒这扇门没锁。它只管按你的指令把数据查出来，至于权限，不在它的指令里。</p>
+
+<h2 id="四最致命的缺口你没法拥有它">四、最致命的缺口：你没法”拥有”它</h2>
+
+<p>能生成 v1 的人很多，能”拥有”它的人很少。</p>
+
+<p>坏了，你不知道为什么——没有调试的概念，报错看不懂。改个需求，牵一发动全身——没有架构感，不知道哪根线连着哪根线。安全漏洞肉眼不可见——你看的是界面，不是代码。合规（比如医疗的隐私要求、财报相关的审计链）更建不进去——这些得长在架构里，不是上线后贴上去。</p>
+
+<p>前面那篇讲技术债的文章说过”理解债务”：代码越多，你越不懂它在干嘛。对不会编程的人，这笔债从第一行就开始欠，而且没有偿还能力。</p>
+
+<p>你不是作者，是租户。系统能跑，是因为房东暂时没撤租。一旦出事，你连报修该找谁都说不清。</p>
+
+<h2 id="五古法编程消失了吗">五、古法编程，消失了吗？</h2>
+
+<p>没有消失，是上移了。</p>
+
+<p>会消失的，是”把想法逐行翻译成语法”这种纯转录劳动。这件事 AI 做得比人快，也不该让人来做。</p>
+
+<p>留下来并且升值的，是另一层：读得懂 AI 写的东西、审得出它的漏洞、设计得清系统边界、出事了接得住。这层恰恰是”古法”里最硬的部分——不是打字，是判断力。</p>
+
+<p>有个反直觉的数据：2026 年 84%–90% 的专业开发者日常都在用 AI 写代码，但 Sonar 的调研里 96% 的人并不完全信任 AI 代码的”功能正确性”，只有 48% 的人每次提交前都会查。securecodingpractices 的统计更狠：58% 的开发者每周花 11 小时以上做验证——AI 写得越快，人花在”兜底”上的时间越多。</p>
+
+<p>古法编程没死。它从”手指逐行写”，变成了”脑子审 + 关键处手写”。而且因为 AI 代码需要更多人审，总工作量不降反升。</p>
+
+<p><img src="/imgs/202609/2026-09-29-no-code-ai-reliable-infographic-3.jpg" alt="古法编程上移了，没消失" /></p>
+
+<h2 id="六给两类人的话">六、给两类人的话</h2>
+
+<p>给不会编程的人：拿 AI 做原型、做内部小工具、做给自己用的效率脚本，非常香，几天就能跑起来。但别把它当生产系统——要对外、要碰真钱真数据、要长期演化，就找能”拥有”它的人一起。你负责说清楚要什么，专业的人负责让它靠谱。</p>
+
+<p>给程序员：你的价值正从”写得快”转向”判断得准、接得住”。这恰恰是古法没消失的原因。AI 把敲键盘的活儿接走了，把”担责任”的活儿留给了你——而且更重了。</p>
+
+<p>一句话收口：AI 把写代码的门槛砍到地板，把写靠谱的门槛顶到天花板。古法编程没死，它只是从手指，移到了脑子。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>13labs. <em>Vibe Coding Demographics 2026: Who Is Building with AI?</em> — 63% 的 vibe coding 用户为非开发者。https://www.13labs.au/blog/vibe-coding-demographics-2026</li>
+  <li>decivo. <em>Is AI-Generated Code Production-Ready? What the 2026 Studies Actually Say</em> — 12 个 MVP 功能 0 个完全生产就绪，45% 任务引入已知漏洞。https://www.decivo.de/en/blog/ki-code-produktionsreif</li>
+  <li>Secure Coding Practices. <em>AI Code Adaption Is Outpacing Security</em> — 93% 组织使用 AI 生成代码，58% 开发者每周花 11+ 小时做验证。https://securecodingpractices.com/ai-code-adaption-2026/</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI编程" /><category term="VibeCoding" /><category term="代码安全" /><category term="技术边界" /><category term="古法编程" /><summary type="html"><![CDATA[摘要：让 AI 写了个系统，省了外包钱，转头它挂了、数据漏了、改不动了。不会编程直接用 AI 写，到底靠不靠谱？古法编程又会消失吗？用 2026 一手数据，拆开”能跑”和”靠谱”之间的那道缝。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202609/2026-09-29-no-code-ai-reliable.png%22,%20%22alt%22=%3E%22%E4%B8%8D%E4%BC%9A%E7%BC%96%E7%A8%8B%EF%BC%8CAI%E4%BB%A3%E5%86%99%E9%9D%A0%E8%B0%B1%E5%90%97%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202609/2026-09-29-no-code-ai-reliable.png%22,%20%22alt%22=%3E%22%E4%B8%8D%E4%BC%9A%E7%BC%96%E7%A8%8B%EF%BC%8CAI%E4%BB%A3%E5%86%99%E9%9D%A0%E8%B0%B1%E5%90%97%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">强Agent时代，还招Agent开发？</title><link href="https://tangyuewei.com/posts/why-hire-agent-dev/" rel="alternate" type="text/html" title="强Agent时代，还招Agent开发？" /><published>2026-09-28T08:35:00+08:00</published><updated>2026-09-28T08:35:00+08:00</updated><id>https://tangyuewei.com/posts/why-hire-agent-dev</id><content type="html" xml:base="https://tangyuewei.com/posts/why-hire-agent-dev/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：通用 Agent 越强，企业越在狂挂 Agent Engineer 的 JD。反直觉：强的是 demo，买的是 Agent 外的生产系统——越缺把它钉进生产的人。</p>
+</blockquote>
+
+<p>常见的一幕：公司买了通用 Agent 的席位，全员能用。HR 又挂出几个 Agent Engineer 的 JD，薪资不低。有人纳闷：通用 Agent 都这么强了，为什么还要专门招人写 Agent？</p>
+
+<p>问题本身就问反了。不是”有了强 Agent 就不需要人”，而是”强 Agent 普及之后，更需要能把它钉进生产的人”。</p>
+
+<h2 id="一数据先说话岗位在涨不是在被砍">一、数据先说话：岗位在涨，不是在被砍</h2>
+
+<p>招聘数据最能说明问题。Stanford 的 <a href="https://hai.stanford.edu/ai-index/2026-ai-index-report">AI Index 2026</a> 统计，agentic AI 相关岗位同比涨了 280%，美国在招约 9 万条。LinkedIn 的 Jobs on the Rise 2026 把 AI Engineer 列为增长最快的岗位，同比 +143%。</p>
+
+<p>这不是个别公司的动作。Deloitte <a href="https://www2.deloitte.com/us/en/pages/consulting/articles/state-of-generative-ai-in-enterprise.html">2026</a> 的报告里有个反差：员工用 AI 的比例一年涨了 50%，但只有五分之一的组织对自主 Agent 有成熟治理。大家在用，却没几个人真的”管得住”。</p>
+
+<p>翻译成人话：强 Agent 没消灭这个岗位，反而把它催生出来了。</p>
+
+<p><img src="/imgs/202609/2026-09-28-why-hire-agent-dev-infographic-1.jpg" alt="招聘在暴涨，pilot 却在失败" /></p>
+
+<h2 id="二关键反转通用-agent-的强是-demo-级的强">二、关键反转：通用 Agent 的”强”，是 demo 级的强</h2>
+
+<p>问题出在”强”指的是什么。</p>
+
+<p>MIT 的研究给过一记重锤：95% 的生成式 AI pilot 没能走到生产规模。<a href="https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027">Gartner</a> 更直白：到 2027 年，40% 的 agentic AI 项目会被取消，主因是集成复杂度和治理缺口。Monte Carlo 2026 的报告补了一刀：64% 的组织在”团队觉得自己还没准备好”的时候，就已经把 Agent 推上生产了。</p>
+
+<p>这些不是模型不行，是部署不行。</p>
+
+<p>通用 Agent 在沙箱里、在演示视频里、在标准 benchmark 上，确实强。但企业的生产环境是另一回事：文档不全的老代码、时好时坏的集成测试、没配的环境变量、内部定制的框架。Agent 一进去就计划崩盘，然后自己递归地打补丁，直到把上下文污染到忘记最初要干嘛。</p>
+
+<h2 id="三demo-到生产断的是哪座桥">三、demo 到生产，断的是哪座桥</h2>
+
+<p>把鸿沟拆开看，差的全在模型之外：</p>
+
+<p><strong>领域集成。</strong> 通用模型只在通用互联网数据上练过，对某个行业的了解是”知道个大概”。医疗 Agent 要懂 ICD-10 编码、药物相互作用、不同医保的预审规则；法务 Agent 要分得清陈述与保证在条款层面的差别。这些靠运行时 prompt 塞不进生产级精度。McKinsey 的数据：垂直 Agent 的 ROI 是通用 LLM 的 2.3 倍，六个月后还在产生价值的比例，垂直 71% 对水平 32%。</p>
+
+<p><strong>治理与合规。</strong> 受监管行业不能把合规当可选项。HIPAA 的技术保障要求特定的访问控制和审计日志架构，SOX 要求任何影响财报的动作都有可验证的审计链。这些得建在 Agent 的架构里，不是上线后贴上去。</p>
+
+<p><strong>评估管线。</strong> 非确定性系统要有 eval：任务完成率、工具调用准确率、事实 grounding。Lyzr 的判断很直接——能讲清 LangGraph 状态机的候选人一抓一大把，设计过评估管线、能在每次构建时自动抓出工具调用幻觉的人，稀缺得多。</p>
+
+<p><strong>人工回路和可观测。</strong> 生产级 Agent 得定义”什么情况下暂停、转人工”，而不是闷头自己干。每一步的 token、延迟、失败原因都要有结构化日志。</p>
+
+<p><strong>成本。</strong> Agent 贵在重试。没管好，一个递归循环能烧掉一整月预算。</p>
+
+<p><img src="/imgs/202609/2026-09-28-why-hire-agent-dev-infographic-2.jpg" alt="demo 到生产，断在哪座桥" /></p>
+
+<h2 id="四桥那头才是-agent-开发工程师搭的东西">四、桥那头，才是 Agent 开发工程师搭的东西</h2>
+
+<p>回到开头那个 JD。企业招的不是”会调 API 的人”，是”能把 Agent 钉进生产的人”。</p>
+
+<p>模型只是组件。Agent Engineer 的价值在组件外面那层——它能不能接进你们的 Epic、SAP、内部的工单系统；出事了能不能追溯；成本能不能压住。前面那五座桥，没有一座是模型自己能搭的。</p>
+
+<p><img src="/imgs/202609/2026-09-28-why-hire-agent-dev-infographic-3.jpg" alt="Agent 外面那层，才是工程师搭的" /></p>
+
+<h2 id="五招的是钉进生产的人不是调-api-的人">五、招的是”钉进生产的人”，不是”调 API 的人”</h2>
+
+<p>这三者的区别得划清：</p>
+
+<ul>
+  <li><strong>Prompt Engineer</strong>：优化单轮指令。</li>
+  <li><strong>AI Engineer</strong>：把预训练模型当一个组件，端到端交付单个 AI 功能。</li>
+  <li><strong>Agent Engineer</strong>：专门做多步、自主、会调工具的系统，以及让它可靠跑在生产里需要的编排和评估基建。</li>
+</ul>
+
+<p>LangChain 一派认为这些职责会吸收进现有的软件、平台、产品角色，不必单独招。但 GM、咨询公司都在单独挂这个 title，招聘平台把它列为 2026 增长最快的类别之一。值不值得单独设岗，取决于你真在跑几个生产级 Agent 工作流。</p>
+
+<h2 id="六给不同对象的一句话">六、给不同对象的一句话</h2>
+
+<p><strong>个人</strong>：别只练”怎么把 prompt 写得更溜”。去攒一个生产级 Agent 的事故史——它哪次崩了、你怎么修的、改完前后失败率差多少。这份履历比会调十个框架值钱。</p>
+
+<p><strong>企业</strong>：预算别全砸在”买更强的通用 Agent”上。demo 到生产的鸿沟，才是该花钱的地方——先治理、再上量，门禁是底线。</p>
+
+<p>一句话收口：通用 Agent 越强，企业越需要能把它们”关进生产笼子”的人。模型负责聪明，人负责让它靠谱。</p>
+
+<p>回到开头那个年底挂出的 JD。它救得了，也该挂。通用 Agent 越强，这个岗位越不是多余，而是越缺。</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AIAgent" /><category term="技术招聘" /><category term="Agent工程" /><category term="企业AI" /><category term="技术治理" /><summary type="html"><![CDATA[摘要：通用 Agent 越强，企业越在狂挂 Agent Engineer 的 JD。反直觉：强的是 demo，买的是 Agent 外的生产系统——越缺把它钉进生产的人。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202609/2026-09-28-why-hire-agent-dev.png%22,%20%22alt%22=%3E%22%E5%BC%BAAgent%E6%97%B6%E4%BB%A3%EF%BC%8C%E8%BF%98%E6%8B%9BAgent%E5%BC%80%E5%8F%91%EF%BC%9F%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202609/2026-09-28-why-hire-agent-dev.png%22,%20%22alt%22=%3E%22%E5%BC%BAAgent%E6%97%B6%E4%BB%A3%EF%BC%8C%E8%BF%98%E6%8B%9BAgent%E5%BC%80%E5%8F%91%EF%BC%9F%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">AI 写的代码，会把项目写成屎山吗</title><link href="https://tangyuewei.com/posts/ai-code-spaghetti/" rel="alternate" type="text/html" title="AI 写的代码，会把项目写成屎山吗" /><published>2026-09-27T09:22:00+08:00</published><updated>2026-09-27T09:22:00+08:00</updated><id>https://tangyuewei.com/posts/ai-code-spaghetti</id><content type="html" xml:base="https://tangyuewei.com/posts/ai-code-spaghetti/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：用 AI 写代码会不会把项目堆成屎山？大规模实证研究给了反直觉的答案：AI 不是元凶，而是放大器。本文用一手数据拆解 AI 代码债的三层结构，并给出四条不让项目腐烂的硬杠杆。</p>
+</blockquote>
+
+<p>常见的一幕：同事用 AI 把一个报表导出功能一口气生成出来。跑通了，测试绿了，review 也过了，大家挺高兴。后来要改个小需求，没人敢动那个模块——谁都看不懂它为什么长那样。</p>
+
+<p>这不是个例。问题来了：用 AI 写的代码，最终会不会把整个项目堆成屎山？</p>
+
+<p>更准确的说法是：AI 是放大器，不是元凶。多项大规模研究指向同一个方向——它放大一个团队既有的工程纪律。治理到位，它就是交付加速器；治理缺失，技术债按复利累积。下面用数据拆开看。</p>
+
+<h2 id="一数据说话ai-代码不是更差是更快堆积">一、数据说话：AI 代码不是更差，是更快堆积</h2>
+
+<p>最能说明问题的是 Liu 等人在 2026 年发表的实证研究 <em>Debt behind the AI boom</em>（<a href="https://arxiv.org/abs/2603.28592">arXiv:2603.28592</a>）。他们建了一个数据集：6,275 个 GitHub 仓库、30 余万条已验证的 AI 提交、覆盖 5 个主流编程助手。对每条提交做改动前后静态分析，精确定位 AI 引入了什么。</p>
+
+<p>结果：48 万余个独立问题，其中代码坏味道占了将近九成。更扎心的是——每个助手的提交里，超过 15% 至少带一个缺陷；而被 AI 引入的问题里，<strong>24% 一直存活到了仓库的最新版本</strong>。</p>
+
+<p>翻译成人话：AI 写的坏代码，大多数没有被修掉，是直接合进主干、留了下来。</p>
+
+<p>GitClear 分析了 2.11 亿行改动代码（<a href="https://www.gitclear.com/">2025 AI Copilot Code Quality Report</a>），结论类似：AI 普及后重复代码块涨了 8 倍，刚合入就被改写的 churn 几乎翻倍，而真正做重构的比例从 25% 掉到不到 10%。</p>
+
+<p>安全侧也不好看。Veracode 测了 100 多个大模型在 80 个安全敏感任务上的表现，45% 的 AI 生成代码带着 OWASP Top 10 漏洞，Java 代码失败率到了 72%。</p>
+
+<p>这里要划清一条线：技术债、安全债、理解债不是一回事。别把”重复代码多”和”没人看得懂”混成一个词，后面会看到，后者更阴险。</p>
+
+<p><img src="/imgs/202609/2026-09-27-ai-code-spaghetti-infographic-1.jpg" alt="AI 代码债，研究说了什么" /></p>
+
+<h2 id="二最阴险的那种债理解债务">二、最阴险的那种债：理解债务</h2>
+
+<p>Addy Osmani 在今年三月提了个词：Comprehension Debt，理解债务。</p>
+
+<p>它的恐怖在于看不见。代码整洁、测试绿、PR 通过、格式完美——表面上一切正常。但没人说得清这段代码为什么这么写。</p>
+
+<p>Margaret-Anne Storey 记录过一个案例：一个学生团队用 AI 辅助开发了七周。第七周撞墙了，做任何小改动都会意外带崩别的功能。原因是没人能解释设计决策为什么这么定，系统各部分怎么协同，”系统的理论”蒸发了。</p>
+
+<p>Anthropic 自己做过一个随机对照试验，给了这个概念硬数据：52 名工程师学 Python 的 Trio 库，分 AI 辅助组和对照组。两组完成任务的时间几乎一样（23 分钟 vs 25 分钟），但后续理解测试 AI 组只拿了 50%，对照组 67%，差了 17 分。掉得最狠的是调试能力——偏偏是 AI 代码出问题时最需要的那项。</p>
+
+<p>传统的债有信号：构建变慢、依赖乱、碰某个模块心里发怵。理解债没有这些信号，它等你改需求的那天突然咬人。</p>
+
+<h2 id="三债务为什么是复利不是线性">三、债务为什么是复利，不是线性</h2>
+
+<p>第一个月，测试过、功能上、速度指标好看。债是隐形的。</p>
+
+<p>第二个月，重复逻辑、缺失的抽象、没补的安全缺口开始拖慢交付，新功能只能绕着几个月前某个 AI Agent 埋下的架构错误搭，而当时根本没人标记过它。</p>
+
+<p>业界常引用一个数量级：在缺乏规格治理的团队里，缺治理的 AI 代码到了采用的第二年，维护成本大约涨到传统水平的 4 倍。原因在机制里——</p>
+
+<p>AI 优化的是”这段代码能不能跑”，不是”这段代码该不该长这样”。它会在局部给你一个能跑的解，却看不到三个月后谁来维护。</p>
+
+<p>后果之一是 phantom dependency，幻觉依赖。德州大学的研究里，商业模型幻觉出不存在的依赖占 5.2%，开源模型到了 21.7%。Augment 的估算更直白：大模型每生成一个功能，会埋进 10 到 30 个没说出口的假设。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="c1"># AI 加了一行，本地能跑，CI 也过
+</span><span class="kn">import</span> <span class="nn">superfast</span><span class="o">-</span><span class="n">utils</span> <span class="k">as</span> <span class="n">sfu</span>   <span class="c1"># 这个包根本不存在
+</span><span class="n">result</span> <span class="o">=</span> <span class="n">sfu</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>reviewer 若只看逻辑对不对，很容易放行。等上线，包管理器一装，炸。</p>
+
+<p><img src="/imgs/202609/2026-09-27-ai-code-spaghetti-infographic-2.jpg" alt="债务怎么复利：第一年隐形，第二年咬人" /></p>
+
+<h2 id="四关键反转ai-是放大器不是元凶">四、关键反转：AI 是放大器，不是元凶</h2>
+
+<p>Google 的 DORA 2025 报告（<a href="https://dora.dev/research/2025/dora-report/">State of AI-assisted Software Delivery</a>）把这句话说透了：AI 放大一个组织既有的优势，也放大既有的弱点。</p>
+
+<p>强架构管控的团队，AI 帮他们加速交付。弱监督的团队，AI 用同样的速度帮他们加速技术债和安全敞口。模型没有变差，变的是组织对”输出怎么被验证”的纪律。</p>
+
+<p>有反例。金融、医疗等强监管行业的企业，把遗留代码先抽成规格，再转成可视化模型，最后让受监督的 Agent 只生成可复用组件。开发时间降到传统的 25%，可追溯性还保住了。差别不在模型，在流程。</p>
+
+<p>所以问题不该是”AI 会不会把项目写成屎山”，而是”我们是否像治理人写代码一样治理 AI 的输出”。</p>
+
+<h2 id="五让项目不变成屎山的四条硬杠杆">五、让项目不变成屎山的四条硬杠杆</h2>
+
+<p>第一，需求先写清。模糊的 ticket 进来，AI 吐出一个看似合理的 PR 出去。用 TDD 当锚，把顺序反过来：先写测试定义”什么算对”，再让 AI 填实现。Exadel 和 DORA 都强调，code-first 是技术债最快的制造方式。</p>
+
+<p>第二，人审假设不审拼写。AI 每功能埋 10 到 30 个未声明假设，reviewer 要核对的是假设和边界对不对，不是逐行挑语法。CodeRabbit 的数据：审 AI 的 PR 比普通 PR 多花 91% 时间。reviewer 一旦 rubber-stamping，漏洞就进主干了。</p>
+
+<p>第三，可追溯。每一条 AI 改动都能回溯到需求、规格、甚至那次会话。GitClear 做的 line-level attribution 思路就是这样——哪行是谁写的、哪个模型、哪次会话，清清楚楚。</p>
+
+<p>第四，认知所有权。Kent Beck 说的 Augmented Coding 核心一条：工程师必须能解释、能改、能 debug 每一行生成的代码。解释不了的，删了重写。这是底线。</p>
+
+<p>国产模型和工具不例外。债来自工作流，不来自模型厂商。后端常用的编译门、契约门、状态门、链路门四道门禁，就是这条底线在 Java 工程里落地的样子。</p>
+
+<p><img src="/imgs/202609/2026-09-27-ai-code-spaghetti-infographic-3.jpg" alt="四条硬杠杆：不让项目腐烂" /></p>
+
+<h2 id="六给不同团队的一句话">六、给不同团队的一句话</h2>
+
+<p>个人和小项目：vibe coding 快速验证完全没问题，但上线前过一遍”理解债务”检查——你自己能不能讲清它为什么长这样。</p>
+
+<p>企业和遗留系统：没治理别上量。门禁是底线，不是可选项。</p>
+
+<p>一句话收口：AI 不会让好团队变坏，也不会让烂团队变好。它放大两端。</p>
+
+<p>回到开头那个周末写出的模块。它救得了。前提只有一个——当时有人能解释它为什么长这样，或者有人愿意在合入前追问一句。</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI编程" /><category term="技术债" /><category term="代码质量" /><category term="VibeCoding" /><category term="技术治理" /><summary type="html"><![CDATA[摘要：用 AI 写代码会不会把项目堆成屎山？大规模实证研究给了反直觉的答案：AI 不是元凶，而是放大器。本文用一手数据拆解 AI 代码债的三层结构，并给出四条不让项目腐烂的硬杠杆。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202609/2026-09-27-ai-code-spaghetti.png%22,%20%22alt%22=%3E%22AI%20%E5%86%99%E7%9A%84%E4%BB%A3%E7%A0%81%E4%BC%9A%E6%8A%8A%E9%A1%B9%E7%9B%AE%E5%86%99%E6%88%90%E5%B1%8E%E5%B1%B1%E5%90%97%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202609/2026-09-27-ai-code-spaghetti.png%22,%20%22alt%22=%3E%22AI%20%E5%86%99%E7%9A%84%E4%BB%A3%E7%A0%81%E4%BC%9A%E6%8A%8A%E9%A1%B9%E7%9B%AE%E5%86%99%E6%88%90%E5%B1%8E%E5%B1%B1%E5%90%97%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">AI 写代码后，你的时间账单</title><link href="https://tangyuewei.com/posts/ai-coding-time-budget/" rel="alternate" type="text/html" title="AI 写代码后，你的时间账单" /><published>2026-09-26T09:15:00+08:00</published><updated>2026-09-26T09:15:00+08:00</updated><id>https://tangyuewei.com/posts/ai-coding-time-budget</id><content type="html" xml:base="https://tangyuewei.com/posts/ai-coding-time-budget/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：AI 接手写代码后，纯编码时间变短，但总工时没少。本文把开发者时间拆成五块——讲需求、审代码、修 bug、做集成、管上下文，并给四个可落地的杠杆，讲清时间到底搬去了哪、怎么砍。</p>
+</blockquote>
+
+<p><img src="/imgs/202609/2026-09-26-ai-coding-time-budget-infographic-1.jpg" alt="时间搬去哪了：开发者一周时间拆成五块" /></p>
+
+<h2 id="现象写快了人没闲下来">现象：写快了，人没闲下来</h2>
+
+<p>你让 AI 写个接口，十秒吐出三百行。你没省下时间，反而花了一下午读这三百行、改字段名、补空值判断、再把它接进现有事务。写的那一下变快了，后面全变贵了。</p>
+
+<p>这不是个例。Lightrun 今年一项针对 SRE 与 DevOps 负责人的调查显示，43% 的 AI 改动上线后仍要人工 debug，88% 需要两到三次重部署才确认。同一份报告还有一个更扎心的数：开发者平均要把一周 38% 的时间耗在 debug、验证和排障上——AI 没省掉这部分活，只是换了形式。AI 省下的”写”，很大一部分转移到了”反复看它写对了没”。</p>
+
+<h2 id="本质时间从写搬到了判">本质：时间从”写”搬到了”判”</h2>
+
+<p>行业里常被引用的经验值是，纯编码约占研发总工时的两到三成。AI 把这一成多再砍掉大半，腾出来的时间没有消失，而是流进了五块——它们共同的特点是：都不在编辑器里，都在”判断”里。</p>
+
+<p>一个反直觉的点：AI 让你变慢的环节，恰恰是你以前最擅长的。因为注意力现在花在”它写的对不对”上，而这部分以前花在”我自己怎么写”上。你从”生产者”变成了”验收者”。</p>
+
+<p><img src="/imgs/202609/2026-09-26-ai-coding-time-budget-infographic-2.jpg" alt="从写到判：AI 接手后时间从写代码迁移到审与判" /></p>
+
+<h2 id="实际落地五块时间分别花在哪">实际落地：五块时间分别花在哪</h2>
+
+<h3 id="第一桶把需求讲清楚">第一桶：把需求讲清楚</h3>
+
+<p>时间花在”让 AI 听懂你要什么”。一句话需求换来三版不对味的代码，返工成本比自己写还高。讲不清的根源是：需求在你脑子里是语境，在 AI 眼里只是字符。</p>
+
+<p>解法是需求前置：先把规格写清楚（规格驱动），让 AI 照着判，而不是边写边猜。一个 Java 后端的典型坑：需求只说”做个导出”，AI 生成两百行，字段名按自己猜的来，和你现有的 DTO 对不上。先把输入输出结构定死，AI 才不会自由发挥。</p>
+
+<p>判断需求讲清了没有，有个简单标准：AI 第一次返回的东西，你是不是能不改结构地直接用。如果还要大改字段和边界，说明需求没讲清，时间迟早要还。</p>
+
+<h3 id="第二桶审-ai-写的代码">第二桶：审 AI 写的代码</h3>
+
+<p>这是新增最大的一块。前面那组 Lightrun 数字已经说明问题：43% 上线后仍要人工 debug。审比写慢，因为 AI 一次吐一大片，你还得反推它的意图。</p>
+
+<p>可行的做法是：让它小步提交、每步带自测，你只 diff 关键路径；把”读全文”变成”读改动”。还可以让 AI 自己先过一遍——生成时附带它认为的边界和假设，你审的是它的假设而非它的代码，这能把审的时间再压一层。</p>
+
+<h3 id="第三桶修-ai-引入的-bug">第三桶：修 AI 引入的 bug</h3>
+
+<p>AI 写代码飞快，但引入的缺陷往往更隐蔽。Chroma 的 Context Rot 研究指出，65% 的企业级 AI 失败，根因是上下文漂移或记忆丢失，不是模型不会写。</p>
+
+<p>隐蔽缺陷最坑：空值分支里的 NPE、并发下的竞态、被忽略的边界。它们不报错，只在某些数据下炸。状态门禁能在执行时拦下”更新命中零行”这类假成功：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="c1">// 状态门禁：更新必须真的命中行，否则当失败处理</span>
+<span class="kt">int</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">orderMapper</span><span class="o">.</span><span class="na">markCharged</span><span class="o">(</span><span class="n">orderId</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">rows</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>            <span class="c1">// AI 说已处理，但库里没动</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"状态未变更，疑似假成功"</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>更省心的做法是把”修”变成”不让它写错”：关键路径用确定性脚手架，AI 只填被约束好的空，隐蔽缺陷从源头就少。</p>
+
+<h3 id="第四桶集成与-code-review">第四桶：集成与 Code Review</h3>
+
+<p>代码能跑不算完。多工具、多 Agent 接进来，CR 的重点从”语法对不对”变成”上下文有没有串、边界有没有漏”。</p>
+
+<p>具体痛点是接口契约对不齐：AI 生成的调用方和提供方字段不一致，要人肉对齐（事务补偿）。这块时间随系统复杂度线性上涨，AI 暂时帮不上，但它值得投——它是系统可靠性的真正护城河。CR 时多问一句”这个改动会影响哪个上游调用方”，比多写十行测试更值钱。</p>
+
+<h3 id="第五桶管上下文等-agent">第五桶：管上下文，等 Agent</h3>
+
+<p>上下文越长 AI 越容易忘事。异步 Agent 跑一个改动能耗掉大半天。METR 另一个数据：Agent 能稳定完成的任务时长，大约每七个月翻一倍。你在等它跑完的时间里，也在持续投注意力。</p>
+
+<p>上下文预算要主动分：系统提示占一成多，工具 schema 占一两成，其余留给检索。等长任务时设 checkpoint，在关键节点回看，别真离线。把长任务切成可验收的小段，每段结束你只花一分钟确认方向，比最后整体返工便宜得多。</p>
+
+<h2 id="四个杠杆怎么砍这张账单">四个杠杆：怎么砍这张账单</h2>
+
+<p>杠杆一，需求前置：用规格驱动把输入输出定死，AI 照判不自由发挥，直接砍掉第一桶的返工。</p>
+
+<p>杠杆二，门禁前置：编译、契约、状态、链路四道门接进流水线，审和修的时间被挡在执行时，而不是上线后。</p>
+
+<p>杠杆三，测试门禁：用变异测试逼出真断言，AI 写的测试才不会自己骗自己，砍掉第三桶的隐蔽缺陷。</p>
+
+<p>杠杆四，判断外包：高频、低延迟的结构化判断交给 Jev 或小模型，重复人工直接砍掉。</p>
+
+<h2 id="边界什么团队该这么做">边界：什么团队该这么做</h2>
+
+<p>这套账本对小团队和中大型都管用，但前提是你已经在用 AI 写相当一部分代码。如果团队还停留在”偶尔问一句”，先别谈时间分配，先把采纳率提上来。</p>
+
+<p>代价也要说清：门禁、规格、变异测试都是前期投入。前两周你会觉得更慢，因为你在搭栏杆。栏杆立起来之后，返工和救火的时间才会真的掉下来。</p>
+
+<p><img src="/imgs/202609/2026-09-26-ai-coding-time-budget-infographic-3.jpg" alt="四个砍账杠杆：需求前置、门禁前置、测试门禁、判断外包" /></p>
+
+<h2 id="总结">总结</h2>
+
+<p>时间没少，只是从”写”搬到了”判”。模型越强，你判的层级越高——从判代码，变成判架构、判需求、判它该不该动手。时间管理的本质，是判断力的管理。</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI编程" /><category term="工程实践" /><category term="时间管理" /><category term="AI代码审查" /><summary type="html"><![CDATA[摘要：AI 接手写代码后，纯编码时间变短，但总工时没少。本文把开发者时间拆成五块——讲需求、审代码、修 bug、做集成、管上下文，并给四个可落地的杠杆，讲清时间到底搬去了哪、怎么砍。]]></summary></entry><entry><title type="html">Jev 是判断基建，不是 AI 功能</title><link href="https://tangyuewei.com/posts/jev-judgment-infra/" rel="alternate" type="text/html" title="Jev 是判断基建，不是 AI 功能" /><published>2026-09-25T09:16:00+08:00</published><updated>2026-09-25T09:16:00+08:00</updated><id>https://tangyuewei.com/posts/jev-judgment-infra</id><content type="html" xml:base="https://tangyuewei.com/posts/jev-judgment-infra/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Jev 不是又一个聊天模型，而是一个只做结构化判断的接口。本文讲清楚它适合替换哪些业务判断节点、怎么落地、以及三个常被忽略的代价——中文准确率、概率校准、数据出境。</p>
+</blockquote>
+
+<p>你团队里有没有那种判断逻辑：工单分给哪个组、这条消息急不急、这笔交易可不可疑。现在它们写在一堆 if/else 和正则里，越堆越烂，改一处崩一片。</p>
+
+<p>Jev 就是冲着这类节点来的。它刚火，但用法和大多数人想的不一样：别把它当”AI 功能”往产品里塞，要当成”判断基础设施”——替换那些每天重复几十万次、又贵又慢的人工或规则判断。</p>
+
+<h2 id="它到底是什么">它到底是什么</h2>
+
+<p>Jev 是 TypeSafe AI 在 9 月 15 日放出的”System One 模型”，创始人 Diogo Almeida 是 InstructGPT 论文作者之一。名字借自行为经济学的”系统一”：快、直觉、不深思。</p>
+
+<p>它的接口只有三块：你给一份 <strong>state</strong>（要判断的内容，字符串或 JSON），再给一组带类型的 <strong>questions</strong>，它返回每个问题一个<strong>带概率的结构化答案</strong>。全程不产生一句人话。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="n">state</span> <span class="o">=</span> <span class="p">{</span><span class="s">"ticket_text"</span><span class="p">:</span> <span class="n">msg</span><span class="p">,</span> <span class="s">"order_status"</span><span class="p">:</span> <span class="s">"charged_twice"</span><span class="p">}</span>
+<span class="n">questions</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">"department"</span><span class="p">:</span> <span class="n">Choice</span><span class="p">(</span><span class="n">instructions</span><span class="o">=</span><span class="s">"这条工单交给哪个团队"</span><span class="p">,</span>
+                      <span class="n">criteria</span><span class="o">=</span><span class="p">{</span><span class="s">"billing"</span><span class="p">:</span><span class="s">"付款/退款"</span><span class="p">,</span> <span class="s">"technical"</span><span class="p">:</span><span class="s">"故障/集成"</span><span class="p">}),</span>
+  <span class="s">"is_urgent"</span><span class="p">:</span> <span class="n">Noul</span><span class="p">(</span><span class="n">instructions</span><span class="o">=</span><span class="s">"是否存在资损或时间压力"</span><span class="p">),</span>
+  <span class="s">"frustration"</span><span class="p">:</span> <span class="n">Score</span><span class="p">(</span><span class="n">instructions</span><span class="o">=</span><span class="s">"客户情绪等级"</span><span class="p">,</span>
+                      <span class="n">criteria</span><span class="o">=</span><span class="p">[</span><span class="s">"平静"</span><span class="p">,</span> <span class="s">"不满但克制"</span><span class="p">,</span> <span class="s">"愤怒"</span><span class="p">]),</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>三种问题原语是设计的核心：Choice 从你给的选项里挑一个（最多 255 个），Score 按有序标尺打分，Noul 回答 yes/no 并给 0 到 1 的概率。一次调用把多个问题并行算完，这叫 speculative fan-out。</p>
+
+<p>快和便宜是它立得住的两点。非自回归架构，不一个字一个字生成，官方端到端延迟 70 到 500 毫秒；计费只收输入 token，每百万输入 0.042 美元，输出免费。一条几百 token 的工单判断，成本在小数点后第四五位美元，比通用大模型便宜一两个数量级。</p>
+
+<p><img src="/imgs/202609/2026-09-25-jev-judgment-infra-infographic-1.jpg" alt="Jev 三原语全景" /></p>
+
+<h2 id="先泼盆冷水它不比大模型聪明">先泼盆冷水：它不比大模型聪明</h2>
+
+<p>把期望管理对，后面才不会翻车。TypeSafe 自己的四工作流基准里，Jev 准确率 67.8%，和 GPT-5.6 Terra 的 67.9% 打平，但落后 Claude Opus 5 的 73.1%。</p>
+
+<p>读直白点：Jev 在决策任务上只接近中档 LLM，靠的是成本和速度换。它卖的不是”更准”，是”够准且便宜到能嵌在实时链路里”。Flavio Copes 那句形容很准——它像一段会理解语义的 if 语句，不是会聊天的同事。</p>
+
+<h2 id="哪些判断值得换">哪些判断值得换</h2>
+
+<p>Jev 只适合”答案空间有限 + 高频 + 低延迟”的判断。一个实用经验：<strong>凡是现在写着 if/else 或正则的地方，都是候选位；凡是写着”请帮我写”的地方，都不是。</strong></p>
+
+<p>适合用 Jev（命中越多越优先）：</p>
+<ul>
+  <li>结果只有几个选项、一个分数、或是或否</li>
+  <li>每天发生几百次以上（工单、交易、日志、消息）</li>
+  <li>当前靠关键词规则维护，规则越堆越烂</li>
+  <li>延迟敏感（实时风控、审核、Agent 循环）</li>
+  <li>有历史标注数据能离线回测</li>
+</ul>
+
+<p>不适合用 Jev：</p>
+<ul>
+  <li>需要生成文案、代码、长推理链</li>
+  <li>一天只有几十次的低频复杂决策</li>
+  <li>需要可解释的理由和证据链（它不给解释）</li>
+  <li>纯中文长文本场景（官方承认 CJK 准确率偏低，必须实测）</li>
+  <li>对误判零容忍且无人兜底</li>
+</ul>
+
+<p><img src="/imgs/202609/2026-09-25-jev-judgment-infra-infographic-2.jpg" alt="适合与不适合对比" /></p>
+
+<h2 id="落地四步别跳">落地四步，别跳</h2>
+
+<p>第 1 步，盘点决策点。拉客服、风控、运营、运维、研发各一条线，问三个问题：这个环节谁在做判断？一天多少次？判错一次代价多大？产出一张带日频次和误判代价的表，按 P0/P1/P2 排。</p>
+
+<p>第 2 步，选一个 P0 试点只做一件事。别一上来搞全链路智能化。选高频、低风险、有历史数据可回放的场景，比如工单路由。目标不是”上线”，是跑出一套可复用的接入模式。</p>
+
+<p>第 3 步，定义 State Packet 和 Questions，这是核心工程产物，建议当代码管理、进 Git、做版本化。三个要点：一个问题只做一件事，拆成部门、紧急度、情绪再在代码里组合；criteria 写清边界，尤其 other 兜底项，否则脏数据会被硬塞进某个类；state 只传判断必需字段，别把整段会话史丢进去，既费 token 又引入噪声。</p>
+
+<p>第 4 步，影子模式到灰度再到自动执行——绝大多数失败都坏在”直接上线自动执行”。</p>
+
+<ul>
+  <li>影子模式（2 到 4 周）：Jev 只读不写，拿历史已标注数据回放，算出每个阈值下的准确率和召回率。</li>
+  <li>定阈值用三档路由：高置信度（如大于 0.9）自动执行；中段（0.7 到 0.9）交给更强的 LLM 复核或打标记让人快速确认；低置信度（小于 0.7）转人工。阈值是在回测曲线上找”自动化率对错误率”的拐点，不是拍脑袋。</li>
+  <li>灰度 5% 到 10% 流量，看人工接管率、二次转派率、平均处理时长、投诉率，再逐步放量，同时保留一键切回规则的开关。</li>
+</ul>
+
+<p><img src="/imgs/202609/2026-09-25-jev-judgment-infra-infographic-3.jpg" alt="影子到灰度到自动" /></p>
+
+<h2 id="三个被低估的代价">三个被低估的代价</h2>
+
+<p>第一，中文准确率偏低。TypeSafe 官方文档明确建议 CJK 场景先实测对比。纯中文长文本业务，要么拿自己的数据比一遍现有 LLM 和规则引擎，要么把 state 尽量做成结构化英文字段加短文本。</p>
+
+<p>第二，概率会高估，原语会打架。社区里有人拿它和 CatBoost 这类传统 ML 分类器比过校准，发现 Jev 在某些数据集上系统性高估概率。</p>
+
+<p>TypeSafe 自己的”jaggedness”页也承认：同一个工单，Noul 问题返回 0.22，等价的 Choice 却返回 0.99；而且校准描述的是群体，不是单条。实操建议是灰度期用你自己的数据做一次 Platt scaling，把”报 0.9 的时候真的 90% 对”这件事自己验证一遍，阈值别照搬文档。</p>
+
+<p>第三，数据出境加单供应商依赖。Jev 闭源托管、不开源、不能私有化部署，请求发到境外服务器。涉及个人信息、交易明细、医疗或金融数据的场景，必须先过法务和数据出境评估。</p>
+
+<p>版本上务必 Pin 具体号（当前 jev-1.13.0），别用会移动的 jev-latest 别名——上游一更新，线上行为就漂移。社区已有 LiteLLM 的 pass-through 支持、LangChain 也出了路由与工具调用门禁中间件，作为可插拔备选留着。</p>
+
+<p>算账也别只看自动化率。节省等于被自动处理的条数乘以原本人均成本，减去模型费和人工复核费。但自动化率 80% 而返工率 15%，实际是亏的。试点阶段的目标函数应该设为”净有效自动化率”，不是单纯的”自动化率”。</p>
+
+<h2 id="结语">结语</h2>
+
+<p>Jev 不是银弹，也不是那种锦上添花的”AI 功能”。它是替换 if/else 和规则引擎里那块又贵又慢的料——前提是你能接受”结构化、可阈值、有人兜底”这三条。</p>
+
+<p>Vercel 一位工程师用它替换了命令安全分类器，官方说法是快了 5 到 18 倍还更准。但这恰恰说明它的位：在判断节点上做快而便宜的决策，把难的、要写要解释的交给大模型。凡是现在写着”请帮我写”的地方，都不该是 Jev 的位。</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="Jev" /><category term="TypeSafe" /><category term="判断基础设施" /><category term="AI工程" /><category term="业务落地" /><summary type="html"><![CDATA[摘要：Jev 不是又一个聊天模型，而是一个只做结构化判断的接口。本文讲清楚它适合替换哪些业务判断节点、怎么落地、以及三个常被忽略的代价——中文准确率、概率校准、数据出境。]]></summary></entry><entry><title type="html">单 Agent 能干的活，别上多 Agent</title><link href="https://tangyuewei.com/posts/single-agent-beats-multi/" rel="alternate" type="text/html" title="单 Agent 能干的活，别上多 Agent" /><published>2026-09-24T09:02:00+08:00</published><updated>2026-09-24T09:02:00+08:00</updated><id>https://tangyuewei.com/posts/single-agent-beats-multi</id><content type="html" xml:base="https://tangyuewei.com/posts/single-agent-beats-multi/"><![CDATA[<blockquote>
+  <p>摘要：2026 年多 Agent 编排很热，但多数团队只算了能力账，没算成本账。本文用几组可查的基准数字说明：多加 Agent，准确率往往只多几个百分点，token 却翻几倍，错误还会沿交接链放大。07-25 那篇聊了”什么时候该开舰队”，这篇聊”开了之后，账怎么算”。拿不准时，先给一个 Agent 同等总预算试一次，再决定要不要拆。</p>
+</blockquote>
+
+<h2 id="先算准确率账多加-agent多不了几点">先算准确率账：多加 Agent，多不了几点</h2>
+
+<p>多 Agent 最常被引用的卖点是”准确率更高”。把账摊开看，这个增益比想象中小。</p>
+
+<p>sunilprakash 在 2026-03 用 gpt-4o（温度 0）在同一组 30 道带引用要求的问答上，对比了工作流、单 Agent、多 Agent 三种架构：多 Agent 通过率 66.7%，单 Agent 63.3%，只多 <strong>3.4 个百分点</strong>，但成本是单 Agent 的 <strong>2.4 倍</strong>，端到端延迟是 <strong>2.2 倍</strong>。多 Agent 的优势几乎全部来自”对比类”和”跨文档综合类”题目，其他类别上它和单 Agent 打平，却白花 2.4 倍的钱。</p>
+
+<p>更扎心的是 Stanford 的反证。Tran 和 Kiela 在 arXiv:2604.02460 里做了一件事：给单 Agent 和多 Agent <strong>完全相同的总思考 token 预算</strong>。结果多 Agent 那点”优势”直接消失——单 Agent 准确率反而更高，算力还更省。原因很简单：此前几乎所有”多 Agent 赢”的基准，都默许多 Agent 多烧 2 到 4 倍的推理 token。尺子本身就不准。</p>
+
+<p>一句话收住：多 Agent 的”强”，有一部分是用钱买来的；把预算拉平，它并不比单 Agent 聪明。</p>
+
+<p>Princeton NLP Group 也给出过一个常被引用的结论：在工具和上下文对等的前提下，单 Agent 在 <strong>64%</strong> 的基准任务上持平或超过多 Agent。</p>
+
+<p><img src="/imgs/202609/2026-09-24-single-agent-beats-multi-infographic-1.jpg" alt="单 Agent 与多 Agent 的准确率成本对比" /></p>
+
+<h2 id="再算-token-账协调税吃掉三分之一">再算 token 账：协调税吃掉三分之一</h2>
+
+<p>多 Agent 的 token 不是简单相加，而是每次交接都要重述上下文。</p>
+
+<p>Anthropic 在工程复盘里提到，多 Agent 系统的 token 消耗约为普通对话的 <strong>15 倍</strong>。2026 年一些生产 fleet 的链路追踪显示，多 Agent 系统总 token 里大约有 <strong>37%</strong> 花在协调开销上——不是干活的 token，而是传上下文、重建状态、给没有记忆的 Agent 重新 brief。单 Agent 没有这道税，因为它整个任务都背着同一个上下文窗口。</p>
+
+<p>换句话说，你以为在买”并行”，实际在买”反复互相同步”。</p>
+
+<p>落到 Java 后端，这道税很具体：一个 Spring Boot 服务把任务拆给五个远程子 Agent，每次交接都要把共享上下文序列化再发一遍，账单和延迟都涨在你看不见的地方。</p>
+
+<h2 id="最危险的账错误会沿交接链放大">最危险的账：错误会沿交接链放大</h2>
+
+<p>这是多 Agent 真正该警惕的地方，单 Agent 没有这类故障模式。</p>
+
+<p>Google DeepMind 的研究给出过一个被广泛引用的量化：去中心化多 Agent 的错误放大倍数是 <strong>17.2 倍</strong>，即便带中心协调的架构，错误也会被放大约 <strong>4 倍</strong>。机制很清楚：Agent A 产出 10% 错误率，Agent B 把 A 的输出当输入且不独立校验，直接继承并叠加；到用户手里时，原始的小错误已经变成大故障。</p>
+
+<p>CMU 和 UC Berkeley 分析 7 个多 Agent 框架的 1642 条执行链路，失败率从 <strong>41% 到 86.7%</strong> 不等。还有研究跟踪 800 多条工作流，发现跨 Agent 交接约 7 次后会进入一个明显的退化相变——每轮交接只保留约 92% 的准确度，误差是指数级累积，不是线性。</p>
+
+<p>这解释了为什么很多多 Agent 系统”看起来在跑，实际在悄悄出错”：约 75% 的多 Agent 失败表现为不报警的灰色错误。</p>
+
+<p><img src="/imgs/202609/2026-09-24-single-agent-beats-multi-infographic-2.jpg" alt="错误沿交接链放大：A 的 10% 错误被 B、C 继承叠加" /></p>
+
+<h2 id="什么时候多-agent-真的值">什么时候多 Agent 真的值</h2>
+
+<p>说”别上多 Agent”不是说”永远别上”。两种情形，多 Agent 的溢价能赚回来：</p>
+
+<p>一是<strong>真并行</strong>。任务能拆成互不依赖的独立子块，并行跑比串行拼起来更快。研究也证实，在可并行任务上多 Agent 能带来明显提升；在顺序推理任务上反而普遍退化。</p>
+
+<p>二是<strong>生成加校验的双角色</strong>。一个 Agent 写，一个 Agent 以全新视角审，这个结构提升最大、代价最小。有基准测到：双角色（生成器加校验器）只多花 <strong>4.1%</strong> 的 token，却换来 <strong>17.7%</strong> 的性能提升。这是所有多 Agent 形态里性价比最高的一档。</p>
+
+<p>注意区别：双角色是”同一个问题的两遍”，不是”把活劈成五份各干各的”。后者往往掉进协调税和错误放大的坑。</p>
+
+<p>一个可操作的默认：先上单 Agent 加一个 critic，而不是一上来就五 Agent 舰队。前者拿到了双角色的大部分收益，后者先背上了全部协调税。</p>
+
+<h2 id="真要上协调层是生死线">真要上，协调层是生死线</h2>
+
+<p>如果任务确实该拆，那多 Agent 能不能活过生产，不看 Agent 多聪明，看协调层有没有建。</p>
+
+<p>一项 2026 的行业调研里有个刺眼的数字：<strong>68% 的多 Agent 部署在 72 小时内失败</strong>，根因不是模型不行，是缺协调层——上下文过时、任务边界模糊、错误跨节点级联。</p>
+
+<p>活下来的系统都显式处理了三件事：上下文新鲜度（每个 Agent 都跑在最新状态上）、任务边界（明确每个 Agent 拥有什么）、失败隔离（一个 Agent 的错不外溢）。有协调层 vs 没有，错误率能从 23% 压到 5%，延迟从 5.9 秒降到 1.8 秒。协调层不是开销，是 23% 和 5% 之间的那道墙。</p>
+
+<p><img src="/imgs/202609/2026-09-24-single-agent-beats-multi-infographic-3.jpg" alt="多 Agent 的协调层三件套：上下文新鲜、任务边界、失败隔离" /></p>
+
+<h2 id="结语">结语</h2>
+
+<p>多 Agent 不是银弹，是一笔要赚回溢价的税。准确率多 3 个点、token 翻 2.4 倍、错误放大 4 倍起——这些数字摆出来，多数”上舰队”的冲动会冷静下来。</p>
+
+<p>一个简单的决策顺序：先确认任务有没有可拆的独立子问题；再给单 Agent 同等总预算试一次，看它是不是已经够好；真要拆，只拆成生成加校验两角色或少数真并行的块，并把协调层当作一等公民。</p>
+
+<p>07-25 讲了怎么拆，这篇讲了拆完的代价。两篇合起来才是一句完整的话：能单干的别硬上多 Agent，要上的先把协调层焊死。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li>Tran D, Kiela D. Single Agents Win at Equal Token Budgets. arXiv:2604.02460, 2026.</li>
+  <li>sunilprakash.com. Architecture Comparison: Workflow vs Single-Agent vs Multi-Agent. 2026-03-26.</li>
+  <li>arionresearch.com. Multi-Agent Design Patterns: The Complexity Trap. 2026.</li>
+  <li>aurorasre.ai. Why Multi-Agent AI Systems Fail in Production. 2026.</li>
+  <li>zonflip.com. Running AI Agent Fleets in Production. 2026.</li>
+  <li>dev.to. 68% of Multi-Agent Deployments Fail Within 72 Hours. 2026.</li>
+  <li>Anthropic Engineering. Multi-agent systems use ~15x more tokens than chats. 2026.</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI编程" /><category term="多Agent" /><category term="成本" /><category term="错误放大" /><summary type="html"><![CDATA[摘要：2026 年多 Agent 编排很热，但多数团队只算了能力账，没算成本账。本文用几组可查的基准数字说明：多加 Agent，准确率往往只多几个百分点，token 却翻几倍，错误还会沿交接链放大。07-25 那篇聊了”什么时候该开舰队”，这篇聊”开了之后，账怎么算”。拿不准时，先给一个 Agent 同等总预算试一次，再决定要不要拆。]]></summary></entry><entry><title type="html">Java 后端的 Agent 门禁怎么搭</title><link href="https://tangyuewei.com/posts/java-agent-gates/" rel="alternate" type="text/html" title="Java 后端的 Agent 门禁怎么搭" /><published>2026-09-23T08:33:00+08:00</published><updated>2026-09-23T08:33:00+08:00</updated><id>https://tangyuewei.com/posts/java-agent-gates</id><content type="html" xml:base="https://tangyuewei.com/posts/java-agent-gates/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Agent 最大的坑不是报错，是”它说做完了，环境说没有”。本文借 Java 后端的天然资本——编译器、类型系统、Bean Validation、Micrometer/OTel——讲清怎么在模型周围搭四道确定性门禁，把假成功挡在缝里，而不是等上线后人工 debug。</p>
+</blockquote>
+
+<p>你给 Agent 派了个活：把这批工单的状态从”处理中”改成”已关闭”，顺手回写关闭原因。</p>
+
+<p>它跑了一阵，返回 status: success。你信了。</p>
+
+<p>三天后客服说，工单还停在”处理中”。你翻日志，每一步都绿，没有任何异常。问题出在哪儿？它调了更新接口，接口返回 200，但那条数据的状态字段根本没变——传入的 ticketId 在库里查无此单，更新命中 0 行。HTTP 成功，业务失败，Agent 浑然不知，还给你写了句”已处理完成”。</p>
+
+<p>这不是个案。tau2-bench 里，单控域近一半的失败是”声称完成但环境状态不符”；AppWorld 上，显式声明状态的失败里有 75.8% 是这一类。Reddy 等人的研究更狠：78% 的失败，对工具和 Agent 两边都不可见。</p>
+
+<p><img src="/imgs/202609/2026-09-23-java-agent-gates-infographic-1.jpg" alt="Agent 的四道门禁" /></p>
+
+<h2 id="java-后端自带栏杆的料">Java 后端自带栏杆的料</h2>
+
+<p>别的语言也在写 Agent，但 Java 后端搭门禁，料是现成的。</p>
+
+<p>编译器是免费的确定性闸门。Agent 生成的代码先过 javac，编译不过，连运行都到不了——类型错误、缺方法，都是确定性错误，不用等它编理由自圆其说。</p>
+
+<p>类型系统和 Bean Validation 把”语法对、语义错”的调用挡在工具执行前。Reddy 把这类问题叫 policy-permissive tools：工具接受任何合法调用，哪怕它违反业务规则。在 Java 侧，一个 @NotNull、一个 @Pattern 就能让这种调用在进模型之前被拒。</p>
+
+<p>Micrometer 加 OpenTelemetry 已经长在 Spring Boot 里。你不用自己造遥测，加两个依赖，链路自己就出来了。</p>
+
+<h2 id="第一道门编译门禁">第一道门：编译门禁</h2>
+
+<p>最便宜的门禁，是让生成物先过编译。</p>
+
+<p>不少团队让 Agent 直接改业务代码、直接部署。一旦它生成的接口签名和调用方对不上，运行时才炸，而且炸在离出错最远的地方。把 <code class="language-plaintext highlighter-rouge">./gradlew compileJava</code> 或 <code class="language-plaintext highlighter-rouge">mvn compile</code> 塞进 Agent 的”写完即验证”环节，编译失败立刻回退重来。这一步零模型调用、零额外成本，却挡掉了最大一类低级失败。</p>
+
+<h2 id="第二道门契约门禁">第二道门：契约门禁</h2>
+
+<p>工具不是”能调就行”，参数是有契约的。</p>
+
+<p>给工具的入参用 JSR-380 注解约束，执行前校验：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="n">record</span> <span class="nf">CloseTicketCmd</span><span class="o">(</span>
+    <span class="nd">@NotNull</span> <span class="nc">Long</span> <span class="n">ticketId</span><span class="o">,</span>
+    <span class="nd">@Pattern</span><span class="o">(</span><span class="n">regexp</span> <span class="o">=</span> <span class="s">"CLOSED|REJECTED"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">status</span><span class="o">,</span>
+    <span class="nd">@Size</span><span class="o">(</span><span class="n">max</span> <span class="o">=</span> <span class="mi">200</span><span class="o">)</span> <span class="nc">String</span> <span class="n">reason</span><span class="o">)</span> <span class="o">{}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>参数非法，直接抛约束违例，工具不执行。Reddy 的四门确定性闸门里，这一道叫”参数前检”——不依赖模型判断，纯规则。他的实验里，单纯加这类预执行闸门，就把 gpt-5.2 在工具调用任务上的成功率从 61.2% 拉到 71.6%。</p>
+
+<h2 id="第三道门状态门禁">第三道门：状态门禁</h2>
+
+<p>编译过了、参数对了，不代表世界真变了。</p>
+
+<p>工具执行完，要断言环境状态确实变了，而不是信 Agent 的回执。Spring AI 的 <code class="language-plaintext highlighter-rouge">ToolCallingManager</code> 周围可以包一层 Advisor，在工具返回后跑一条核验查询：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="kt">long</span> <span class="n">closed</span> <span class="o">=</span> <span class="n">ticketRepo</span><span class="o">.</span><span class="na">countByStatus</span><span class="o">(</span><span class="s">"CLOSED"</span><span class="o">);</span>
+<span class="nc">Assert</span><span class="o">.</span><span class="na">isTrue</span><span class="o">(</span><span class="n">closed</span> <span class="o">==</span> <span class="n">expected</span><span class="o">,</span> <span class="s">"关闭数与预期不符"</span><span class="o">);</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Reddy 的四门里，这道对应”状态后检”和”策略检”——查当前状态、查策略是否被违反。闸门本身不调用模型，毫秒级，却能把”更新命中 0 行”这类假成功当场抓出来。</p>
+
+<p><img src="/imgs/202609/2026-09-23-java-agent-gates-infographic-2.jpg" alt="它说成功，世界说没发生" /></p>
+
+<h2 id="第四道门链路门禁">第四道门：链路门禁</h2>
+
+<p>前三道是点上的闸，这一道是面上的图。</p>
+
+<p>Spring AI 对每次模型调用自动发两层 Micrometer observation：<code class="language-plaintext highlighter-rouge">gen_ai.client.operation</code> 记录 token、模型、请求参数，<code class="language-plaintext highlighter-rouge">okhttp.requests</code> 记录 HTTP 方法、URI、状态码，并在链路上传播 traceparent。工具调用另有 <code class="language-plaintext highlighter-rouge">ToolCallingObservationConvention</code>，把 <code class="language-plaintext highlighter-rouge">toolDefinitionName</code>、<code class="language-plaintext highlighter-rouge">toolDefinitionSchema</code> 一并记进 span。这些 span 把”工具名、参数、返回”串成一条可追的链，传统 APM 只看到 HTTP 200 的地方，这里能看到工具到底有没有做对事。</p>
+
+<p>接法不用改业务代码，application.yml 里把采样打开即可：</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="na">management</span><span class="pi">:</span>
+  <span class="na">tracing</span><span class="pi">:</span>
+    <span class="na">sampling</span><span class="pi">:</span>
+      <span class="na">probability</span><span class="pi">:</span> <span class="m">1.0</span>   <span class="c1"># 错误全采，成功流量可降到 0.1</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>再加 <code class="language-plaintext highlighter-rouge">micrometer-tracing-bridge-otel</code> 和 <code class="language-plaintext highlighter-rouge">spring-boot-starter-actuator</code>，链路直接进你现有的 OTel Collector。国产模型走 OpenAI 兼容接口时，同一套桥照样在线上传播 traceparent，不用为它单独改埋点。</p>
+
+<p>LangChain4j 侧，挂一个 <code class="language-plaintext highlighter-rouge">ObservationChatModelListener</code> 就能拿到同构的 Micrometer 遥测；它的 input/output guardrails 事件还能在工具前后插校验，和 Spring AI 的思路一致，只是表述换成了监听器。</p>
+
+<h2 id="评测门禁把场景固化成资产">评测门禁：把场景固化成资产</h2>
+
+<p>四道门挡的是”这次跑没跑对”。要挡”换了个 prompt 模型是不是退化了”，得有回归集。</p>
+
+<p>把你们真实的工单流转、审批、对账场景固化成一组成 golden 用例，每次动 prompt 或换模型，CI 里跑一遍。断言不是”输出等于某字符串”，而是”状态机走到了对的终态”——和状态门禁同一套思路，从单次运行升到版本对比。</p>
+
+<h2 id="代价与边界">代价与边界</h2>
+
+<p>门禁不是越多越好。</p>
+
+<p>高风险动作（删库、对外发件）才值得上人工确认；低风险读操作，确定性闸门挡”语法对语义错”就够了，别用闸门去审创意。闸门本身也有成本：每道后检都是一次额外查询，高频工具要权衡采样率。</p>
+
+<p>最该警惕的是把闸门当免责。闸门挡得住确定性错误，挡不住”目标定错了”——它说关工单，你其实想关的是另一批。门禁管执行，不管意图，意图还得人来定。</p>
+
+<p><img src="/imgs/202609/2026-09-23-java-agent-gates-infographic-3.jpg" alt="门禁不是越多越好" /></p>
+
+<h2 id="结语">结语</h2>
+
+<p>Agent 不可靠，往往不是模型不行，是它周围没栏杆。Java 后端恰好把栏杆的料都备齐了：编译器、类型、Bean Validation、Micrometer。</p>
+
+<p>四道门一搭，假成功从”上线后人工 debug”变成”执行时当场拦截”。Lightrun 今年一项针对 SRE 与 DevOps 负责人的调查里，43% 的 AI 改动上线后仍要人工 debug，88% 需要两到三次重部署才确认——把门禁前置，这两组数字能砍掉一大截。</p>
+
+<hr />
+
+<p><strong>参考资料</strong></p>
+
+<ol>
+  <li>From Confident Closing to Silent Failure（ICML 2026 FAGEN Workshop，arXiv:2606.09863）——tau2-bench 单控域 45–48% 失败为假成功</li>
+  <li>Agents fail by declaring success（NZWE Journal，2026-07）——AppWorld 75.8% 假成功、5 个 LLM judge AUROC ≤0.65</li>
+  <li>Reddy et al., Reason Less, Verify More（arXiv:2607.07405）——78% 失败对工具与 Agent 不可见；四门确定性闸门 gpt-5.2 61.2%→71.6%</li>
+  <li>Spring AI Observability 参考（docs.spring.io/spring-ai）——gen_ai.client.operation / okhttp.requests 双层 observation、ToolCallingObservationConvention</li>
+  <li>LangChain4j Observability 教程（docs.langchain4j.dev）——ObservationChatModelListener、guardrails 事件</li>
+  <li>Lightrun 2026 SRE/DevOps 调查——43% AI 改动上线后人工 debug、88% 需 2–3 次重部署</li>
+  <li>OpenTelemetry GenAI Semantic Conventions v1.30——agent/chat/tool span 树与 gen_ai.* 属性</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="Java" /><category term="Agent" /><category term="可观测性" /><category term="SpringAI" /><category term="LangChain4j" /><category term="确定性门禁" /><summary type="html"><![CDATA[摘要：Agent 最大的坑不是报错，是”它说做完了，环境说没有”。本文借 Java 后端的天然资本——编译器、类型系统、Bean Validation、Micrometer/OTel——讲清怎么在模型周围搭四道确定性门禁，把假成功挡在缝里，而不是等上线后人工 debug。]]></summary></entry></feed>
