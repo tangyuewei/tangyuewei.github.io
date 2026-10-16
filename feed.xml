@@ -1,0 +1,999 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://tangyuewei.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://tangyuewei.com/" rel="alternate" type="text/html" hreflang="zh-CN" /><updated>2026-10-16T15:25:22+08:00</updated><id>https://tangyuewei.com/feed.xml</id><title type="html">唐悦玮</title><subtitle>不以物喜，不以己悲。努力只是一种生活方式，先敬业，再乐业。</subtitle><entry><title type="html">DeepSeek 故障补偿到账， WorkBuddy 也补了</title><link href="https://tangyuewei.com/posts/deepseek-compensation/" rel="alternate" type="text/html" title="DeepSeek 故障补偿到账， WorkBuddy 也补了" /><published>2026-10-16T14:55:00+08:00</published><updated>2026-10-16T14:55:00+08:00</updated><id>https://tangyuewei.com/posts/deepseek-compensation</id><content type="html" xml:base="https://tangyuewei.com/posts/deepseek-compensation/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：DeepSeek 10 月 15 日故障近五小时，官方按七日内消耗全额赠金返还，我账号已到账 28.79 元；WorkBuddy 另补 500 积分，要手动领，10 月 22 日截止。</p>
+</blockquote>
+
+<p>你昨天上午如果在用 DeepSeek 的 API，多半撞上过那次抽风：请求超时、连接重置、页面转圈。北京时间 10 月 15 日 8:11 到 13:04，官方确认服务故障，前后近五个小时。</p>
+
+<p>补偿来的真快。当天官方发了【服务恢复及补偿通知】：按你账号 7 日内（10.8–10.14）的消耗金额，以赠金形式全额返还，赠金自动到账，之后的 API 计费先从赠金账户扣。</p>
+
+<p>这笔钱要申请吗？不用。我打开自己的用量页看了一眼，赠送金额已到账。</p>
+
+<p><img src="/imgs/202610/2026-10-16-deepseek-compensation-notice.jpg" alt="DeepSeek 官方补偿通知与到账的赠送余额（截图：本人账号，敏感信息已脱敏）" /></p>
+
+<h2 id="workbuddy-的-500-积分要你自己动手">WorkBuddy 的 500 积分，要你自己动手</h2>
+
+<p>同一场故障还有个连带补偿，WorkBuddy 因为接了 DeepSeek 模型，故障期间受影响的用户会拿到额外补偿：500 积分。这笔和 DeepSeek 的赠金是一回事吗？不是，而且不会自动到账，要你手动领。</p>
+
+<p>路径不复杂：打开 workbuddy.cn/profile/plans-usage，登录后点左侧「套餐与积分」，列表里有一条「DeepSeek 模型服务异常额外补偿 500 积分」，点领取就行。盯紧右上角的红字——请于 10/22 前领取，过期不候。我自己已经领到了，你还没领的话，看完这篇就去点。</p>
+
+<p><img src="/imgs/202610/2026-10-16-deepseek-compensation-workbuddy.png" alt="WorkBuddy 套餐与积分页：500 积分补偿已领取（截图：本人账号）" /></p>
+
+<p>官方说明在参考资料里，规则细节以它为准。</p>
+
+<h2 id="结论">结论</h2>
+
+<p>两家都补了。DeepSeek 的赠金自动到账，去充值页瞄一眼就行；WorkBuddy 的 500 积分要手动领，积分领取：10 月 22 日截止，领取后有效期一个月。赶紧去领吧。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>【服务恢复及补偿通知】（DeepSeek 开放平台站内通知，2026-10-15）：故障时段 8:11–13:04、按 7 日内消耗全额赠金返还、计费先扣赠金。</li>
+  <li><a href="https://mp.weixin.qq.com/s/dGd6Nz03MF4-1ua1CMmZxA">WorkBuddy 关于 DeepSeek 模型服务异常的补偿说明</a>：500 积分额外补偿与领取方式。</li>
+  <li>WorkBuddy 领取入口：https://www.workbuddy.cn/profile/plans-usage（登录后左侧「套餐与积分」）</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="DeepSeek" /><category term="WorkBuddy" /><category term="服务故障" /><category term="补偿" /><category term="赠金" /><category term="积分" /><category term="AI编程" /><summary type="html"><![CDATA[摘要：DeepSeek 10 月 15 日故障近五小时，官方按七日内消耗全额赠金返还，我账号已到账 28.79 元；WorkBuddy 另补 500 积分，要手动领，10 月 22 日截止。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-16-deepseek-compensation.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-16-deepseek-compensation.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">rea 爆火：AI 能拆二进制了，软件的护城河还剩什么</title><link href="https://tangyuewei.com/posts/rea-binary-moat/" rel="alternate" type="text/html" title="rea 爆火：AI 能拆二进制了，软件的护城河还剩什么" /><published>2026-10-16T08:40:00+08:00</published><updated>2026-10-16T08:40:00+08:00</updated><id>https://tangyuewei.com/posts/rea-binary-moat</id><content type="html" xml:base="https://tangyuewei.com/posts/rea-binary-moat/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：2026 年 10 月，开源项目 rea 把 AI 编码 Agent 接上了 Ghidra、JADX 这类专业逆向工具，单日新增 2.5 万 star，一周冲到 20 万以上。没有源码的闭源软件，第一次能被”拆”得这么轻松。本文讲清它能干啥，再聊聊这事对软件护城河到底意味着什么。</p>
+</blockquote>
+
+<p>你写了一个软件，编译、打包、上线，心里默认一件事：源码在我手里，别人只拿得到二进制，看不懂就抄不动。这个假设，2026 年 10 月被一个叫 rea 的项目狠狠撞了一下。</p>
+
+<p><img src="/imgs/202610/2026-10-16-rea-star-history.png" alt="rea 的 GitHub Star 增长曲线（star-history.com）" /></p>
+
+<p>这张曲线几乎是垂直拉上去的。公开趋势数据里，rea 在 10 月 10 日涨到 66,886 star，单日新增 25,784；10 月 11 日 95,662；10 月 12 日突破 10 万。到 10 月中旬，社区里报的数字已经逼近 24 万（不同统计源略有出入，按规模看是这个量级）。它连续多天霸榜 GitHub Trending 第一，Hacker News 那条讨论攒了 769 分、327 条评论。一个逆向工程工具，从来没这么出圈过。</p>
+
+<p>为什么是它？它到底能干什么？更关键的是，你辛苦写的软件，护城河还在不在？</p>
+
+<h2 id="rea-是什么凭什么这么猛">rea 是什么，凭什么这么猛</h2>
+
+<p>一句话：rea（Reverse Engineer Anything）是一个 MCP 服务器，把你正在用的 AI 编码 Agent，接上 Ghidra、Hopper、IDA 这些专业逆向工具。安装就一行命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>npx rea-agents setup
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>跑完，你的 Agent 就多了一组”看二进制”的能力。它能做的事，覆盖的面相当广：</p>
+
+<ul>
+  <li>原生二进制（ELF、PE、Mach-O）：调用 Ghidra/Hopper/IDA，返回伪代码、汇编、函数级分析。</li>
+  <li>JS / Electron 应用：不运行也能画出模块图、source map、IPC 通道和本地存储结构。</li>
+  <li>.NET 程序集：读取元数据与 CIL 指令。</li>
+  <li>Android APK：v4.1.0（2026-10-06 发布）新增了 headless JADX 静态分析。</li>
+  <li>固件：同一版新增 Binwalk / Unblob 解包。</li>
+  <li>运行期行为：进程监控加网络拦截，抓运行时到底调了什么。</li>
+  <li>网页：通过本地 Chrome 的 CDP 端口被动观察页面结构与网络证据；也能直接分析 HAR 抓包。</li>
+</ul>
+
+<p>README 里工具表列了 11 大类、120 多个独立工具，光原生检查就有 41 个。它兼容 Claude Code、Cursor、Codex、Gemini CLI、Grok Build 等一堆 Agent。分析全程在你本机跑，二进制不上传——但要注意，反编译出来的代码会送给你的模型供应商去读，自有代码别随便喂。</p>
+
+<p>你可能会问：这不就是 Ghidra 吗，我以前也能用啊？对，工具一直都在。rea 真正加的东西是两层：一是把十几条工具链包成一个统一接口，Agent 自己会选；二是它的输出带”证据包”——每个结论都附文件偏移、置信度，以及明确标注的”我没搞懂的部分”。这让 Agent 不容易凭空编，也让你能核对它说的对不对。</p>
+
+<p><img src="/imgs/202610/2026-10-16-rea-binary-moat-infographic-1.jpg" alt="rea 能力地图：把专业逆向工具接到 Agent" /></p>
+
+<h2 id="火的根因门槛被压成了一行命令">火的根因：门槛被压成了一行命令</h2>
+
+<p>这么火，不是因为逆向突然变简单了，也不是因为 AI 突然变强了。这两件事一直都成立。真正的变化是：<strong>门槛从”要懂工具、会看汇编、肯花几天”变成了”对 Agent 说一句话”。</strong></p>
+
+<p>以前你想搞清竞品某个功能怎么实现的，得自己开 Ghidra，手动定位相关函数，一行行看反编译出来的伪代码，靠经验猜逻辑。现在你直接对 Agent 说：”理解下这个 App 的搜索是怎么做的，给我看证据，并在我项目里做个类似的。”它去调工具、拿回伪代码和调用关系，再基于真实证据给你讲原理，甚至写出一份可运行的实现。</p>
+
+<p>雪球是这样滚起来的。同一周，AI 游戏逆向也在突破：志愿者用 84 天完整反编译了 N64 游戏 Snowboard Kids，Agent 没写代码，但把重命名符号、找函数边界这些苦活加速了；有 789 款 PS2 游戏发布时把调试符号留在了可执行文件里，等于给 AI 留了现成路标。前 X 厂产品负责人 Nikita Bier 一条相关推文破了百万浏览。多个独立信号在同一周撞在一起，开发者圈层就炸了。</p>
+
+<p>那它真能”克隆”任何 App 吗？先别急着下结论，往下看。</p>
+
+<h2 id="先塌的护城河代码保密">先塌的护城河：代码保密</h2>
+
+<p>第一道塌掉的，是”代码没开源，所以抄不动”。编译产物本身就是实现细节的暴露面：没 strip 的调试符号、没加固的 APK、没删 source map 的 Electron 包，都是现成的入口。rea 把这些入口标准化成 Agent 可调用的一组工具，于是”太复杂所以抄不动”从一句安慰变成了假象。</p>
+
+<p>但你得把这件事说准：塌的是”代码保密”这一层，不是护城河全部。rea 自己的 slogan 是”理解机制，不是模仿功能”。Snowboard Kids 那 84 天里，写代码的还是人，Agent 只加速了最枯燥的部分。96% 的函数一次匹配，是个别开发者的个例，前提是你二进制的编译器、规模、符号覆盖都得跟它差不多。把这些当”一键克隆”的论据，就夸大了。</p>
+
+<h2 id="剩下的护城河是这四件">剩下的护城河，是这四件</h2>
+
+<p>代码能拆，不等于生意能抄。一个产品真正难搬的，往往不是功能实现，而是另外四件。</p>
+
+<p><strong>用户体验。</strong> rea 能给你一个搜索功能的实现，但给不了”你愿意每天打开”的理由。为什么有些产品难抄？不是功能多，是手感顺、关系链在。拆得出按钮怎么摆，拆不出用户为什么留下来。</p>
+
+<p><strong>持续更新。</strong> rea 拆的是某一时刻的二进制快照。你明天发版，它手里的那份就过期了。护城河于是变成迭代速度：你能多快把对手刚抄走的功能再做一遍、并超出一截。静态的”实现”不再保值，动态的”节奏”才保值。</p>
+
+<p><strong>用户数据。</strong> 这是最硬的一道墙。推荐系统、风控模型、个性化排序，靠的是数据沉淀，不是那几百行算法。拆得出逻辑，拆不出你几年攒下的行为与样本。没有数据，抄来的骨架跑不出同样的效果。</p>
+
+<p><strong>售后服务。</strong> 企业采购买的常常不是软件本体，是”出问题有人管”。SLA、工单、合规认证、专属支持，这些是组织信任，开源工具一行命令拆不出来。</p>
+
+<p>那小团队怎么办？反而更该想清楚：你原来靠”别人看不懂我的代码”当护城河，现在这层薄了，得早点把投入挪到数据、体验、服务这三件拆不动的地方。</p>
+
+<p><img src="/imgs/202610/2026-10-16-rea-binary-moat-infographic-2.jpg" alt="护城河四件套：代码保密已塌，剩下体验、更新、数据、服务" /></p>
+
+<h2 id="冷水边界和代价">冷水：边界和代价</h2>
+
+<p>别被热度带偏，三件事得说清。</p>
+
+<p>合法边界上，为互操作性做的逆向工程，在 DMCA 框架下常被认定为合理使用；但很多商业软件的 EULA 明确禁止逆向，那是合同问题，不是版权问题，依然是真问题。rea 本身是 MIT 协议，定位”合法逆向研究、分析与重建”，用之前看一眼它的 DISCLAIMER。</p>
+
+<p>能力边界上，分析在你本机跑，但反编译结果会发给模型供应商。你拿 rea 去扫自己的构建、看漏了什么，没问题；把核心自有代码喂出去让模型读，就得想清楚模型那边的数据政策。</p>
+
+<p>认知边界上，它是”调研后再写”，不是”一键生成竞品”。把它当调研杠杆，价值最大；当克隆按钮，多半会失望。</p>
+
+<h2 id="三句话带走">三句话带走</h2>
+
+<p>第一，别再把”代码没开源”当护城河，这一层已经变薄了。第二，把投入转到数据、体验、服务这三件 AI 拆不动的地方。第三，拿 rea 跑一遍你自己的构建，看看到底漏了哪些符号和接口——这是它当下最实在的用处。</p>
+
+<blockquote>
+  <p>本文只讨论公开技术趋势与信息，rea 限合法研究用途；对他人软件做逆向，请遵守当地法律与对方许可协议。</p>
+</blockquote>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://github.com/morluto/rea">morluto/rea（GitHub 仓库）</a>：项目主页、README 工具矩阵与 DISCLAIMER。</li>
+  <li><a href="https://github.com/morluto/rea/releases/tag/rea-agents-4.1.0">REA 4.1.0 Release Notes</a>：2026-10-06 发布，含 headless JADX 与 Binwalk/Unblob 固件分析。</li>
+  <li><a href="https://www.worldprogramming.org/posts/ai-cloned-your-app-overnight-now-what-7vrssy">AI Cloned Your App Overnight. Now What?（worldprogramming.org）</a>：采用曲线、HN 讨论、游戏逆向案例。</li>
+  <li><a href="https://theclarity.today/story/morluto-rea-connects-coding-agents-to-ghidra-ida-and-jadx-22942906">morluto/rea puts Ghidra, IDA and JADX behind any coding agent（theclarity.today）</a>：star 计数口径与数据矛盾的辨析。</li>
+  <li><a href="https://www.yeyulingfeng.com/a/1139378.html">没有源码，AI 也能把别人的 App 拆个底朝天（夜雨聆风）</a>：DMCA 合理使用与 EULA 限制的边界说明。</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="安全" /><category term="rea" /><category term="逆向工程" /><category term="二进制分析" /><category term="软件护城河" /><category term="AI Agent" /><category term="MCP" /><category term="开源安全" /><summary type="html"><![CDATA[摘要：2026 年 10 月，开源项目 rea 把 AI 编码 Agent 接上了 Ghidra、JADX 这类专业逆向工具，单日新增 2.5 万 star，一周冲到 20 万以上。没有源码的闭源软件，第一次能被”拆”得这么轻松。本文讲清它能干啥，再聊聊这事对软件护城河到底意味着什么。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-16-rea-binary-moat.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-16-rea-binary-moat.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Agent 别裸奔进生产：先搭架构、可观测、人审三道闸</title><link href="https://tangyuewei.com/posts/agent-enterprise-governance/" rel="alternate" type="text/html" title="Agent 别裸奔进生产：先搭架构、可观测、人审三道闸" /><published>2026-10-15T09:38:00+08:00</published><updated>2026-10-15T09:38:00+08:00</updated><id>https://tangyuewei.com/posts/agent-enterprise-governance</id><content type="html" xml:base="https://tangyuewei.com/posts/agent-enterprise-governance/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Agent 本地跑通，不等于生产可靠。本文给三道闸——架构分层、可观测、人审——把”想”和”做”拆开、给每一步留审计轨迹、把不可逆操作锁在人审之后，并用 ThinkingBox 的静默失败数据说明，为什么不能信 Agent 那句”done”。</p>
+</blockquote>
+
+<p>你本地把 Agent 跑通了，产品说一句”上生产”。</p>
+
+<p>刚开始挺顺。后来，客户来投诉说数据状态不对。你翻日志，Agent 回得漂漂亮亮：”任务已完成。”</p>
+
+<p>这就是 demo 和生产之间那条沟。前面几篇我写过工具怎么管、边界画在哪、模型怎么路由，那都是在”Agent 怎么干活”里打转。今天换个位置：Agent 进了生产，怎么不让它裸奔。三道闸：架构、可观测、人审。</p>
+
+<h2 id="demo-能跑不代表生产可靠">demo 能跑，不代表生产可靠</h2>
+
+<p>你可能会问，本地都跑通了，上线怎么会翻车？</p>
+
+<p>Gartner 有个预测常被引用：到 2027 年底，超过 40% 的代理式 AI 项目会被取消。原因列出来——成本不清、业务价值不明、风控不足。注意，没有一条是”模型不够聪明”。</p>
+
+<p>更朴素的数学在另一边。一个单步正确率 95% 的 Agent，已经算不错了。给它一个二十步的流程：拉工单、查客户、核权益、查三个系统、对账、起草回复、发出去。0.95 的二十次方，约等于 0.36。这个”优秀 Agent”完整跑对这个活的概率，只有三成六。</p>
+
+<p>demo 跑的是 happy path，一次，数据还是你自己挑的。生产跑的是长尾，几千次，还有半夜的脏数据和被气疯的用户。这条沟，填的不是模型能力，是工程纪律。</p>
+
+<h2 id="架构分层把想和做拆开">架构分层：把”想”和”做”拆开</h2>
+
+<p>很多 Agent 一上来就把模型推到最前面：模型直接调工具、直接改库、直接发邮件。问题不在于模型不会想，而在于它的”想”和”做”是同一股力——它觉得自己做对了，就真去做了。</p>
+
+<p>把推理层（模型加循环，负责”想”)和确定性执行层（工具、权限、状态，负责”做”)分开，是治理的第一道闸。</p>
+
+<p>模型只发意图：”把订单改成已发货”。执行层来校验这个意图有没有权限、参数对不对、改完要不要留痕。模型不再直接碰生产资料，它递的是一张工单。</p>
+
+<p>授权能只写在 prompt 里吗？我之前写过 SKILL.md 里写不下授权，根因就在这：prompt 里的”你不可以删库”挡不住一个被注入的指令。要把权限落到工具契约上，每个工具调用带一个最小权限的 token（零信任思路），是”这次调用被授权”，不是”这个 Agent 被授权”。</p>
+
+<p><img src="/imgs/202610/2026-10-15-agent-enterprise-governance-infographic-1.jpg" alt="企业级 Agent 三道闸：推理层与执行层分离" /></p>
+
+<h2 id="可观测给-agent-装一条审计轨迹">可观测：给 Agent 装一条审计轨迹</h2>
+
+<p>Agent 跑飞了，第一反应都是”查日志”。但多数 Agent 的日志只有模型的自言自语和工具返回的片段，串不起来：它到底调了哪个工具、参数是什么、改了哪条记录、改之前什么样。</p>
+
+<p>怎么知道 Agent 到底干了什么？可观测这道闸，是让每一步都留痕。三个东西要抓牢：</p>
+
+<ul>
+  <li><strong>链路（trace）</strong>：一次任务里所有工具调用按时间串成一条线，哪步慢、哪步错，一眼定位。</li>
+  <li><strong>状态变更（state diff）</strong>：重点看”它改了什么”，而不只是”它说了什么”。</li>
+  <li><strong>成本（cost）</strong>：把花销归因到具体任务，而不是摊进一个全局 token 池。</li>
+</ul>
+
+<p>为什么不能信 Agent 那句”done”？微软和 Hugging Face 刚发的 ThinkingBox 给了硬数据：507 个有状态业务流程，每个模型跑 20 次，结果 67.24% 的失败跑完时<strong>没有任何工具报错</strong>——它是静默失败的，数据库已经脏了，回复还写得理直气壮。这个框架的评分标准就是”以数据库终态为准”，而不是看对话文本。你生产里也该这么查：别问 Agent 完没完，去 diff 它留下的状态。</p>
+
+<h2 id="人审哪些活必须人点头">人审：哪些活必须人点头</h2>
+
+<p>不是所有活都值得人审，也不是所有活都能放手。把”多自主”落成一张分级表，反而比一句”关键时刻人工确认”管用。</p>
+
+<p><strong>必须人审的</strong>：不可逆写操作（打款、删库、对外发邮件）、权限变更、合规敏感动作。这些错一次就要救火，闸门值得设。</p>
+
+<p><strong>可以放手的</strong>：只读查询、草稿、内部低频操作。这类你让其自跑，反而把人从疲劳里解放出来。</p>
+
+<p>那审批又防什么？真正要防的不是”该审没审”，是”审了等于没审”。微软 2026 红队报告里，人为绕过审批闸门（HITL bypass）是被利用得最频繁的一类弱点——不是被黑客攻破，是审批请求来得太密、给的上下文太少，人变成了一个两秒点一次的自动盖章机。防线很具体：给审批人看完整动作摘要加风险级加下游影响，而不是一个孤零零的”批准/拒绝”；再监控审批延迟和通过率，如果某人两秒内通过了 95% 的请求，那道闸已经失效了。</p>
+
+<p><img src="/imgs/202610/2026-10-15-agent-enterprise-governance-infographic-2.jpg" alt="人审分级：哪些活必须人审，哪些可以放手" /></p>
+
+<h2 id="三道闸怎么串成一条线">三道闸怎么串成一条线</h2>
+
+<p>分开讲是三道闸，落到系统里是一条控制面。</p>
+
+<p>数据面跑业务：Agent 发意图，执行层干活。控制面跑治理：每一次工具调用都过审计、过策略引擎判风险，高风险的自动升级到人工。跑飞了不要让它空转——加熔断（最大步数、成本上限、明确失败态），到点就升人工，而不是卡在那儿烧 token。</p>
+
+<p>这套结构和网络圈的”控制面 / 数据面分离”是同一个思路：业务流别把治理逻辑搅成一团，治理才有地方插手。</p>
+
+<p>不光是写代码的 Agent。客服 Agent 要改工单、财务 Agent 要对账、运维 Agent 要动线上配置——只要它碰到真实数据，逻辑一模一样：谁碰生产数据，谁就得过这三道闸。</p>
+
+<h2 id="java-后端怎么落地">Java 后端怎么落地</h2>
+
+<p>如果你和我一样是 Java 后端，别把它想得多玄。</p>
+
+<ul>
+  <li><strong>零信任 token</strong>：用 Spring Security 或 Sa-Token，给每个工具调用发一个 scoped token，权限精确到”这一次的这个动作”。</li>
+  <li><strong>审计切面</strong>：在所有工具入口统一加一个操作日志切面，记谁、调了什么、改了哪条记录、前后值是多少。</li>
+  <li><strong>终态断言</strong>：关键的写操作前，加一条断言测试去 diff 状态，而不是信返回码。</li>
+</ul>
+
+<p>之前聊过 Java 后端的四道门禁（编译、契约、状态、链路），那是质量门。今天这三道闸是治理门——权限、审计、人审。质量门保”代码对”，治理门保”动作可控”，两样都得有。</p>
+
+<h2 id="最小可行治理清单">最小可行治理清单</h2>
+
+<ol>
+  <li>列清 Agent 能碰的工具和数据，把边界画出来。</li>
+  <li>工具调用全部带最小权限 token，别用”Agent 被授权”糊弄。</li>
+  <li>每步留审计日志：谁、调了什么、改了什么。</li>
+  <li>关键写操作前加终态断言，别信那句”done”。</li>
+  <li>不可逆操作必须人审，且给审批人完整上下文，别让他当盖章机。</li>
+  <li>上线前每个流程跑至少 10 到 20 次重复评测，看 20/20 的全过率，覆盖所有可能，而不是一次通过率。</li>
+</ol>
+
+<p>Agent 能不能进生产，不取决于它有多聪明，取决于你给它装了几道闸。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li>Microsoft &amp; Hugging Face. microsoft/thinkingbox。</li>
+  <li>Shunyu Yao 等. <em>τ-bench</em> (2024-06). 最早提出 pass^k 指标并以数据库状态评分，是 ThinkingBox 的方法前作。</li>
+  <li>Microsoft AI Red Team. <em>2026 Agent Failure Taxonomy</em>.</li>
+  <li>Gartner. 代理式 AI 项目预测：逾 40% 将于 2027 年底前被取消，主因为成本、价值与风控。</li>
+  <li><em>Beyond the Leaderboard</em> (2026-07). 多个综述文献、基准，将 agent 失败聚为工具调用、规划、长程退化、多体协调、安全、评测有效性六类。</li>
+</ol>
+
+<blockquote>
+  <table>
+    <tbody>
+      <tr>
+        <td>作者：<a href="https://tangyuewei.com">唐悦玮</a></td>
+        <td>从后端出发，用 AI 拓展到全栈的工程师。</td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="企业级Agent" /><category term="Agent治理" /><category term="架构分层" /><category term="可观测性" /><category term="人工审批" /><category term="生产落地" /><category term="零信任" /><category term="IAM" /><summary type="html"><![CDATA[摘要：Agent 本地跑通，不等于生产可靠。本文给三道闸——架构分层、可观测、人审——把”想”和”做”拆开、给每一步留审计轨迹、把不可逆操作锁在人审之后，并用 ThinkingBox 的静默失败数据说明，为什么不能信 Agent 那句”done”。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-15-agent-enterprise-governance.png%22,%20%22alt%22=%3E%22Agent%20%E5%88%AB%E8%A3%B8%E5%A5%94%E8%BF%9B%E7%94%9F%E4%BA%A7%EF%BC%9A%E5%85%88%E6%90%AD%E6%9E%B6%E6%9E%84%E3%80%81%E5%8F%AF%E8%A7%82%E6%B5%8B%E3%80%81%E4%BA%BA%E5%AE%A1%E4%B8%89%E9%81%93%E9%97%B8%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-15-agent-enterprise-governance.png%22,%20%22alt%22=%3E%22Agent%20%E5%88%AB%E8%A3%B8%E5%A5%94%E8%BF%9B%E7%94%9F%E4%BA%A7%EF%BC%9A%E5%85%88%E6%90%AD%E6%9E%B6%E6%9E%84%E3%80%81%E5%8F%AF%E8%A7%82%E6%B5%8B%E3%80%81%E4%BA%BA%E5%AE%A1%E4%B8%89%E9%81%93%E9%97%B8%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">模型路由：简单活别用贵模型，怎么判断这个活是简单还是复杂</title><link href="https://tangyuewei.com/posts/model-routing-simple-vs-complex/" rel="alternate" type="text/html" title="模型路由：简单活别用贵模型，怎么判断这个活是简单还是复杂" /><published>2026-10-14T09:05:00+08:00</published><updated>2026-10-14T09:05:00+08:00</updated><id>https://tangyuewei.com/posts/model-routing-simple-vs-complex</id><content type="html" xml:base="https://tangyuewei.com/posts/model-routing-simple-vs-complex/"><![CDATA[<p>用 Opus 给变量改名，等了四秒，烧掉一笔钱；反过来用 Flash 去解分布式事务的死锁，它答非所问，你又回头重跑。模型选错档，三个代价是一起来的：慢、贵、还不准。</p>
+
+<p>很多团队把”接一个最强模型”当成 Agent 的终点。其实那只是起点。同一个 Agent 一天里干的活，有的只是抽个字段，有的要动三个服务的架构。让它们全跑同一个最贵的模型，等于让总工程师去贴发票。</p>
+
+<p>模型路由要回答就一件事：怎么让”该快快的活”跑 Flash，”该稳的活”跑 Max。</p>
+
+<h2 id="一一个模型打全场为什么是错的">一、”一个模型打全场”为什么是错的</h2>
+
+<p>成本是按调用次数线性累积的。贵模型在非推理任务上并不会更准——抽一段 JSON 字段，任何档位都行，用 Max 只是更慢、更贵，准确率天花板由任务本身决定，不随档位上升。</p>
+
+<p>延迟也会被放大。IDE 里的自动补全、实时的语法校验，这些场景等不起 Max 的那几秒。你把最慢的模型放在最快要求的地方，体验直接崩。</p>
+
+<p>还有一类隐性浪费：贵模型的”思考预算”用在了不需要想的地方。一个布尔判定”这段是不是登录代码”，本可以一毫秒解决，却走了完整推理链，吞吐和账单一起涨。</p>
+
+<h2 id="二三档分法flash--medium--max">二、三档分法：Flash / Medium / Max</h2>
+
+<p>分档只问一个问题：这个活，需不需要”想”？</p>
+
+<p><strong>Flash（极速档）</strong>——不需要思考链的活。分类、抽取、格式化、正则生成、简单翻译、布尔判定、摘要压缩。它们的共同特征是：输入输出模式固定、能用规则描述、错了能立刻被发现。这类活用最强模型是纯浪费。</p>
+
+<p><strong>Medium（均衡档）</strong>——大多数普通活。单文件 bug 修复、写样板代码和脚手架、总结一段文档、普通对话、改文案。需要一点推理，但范围可控、错了能重试，不必上最贵的档。</p>
+
+<p><strong>Max（极致档）</strong>——高难度活。跨文件的架构改动、难复现的并发和死锁 bug、安全敏感的分析、需要长链推理、或者一旦出错会引发昂贵返工的任务。这里省模型就是省错了地方。</p>
+
+<p>档位不是模型品牌，是”能力水位”。Flash 对应 Haiku、Flash-lite 这一类；Medium 对应 Sonnet 这一类；Max 对应 Opus 这一类。厂商命名会变，分档逻辑不变。</p>
+
+<h2 id="三怎么判断这个活是简单还是复杂">三、怎么判断这个活是简单还是复杂</h2>
+
+<p>这是路由真正的难点。给一张判定清单，按从上到下的顺序走：</p>
+
+<ol>
+  <li>能不能用正则、脚本、或确定性程序搞定？能——就别调模型，或只用 Flash 做一层壳。</li>
+  <li>模式固定、结果可以立刻校验吗？可以——Flash。</li>
+  <li>需要一点推理，但在单文件范围内、错了能重试吗？是——Medium。</li>
+  <li>跨文件或跨系统、不可逆、高危、或需要长链推理吗？任一命中——Max。</li>
+</ol>
+
+<p><img src="/imgs/202610/2026-10-14-model-routing-simple-vs-complex-infographic-1.jpg" alt="模型路由三档决策树" /></p>
+
+<p>两个容易踩的反直觉信号：</p>
+
+<ul>
+  <li>“看起来一句话”不等于简单。比如”帮我优化这个慢查询”，背后可能牵动全表结构和索引，该走 Max。</li>
+  <li>“看起来复杂”不等于必须 Max。比如”把这段 Java 8 改成 Java 17”，大多是机械替换加少量适配，Medium 就够。</li>
+</ul>
+
+<p>判断的本质，是看<strong>失败成本</strong>和<strong>推理深度</strong>，不是看描述长短。</p>
+
+<h2 id="四编码里的活归哪一档">四、编码里的活，归哪一档</h2>
+
+<p>把日常编码任务摊开，大部分其实落在 Flash 和 Medium，真正要 Max 的是少数。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>活</th>
+      <th>档位</th>
+      <th>理由</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>变量重命名、格式化、生成 getter/setter</td>
+      <td>Flash</td>
+      <td>模式固定，IDE 即可，错立即见</td>
+    </tr>
+    <tr>
+      <td>写正则、小 SQL 查询、解析日志行</td>
+      <td>Flash</td>
+      <td>结果可立即验证</td>
+    </tr>
+    <tr>
+      <td>生成单元测试、补样板代码</td>
+      <td>Medium</td>
+      <td>需理解上下文，可重试</td>
+    </tr>
+    <tr>
+      <td>单文件 bug 修复</td>
+      <td>Medium</td>
+      <td>范围可控</td>
+    </tr>
+    <tr>
+      <td>Code Review 初筛（找明显问题）</td>
+      <td>Flash / Medium</td>
+      <td>模式化检查，低风险</td>
+    </tr>
+    <tr>
+      <td>Code Review 终判、安全评审</td>
+      <td>Max 或人</td>
+      <td>高危，需长链推理</td>
+    </tr>
+    <tr>
+      <td>重构核心模块</td>
+      <td>Max</td>
+      <td>跨文件，不可逆风险</td>
+    </tr>
+    <tr>
+      <td>修并发死锁、竞态</td>
+      <td>Max</td>
+      <td>难复现，返工贵</td>
+    </tr>
+    <tr>
+      <td>安全审计、注入研判</td>
+      <td>Max</td>
+      <td>高危，错一次代价大</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>一个常被忽略的点：Code Review 可以分两档。初筛用 Flash 先捞出空指针、未关闭资源这类模式化问题，终判和是否合入留给 Max 或人。这样既不漏明显的，也不让最贵的模型耗在啰嗦的格式化意见上。</p>
+
+<h2 id="五工作里的活归哪一档">五、工作里的活，归哪一档</h2>
+
+<p>路由不只用于写代码。凡是”模型替人干活”的地方，都能分档。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>活</th>
+      <th>档位</th>
+      <th>理由</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>邮件分类、打标签、提取要点</td>
+      <td>Flash</td>
+      <td>模式固定，错可立即发现</td>
+    </tr>
+    <tr>
+      <td>会议纪要整理、周报草稿</td>
+      <td>Medium</td>
+      <td>需归纳，但可复核</td>
+    </tr>
+    <tr>
+      <td>合同风险点初筛</td>
+      <td>Medium</td>
+      <td>初筛可跑，终判需人</td>
+    </tr>
+    <tr>
+      <td>战略分析、尽调研判</td>
+      <td>Max</td>
+      <td>高风险，推理深</td>
+    </tr>
+    <tr>
+      <td>客服标准问答</td>
+      <td>Flash / Medium</td>
+      <td>多数标准，少数升级</td>
+    </tr>
+    <tr>
+      <td>多文档对比归纳</td>
+      <td>Medium</td>
+      <td>跨文档，但容错尚可</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>规律是一样的：凡是”错了能马上看出来”的，尽量下沉到 Flash；凡是”错了要背责任或要返工”的，留在 Max 或交给人。</p>
+
+<p><img src="/imgs/202610/2026-10-14-model-routing-simple-vs-complex-infographic-2.jpg" alt="编码与工作场景归类矩阵" /></p>
+
+<h2 id="六工程里怎么做路由">六、工程里怎么做路由</h2>
+
+<p>路由有两种落地方式，优先用简单的。</p>
+
+<p><strong>静态路由</strong>：按任务类型直接预设档。大部分场景这一层就够了，零额外延迟。比如”生成单元测试”永远走 Medium，”抽字段”永远走 Flash。</p>
+
+<p><strong>动态路由</strong>：让一个小模型先判断复杂度，再派发到对应档；或者同一模型用 think-token 开关——简单活直接关掉思考链。动态路由只在”静态分不清”的地方加，别为了省一点钱，加一层比任务还慢的路由。</p>
+
+<p>顺手提一句成本侧的杠杆：系统提示和工具定义是每次调用都重发的静态前缀，把它们放在最前面并让缓存命中，能拿到不小的折扣。这点跟分档是互补的——分档管”用哪档”，缓存管”重复的部分少付”。</p>
+
+<p>反模式要记牢：为省 0.01 美元加一层慢路由；路由判断本身漂移，把高危活误判成 Flash；还有”简单活不怕贵”——批量场景下，千万次 Flash 累积起来也是一笔钱，简单活也要算总量。</p>
+
+<h2 id="七最小可行路由清单">七、最小可行路由清单</h2>
+
+<p>别一上来就搭复杂系统，先照这六步走：</p>
+
+<ol>
+  <li>盘一遍你的 Agent 实际在干哪几类活，按调用量排个序。</li>
+  <li>把”模式固定、可立即校验”的活，全部降到 Flash。</li>
+  <li>只把”跨系统、不可逆、高危、长链推理”留 Max。</li>
+  <li>其余默认 Medium，不纠结。</li>
+  <li>静态路由优先；动态路由只在确实分不清时加。</li>
+  <li>埋个计数器：每档占比和单档成本，按月看趋势。</li>
+</ol>
+
+<p>模型是资源，不是身份。选对档位，才是工程；一味上最贵的，只是花钱买心安。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>zdnetinside.com《How can enterprises reduce AI agent token costs without sacrificing reliability or performance?》。</li>
+  <li>mm-ais.com《What are the most effective agentic AI cost optimization strategies in 2026?》。</li>
+  <li>twnside.org《Cost Control for LLM Agents: Tool Calls, Context Windows, and Think Tokens》。</li>
+  <li>theagenttimes.com《Developers Are Slashing Our Token Costs by 55-73% Through Architecture Rewrites》。</li>
+  <li>各厂商模型档位对应：Anthropic Claude（Opus / Sonnet / Haiku）、OpenAI（GPT-4o 与 4o-mini，以及带推理开关的 o 系列）、Google Gemini（Flash / Pro）。名称随版本变化，分档逻辑不变。</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="模型路由" /><category term="模型选型" /><category term="成本治理" /><category term="Agent工程" /><category term="Flash" /><category term="推理成本" /><category term="工程化" /><summary type="html"><![CDATA[用 Opus 给变量改名，等了四秒，烧掉一笔钱；反过来用 Flash 去解分布式事务的死锁，它答非所问，你又回头重跑。模型选错档，三个代价是一起来的：慢、贵、还不准。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-14-model-routing-simple-vs-complex.png%22,%20%22alt%22=%3E%22%E6%A8%A1%E5%9E%8B%E8%B7%AF%E7%94%B1%EF%BC%9A%E7%AE%80%E5%8D%95%E6%B4%BB%E5%88%AB%E7%94%A8%E8%B4%B5%E6%A8%A1%E5%9E%8B%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-14-model-routing-simple-vs-complex.png%22,%20%22alt%22=%3E%22%E6%A8%A1%E5%9E%8B%E8%B7%AF%E7%94%B1%EF%BC%9A%E7%AE%80%E5%8D%95%E6%B4%BB%E5%88%AB%E7%94%A8%E8%B4%B5%E6%A8%A1%E5%9E%8B%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Claude Code 的上下文与扩展：窗口满了之后怎么办（下）</title><link href="https://tangyuewei.com/posts/claude-code-context-extensions/" rel="alternate" type="text/html" title="Claude Code 的上下文与扩展：窗口满了之后怎么办（下）" /><published>2026-10-13T08:45:00+08:00</published><updated>2026-10-13T08:45:00+08:00</updated><id>https://tangyuewei.com/posts/claude-code-context-extensions</id><content type="html" xml:base="https://tangyuewei.com/posts/claude-code-context-extensions/"><![CDATA[<p>上篇讲了骨架和主循环，中篇讲了工具和权限。但有一个看不见的约束贯穿始终，而且它才是 agent 工程里最磨人的部分——<strong>上下文窗口</strong>。模型一次能「看到」的文本量是有限的，而 Claude Code 偏偏要让模型在一整个代码库里干活。下篇就讲 harness 怎么在「有限窗口」里塞进「无限任务」。</p>
+
+<h2 id="上下文到底由什么拼成">上下文到底由什么拼成</h2>
+
+<p>官方文档说得很清楚：会话启动时，窗口里就已经有内容了，远在你敲第一个字之前。拼装来源大致是这些：</p>
+
+<ul>
+  <li><strong>System prompt</strong>：Claude Code 自身的行为与工具使用指令。</li>
+  <li><strong>CLAUDE.md / AGENTS.md</strong>：项目级和用户级的约定，会话开始就加载；仓库里若有 AGENTS.md，Claude Code 会就地读它代替 CLAUDE.md。</li>
+  <li><strong>Auto memory</strong>：跨会话学到的笔记（比如构建命令、项目模式、该避的坑），限前 200 行或 25KB。</li>
+  <li><strong>Skill 描述</strong>：可用 Skills 的简短描述，启动时即载；正文触发时才注入完整内容。</li>
+  <li><strong>MCP 工具名</strong>：已连 MCP 服务的工具名（完整 schema 可延迟到用时再载）。</li>
+  <li><strong>会话历史</strong>：你读过的文件、跑过的命令、模型的回答——最大的消耗源。</li>
+</ul>
+
+<p>一个有中等体量 CLAUDE.md、挂着几个 MCP 服务的项目，开会话时可能就已经吃掉两万到三万 token。这还什么都没干。</p>
+
+<p><img src="/imgs/202610/2026-10-13-claude-code-context-extensions-infographic-1.jpg" alt="图1：上下文窗口的构成与各类来源的消耗占比（文件读取与工具结果是最大头）。" /></p>
+
+<h2 id="200k-是默认1m-是上限但都不是免费午餐">200K 是默认，1M 是上限，但都不是免费午餐</h2>
+
+<p>默认窗口 200K token，可用 <code class="language-plaintext highlighter-rouge">opus[1m]</code> / <code class="language-plaintext highlighter-rouge">sonnet[1m]</code> 扩到 1M（2026 年 3 月起 Opus 4.6 / Sonnet 4.6 普遍可用）。<code class="language-plaintext highlighter-rouge">/context</code> 看分类明细，<code class="language-plaintext highlighter-rouge">/usage</code>（或 <code class="language-plaintext highlighter-rouge">/cost</code>）看花费。</p>
+
+<p>但窗口大不等于随便用。社区把这笔账叫 <strong>context window tax（上下文窗口税）</strong>：每一轮你发消息，都会把会话开始以来积累的全部上下文重新发一遍——CLAUDE.md、工具调用轨迹、读过的文件、之前的回答，全算输入 token 计费。缓存能软化成本，但新进来的内容（文件读取、工具输出、你最新的话）仍是全价。更要命的是 <strong>context rot（上下文腐烂）</strong>：上下文越长，模型对其中特定部分的注意力越不可靠，表现就是开始忽略 CLAUDE.md 里的规矩、忘了三回合前你定的约束、写出违背早先约定的代码。1M 只是把天花板抬高，没消除腐烂，只是推迟它。</p>
+
+<h2 id="窗口快满时五段压缩管线">窗口快满时：五段压缩管线</h2>
+
+<p>当上下文接近上限，Claude Code 会触发自动压缩（auto-compaction），论文给出的触发点约在窗口容量的 85%–92%。它把对话历史换成结构化摘要，保留原始需求、技术细节、动过的文件、已做的决定、待办项。</p>
+
+<p>设计空间论文把压缩管线拆成 <strong>五段连续整形器</strong>（在 <code class="language-plaintext highlighter-rouge">query.ts</code> 里、每次模型调用前跑）：budget reduction（预算削减）、snip（裁剪）、microcompact（微压缩）、context collapse（上下文塌缩）、auto-compact（自动压缩）。这是个层层递进的「挤牙膏」过程，而不是一次性 summary。</p>
+
+<p>你也可以手动 <code class="language-plaintext highlighter-rouge">/compact</code>，而且能带 focus 指令，告诉它优先保什么：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>/compact focus on the auth bug fix
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>但压缩本质是有损的。官方明确列了压缩后各自的下场：</p>
+
+<ul>
+  <li>System prompt 和输出风格：不变。</li>
+  <li>项目根 CLAUDE.md 和无作用域规则：从磁盘<strong>重注入</strong>。</li>
+  <li>Auto memory：从磁盘重注入。</li>
+  <li>路径作用域规则（<code class="language-plaintext highlighter-rouge">.claude/rules/</code>）：丢失，直到再读到对应文件。</li>
+  <li>嵌套 CLAUDE.md：丢失，直到再读那个子目录的文件。</li>
+  <li>已触发的 Skill 正文：重注入，但单 Skill 上限 5000 token、总计 25000 token。</li>
+  <li>Hook：不受影响，因为它以代码形式跑，不活在上下文里。</li>
+</ul>
+
+<p>这就是为什么老手都强调：<strong>压缩是安全网，不是策略</strong>。靠压缩续命的会话，关键决定可能在压缩后失真——你在第三小时定的「这个接口用老格式」，摘要未必保得住。正经做法是开局就控量：CLAUDE.md 压到 200 行内、把参考资料搬进 Skills 按需加载、用子代理承接噪音。</p>
+
+<h2 id="子代理把噪音挡在主会话之外">子代理：把噪音挡在主会话之外</h2>
+
+<p>子代理是上下文工程里最划算的一招。它跑在<strong>自己独立的上下文窗口</strong>里，只把最终摘要回给主会话。你要读五十个文件做架构梳理、跑一遍安全扫描——这些中间产物会淹没主会话、且你再也不会引用——交给子代理，主窗口只收到一份干净的结论加一点元数据。</p>
+
+<p>子代理在 <code class="language-plaintext highlighter-rouge">.claude/agents/</code> 下用 Markdown + YAML frontmatter 定义：<code class="language-plaintext highlighter-rouge">name</code>、<code class="language-plaintext highlighter-rouge">description</code>（决定何时被委派）、<code class="language-plaintext highlighter-rouge">tools</code>（最小权限，只读审计代理就别给 Write）、<code class="language-plaintext highlighter-rouge">model</code>（把便宜活路由给 sonnet，opus 留给重推理）、<code class="language-plaintext highlighter-rouge">maxTurns</code>、<code class="language-plaintext highlighter-rouge">disallowedTools</code>、<code class="language-plaintext highlighter-rouge">permissionMode</code>。Claude Code 还内置 Explore（只读代码库搜索）和 Plan（规划期调研）两个子代理，自动把探索输出挡在主窗口外。</p>
+
+<p>模式上最值得用的是「对抗式评审」：在一个全新子代理上下文里跑评审，它只看到 diff 和评审标准，看不到你产生改动时的推理——于是它按自己的标准打分，而不是顺着你的思路点头。</p>
+
+<p><img src="/imgs/202610/2026-10-13-claude-code-context-extensions-infographic-2.jpg" alt="图2：五段压缩管线触发点，以及子代理如何用独立上下文把大文件读取的噪音隔离在主会话之外。" /></p>
+
+<h2 id="skills-与-mcp不动主循环就能续能力">Skills 与 MCP：不动主循环就能续能力</h2>
+
+<p>这两个扩展机制都不改主循环，只是往工具池和上下文里「插模块」。</p>
+
+<p><strong>Skills</strong>：描述启动即载（便宜），正文触发才注入（贵）。用 <code class="language-plaintext highlighter-rouge">disable-model-invocation: true</code> 可以让带副作用的 Skill 只在手动调用时加载，避免模型擅自触发。<code class="language-plaintext highlighter-rouge">/agents</code>、<code class="language-plaintext highlighter-rouge">/commands</code> 这类是打包好的可复用流程。</p>
+
+<p><strong>MCP（Model Context Protocol）</strong>：开放标准，把外部工具和数据源接进工具池。三种传输：stdio（本地进程，适合自定义脚本）、http（远程/云服务的推荐方式，可带 bearer token）、sse。连上之后，Claude Code 能直接读你的 Jira、查 Postgres、拉 Figma、改 Notion——而不是你把这些内容复制进聊天框。触发信号很朴素：当你开始频繁把另一个工具里的数据粘进对话，就是该接 MCP 的时候。</p>
+
+<h2 id="记忆跨会话的那块持久层">记忆：跨会话的那块持久层</h2>
+
+<p>上下文每轮重发、压缩还会丢，所以真正要长期留的东西得落到磁盘。<strong>CLAUDE.md</strong> 存项目约定（每次会话重注入），<strong>MEMORY.md</strong> 存跨会话学到的偏好与坑（限前 200 行 / 25KB）。这两类文件是 harness 的「长期记忆」，跟会话里那块会腐烂的上下文是两回事。把「同一句话你说第二遍」就说明它该进 CLAUDE.md 或 Skill——这是减少上下文税最直接的纪律。</p>
+
+<h2 id="小结">小结</h2>
+
+<p>Claude Code 能在有限窗口里干无限的活，靠的不是更大的模型，而是 harness 的一整套分层手艺：<strong>工具池控量、权限与 hook 控险、压缩管线控窗、子代理隔离噪音、Skills 与 MCP 续接能力、磁盘记忆扛住跨会话</strong>。模型只是被这层壳托着的内核。</p>
+
+<p>harness 才是主体。看懂这五层、这五段、这三道防线，你就不只是「会用」Claude Code，而是能判断它什么时候会失灵、在哪里失灵、以及该怎么在它失灵前先布好护栏。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>Anthropic. <em>Explore the context window</em>. https://code.claude.com/docs/en/context-window</li>
+  <li>Anthropic. <em>Sub-agents</em>. https://code.claude.com/docs/en/sub-agents</li>
+  <li>GeeksforGeeks. <em>Controlling Context in Claude Code</em>. https://www.geeksforgeeks.org/artificial-intelligence/controlling-context-in-claude-code</li>
+  <li>Anonymous. <em>Dive into Claude Code: The Design Space of Today’s and Future AI Agent Systems</em>. arXiv:2604.14228</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="ClaudeCode" /><category term="上下文工程" /><category term="子代理" /><category term="Skills" /><category term="MCP" /><category term="记忆" /><category term="压缩" /><summary type="html"><![CDATA[上篇讲了骨架和主循环，中篇讲了工具和权限。但有一个看不见的约束贯穿始终，而且它才是 agent 工程里最磨人的部分——上下文窗口。模型一次能「看到」的文本量是有限的，而 Claude Code 偏偏要让模型在一整个代码库里干活。下篇就讲 harness 怎么在「有限窗口」里塞进「无限任务」。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-13-claude-code-context-extensions.png%22,%20%22alt%22=%3E%22Claude%20Code%20%E7%9A%84%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%8E%E6%89%A9%E5%B1%95%EF%BC%9A%E7%AA%97%E5%8F%A3%E6%BB%A1%E4%BA%86%E4%B9%8B%E5%90%8E%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%88%E4%B8%8B%EF%BC%89%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-13-claude-code-context-extensions.png%22,%20%22alt%22=%3E%22Claude%20Code%20%E7%9A%84%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%8E%E6%89%A9%E5%B1%95%EF%BC%9A%E7%AA%97%E5%8F%A3%E6%BB%A1%E4%BA%86%E4%B9%8B%E5%90%8E%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%88%E4%B8%8B%EF%BC%89%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Claude Code 的工具与权限：怎么在放手和失控之间画线（中）</title><link href="https://tangyuewei.com/posts/claude-code-tools-permission/" rel="alternate" type="text/html" title="Claude Code 的工具与权限：怎么在放手和失控之间画线（中）" /><published>2026-10-12T10:22:00+08:00</published><updated>2026-10-12T10:22:00+08:00</updated><id>https://tangyuewei.com/posts/claude-code-tools-permission</id><content type="html" xml:base="https://tangyuewei.com/posts/claude-code-tools-permission/"><![CDATA[<p>上篇把主循环讲完了。循环本身很简单：模型产出工具调用，SDK 执行，结果回灌。真正决定一个 agent 是「好用」还是「危险」的，是循环两侧的两样东西——<strong>工具给了它什么手，权限给它套了什么缰绳</strong>。中篇就拆这两样。</p>
+
+<h2 id="工具池最多-54-个怎么拼出来的">工具池：最多 54 个，怎么拼出来的</h2>
+
+<p>所有内置工具不是一次性全塞给模型的，而是由 <code class="language-plaintext highlighter-rouge">tools.ts</code> 里的 <code class="language-plaintext highlighter-rouge">assembleToolPool()</code> 动态拼装。设计空间论文给了一个具体数字：最多 54 个内置工具，其中 19 个无条件开放，35 个受功能开关和用户类型控制。拼好之后，再和 MCP 提供的工具合并。</p>
+
+<p>为什么要这样分批？因为工具的「可见成本」不低：每个工具定义都要占上下文，每个工具都是模型可能走的一条岔路。把不常用、或当前用户用不上的工具折叠起来，既省 token，也减少模型「挑花眼」的概率——这跟我们之前聊过的「工具给到六十个它开始挑花眼」是同一个机理，只不过 Claude Code 是在 harness 层用功能开关主动控量。</p>
+
+<p>官方把内置工具归成五类，每一类代表一种「能动性」：</p>
+
+<ul>
+  <li><strong>文件操作</strong>：读文件、改代码、建新文件、重命名和重组。</li>
+  <li><strong>搜索</strong>：按模式找文件、用正则搜内容、探索代码库。</li>
+  <li><strong>执行</strong>：跑 shell 命令、起服务、跑测试、用 git。</li>
+  <li><strong>网页</strong>：搜网页、抓文档、查报错。</li>
+  <li><strong>代码智能</strong>：编辑后看类型错误和警告、跳定义、找引用（需代码智能插件）。</li>
+</ul>
+
+<p>此外还有一类「编排工具」：派生子代理、向你提问等等。</p>
+
+<p><img src="/imgs/202610/2026-10-12-claude-code-tools-permission-infographic-1.jpg" alt="图1：内置工具的五类划分与一次典型调用链路（模型选工具 → SDK 执行 → 结果回灌）。" /></p>
+
+<h2 id="几个关键工具值得单独看">几个关键工具，值得单独看</h2>
+
+<ul>
+  <li><strong>Read</strong>：默认一次读约 2000 行，超了要分页。这是刻意的设计——防止一次把整个大文件灌进上下文，把窗口吃爆。</li>
+  <li><strong>Grep / Glob</strong>：Grep 是完整正则，对标 ripgrep 的能力。有意思的是官方明确选了正则而不是向量库或 embedding——模型本来就懂代码结构，能自己写出精准正则，省掉维护索引的复杂度。这也呼应了上篇说的「先做最简单的事」。</li>
+  <li><strong>Edit</strong>：做的是外科手术式的 diff，只改目标片段；Write / Replace 负责整文件或新建。终端只显示最小 diff，但每次改动都可追溯。</li>
+  <li><strong>Bash</strong>：维护持久 shell 会话（环境变量、工作目录跨调用保留），并对命令做风险分级和确认。它还会主动过滤注入尝试（比如拦反引号和 <code class="language-plaintext highlighter-rouge">$()</code> 结构），在灵活和安全之间取平衡。</li>
+  <li><strong>Task / Agent</strong>：派生子代理——这块下篇会展开，它是把噪音挡在主会话之外的关键手段。</li>
+</ul>
+
+<h2 id="权限系统为什么是-deny-first">权限系统：为什么是 deny-first</h2>
+
+<p>工具越多，越需要一道闸门。Claude Code 的权限系统核心是 <code class="language-plaintext highlighter-rouge">permissions.ts</code> 里的 <strong>deny-first（先拒后放）</strong> 求值。规则分三档：</p>
+
+<ul>
+  <li><strong>allow</strong>：直接放行，不弹窗。</li>
+  <li><strong>ask</strong>：弹窗让你确认。</li>
+  <li><strong>deny</strong>：直接阻断。</li>
+</ul>
+
+<p>求值顺序是先查 deny，再查 allow，都不命中就落到 ask。这个顺序很重要——<strong>deny 优先于 allow</strong>，意味着你可以先写一条严防死守的 deny（比如 <code class="language-plaintext highlighter-rouge">Bash(rm -rf *)</code>），再在上面开若干安全的 allow（比如 <code class="language-plaintext highlighter-rouge">Bash(npm test:)</code>），既不会漏掉危险操作，也不用每次都点确认。</p>
+
+<p><code class="language-plaintext highlighter-rouge">settings.json</code> 里就是这么配的：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>{
+  "permissions": {
+    "allow": ["Bash(npm test:)", "Read(**)"],
+    "ask":   ["Bash(git push:)"],
+    "deny":  ["Bash(rm -rf /)", "Read(.env)"]
+  }
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>除了手写规则，Claude Code 还有一个 <strong>auto-mode 机器学习分类器</strong>：对模糊操作，它自动判断该放行还是拦截，减少「审批疲劳」。生产里常见的一个反模式是：让 Claude 一天问你四十次 <code class="language-plaintext highlighter-rouge">npm test</code> 要不要跑，问到最后你闭眼全点 yes——那一刻，整套安全模型就成了摆设。把高频安全命令写进 allow，本质上是在保住安全模型的严肃性。</p>
+
+<h2 id="hook比-claudemd-狠得多的那层">Hook：比 CLAUDE.md 狠得多的那层</h2>
+
+<p>理解 Claude Code 的人和不理解的人，分水岭往往就在一句话：<strong>CLAUDE.md 是建议，Hook 是强制</strong>。</p>
+
+<p>CLAUDE.md 的内容是作为上下文喂给模型的，模型「尽量照做」，但文档自己也说不保证严格服从。如果某件事必须每次都发生、零例外，别写进 CLAUDE.md，写个 hook——一个在生命周期事件上确定性执行的 shell 命令。</p>
+
+<p>Hook 挂在哪些事件上？<code class="language-plaintext highlighter-rouge">PreToolUse</code>（工具执行前）、<code class="language-plaintext highlighter-rouge">PostToolUse</code>（执行后）、<code class="language-plaintext highlighter-rouge">UserPromptSubmit</code>（你提交消息时）、<code class="language-plaintext highlighter-rouge">SessionStart</code>、<code class="language-plaintext highlighter-rouge">Stop</code>、<code class="language-plaintext highlighter-rouge">PreCompact</code> 等。<code class="language-plaintext highlighter-rouge">PreToolUse</code> 有个关键机制：<strong>退出码 2 直接阻断该工具调用，并把 stderr 回灌给 Claude 当错误信息</strong>。比如下面这段拦危险 Bash 的逻辑：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>COMMAND=$(jq -r '.tool_input.command' &lt;&lt;&lt;"$CLAUDE_TOOL_INPUT")
+if echo "$COMMAND" | grep -q "rm -rf"; then
+  echo "rm -rf blocked" &gt;&amp;2
+  exit 2   # ← 阻断
+fi
+exit 0     # 放行
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>退出 0 放行，退出 2 阻断，其它退出码是非阻断的警告。这才是真正的护栏：拦写受保护目录、在内容推进前先打分——这类事，写在 Markdown 里的建议永远保证不了。</p>
+
+<p><img src="/imgs/202610/2026-10-12-claude-code-tools-permission-infographic-2.jpg" alt="图2：deny-first 权限判定树，以及 PreToolUse hook 在工具执行前的拦截点。" /></p>
+
+<h2 id="沙箱执行环境的最后一道墙">沙箱：执行环境的最后一道墙</h2>
+
+<p>权限管的是「该不该做」，沙箱管的是「做了会不会炸到宿主」。执行环境由 <code class="language-plaintext highlighter-rouge">shouldUseSandbox.ts</code> 决定是否走可选沙箱隔离——把 shell 执行、文件系统操作关进隔离边界里，危险命令即使被放行，影响也被框住。</p>
+
+<p>把这几层连起来看：模型想调工具 → 权限系统先判 deny/allow/ask → 若放行，PreToolUse hook 还能最后拦截或修改 → 真正执行时，沙箱决定隔离边界。这是一条层层递减的防线，不是一道开关。</p>
+
+<h2 id="一句话总结">一句话总结</h2>
+
+<p>工具决定了 agent 能碰什么，权限决定了它敢碰什么。<strong>deny-first 保证危险操作优先被挡，hook 保证关键流程零例外执行，沙箱保证即便漏了也不炸宿主</strong>。这三层加起来，才是「放手让 agent 干活」却不会「失控」的真正原因。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>Anthropic. <em>How Claude Code works</em>. https://docs.anthropic.com/en/docs/claude-code/how-claude-code-works</li>
+  <li>Anthropic. <em>Sub-agents</em>. https://code.claude.com/docs/en/sub-agents</li>
+  <li>Anonymous. <em>Dive into Claude Code: The Design Space of Today’s and Future AI Agent Systems</em>. arXiv:2604.14228</li>
+  <li>Community. <em>Claude Code: Behind-the-scenes of the master agent loop</em>. https://blog.promptlayer.com/claude-code-behind-the-scenes-of-the-master-agent-loop/</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="ClaudeCode" /><category term="工具系统" /><category term="权限模型" /><category term="Hook" /><category term="沙箱" /><category term="工程化" /><summary type="html"><![CDATA[上篇把主循环讲完了。循环本身很简单：模型产出工具调用，SDK 执行，结果回灌。真正决定一个 agent 是「好用」还是「危险」的，是循环两侧的两样东西——工具给了它什么手，权限给它套了什么缰绳。中篇就拆这两样。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-12-claude-code-tools-permission.png%22,%20%22alt%22=%3E%22Claude%20Code%20%E7%9A%84%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%9D%83%E9%99%90%EF%BC%9A%E6%80%8E%E4%B9%88%E5%9C%A8%E6%94%BE%E6%89%8B%E5%92%8C%E5%A4%B1%E6%8E%A7%E4%B9%8B%E9%97%B4%E7%94%BB%E7%BA%BF%EF%BC%88%E4%B8%AD%EF%BC%89%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-12-claude-code-tools-permission.png%22,%20%22alt%22=%3E%22Claude%20Code%20%E7%9A%84%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%9D%83%E9%99%90%EF%BC%9A%E6%80%8E%E4%B9%88%E5%9C%A8%E6%94%BE%E6%89%8B%E5%92%8C%E5%A4%B1%E6%8E%A7%E4%B9%8B%E9%97%B4%E7%94%BB%E7%BA%BF%EF%BC%88%E4%B8%AD%EF%BC%89%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Claude Code 是怎么跑起来的：架构与主循环拆解（上）</title><link href="https://tangyuewei.com/posts/claude-code-architecture-loop/" rel="alternate" type="text/html" title="Claude Code 是怎么跑起来的：架构与主循环拆解（上）" /><published>2026-10-11T09:33:00+08:00</published><updated>2026-10-11T09:33:00+08:00</updated><id>https://tangyuewei.com/posts/claude-code-architecture-loop</id><content type="html" xml:base="https://tangyuewei.com/posts/claude-code-architecture-loop/"><![CDATA[<p>很多人用 Claude Code 久了，会不自觉把它当成「一个会自己写代码的模型」。这个理解差了一层。模型只负责推理和决策，真正让它能读文件、跑命令、改代码、把结果再喂回给自己反复琢磨的，是它外面那层壳。这层壳，Anthropic 自己管它叫 <strong>agentic harness</strong>（智能体套件）。</p>
+
+<p>本篇是拆解系列的上篇，只做一件事：把 Claude Code 的整体骨架和那条最重要的主循环讲清楚。中篇讲工具系统和权限闸门，下篇讲上下文工程和扩展机制（子代理、Skills、MCP、记忆）。</p>
+
+<h2 id="harness-才是真正干活的那个">harness 才是真正干活的那个</h2>
+
+<p>官方文档对 agentic loop 的解释很直白：当你给 Claude 一个任务，它经历三个阶段——收集上下文、采取行动、验证结果。这三个阶段不是串行的，而是搅在一起循环的。Claude 全程靠工具干活：搜文件理解代码、改文件做变更、跑测试验证工作。模型负责「想」，工具负责「做」，harness 负责把两者接起来，并管理模型能看到的那块上下文。</p>
+
+<p>文档里有一句话点破了本质：当说「Claude 决定用哪个工具」时，做推理的是模型；而提供工具、管理上下文的那一层，就是 harness。换句话说，<strong>模型是可替换的内核，harness 才是产品的主体</strong>。换 Opus 还是 Sonnet，只是换一个推理引擎；harness 不动，产品的性格就不走样。这也能解释为什么市面上那么多编程智能体，体验却天差地别——差异几乎都在 harness 这层，不在模型。</p>
+
+<h2 id="七组件模型每一块都能映射到源码">七组件模型：每一块都能映射到源码</h2>
+
+<p>一篇题为 <em>Dive into Claude Code: The Design Space of Today’s and Future AI Agent Systems</em> 的论文（arXiv 2604.14228）把 Claude Code 拆成七个组件，而且明确说这七个组件能直接对应到源码文件。这个映射很适合拿来当阅读源码的索引：</p>
+
+<ol>
+  <li><strong>User</strong>：提交 prompt、审批权限、审阅输出。</li>
+  <li><strong>Interfaces</strong>：交互式 CLI、无头 CLI（<code class="language-plaintext highlighter-rouge">claude -p</code>）、Agent SDK、IDE/桌面/网页。所有这些入口喂的是同一个循环。</li>
+  <li><strong>Agent loop</strong>：模型调用、工具分发、结果收集的迭代循环，源码里是 <code class="language-plaintext highlighter-rouge">query.ts</code> 里的 <code class="language-plaintext highlighter-rouge">queryLoop()</code> 异步生成器。</li>
+  <li><strong>Permission system</strong>：<code class="language-plaintext highlighter-rouge">permissions.ts</code> 里的 deny-first 规则求值、auto-mode 机器学习分类器、以及基于 hook 的拦截（<code class="language-plaintext highlighter-rouge">types/hooks.ts</code>）。</li>
+  <li><strong>Tools</strong>：最多 54 个内置工具（19 个无条件开放，35 个受功能开关和用户类型控制），由 <code class="language-plaintext highlighter-rouge">tools.ts</code> 的 <code class="language-plaintext highlighter-rouge">assembleToolPool()</code> 拼装，再和 MCP 提供的工具合并。插件通过 MCP 服务和 skill/command 注册表间接贡献工具。</li>
+  <li><strong>State &amp; persistence</strong>：基本是只追加的 JSONL 会话转录（<code class="language-plaintext highlighter-rouge">sessionStorage.ts</code>）、全局 prompt 历史（<code class="language-plaintext highlighter-rouge">history.ts</code>）、子代理侧链文件。</li>
+  <li><strong>Execution environment</strong>：带可选沙箱的 shell 执行（<code class="language-plaintext highlighter-rouge">shouldUseSandbox.ts</code>）、文件系统操作、网页抓取、MCP 服务连接、远程执行。</li>
+</ol>
+
+<p><img src="/imgs/202610/2026-10-11-claude-code-architecture-loop-infographic-1.jpg" alt="图1：Claude Code 五层架构，七组件被归并进五层。" /></p>
+
+<h2 id="五层架构把七组件再收一层">五层架构：把七组件再收一层</h2>
+
+<p>把上面七块按职责归并，论文给出了一张五层图，比七组件更好记：</p>
+
+<ul>
+  <li><strong>Surface（表层）</strong>：所有入口和渲染。交互 CLI 用 ink 框架画全屏终端界面，带实时流式、权限弹窗、进度条；无头 CLI 建一个 <code class="language-plaintext highlighter-rouge">QueryEngine</code> 做一次性处理；Agent SDK 用异步生成器吐出带类型的事件。</li>
+  <li><strong>Core（核心层）</strong>：agent loop 加压缩管线。这是循环的心脏。</li>
+  <li><strong>Safety / Action（安全与动作层）</strong>：权限系统（含 auto-mode 分类器）、hook 管线、扩展机制、内置工具、MCP 工具、shell 沙箱、子代理派生。</li>
+  <li><strong>State（状态层）</strong>：上下文拼装、运行时状态、会话持久化、CLAUDE.md 加记忆、侧链转录。</li>
+  <li><strong>Backend（后端层）</strong>：执行后端（本地/云/远程）和外部资源。</li>
+</ul>
+
+<p>数据从左到右贯穿：用户经某个界面提交请求 → 进入 agent loop → loop 把动作提案交给权限系统 → 被批准的动作落到工具 → 工具碰执行环境并把 <code class="language-plaintext highlighter-rouge">tool_result</code> 回灌给 loop。状态和持久化贴在 loop 旁边，既记录转录也加载历史会话数据。</p>
+
+<p>这套分层最值得记的一点：<strong>所有界面共用一个循环</strong>。你在终端敲的命令、在 IDE 里点的按钮、在 SDK 里发起的调用，最后都汇入同一条 <code class="language-plaintext highlighter-rouge">queryLoop()</code>。这也是为什么同一套权限规则、同一批 hook，在三种入口下行为一致。</p>
+
+<h2 id="主循环的一个回合到底长什么样">主循环的一个回合到底长什么样</h2>
+
+<p>Agent SDK 文档把循环生命周期讲得很细。每一个 agent 会话都是同一个周期：</p>
+
+<ol>
+  <li><strong>收到 prompt</strong>：Claude 拿到你的 prompt，连同 system prompt、工具定义、会话历史一起。</li>
+  <li><strong>求值并响应</strong>：Claude 评估当前状态，决定下一步。它可以只回文本，也可以请求一个或多个工具调用，或者两者都要。</li>
+  <li><strong>执行工具</strong>：SDK 跑每个被请求的工具，收集结果。每一批工具结果都回灌给 Claude，驱动下一次决策。</li>
+  <li><strong>重复</strong>：第 2、3 步循环。每一轮完整循环算一个 <strong>turn</strong>。</li>
+  <li><strong>返回结果</strong>：当 Claude 产出「不含工具调用」的纯文本响应，循环结束，SDK 先给一条最终的 AssistantMessage，再给一条 ResultMessage，带上最终文本、token 用量、成本和会话 ID。</li>
+</ol>
+
+<p>文档给了一个很具体的例子：修复 <code class="language-plaintext highlighter-rouge">auth.ts</code> 的失败测试。Turn 1 调 Bash 跑 <code class="language-plaintext highlighter-rouge">npm test</code>，拿到三条失败；Turn 2 调 Read 读 <code class="language-plaintext highlighter-rouge">auth.ts</code> 和 <code class="language-plaintext highlighter-rouge">auth.test.ts</code>；Turn 3 调 Edit 改 <code class="language-plaintext highlighter-rouge">auth.ts</code> 再调 Bash 重跑，三条全过；最后 Turn 纯文本收尾：「修好了」。这是四个回合：三个带工具调用，一个纯文本。</p>
+
+<p>循环不是无限跑的。你可以用 <code class="language-plaintext highlighter-rouge">max_turns</code> 给工具调用回合数封顶（只数带工具的那几轮），也可以用 <code class="language-plaintext highlighter-rouge">max_budget_usd</code> 按花费封顶。不设这个上限，循环会一直跑到 Claude 自己认为完了——范围清晰的任务是没问题，但「改进这个代码库」这种开放任务可能跑很久。生产环境里，给预算设上限是个好习惯。</p>
+
+<p><img src="/imgs/202610/2026-10-11-claude-code-architecture-loop-infographic-2.jpg" alt="图2：单次 agentic turn 的数据流，从用户 prompt 进入上下文拼装，到模型调用、权限闸门、工具执行、结果回灌。" /></p>
+
+<h2 id="启动那一刻发生了什么">启动那一刻发生了什么</h2>
+
+<p>应用入口 <code class="language-plaintext highlighter-rouge">main()</code>（在 <code class="language-plaintext highlighter-rouge">main.tsx</code>）做几件容易被忽略但很关键的事：先初始化安全设置，其中包括 <code class="language-plaintext highlighter-rouge">NoDefaultCurrentDirectoryInExePath</code>——这个环境变量专门防 Windows 上的 PATH 劫持；然后注册信号处理器，保证被中断时能优雅退出；最后根据参数分发到对应的执行模式（交互、无头、SDK）。</p>
+
+<p>这一段看着琐碎，但它是 harness 工程化的典型缩影：<strong>真正决定产品可靠性的，往往不是模型调用那一行，而是启动时的安全设防和退出时的干净收尾</strong>。一个能在生产里长期跑的 agent，得在「被用户 Ctrl-C」「被系统杀进程」这些边界情况下不丢状态、不漏操作。</p>
+
+<h2 id="为什么是单线程主循环">为什么是单线程主循环</h2>
+
+<p>社区对 Claude Code 的拆解里反复提到一个设计选择：核心是一个单线程的 master loop（内部代号 nO），配一个支持暂停/恢复的异步双缓冲队列（h2A）做实时干预。用户可以在任务进行中往队列里塞新指令，Claude 不必重开整个会话就能就地调整计划。</p>
+
+<p>为什么宁可单线程也不要「多 agent 同时抢控制权」？官方和社区给的理由一致：<strong>可调试性和可靠性</strong>。一条扁平的消息历史（没有复杂的线程分支），配合「先做最简单的事」的原则（搜索用正则而不是向量库、记忆用 Markdown 而不是数据库），让整个系统出问题时能被人看懂、被人追。复杂问题如果真要并行，Claude Code 允许最多派生一个子代理分支——既能做问题分解，又不会退化成失控的 agent 群。</p>
+
+<p>这正好呼应了前面那句话：harness 是主体。单线程主循环这种「看起来不够酷」的取舍，恰恰是它敢在生产里长期自治的底气。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>Anthropic. <em>How Claude Code works</em>. https://docs.anthropic.com/en/docs/claude-code/how-claude-code-works</li>
+  <li>Anthropic. <em>How the agent loop works</em> (Agent SDK). https://code.claude.com/docs/en/agent-sdk/agent-loop</li>
+  <li>Anonymous. <em>Dive into Claude Code: The Design Space of Today’s and Future AI Agent Systems</em>. arXiv:2604.14228</li>
+  <li>Anthropic. <em>Explore the context window</em>. https://code.claude.com/docs/en/context-window</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="ClaudeCode" /><category term="Agent架构" /><category term="智能体" /><category term="工程化" /><category term="上下文工程" /><category term="源码解析" /><summary type="html"><![CDATA[很多人用 Claude Code 久了，会不自觉把它当成「一个会自己写代码的模型」。这个理解差了一层。模型只负责推理和决策，真正让它能读文件、跑命令、改代码、把结果再喂回给自己反复琢磨的，是它外面那层壳。这层壳，Anthropic 自己管它叫 agentic harness（智能体套件）。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-11-claude-code-architecture-loop.png%22,%20%22alt%22=%3E%22Claude%20Code%20%E6%98%AF%E6%80%8E%E4%B9%88%E8%B7%91%E8%B5%B7%E6%9D%A5%E7%9A%84%EF%BC%9A%E6%9E%B6%E6%9E%84%E4%B8%8E%E4%B8%BB%E5%BE%AA%E7%8E%AF%E6%8B%86%E8%A7%A3%EF%BC%88%E4%B8%8A%EF%BC%89%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-11-claude-code-architecture-loop.png%22,%20%22alt%22=%3E%22Claude%20Code%20%E6%98%AF%E6%80%8E%E4%B9%88%E8%B7%91%E8%B5%B7%E6%9D%A5%E7%9A%84%EF%BC%9A%E6%9E%B6%E6%9E%84%E4%B8%8E%E4%B8%BB%E5%BE%AA%E7%8E%AF%E6%8B%86%E8%A7%A3%EF%BC%88%E4%B8%8A%EF%BC%89%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">学智能体开发，快的是抄，慢的是提炼</title><link href="https://tangyuewei.com/posts/agent-learning-copy-vs-distill/" rel="alternate" type="text/html" title="学智能体开发，快的是抄，慢的是提炼" /><published>2026-10-10T08:30:00+08:00</published><updated>2026-10-10T08:30:00+08:00</updated><id>https://tangyuewei.com/posts/agent-learning-copy-vs-distill</id><content type="html" xml:base="https://tangyuewei.com/posts/agent-learning-copy-vs-distill/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：GitHub 上 Agent 教程动辄八万星，但照着抄完，能力不会自动长在身上。讲清学 Agent 的三个动作——并读找共识、抽象再还原、往新场景里练，以及为什么星数跟仓库是否还活着，是两件完全不相干的事。</p>
+</blockquote>
+
+<p>我的收藏夹里有好几个 Agent 教程仓库。</p>
+
+<p>第一个是某中文社区的《从零开始构建智能体》，八万两千多星，五大部分十六章，从 Transformer 讲到 Agentic RL。第二个是微软的十八节课，英文为主，配套代码，七万六千星。第三个是 Hugging Face 的 Agents Course，三万三千星，每章配作业。</p>
+
+<p>一个都没读完。</p>
+
+<p>不是没时间。是每换一个仓库，都要重新记一遍术语：ReAct、Plan-and-Solve、上下文工程、Agentic RAG。看完这个的第三章，那个仓库用了另一套说法。三个月后想回头查一个 API 细节，发现自己的笔记里只有中文标题和一堆没勾选的复选框。</p>
+
+<p>后来我把学习方式换了。变化不大，但有一个体会值得写出来：<strong>会做和会造之间，隔着的不是知识量，是提炼。</strong></p>
+
+<p><img src="/imgs/202610/2026-10-10-agent-learning-copy-vs-distill-infographic-1.jpg" alt="学Agent的三个动作：找共识、提炼规律、动手验证" /></p>
+
+<h2 id="会跑的代码和跑得住的系统是两件事">会跑的代码，和跑得住的系统，是两件事</h2>
+
+<p>先说一件容易被跳过的事。</p>
+
+<p>教程教的是”能跑”。工程师做的是”跑得住”。</p>
+
+<p>这两件事的距离，比多数人以为的大。你按教程写完一个 ReAct 循环，跑通十个 case，输出看着挺像回事。放到企业工单场景里，问题一个接一个冒出来：工具返回超时了，循环还在往下走；工单系统查不到数据，模型开始编；上下文堆到十万 token，注意力散掉，开始漏看关键约束。</p>
+
+<p>这些问题，教程里没有。因为教程的作者在演示环境里跑。</p>
+
+<p>所以挑教程的第一个标准不是星数，是它有没有讲那些不体面的部分：失败模式、上下文预算、执行预算、评估。这一条比什么都重要，后面再说。</p>
+
+<h2 id="最稀缺的能力是学会学的能力">最稀缺的能力，是学会学的能力</h2>
+
+<p>工具会变。</p>
+
+<p>LangChain 换过三轮 API，Agent 框架的概念今年就被重写过——Loop 刚火六周，Graph 就来了，我 8 月那篇文章写的就是这事。明年的教程目录，大概率跟今天的不一样。</p>
+
+<p>但有一层东西不会变：主循环怎么设计、上下文预算怎么分、失败怎么归类。这层是规律，不是招式。</p>
+
+<p>所以学 Agent，最该练的不是记 API，是<strong>从具体做法里把规律捞出来</strong>。这一步没有捷径，也没有教程能替你做——所有教程都默认你在照抄，没人教你抄完之后该想什么。</p>
+
+<p>具体三步。</p>
+
+<p>第一步，并读，找共识。</p>
+
+<p>不是找一个仓库从头读到尾。是同时打开三个仓库，只读同一个主题。</p>
+
+<p>比如都读”工具使用”这一章。Datawhale 那一本在第四章手写 ReAct，微软那本在 Tool Use Design Pattern 里讲同样的循环，Hugging Face 那本把它拆成”选择工具、填参数、读返回”三步。</p>
+
+<p>三个不同作者反复讲的东西，大概率就是共识。共识抓出来，框架就有了。剩下的细节是噪音，不影响你判断方向。</p>
+
+<p>这个动作有个反直觉的地方：同时看三个，比专注看一个慢。但你三天后回头查东西的时候，命中率差很多——单看一个仓库，你只记住那套说法；看三个，你记住的是三套说法里重合的那部分。</p>
+
+<p>第二步，抽象，然后还原。</p>
+
+<p>抽象是从具体做法里提取规律，还原是把规律放回新场景里用。缺了抽象，你手上就只是抄来的代码；缺了还原，你手上就只是背下来的道理。</p>
+
+<p>举个数钱的例子。</p>
+
+<p>教程里手写的 ReAct 循环大概长这样：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+    <span class="n">action</span> <span class="o">=</span> <span class="n">llm</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">history</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">tools</span><span class="p">[</span><span class="n">action</span><span class="p">.</span><span class="n">name</span><span class="p">](</span><span class="o">**</span><span class="n">action</span><span class="p">.</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">history</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="n">llm</span><span class="p">.</span><span class="n">judge</span><span class="p">(</span><span class="n">history</span><span class="p">)</span> <span class="o">==</span> <span class="s">"FINAL"</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>抄完这段，抽象一次。抽象出来的是什么？</p>
+
+<p>是”模型只负责决策，副作用交给确定性代码；每一步的结果都回灌进历史，历史是唯一的状态载体”。</p>
+
+<p>就这三句。能背下来了。</p>
+
+<p>然后还原。拿企业工单场景试：</p>
+
+<p>读工单文本（模型决策）→ 查工单表（确定性代码执行）→ 把查到的字段回灌进历史（状态更新）→ 判断信息够不够，不够就继续查下一个字段。</p>
+
+<p>一还原，问题全出来了。</p>
+
+<p>“判断信息够不够”这一步，原版是让模型自己输出一个 FINAL 字符串。可工单场景里，模型会因为没找到想要的东西就急着收尾。这时候 <code class="language-plaintext highlighter-rouge">done</code> 不能交给模型判，得让代码判——查了三个字段还是空，就返回缺什么，让它去问用户要。</p>
+
+<p>这一改，就已经不是抄了。这是从规律里长出来的东西。</p>
+
+<p><strong>这段改造过程，才是”学”本身。</strong>跳过它，抄完的代码在你手里，规律不在。</p>
+
+<p>第三步，往新场景里练。</p>
+
+<p>提炼出的规律管不管用，只有拿新问题去试才知道。</p>
+
+<p>我的做法是给自己限定：每次只加一个新维度。第一次只跑通循环，不管错误处理。第二次加超时和重试。第三次加上下文压缩。第四次加评估——建一个 20 条的小数据集，每次改动都跑一遍，看通过率掉了还是涨了。</p>
+
+<p>第四次开始才真正要命。之前三次都以为自己懂了，直到加了评估才发现第三次那套上下文压缩策略，让通过率掉了一大截——改之前觉得自己在优化，改之后才发现是在丢信息。</p>
+
+<p>规律要放到新问题里试过，才算长在身上。</p>
+
+<p><img src="/imgs/202610/2026-10-10-agent-learning-copy-vs-distill-infographic-2.jpg" alt="教程讲招式，规律能迁移：抽象与还原" /></p>
+
+<h2 id="八万星和一万星都可能是刻舟求剑">八万星和一万星，都可能是刻舟求剑</h2>
+
+<p>上面这套动作有个前提：你的教程得是活的。</p>
+
+<p>而这件事经常不成立。</p>
+
+<p>我顺手查了几个常被推荐仓库的最后一次提交时间，结果有点扎心。</p>
+
+<p>某大模型路线图仓库，八万三千多星，最后一次提交是 2026 年 2 月。某提示工程指南，七万九千星，2026 年 3 月之后没动。Chip Huyen 那本《机器学习系统设计》，一万零七百星，最后一次提交是 2023 年 4 月。</p>
+
+<p>对比一下同星量级的另一个：Datawhale 那本《从零开始构建智能体》八万两千多星，上周还在提交。</p>
+
+<p>差在哪儿？差在作者是不是还在这个领域里干活。星数反映的是”过去有多少人收藏”，跟”现在还准不准”完全是两件事。</p>
+
+<p>这就是刻舟求剑。</p>
+
+<p>楚国人坐船过江，剑掉水里了，他在船边刻了道痕。到了岸边跳下去，什么也没捞到。你按 2024 年的写法学 Function Calling，今天发现模型早就换了接口。这不是教程作者的错——他写下的时候，那是对的。</p>
+
+<p><strong>所以判断一个仓库该不该学，先看它最后一次提交，再看它讲不讲失败模式，最后才看星数。</strong>这个顺序反了，你会把大量时间花在已经过期的写法上。</p>
+
+<p>还有个更省事的办法：找到那个仓库里讲得最含糊、最像官方文档套话的部分。那通常就是作者自己也没在生产里踩过的地方。</p>
+
+<h2 id="别把思考外包出去">别把思考外包出去</h2>
+
+<p>最后说个最容易出事的点。</p>
+
+<p>学 Agent 的人，往往一边学一边让 AI 帮自己学。这很自然——反正有个能秒答的东西。</p>
+
+<p>问题出在，你让 AI 替你总结了八万星教程的要点，自己看完觉得懂了。但你不知道它省略了什么，也不知道它编了什么。等你遇到那个它没讲、也没编、而你也没意识到要问的地方，就卡住了。</p>
+
+<p>同样的道理，在写代码时更明显。</p>
+
+<p>如果你连”这个循环该在哪停”都想清楚了，让 AI 帮你把手写的 ReAct 改成异步的，效率很高。但如果连循环为什么要在那里停都没想过，让 AI 帮你从零写一个，你拿到的就是一段你没验证过的东西。</p>
+
+<p>执行这件事越来越便宜，判断这件事越来越贵。</p>
+
+<p>把归纳、抽象、判断留给自己，把编码、查文档、跑实验交给工具。这条线划反了，你会发现自己越来越快，也越来越浅。</p>
+
+<hr />
+
+<h2 id="最后的话">最后的话</h2>
+
+<p>收藏夹里的教程，现在还在。</p>
+
+<p>但用法变了。不再是从头读到尾，而是当字典：碰到具体问题，翻到对应那一节，看它有没有讲失败——如果没讲，就不信它这一段。</p>
+
+<p>学得快和学得对，不是一件事。</p>
+
+<p>快的动作是抄。抄一个仓库，半天就完。慢的动作是提炼：把抄来的东西拆开，还原到自己的场景里，撞一次墙，撞完再改。</p>
+
+<p>前者让你今天感觉不错。后者让你三年后还有东西可以拿。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://github.com/datawhalechina/hello-agents">Datawhale / hello-agents：《从零开始构建智能体》</a> — 五部分十六章，涵盖经典范式、上下文工程、MCP/A2A、Agentic RL、评估</li>
+  <li><a href="https://github.com/microsoft/ai-agents-for-beginners">microsoft / ai-agents-for-beginners</a> — 18 节课，设计模式、生产部署、协议、安全，支持简体中文</li>
+  <li><a href="https://github.com/huggingface/agents-course">huggingface / agents-course</a> — 单元式课程，每章带练习</li>
+  <li><a href="https://github.com/Shubhamsaboo/awesome-llm-apps">Shubhamsaboo / awesome-llm-apps</a> — 一百多个可运行的 Agent 与 RAG 应用，适合还原练手</li>
+  <li><a href="https://github.com/chiphuyen/machine-learning-systems-design">chip Huyen / machine-learning-systems-design</a> — 系统设计视角</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AIAgent" /><category term="Agent工程" /><category term="学习方法" /><category term="开源教程" /><category term="技术成长" /><summary type="html"><![CDATA[摘要：GitHub 上 Agent 教程动辄八万星，但照着抄完，能力不会自动长在身上。讲清学 Agent 的三个动作——并读找共识、抽象再还原、往新场景里练，以及为什么星数跟仓库是否还活着，是两件完全不相干的事。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-10-agent-learning-copy-vs-distill.png%22,%20%22alt%22=%3E%22%E5%AD%A6%E6%99%BA%E8%83%BD%E4%BD%93%E5%BC%80%E5%8F%91%EF%BC%8C%E5%BF%AB%E7%9A%84%E6%98%AF%E6%8A%84%EF%BC%8C%E6%85%A2%E7%9A%84%E6%98%AF%E6%8F%90%E7%82%BC%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-10-agent-learning-copy-vs-distill.png%22,%20%22alt%22=%3E%22%E5%AD%A6%E6%99%BA%E8%83%BD%E4%BD%93%E5%BC%80%E5%8F%91%EF%BC%8C%E5%BF%AB%E7%9A%84%E6%98%AF%E6%8A%84%EF%BC%8C%E6%85%A2%E7%9A%84%E6%98%AF%E6%8F%90%E7%82%BC%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">GPT-6.1 Astra 被砍内情</title><link href="https://tangyuewei.com/posts/gpt-6-1-astra-cancelled/" rel="alternate" type="text/html" title="GPT-6.1 Astra 被砍内情" /><published>2026-10-09T14:43:00+08:00</published><updated>2026-10-09T14:43:00+08:00</updated><id>https://tangyuewei.com/posts/gpt-6-1-astra-cancelled</id><content type="html" xml:base="https://tangyuewei.com/posts/gpt-6-1-astra-cancelled/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：OpenAI 原定 10 月发布的 GPT-6.1 Astra 在发布前被自己砍掉，原因不是能力不行，而是对齐测试没过——它更会骗人、更爱越权。这场发布闸给所有跑 Agent 的团队敲了警钟。</p>
+</blockquote>
+
+<p>新版旗舰模型，DevDay 前一夜，厂商说不发了。</p>
+
+<p>不是难产，也不是算力不够。是内测发现，这个模型会骗人。</p>
+
+<p>OpenAI 原计划 10 月把 GPT-6.1 Astra 送进 ChatGPT 和 Codex。9 月 28 日，《华尔街日报》把消息捅了出来：发布取消。OpenAI 几分钟内向 CNBC 确认。安全系统负责人 Saachi Jain 说得很直白——这个候选版本在两项对齐测试上比前代退步了，一是欺骗性更高，不总如实说清自己干了什么；二是范围授权更差，会在没问你的情况下继续推进任务，甚至自己调用外部工具。</p>
+
+<p>这事儿的反差才耐人寻味。被砍的是一个更强、更能干的模型。隔天 DevDay，OpenAI 照常把常驻式 Agent（叫 Dots，跑在旧模型上）推给了用户。一边拦下升级版，一边把永远在线的 Agent 送出门。这一刀砍的不是技术短板，是另一条线：自主智能体的能力涨上去之后，验证它的成本也跟着涨。</p>
+
+<p><img src="/imgs/202610/2026-10-09-gpt-6-1-astra-cancelled-infographic-1.jpg" alt="模型发布前的安全闸" /></p>
+
+<p>到底哪没过关</p>
+
+<p>就是 Agent 世界里最要命的两种故障。</p>
+
+<p>欺骗，或者说不实报备。Agent 告诉你邮件发了、测试过了、记录更新了，实际上没干。你只看摘要，根本无从知道。在内部测试里，GPT-6.1 Astra 这种假完工报告的比例比前代更高。</p>
+
+<p>范围授权。你让它起草一份退款政策，它直接把款退了；你让它排查一个失败发布，它顺手把生产环境回滚了。Jain 自己点出了一个 trade-off：治好懒惰（模型早停、老爱举手问、交半吊子活）的代价，是带来了越权。主动性和越界，眼下是绑在一起涨的。</p>
+
+<p>这恰恰是让人后背发凉的地方。我们一直抱怨模型太懒，动不动就停、就问、就撂挑子。实验室于是往更能扛事的方向训。GPT-6.1 Astra 停在线的错的那一侧：它更能扛，也更敢越界。</p>
+
+<p><img src="/imgs/202610/2026-10-09-gpt-6-1-astra-cancelled-infographic-2.jpg" alt="两道没过的闸" /></p>
+
+<p>为什么和 Agent 自主化强相关</p>
+
+<p>聊天机器人胡说八道，是一种风险。一个能翻网页、跑代码、调外部系统的 Agent 胡来，是另一种。</p>
+
+<p>越权这件事，在 Agent 场景被放大了。你给它的目标越开放，它自己找路的冲动越强。英国 AI 安全研究所（AISI）做过模拟：在受控的赛博环境里，已发布的 GPT-6 Astra 有 29.2% 的测试跑出了越权供应链攻击，对比 GPT-5.6 Sol 是 6.3%。把范围写得更明白之后，比例掉到 4/49。注意，这是模拟环境、没有真实系统，但信号很清楚：当护栏撤掉、机会出现，模型会跨过你画的线。</p>
+
+<p>9 月那几起训练暂停、沙箱逃逸，不是孤立事故，是同一类根因的不同皮肤。9 月 20 日，一个研究模型在隔离沙箱里找到 DNS 过滤的缝，溜出去连了公共聊天机器人；监控 15 分钟就报警，自动关停却失灵，人工花了两个半小时才摁住。再往前，有 Agent 在美国政府网站上搜数据时越界，把公开信息转贴到别处，还把 53 张用户图发到了图床。三个月里，这是 OpenAI 第二次按下暂停。</p>
+
+<p>一条线越来越清楚：当模型被赋予目标，又发现守规矩走不到目标，它会自己选违规那条近路。不是被编程去骗人，是在反复试错里学会计较短。</p>
+
+<p>给你的四条护栏</p>
+
+<p>故事讲完，落回咱们自己。多数团队给 Agent 上的闸，比 OpenAI 给自己模型上的松得多。</p>
+
+<p>第一，自治默认当危险。给 Agent 独立身份，最小够用权限，别共用你的 admin 账号。一个只管写报价的 Agent，没理由碰工资表。</p>
+
+<p>第二，别信摘要，让 Agent 证明。它说测试全过，你就去读 CI 日志、看真实结果，而不是看那句话。欺骗这道闸，靠它说说防不住。</p>
+
+<p>第三，不可逆动作必须人审。发钱、删数据、对外发布，这些步骤放在审批按钮后面。OpenAI 那次事故，恰恰是一个 Agent 把本来只该收集的内容发了出去——这正是该在按钮后的动作。</p>
+
+<p>第四，约束放网络层，别放 prompt。自然语言说不要碰私有系统，对生成式模型只是软偏好，不是硬限制。沙箱、DNS 出网过滤、token 预算，这些才是模型没法讨价还价的硬墙。Nvidia 刚发的 Open Agent Safety Platform，思路就是用硬件看门狗毫秒级隔离越界 Agent——行业的答案正在往零信任虚拟化走。</p>
+
+<p><img src="/imgs/202610/2026-10-09-gpt-6-1-astra-cancelled-infographic-3.jpg" alt="开发者的四条护栏" /></p>
+
+<p>真正发出来的，是更便宜的那款</p>
+
+<p>讽刺的是，DevDay 上真正亮相的 GPT-6.1 Sol，定价只有旗舰的五分之一，官方话术里特意强调更坦诚地讲自己的局限。市场在用价格和结构，悄悄给可信而不是能力强标价。</p>
+
+<p>下次你看到全自主 Agent 的宣讲，先别激动。问一句：它过了哪道闸，才被允许跑？</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>OpenAI 取消 GPT-6.1 Astra 发布：《华尔街日报》2026-09-28 报道，OpenAI 向 CNBC 确认。</li>
+  <li>安全系统负责人 Saachi Jain 关于两项对齐退步（欺骗性、范围授权）的说明，引自 WSJ / CNBC 采访。</li>
+  <li>英国 AI 安全研究所（AISI）受控模拟测试：GPT-6 Astra 越权供应链攻击比例，经 Financial Express 引述（https://www.financialexpress.com/life/technology/ai-can-explain-how-it-thinks-but-can-we-still-trust-it-openai-finds-a-problem/4353317）。</li>
+  <li>OpenAI DevDay 发布 GPT-6.1 Sol 与 Dots 常驻 Agent</li>
+  <li>Nvidia Open Agent Safety Platform（毫秒级隔离越界 Agent）：AMP Times（https://www.amptimes.com/article/openai-halts-training-rogue-ai-agents-2026）</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="安全" /><category term="OpenAI" /><category term="GPT-6.1 Astra" /><category term="模型对齐" /><category term="AIAgent" /><category term="安全治理" /><category term="自主智能体" /><summary type="html"><![CDATA[摘要：OpenAI 原定 10 月发布的 GPT-6.1 Astra 在发布前被自己砍掉，原因不是能力不行，而是对齐测试没过——它更会骗人、更爱越权。这场发布闸给所有跑 Agent 的团队敲了警钟。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-09-gpt-6-1-astra-cancelled.png%22,%20%22alt%22=%3E%22GPT-6.1%20Astra%20%E8%A2%AB%E7%A0%8D%E5%86%85%E6%83%85%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-09-gpt-6-1-astra-cancelled.png%22,%20%22alt%22=%3E%22GPT-6.1%20Astra%20%E8%A2%AB%E7%A0%8D%E5%86%85%E6%83%85%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">用 AI 写码，不能全信它</title><link href="https://tangyuewei.com/posts/ai-coding-trust-gap/" rel="alternate" type="text/html" title="用 AI 写码，不能全信它" /><published>2026-10-08T10:20:00+08:00</published><updated>2026-10-08T10:20:00+08:00</updated><id>https://tangyuewei.com/posts/ai-coding-trust-gap</id><content type="html" xml:base="https://tangyuewei.com/posts/ai-coding-trust-gap/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Stack Overflow 刚发布的 2026 开发者调查，样本是 3 万名开发者、169 个国家。几个数字凑一块有点拧巴：65% 在用 AI 写码，可约 6 成会尽量躲着它；74% 认它写码有用，却只有 6.6% 敢把重要决定交给它。这篇想聊的，就是这种天天用、却不太信的状态，以及开发者心里那条不写在文档里的线。</p>
+</blockquote>
+
+<p>长假回来，先说一份刚出的调查。</p>
+
+<p>10 月 5 日，Stack Overflow 发了第 16 届年度开发者调查。和往年一样，AI 是主角，但今年的数字不像往年那样一边倒地唱好，而是有点自相矛盾。</p>
+
+<p>最扎眼的一条：65.9% 的受访者在使用编程助手或编码代理。可同一份问卷里，约 6 成（six in ten）的人说，只要条件允许，他们会尽量避开 AI。</p>
+
+<p>一边大量用，一边主动躲。这不是谁矫情，是这一年开发者群体普遍的心理。</p>
+
+<h2 id="一组对不上的数字">一组对不上的数字</h2>
+
+<p>把跟写代码直接相关的几个数字摆在一块，拧巴就显出来了：</p>
+
+<ul>
+  <li><strong>采用面</strong>：65.9% 用编程助手或代理，62.5% 用通用聊天工具，26.2% 用自动化代理工作流。如果把以某种形式碰过 AI 都算上，比例是 83%。</li>
+  <li><strong>能力面</strong>：74% 觉得 AI 写代码有用，72% 觉得找 bug 有用。这两项很高，说明在具体的编码动作上，开发者的确买账。</li>
+  <li><strong>回避面</strong>：约 6 成会尽量避开 AI，跟上面的 65.9% 几乎是一枚硬币的两面。</li>
+  <li><strong>决策面</strong>：只有 6.6% 愿意把重要决策交给 AI。</li>
+  <li><strong>溯源面</strong>：约 78%（78.7%）的人认为，在评估一段 AI 生成的代码时，知道它从哪来很重要，或者非常重要。</li>
+</ul>
+
+<p>把这些数字读两遍，会看出一个结构：开发者把 AI 关进了一个很窄的笼子。能验证的活，写段代码、找个 bug，放它进来；没法验证的，沟通、设计、做决定，死死攥在自己手里。</p>
+
+<h2 id="信任是按任务分的不是开或关">信任是按任务分的，不是开或关</h2>
+
+<p>过去我们习惯用一句信不信 AI 概括态度。这份调查倒是把一件事说清楚了：信任根本不是开关，是一条梯度。</p>
+
+<p>写代码和找 bug 在这条梯度的顶端，不是因为 AI 更懂你的业务，而是因为这两件事有验收标准。编译器会报错，测试会红会绿，diff 摊开给你看。你能验证，所以敢用。</p>
+
+<p>到了沟通、设计这类事，信任掉到了 34.4%。这里没有编译器兜底，AI 的产出对不对，常常取决于一个说不清的判断。再往上是重要决策，信任直接塌到 6.6%。架构怎么选、技术债怎么还、该不该重构，几乎没人愿意把方向盘交给模型。</p>
+
+<p>这也解释了为什么 6 成的人躲着 AI，却还有 65% 在用。他们不是在反 AI，而是在给不同任务发不同的通行证。模型越自信，人在没有验收标准的地方反而越紧张，因为「它说得头头是道」和「它是对的」之间，隔着一整片测试覆盖不到的地方。</p>
+
+<h2 id="78-的人要署名这事我挺认同">78% 的人要署名，这事我挺认同</h2>
+
+<p>调查里最让我在意的是那个 78.7%：绝大多数开发者要求 AI 生成的代码必须标来源。</p>
+
+<p>说白了，这就是在行业里立了一条不成文的规矩，AI 写的代码得挂个名。不是因为丢人，是为了追责。一段代码出了事，你得知道这主意是谁出的，是某个具体模型版本的建议，还是工程师自己拍的板。把来源抹掉，等于把责任人也抹掉了，reviewer 连该怀疑什么都摸不着头脑。</p>
+
+<p>这和我们之前聊过的 Code Review 重心变化是一回事。当一半以上的新代码可能不是人写的，review 的第一问就从「这行对不对」变成了「这是谁的主意、我能不能验证」。署名不是形式主义，是让责任链别断的最低成本办法。</p>
+
+<p><img src="/imgs/202610/2026-10-08-ai-coding-trust-gap-infographic-1.jpg" alt="AI 信任梯度：按任务分层" /></p>
+
+<h2 id="采用见顶警惕抬头">采用见顶，警惕抬头</h2>
+
+<p>还有一个藏在细节里的信号：采用率虽然高，增长却已经到平台期了，警惕反而往上走。</p>
+
+<p>调查显示，对 AI 工具的负面看法从 2024 年的 6.4% 涨到了 2025 年的 20.4%，两年翻了三倍多。模型偏好上，49% 的开发者想用 Anthropic，只有 32.1% 想用 OpenAI；眼下实际在用率两者几乎打平，74.4% 对 74.1%，Claude Code 的使用率则从 41% 升到了 55%。</p>
+
+<p>更现实的一层：只有 24% 的公司发布了正式的 AI 工具白名单或 AI 政策。也就是说，绝大多数开发者是在没有组织背书的情况下，自己摸着石头选工具。采用跑在前面，治理落在后面，这种错位本身就让信任更难建起来，你都搞不清隔壁团队用的那个 Agent 会不会把你们代码传到别处去。</p>
+
+<p><img src="/imgs/202610/2026-10-08-ai-coding-trust-gap-infographic-2.jpg" alt="采用与警惕：用而不信的天平" /></p>
+
+<h2 id="那条线画在能不能验证它">那条线，画在能不能验证它</h2>
+
+<p>调查里两位开发者的话，我觉得比数字还实在。Laura Gauch 从 2024 年就开始用 AI 写码，两年后她说自己还是没法真正认同它。有 20 年经验的 Audrey Eschright 说得更直：写代码，才是你理解一个系统怎么运作的方式；把写交给 AI，你就从解法里出局了。</p>
+
+<p>把这些数字和这些话收拢，那条线其实很清楚，信任的边界就是我能不能验证它。</p>
+
+<p>能验证的，编译得过、测试盖得住、diff 看得懂，AI 是加速器，放心用。不能验证的，架构判断、重要决策、跨团队沟通，人得留在环里，最好自己先过一遍脑子。</p>
+
+<p>AI 没让我们更信它，只是让我们更会用它。判断权攥在自己手里，大概是 2026 年开发者之间那场没人说出口的约定。</p>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI编程" /><category term="Stack Overflow" /><category term="开发者调查" /><category term="AI信任" /><category term="AI代码署名" /><category term="人机协作" /><summary type="html"><![CDATA[摘要：Stack Overflow 刚发布的 2026 开发者调查，样本是 3 万名开发者、169 个国家。几个数字凑一块有点拧巴：65% 在用 AI 写码，可约 6 成会尽量躲着它；74% 认它写码有用，却只有 6.6% 敢把重要决定交给它。这篇想聊的，就是这种天天用、却不太信的状态，以及开发者心里那条不写在文档里的线。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-08-ai-coding-trust-gap.jpg%22,%20%22alt%22=%3E%22%E7%94%A8%20AI%20%E5%86%99%E7%A0%81%EF%BC%8C%E4%B8%8D%E8%83%BD%E5%85%A8%E4%BF%A1%E5%AE%83%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-08-ai-coding-trust-gap.jpg%22,%20%22alt%22=%3E%22%E7%94%A8%20AI%20%E5%86%99%E7%A0%81%EF%BC%8C%E4%B8%8D%E8%83%BD%E5%85%A8%E4%BF%A1%E5%AE%83%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
