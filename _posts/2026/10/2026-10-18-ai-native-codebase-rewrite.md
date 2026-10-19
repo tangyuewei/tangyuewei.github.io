@@ -98,4 +98,3 @@ Agent 是怎么读的？它不脑补，只看得见被塞进上下文的那一�
 - [AI 时代的代码重构该怎么做（CocoLoop）](http://www.cocoloop.cn/t/topic/1322/3)：三年老项目重构实测，行数 -40%、覆盖率 30%→85%、先列清单再批量改。
 - [AI-Generated Code Grades Higher in Review, Yet Triggers Rise in Production Incidents（DEVOPSdigest，引 New Relic 2026 报告）](https://www.devopsdigest.com/ai-generated-code-grades-higher-review-yet-triggers-rise-production-incidents)：78% 团队要求把遥测埋点写进生成的代码。
 
-> 作者：[唐悦玮](https://tangyuewei.com)  |  从后端出发，用 AI 拓展到全栈的工程师。

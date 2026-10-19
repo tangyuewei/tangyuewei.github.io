@@ -3,12 +3,12 @@ title: AI 会写代码了，招聘哪些地方变了
 author: 唐悦玮
 date: 2026-10-17 09:33:00 +0800
 categories: [AI编程, 工程实践]
-tags: [AI招聘, 招聘门槛, Geoffrey Huntley, @poteto, Lauren Tan, 工程判断, 面试, AI编程, 软件工程, 老程序员, 脉脉]
+tags: [AI招聘, 招聘门槛, Geoffrey Huntley, Lauren Tan, 工程判断, 面试, AI编程, 软件工程, 老程序员, 脉脉]
 pin: false
 comments: true
 image:
   src: /imgs/202610/2026-10-17-ai-hiring-bar.png
-keyword: AI招聘,招聘门槛,Geoffrey Huntley,@poteto,脉脉,35岁程序员,软件工程面试,工程判断,老程序员,AI编程
+keyword: AI招聘,招聘门槛,Geoffrey Huntley,脉脉,35岁程序员,软件工程面试,工程判断,老程序员,AI编程
 ---
 
 > **摘要**：2026 年 10 月，Huntley 与 @poteto 把"招人卡什么"吵上热搜；某脉黑皮书：AI Agent 岗增幅最高，35+ 从斩杀线变加分项。本文聊招聘卡哪道门槛，与老程序员的优势。
