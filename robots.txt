@@ -1,4 +1,3 @@
-
 # NOTICE: The collection of content and other data on this
 # site through automated means, including any device, tool,
 # or process designed to data mine or scrape content, is
@@ -36,6 +35,7 @@ Disallow: /
 User-agent: meta-externalagent
 Disallow: /
 
+# AdSense 爬虫：允许完全访问
 User-agent: Mediapartners-Google
 Disallow:
 
@@ -43,8 +43,12 @@ User-agent: Google-Display-Ads-Bot
 Disallow:
 
 # END Cloudflare Managed Content
-User-agent: *
 
+# 通用爬虫规则
+User-agent: *
 Disallow: /norobots/
+Disallow: /tags/          # 新增：阻止抓取单篇文章的标签聚合页，防止薄内容判定
+Disallow: /categories/    # 新增：阻止抓取分类聚合页，防止薄内容判定
+Disallow: /moments/       # 新增：阻止抓取分页列表页（如 /moments/page2/）
 
 Sitemap: https://tangyuewei.com/sitemap.xml

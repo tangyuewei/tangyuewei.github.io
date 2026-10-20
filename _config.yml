@@ -131,7 +131,9 @@ kramdown:
       line_numbers: true
       start_line: 1
 
-permalink: /:year/:month-:day-:hour.:minute.html
+#permalink: /:year/:month-:day-:hour.:minute.html
+# 替换为：
+permalink: pretty
 
 collections:
   tabs:
@@ -204,13 +206,13 @@ exclude:
 #  - node_modules
 #  - '*.json'
 
-jekyll-archives:
-  enabled: [categories, tags]
-  layouts:
-    category: category
-    tag: tag
-  permalinks:
-    tag: /tags/:name/
-    category: /categories/:name/
+#jekyll-archives:
+#  enabled: [categories, tags]
+#  layouts:
+#    category: category
+#    tag: tag
+#  permalinks:
+#    tag: /tags/:name/
+#    category: /categories/:name/
 
 future: true

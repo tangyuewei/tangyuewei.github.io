@@ -6,6 +6,7 @@ categories: [AI编程, 工程实践]
 tags: [小米, MiMo Code, Coding Agent, AI编程, 开源, Agent工程, 持久记忆, 国产工具]
 pin: false
 comments: true
+published: false   # <-- 加上这一行，审核期间暂时隐藏
 image:
   src: /imgs/202610/2026-10-19-xiaomi-mimo-code.png
 keyword: 小米MiMo Code, Coding Agent, AI编程助手, 开源, MiMo-V2.6, 持久记忆, Agent工程, 国产工具
