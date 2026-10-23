@@ -1,0 +1,900 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://tangyuewei.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://tangyuewei.com/" rel="alternate" type="text/html" hreflang="zh-CN" /><updated>2026-10-23T21:13:08+08:00</updated><id>https://tangyuewei.com/feed.xml</id><title type="html">唐悦玮</title><subtitle>不以物喜，不以己悲。努力只是一种生活方式，先敬业，再乐业。</subtitle><entry><title type="html">第十三个 1024，你还在写代码吗</title><link href="https://tangyuewei.com/posts/1024-programmers-day/" rel="alternate" type="text/html" title="第十三个 1024，你还在写代码吗" /><published>2026-10-24T10:24:00+08:00</published><updated>2026-10-24T10:24:00+08:00</updated><id>https://tangyuewei.com/posts/1024-programmers-day</id><content type="html" xml:base="https://tangyuewei.com/posts/1024-programmers-day/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：1024 是 2 的十次方，也是每年 10 月 24 日这个程序员节的全部由来。往上追，能追到俄罗斯的 9 月 13 日和平年第 256 天。这篇文章讲清这个数字的三段身份，也聊聊这个节日对写代码的人到底意味着什么。</p>
+</blockquote>
+
+<p>今天是 10 月 24 日，1024 程序员节。先跟你说声节日快乐。</p>
+
+<p>这篇文章不聊技术，也不讲大道理，就想跟你说说这个节日的来龙去脉，再聊几句实在的。</p>
+
+<p>先回答一个可能困扰过你的问题：为什么偏偏是 10 月 24 日？</p>
+
+<p>因为 1024 这个数字，程序员太熟了。它是 2 的 10 次方，是二进制世界里最基础的计量单位。你敲下的每一行代码，最终都要落成 0 和 1，而 1024 就是把这两个数字玩到极致的产物——1KB 是 1024 个字节，1MB 是 1024 个 KB，一路乘上去，1GB 正好是 1024MB。</p>
+
+<p>“1GB”念起来还谐音”一级”，有人就顺势说这是”一级棒”的意思。牵强是牵强了点，但图个吉利，程序员也就认了。</p>
+
+<p><img src="/imgs/202610/2026-10-24-1024-programmers-day-diagram-1.png" alt="1024 的来路：一个数字，三段身份" /></p>
+
+<p>其实更早的时候，程序员节并不在 10 月。国际上原本的”程序员节”是 9 月 13 日，那是俄罗斯程序员 Valentin Balt 在 2002 年发起的，理由是 9 月 13 日是平年的第 256 天，而 256 是 2 的 8 次方，一个字节最多能表示的值。2009 年，俄罗斯政府正式把这一天定为官方节日，也叫”溢出节”。</p>
+
+<p>但 9 月 13 日这个日子，对多数人来说不够直观。于是国内程序员干脆自己挑了个更好记的——10 月 24 日。从 2014 年起，这个日子慢慢约定俗成，成了中国程序员自己的节日。</p>
+
+<p>说到这，你大概想问：那今年是第几个了？</p>
+
+<p>这事没有官方文件盖章，多数人认 2014 年是起点。按这个口径数下来，2014 是第一个，今年 2026，正好是第十三个。</p>
+
+<p>十三年，说长不长，说短不短。</p>
+
+<p>接下来我想聊点更实在的：这个节日，对你来说到底意味着什么。</p>
+
+<p>说实话，程序员节有个尴尬的地方——它不像五一、国庆那样有法定假。法定节假日名单里，从来就没有 10 月 24 日这一项。所以这节日的”含金量”，很大程度上取决于你待在哪家公司。</p>
+
+<p>有的公司今天会搞点活动，发个键盘、发个键帽、发份下午茶，或者让大家早点下班；有的公司发定制卫衣、保温杯，印一句”写代码使我快乐”；也有的公司，这一天跟平常没什么两样，你的日程表上照样排着一个要上线的版本。</p>
+
+<p>于是每到 1024，朋友圈里总会出现两种截然不同的画风：一边是晒福利的，一边是继续埋头改 bug 的。</p>
+
+<p>这没什么好比的。福利是公司的心意，有当然好；没有，日子也照常过。真正值得记住的，可能不是这一天收到了什么，而是这一整年你写了多少代码、解决了多少问题、熬过了多少个上线的夜晚。</p>
+
+<p>你手里的键盘，比任何节日礼物都更能代表你这个人。</p>
+
+<p>写到这，我想把话头交给你。今年的 1024，你是怎么过的？公司发了什么福利，还是一如既往忙到下班？欢迎在评论区聊聊，让我也沾沾你节日的喜气——哪怕是吐槽，也欢迎。</p>
+
+<p>最后，还是那句话：1024 快乐。愿你的代码少出 bug，愿需求别半夜改，愿上线永远绿灯。</p>]]></content><author><name>唐悦玮</name></author><category term="科技观察" /><category term="1024程序员节" /><category term="程序员" /><category term="节日" /><category term="二进制" /><category term="程序员健康" /><summary type="html"><![CDATA[摘要：1024 是 2 的十次方，也是每年 10 月 24 日这个程序员节的全部由来。往上追，能追到俄罗斯的 9 月 13 日和平年第 256 天。这篇文章讲清这个数字的三段身份，也聊聊这个节日对写代码的人到底意味着什么。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-24-1024-programmers-day.png%22,%20%22alt%22=%3E%22%E7%AC%AC%E5%8D%81%E4%B8%89%E4%B8%AA%201024%EF%BC%8C%E4%BD%A0%E8%BF%98%E5%9C%A8%E5%86%99%E4%BB%A3%E7%A0%81%E5%90%97%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-24-1024-programmers-day.png%22,%20%22alt%22=%3E%22%E7%AC%AC%E5%8D%81%E4%B8%89%E4%B8%AA%201024%EF%BC%8C%E4%BD%A0%E8%BF%98%E5%9C%A8%E5%86%99%E4%BB%A3%E7%A0%81%E5%90%97%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">给 Agent 写命令，别只给人写</title><link href="https://tangyuewei.com/posts/cli-for-agents/" rel="alternate" type="text/html" title="给 Agent 写命令，别只给人写" /><published>2026-10-23T08:49:00+08:00</published><updated>2026-10-23T08:49:00+08:00</updated><id>https://tangyuewei.com/posts/cli-for-agents</id><content type="html" xml:base="https://tangyuewei.com/posts/cli-for-agents/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：把脚本交给 Agent 跑，崩的往往不是代码，是接口。这篇文章拆开一条命令的六个契约——非交互、输出分流、退出码、机器可读、错误可自修、危险操作可预演，也讲清改造成本与不该改的场合。</p>
+</blockquote>
+
+<p><img src="/imgs/202610/2026-10-23-cli-for-agents-infographic-1.jpg" alt="一条命令的两个读者与六个契约" /></p>
+
+<p>周一早上，你把跑了几年的日报脚本丢给 Agent，让它重新生成上周那份。</p>
+
+<p>它先不带参数跑了一遍，报错。接着开始猜：<code class="language-plaintext highlighter-rouge">./report.sh --date 上周</code>。脚本不认识 <code class="language-plaintext highlighter-rouge">--date</code>，但这个位置本来就是个透传参数，于是”上周”两个字被当成日期塞进了查询条件。数据库没报错，只是查不到东西。</p>
+
+<p>最后屏幕上是这么一行：<code class="language-plaintext highlighter-rouge">生成完成，共 0 条</code>。Agent 在总结里写”日报已生成”。</p>
+
+<p>你打开文件，空的。</p>
+
+<p>脚本错了吗？你自己天天跑，从来没出过事。人看见”0 条”会停下来查，Agent 不会——它看的是退出码和输出内容，两个都在告诉它”成功了”。</p>
+
+<p>变的不是脚本，是读脚本的人。你那条命令现在有两个读者，一个坐在屏幕前，一个在上下文里。</p>
+
+<h2 id="我第一反应是包一层然后被官方文档按住">我第一反应是包一层，然后被官方文档按住</h2>
+
+<p>给机器用的接口，直觉答案是把命令包成 MCP server，或者干脆写个 HTTP 接口，入参出参都定死，多干净。</p>
+
+<p>这个想法不算错，但它忽略了一件事：接口本身也要占地方。</p>
+
+<p>Anthropic 的成本文档里写得很直接（<a href="https://code.claude.com/docs/en/costs">来源</a>）：</p>
+
+<blockquote>
+  <p><strong>Prefer CLI tools when available</strong>: Tools like <code class="language-plaintext highlighter-rouge">gh</code>, <code class="language-plaintext highlighter-rouge">aws</code>, <code class="language-plaintext highlighter-rouge">gcloud</code>, and <code class="language-plaintext highlighter-rouge">sentry-cli</code> are still more context-efficient than MCP servers because they don’t add any per-tool listing.</p>
+</blockquote>
+
+<p>MCP 的每个工具都要在上下文里挂一份 schema。你有十个工具，就是十份清单，每一轮请求都跟着走。命令行不用：没调用的时候它不存在，调用了才留下那一段输出。</p>
+
+<p>那 CLI 就白嫖了？也没有。Anthropic 那篇讲会话成本的博客里有一句更扎心的话（<a href="https://claude.com/blog/maximizing-the-value-of-your-claude-code-sessions">来源</a>）：</p>
+
+<blockquote>
+  <p>Add quiet flags to noisy commands, or run them in a subagent. Command output is added to the conversation just like a file, and stays there for the rest of the session.</p>
+</blockquote>
+
+<p>命令的输出会像文件一样进上下文，而且一直待着，直到这个会话结束。你那条命令吵一次，后面每一轮都在替它付账。</p>
+
+<p>那到底该改哪儿？答案不在”包不包”，在”给谁看”。同一条命令，人看的是报表，Agent 要的是数据。这两样东西挤在同一个 stdout 里，出事是迟早的。</p>
+
+<h2 id="输出是给人读的还是给上下文读的">输出是给人读的，还是给上下文读的</h2>
+
+<p>官方文档里有个对比很说明问题。与其让 Agent 去读一万行日志自己找错误，不如让 hook 先 grep 出 <code class="language-plaintext highlighter-rouge">ERROR</code> 那几行——上下文从数万 token 掉到数百。</p>
+
+<p>你的脚本是同一个道理。</p>
+
+<p>一张带边框、带颜色、带”温馨提示：数据仅供参考”的表格，人扫一眼就懂，Agent 得从头读到尾，还得猜哪一列是主键。粗算一下：四十行表格、每行三十来个字符，一千二百 token 起步；同一个结果只给六个字段的 JSON，两百 token 以内。</p>
+
+<p>这个数字是估算，不是实测，你就当量级看。真正要记住的是它的复利：这段输出不是付一次，是每一轮都付。</p>
+
+<p>也别把 JSON 当万能。字段名本身也花 token，嵌套三层之后，一份 JSON 可能比那张表格还长。省下来的不是”格式”这两个字，是”只给需要的字段”。</p>
+
+<h2 id="六个开关签的是同一份契约">六个开关，签的是同一份契约</h2>
+
+<p>把一条命令改造成两个读者都能用，落到手上是六件事。它们不是六条最佳实践，是一份契约的六个面。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>契约</th>
+      <th>人怎么用</th>
+      <th>Agent 怎么用</th>
+      <th>不做会怎样</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>非交互</td>
+      <td>缺参数时弹提示问一句</td>
+      <td>没有 stdin，只会挂住或乱猜</td>
+      <td>任务卡死，或者参数被猜错</td>
+    </tr>
+    <tr>
+      <td>输出分流</td>
+      <td>表格、进度、彩色日志都在屏幕上</td>
+      <td>stdout 只认数据，日志进 stderr</td>
+      <td>把”正在查询…”当成结果解析</td>
+    </tr>
+    <tr>
+      <td>退出码</td>
+      <td>基本不看</td>
+      <td>靠它决定继续、重试还是停</td>
+      <td>失败了也当成功</td>
+    </tr>
+    <tr>
+      <td>机器可读</td>
+      <td><code class="language-plaintext highlighter-rouge">--json</code> 时能看，平时不用</td>
+      <td>默认就要结构化，还要能选字段</td>
+      <td>靠正则抠表格，一改版就崩</td>
+    </tr>
+    <tr>
+      <td>错误可自修</td>
+      <td>看中文提示，自己判断</td>
+      <td>需要”错在哪、怎么改”的明确指引</td>
+      <td>同一个错反复试</td>
+    </tr>
+    <tr>
+      <td>危险操作可预演</td>
+      <td>手抖之前还有一次机会</td>
+      <td>需要 <code class="language-plaintext highlighter-rouge">--dry-run</code> 而不是 <code class="language-plaintext highlighter-rouge">--yes</code></td>
+      <td>一条命令删完，没有 undo</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>六条里最容易搞反顺序的是前两条。分流该先讲——因为它决定后面所有输出长什么样。</p>
+
+<p>判据很短：把 stdout 直接扔进 <code class="language-plaintext highlighter-rouge">jq</code>，能通就是数据，不能通就是日志。进度条、彩色提示、”正在导出…”这些东西一旦混进 stdout，调用方只能靠正则去猜哪一行才是结果——你改一次文案，它就得改一次正则。</p>
+
+<p><img src="/imgs/202610/2026-10-23-cli-for-agents-infographic-2.jpg" alt="一次调用的三条通道" /></p>
+
+<p>剩下最容易被漏掉的是退出码。为什么偏偏是它？因为人对退出码几乎无感，而 Agent 只看它。</p>
+
+<p>我在本机试了个很常见的写法：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$CONF</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+  </span><span class="nb">echo</span> <span class="s2">"错误：找不到配置文件 </span><span class="nv">$CONF</span><span class="s2">，请先运行 init"</span>
+  <span class="nb">exit </span>0
+<span class="k">fi</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>跑一下，输出是那句中文错误提示，<code class="language-plaintext highlighter-rouge">echo $?</code> 是 <code class="language-plaintext highlighter-rouge">0</code>。写脚本的人想着”我都提示得这么清楚了”，但调用方拿到的信号是”一切正常”。</p>
+
+<p>反过来看 <code class="language-plaintext highlighter-rouge">gh</code> 的做法。它的 man page 里有一张自己的退出码表：<code class="language-plaintext highlighter-rouge">0</code> 成功、<code class="language-plaintext highlighter-rouge">1</code> 出错、<code class="language-plaintext highlighter-rouge">2</code> 命令被取消、<code class="language-plaintext highlighter-rouge">4</code> 需要认证。</p>
+
+<p>留意那个 <code class="language-plaintext highlighter-rouge">2</code>。在 shell 的惯例里，<code class="language-plaintext highlighter-rouge">2</code> 通常是”用法错误”，<code class="language-plaintext highlighter-rouge">127</code> 是命令找不到，<code class="language-plaintext highlighter-rouge">126</code> 是找到了但不能执行。<code class="language-plaintext highlighter-rouge">gh</code> 把 <code class="language-plaintext highlighter-rouge">2</code> 定义成”命令被取消”，等于告诉你一件事：退出码不是你随手的返回值，是给别人分支用的接口，定下来就得一直守。</p>
+
+<p>再看 <code class="language-plaintext highlighter-rouge">--json</code>。字段该由谁定？<code class="language-plaintext highlighter-rouge">gh issue list --json number,title,labels</code> 这种写法给了答案：调用方点名，你不点就不给；再配一个 <code class="language-plaintext highlighter-rouge">--jq</code>，让调用方自己筛。这比”一股脑输出全部 JSON”省得多，因为决定输出什么的是调用方，不是脚本作者。</p>
+
+<p>还有一处细节容易滑过去：<code class="language-plaintext highlighter-rouge">gh issue list</code> 的 <code class="language-plaintext highlighter-rouge">--limit</code> 默认是 30。不写参数，它就只给你三十条。这不是小气，是给输出设了个上限——一次调用把上下文灌满，后面几十轮都得背着它。</p>
+
+<p>所以”机器可读”不只是换成 JSON，还得有界。宁可让调用方多调一次带 <code class="language-plaintext highlighter-rouge">--limit 200</code>，也别默认全量倾倒。</p>
+
+<h2 id="一个-java-后端会怎么改">一个 Java 后端会怎么改</h2>
+
+<p>Java 里判断”是不是人在看”，用的是 <code class="language-plaintext highlighter-rouge">System.console()</code>。它跟 shell 里的 <code class="language-plaintext highlighter-rouge">[ -t 1 ]</code> 是一回事：终端里为真，管道和重定向里为假。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="kt">boolean</span> <span class="n">human</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">console</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span>
+        <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="s">"false"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="s">"REPORT_HUMAN"</span><span class="o">));</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">hasDate</span><span class="o">(</span><span class="n">args</span><span class="o">))</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"missing --date, e.g. report --date 2026-10-19"</span><span class="o">);</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">human</span><span class="o">)</span> <span class="n">printTable</span><span class="o">(</span><span class="n">rows</span><span class="o">);</span> <span class="k">else</span> <span class="n">printJson</span><span class="o">(</span><span class="n">rows</span><span class="o">);</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>留那个环境变量是有原因的。<code class="language-plaintext highlighter-rouge">System.console()</code> 在某些 IDE 的运行窗口里照样不为 null，你本地跑得好好的，一到 CI 就变了样。这种坑不值得争论谁对，留个开关最省事。</p>
+
+<p>至于错误提示，别写”参数错误”四个字就完事。Agent 需要的是一句能直接拿去改命令的话：缺什么参数、正确格式长什么样、下一步跑哪条。<code class="language-plaintext highlighter-rouge">--date</code> 不接受”上周”这种自然语言，就把可接受的格式写进 stderr——它下一轮就不用再猜了。</p>
+
+<h2 id="别把---yes-当便利">别把 <code class="language-plaintext highlighter-rouge">--yes</code> 当便利</h2>
+
+<p>非交互这条，最容易做歪。</p>
+
+<p>Agent 没有 stdin，问它一句它就卡住，所以”缺参数直接报错退出”是对的。但很多人顺手把 <code class="language-plaintext highlighter-rouge">--yes</code> 也加上了，觉得这样才叫顺畅。</p>
+
+<p>没有人盯着的时候，多给点权限是不是更省事？短期看是，长期看是在攒事故。</p>
+
+<p><code class="language-plaintext highlighter-rouge">--yes</code> 一开，删库和生成报表走的是同一条路。十月初 Cursor 那批事故里，有几起就是终端删除造成的——据一家安全厂商整理的论坛记录，三月到十月至少有六位 Windows 用户丢了盘，<code class="language-plaintext highlighter-rouge">rmdir /s /q</code> 的引号一破，路径塌到盘根。更麻烦的是，从终端发起的删除不进 checkpoint，没有撤销。</p>
+
+<p>所以非交互不等于无条件放行。我的做法是分两档：幂等操作给 <code class="language-plaintext highlighter-rouge">--yes</code>，破坏性操作只给 <code class="language-plaintext highlighter-rouge">--dry-run</code>，先出一份”将要删除什么”的清单，人点头了再执行。多一步，但这一步是所有自动化里最便宜的一步。</p>
+
+<p><img src="/imgs/202610/2026-10-23-cli-for-agents-infographic-3.jpg" alt="两种放行方式的对比" /></p>
+
+<h2 id="不是每条脚本都值得改">不是每条脚本都值得改</h2>
+
+<p>说到这儿得泼一盆水。这六个契约全做齐，成本不低。</p>
+
+<p>是不是每条脚本都得照这个改一遍？不是。改造的钱花在兼容性上，只有会被反复调用的命令才还得起。</p>
+
+<p>你要维护两套输出，测试也得写两份；错误码一旦发出去就不能改，改一次就得升大版本；<code class="language-plaintext highlighter-rouge">--json</code> 的字段集合同样是兼容性包袱。一个只有你自己跑、输出从来不超过五行的清理脚本，为它做这些属于过度设计。</p>
+
+<p>判据其实只有一条：这条命令会不会被别的东西调用第二次。</p>
+
+<p>会——哪怕是半年后你写个定时任务来调，那就值得改。不会，就让它保持原样，人看得懂比机器看得懂重要。</p>
+
+<h2 id="换个接口还是同一件事">换个接口，还是同一件事</h2>
+
+<p>这套契约不只属于命令行。你给 Agent 暴露的任何东西都在走同一条路，只是换了张脸。</p>
+
+<p>HTTP 接口的版本最直白：状态码就是退出码。200 里套一个 <code class="language-plaintext highlighter-rouge">code: 500</code> 的业务错误，等于把 <code class="language-plaintext highlighter-rouge">exit 0</code> 那套又演了一遍，调用方还是只能去猜 body 里的字段。</p>
+
+<p>换到 SDK，异常信息就是那句错误提示。抛一个 <code class="language-plaintext highlighter-rouge">NullPointerException</code> 给调用方，等于说”你自己猜哪儿空了”；补一句”哪个字段没初始化、该在哪一步赋值”，才是那份契约里的”错误可自修”。</p>
+
+<p>报表视图更隐蔽，问题出在列名。<code class="language-plaintext highlighter-rouge">col1</code>、<code class="language-plaintext highlighter-rouge">col2</code> 这种宽表，人对着表头能推，Agent 只能瞎猜；把列名写成人能念出来的业务词，同一份数据就同时供了两种读者。</p>
+
+<p>所以判据不用重记：谁读它，它就得说谁的语言。人读的那层可以留着，只是别让它挡在机器前面。</p>
+
+<h2 id="回顾总结">回顾总结</h2>
+
+<p>你的命令现在有两个读者，这是所有改动的起点。</p>
+
+<p>CLI 比 MCP 省上下文，是因为它不挂常驻清单；但命令的输出会一直留在会话里，吵一次就付一路。</p>
+
+<p>六个契约里最容易被忽略的是退出码——报错却 <code class="language-plaintext highlighter-rouge">exit 0</code>，等于告诉 Agent 一切正常。</p>
+
+<p><code class="language-plaintext highlighter-rouge">--json</code> 让调用方点名字段，比全量输出更省；再给它一个默认上限，别一次灌满。</p>
+
+<p>非交互要配 <code class="language-plaintext highlighter-rouge">--dry-run</code>，不能只配 <code class="language-plaintext highlighter-rouge">--yes</code>，否则顺畅的代价是不可撤销。</p>
+
+<p>换到 HTTP 接口、SDK、报表视图，账是同一笔，只是换了个地方还。</p>
+
+<p>判据只有一条：这条命令会不会被调用第二次。</p>
+
+<p>回到那份空报表。它没坏，它只是还在用只有人能听懂的方式说话。</p>
+
+<hr />
+
+<p><strong>参考资料</strong></p>
+
+<ol>
+  <li>Anthropic, <a href="https://code.claude.com/docs/en/costs">Manage costs effectively</a>（CLI 工具与 MCP 的上下文开销对比）</li>
+  <li>Anthropic, <a href="https://claude.com/blog/maximizing-the-value-of-your-claude-code-sessions">Maximizing the value of your Claude Code sessions</a>（命令输出进入会话的说明）</li>
+  <li>GitHub CLI, <a href="https://cli.github.com/manual/gh_issue_list">gh issue list 手册</a>（<code class="language-plaintext highlighter-rouge">--json</code>、<code class="language-plaintext highlighter-rouge">--jq</code> 与退出码定义）</li>
+  <li>CybeDefend, <a href="https://www.cybedefend.com/en/blog/cursor-yolo-mode-auto-run-explained">Cursor YOLO Mode and Auto-Run in 2026</a>（终端删除与 checkpoint 的边界）</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="CLI设计" /><category term="Agent工程" /><category term="命令行" /><category term="退出码" /><category term="JSON输出" /><category term="接口契约" /><category term="AI编程" /><summary type="html"><![CDATA[摘要：把脚本交给 Agent 跑，崩的往往不是代码，是接口。这篇文章拆开一条命令的六个契约——非交互、输出分流、退出码、机器可读、错误可自修、危险操作可预演，也讲清改造成本与不该改的场合。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-23-cli-for-agents.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-23-cli-for-agents.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">OpenCode 破 21.7 万星：Agent 底座之争</title><link href="https://tangyuewei.com/posts/opencode-model-agnostic/" rel="alternate" type="text/html" title="OpenCode 破 21.7 万星：Agent 底座之争" /><published>2026-10-22T10:15:00+08:00</published><updated>2026-10-22T10:15:00+08:00</updated><id>https://tangyuewei.com/posts/opencode-model-agnostic</id><content type="html" xml:base="https://tangyuewei.com/posts/opencode-model-agnostic/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：OpenCode 星标破 21.7 万，成了史上星标最多的编程 Agent。它赢的不是免费，是把工具和模型拆开卖：模型是插头，harness 是插座。本文拆三个机制、一段恩怨和四条代价。</p>
+</blockquote>
+
+<p>两个月里你换了三次模型，工作流一次没换——这种体验，现在有一大票开发者共享。提供它的工具叫 OpenCode，10 月 19 日星标破了 21.7 万。</p>
+
+<p>这个数字的分量得放平看：GitHub Trending 当天统计，它是编程 Agent 里星标最高的项目，不分开源闭源。官方页面上写的口径是 208,000 颗星、950 名贡献者、13,000 多次提交、每月 1600 万开发者——后面这几个数是厂商自报，打个折听。星标本身也是滞后指标，它标的是几个月前大家已经做完的决定。</p>
+
+<p>那决定是什么？一个不带任何模型公司血统的终端工具，凭什么坐上这个位置？</p>
+
+<h2 id="靠什么赢的">靠什么赢的</h2>
+
+<p>最顺手的解释是免费。可免费的开源 Agent 一抓一把——Ante 一个 15MB 的 Rust 单文件、CoreCoder 一千多行 Python——它们也免费，星标连零头都不到。</p>
+
+<p>那就归功于功能全？Plan/Build 双模式、并行会话、插件、MCP，这些 Claude Code 和 Codex 都在快速追平，单看功能表拉不开 21 万星的差距。</p>
+
+<p>两刀砍完，答案就剩一个：<strong>它赢在把「工具」和「模型」之间那道焊死的缝切开了</strong>。模型是插头，harness 是插座。这个选择在 2025 年看像个架构洁癖，在 2026 年变成了市场预言。</p>
+
+<h2 id="插座是怎么做的">插座是怎么做的</h2>
+
+<p>先看插头这一侧。OpenCode 通过 Models.dev 目录接了 75 家以上提供商，Claude、GPT、Gemini 都在列，Ollama 起的本地模型自动发现，还能直接用你已有的 GitHub Copilot 或 ChatGPT Plus 订阅登录。换模型是一条命令的事：<code class="language-plaintext highlighter-rouge">opencode --model</code> 后面改个名字，项目上下文、权限配置、工作流原样不动。你问切换成本到底有多低？一个参数，零迁移。</p>
+
+<p>这事的分量，取决于新模型发布的速度。现在是平均两天一个。你的工具如果焊死在一家模型上，等于每两天被人重新定一次价；插座式工具的新模型，发布会当天下午就能用上。</p>
+
+<p>插座内部还有一层容易被忽略的设计：LSP。OpenCode 会起项目的 Language Server，每次编辑后把编译器的诊断信息喂回模型——类型报错、导入错，下一轮它就自己改了。这事 IDE 插件做不了，因为插件的权限模型就框在编辑器里，而终端 Agent 拿的是整台机器的 shell。同样的模型，一个能看到编译器的实时反馈，一个只能看你贴过去的文本，任务一长，差距就出来了。</p>
+
+<p>再往下一层是架构：2.0 版本起，一个后台服务统管会话、配置、权限和工具执行，终端、桌面、IDE、脚本都挂在这个服务上；Code Mode 让 Agent 写一小段 JavaScript 把多个工具串起来执行，中间结果不进上下文。核心 MIT 开源，谁都能 fork、能嵌、能在上面长东西——10 月中旬小米开源的 MiMo Code，底座就是它。一个工具开始被别人当底座用，才算真正进了基础设施层。</p>
+
+<p><img src="/imgs/202610/2026-10-22-opencode-model-agnostic-infographic-1.jpg" alt="模型是插头，harness 是插座：三层结构与生态位" /></p>
+
+<h2 id="一段断供恩怨成了最好的广告">一段断供恩怨，成了最好的广告</h2>
+
+<p>2026 年 1 月 9 日，Anthropic 开始拒绝第三方工具的 OAuth 令牌；2 月改用户条款把这事写死；4 月 4 日直接切断第三方 Agent 对 Claude Pro/Max 的访问。OpenCode 是首当其冲的那个。</p>
+
+<p>结果反过来：两周里它涨了 1.8 万星，OpenAI 公开和它合作，开发者社区用它当案例讲「供应商锁定」。Anthropic 会专门写服务端校验去拦一个没人用的工具吗？不会。这一刀，等于替 OpenCode 的中立论做了最硬的背书。</p>
+
+<h2 id="代价也别装看不见">代价也别装看不见</h2>
+
+<p>订阅套利不可复制。Max 这类包月是按补贴算的：重度用户烧掉的推理费远超月费，厂商赌你缓存省得够多。第三方 harness 拿 OAuth 令牌去蹭这份补贴，本来就是厂商要堵的洞。所以你要是靠 API key 复制「$200 包月猛跑 Claude」的用法，账单通常更贵——插座省的是迁移成本，不是推理钱。</p>
+
+<p>星标能不能当饭吃？不能。21 万星的项目照样会因 issue 量和管理分歧翻车，更别说 OpenCode 自己就是从一次分家风波里长出来的——它的前身被收进一家终端 UI 公司，SST 团队不认，公开撕完之后用 TypeScript 重写了一遍。团队对「所有权」的敏感，是被咬过的。</p>
+
+<p>安全问题也真实发生过。10 月 17 日官方披露一次蒸馏攻击，波及约 1.4% 的 OpenCode Console 用户；会话分享功能已经下线，官网介绍还没改。基础设施级的项目，安全和文档欠账一样算成本。</p>
+
+<p><img src="/imgs/202610/2026-10-22-opencode-model-agnostic-infographic-2.jpg" alt="四条真实的代价：补贴蹭不到、星标不养人、出过安全事件、旧功能下线" /></p>
+
+<h2 id="这套剧本不新鲜">这套剧本不新鲜</h2>
+
+<p>Linux 赢在服务器，Kubernetes 赢在容器编排，Postgres 打赢商业数据库，GitHub Actions 几年翻掉 CircleCI——剧本都一样：<strong>接口先免费，竞争上移到接口之上</strong>。OpenCode 赌的是模型推理正在进入同一条曲线。</p>
+
+<p>落到你身上，两件事现在就能做。评估工具时别看「它支持哪个模型」，看「换模型要改几行」；做技术选型时把工具和模型分开评——模型半年一换，工具能活三年。这跟前几天写 Replit 时说的是同一件事：绑定可以解开，前提是接入层一开始就没焊死。</p>
+
+<h2 id="结论和代价">结论和代价</h2>
+
+<p>这件事的结论是：OpenCode 的 21.7 万星不是免费换来的，是「模型可换」这个架构选择在模型军备竞赛里的复利。代价同样实在：订阅补贴套利被堵死、星标不等于可持续、安全事件发生过一次。对普通开发者，它最实的价值不在功能表上——明天你想试一个新模型，不用先换工具。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://smartotics.com/2026/10/2026-10-19-ai-daily-2026-10-19.html">AI Daily Report 2026-10-19：opencode 破 216,550 星（Smartotics）</a>：星标数、生态位判断、社区风险提示。</li>
+  <li><a href="https://opencode.ai/zh">OpenCode 中文官网</a>：208K 星/950 贡献者/13,000+ 提交/1600 万月活（厂商口径）、75+ 提供商、LSP、多会话、本地模型。</li>
+  <li><a href="https://aitoolfit.ai/tools/opencode.html">OpenCode Review 2026（AIToolFit）</a>：MIT、Anomaly 与 SST 关系、OpenCode 2 版本号、Zen/Go 定价、10-17 蒸馏攻击波及约 1.4% Console 用户、会话分享下线。</li>
+  <li><a href="https://aicoolies.com/tools/opencode">OpenCode 2.0 架构与 Code Mode（aicoolies）</a>：单后台服务架构、Code Mode 串工具、80+ 插件、v1 插件不兼容、2025 年 4 月建仓。</li>
+  <li><a href="https://byteiota.com/opencode-hits-165k-stars-the-open-source-terminal-coding-agent-that-beat-claude-code">OpenCode Hits 165K Stars（byteiota）</a>：Anthropic 断供时间线、两周 +1.8 万星、OpenAI 公开合作。</li>
+  <li><a href="https://gcn.com/7-5-over-million-developers-now/20116">7.5M developers use an open-source coding agent（GCN）</a>：LSP 编译诊断回喂机制、与 IDE 插件的结构性差异。</li>
+  <li><a href="https://wpnews.pro/news/opencode-proved-the-harness-is-worth-more-than-the-model">opencode proved the harness is worth more than the model（Web Pulse）</a>：分家史（Charm/Crush）、订阅补贴逻辑、重度 Max 用户迁移成本更高。</li>
+  <li><a href="https://ishansa.dev/blog/opencode-no-model-allegiance">The #1 AI Coding Tool Has No Model Allegiance（ishansa.dev）</a>：模型两天一发的定价逻辑、commoditization playbook。</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="OpenCode" /><category term="开源" /><category term="Coding Agent" /><category term="模型中立" /><category term="Harness" /><category term="Agent工程" /><category term="AI编程" /><summary type="html"><![CDATA[摘要：OpenCode 星标破 21.7 万，成了史上星标最多的编程 Agent。它赢的不是免费，是把工具和模型拆开卖：模型是插头，harness 是插座。本文拆三个机制、一段恩怨和四条代价。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-22-opencode-model-agnostic.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-22-opencode-model-agnostic.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">AI 写的代码，push 前先对它进行考试</title><link href="https://tangyuewei.com/posts/sphinx-understanding-gate/" rel="alternate" type="text/html" title="AI 写的代码，push 前先对它进行考试" /><published>2026-10-21T08:50:00+08:00</published><updated>2026-10-21T08:50:00+08:00</updated><id>https://tangyuewei.com/posts/sphinx-understanding-gate</id><content type="html" xml:base="https://tangyuewei.com/posts/sphinx-understanding-gate/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：开源工具 Sphinx 在保护分支的 push 前设了道考试：由没见过你对话的审查模型读 diff 出题，答对才放行，绕过会留日志。本文拆它的机制、三个设计细节、HN 两派争论，和你该不该装。</p>
+</blockquote>
+
+<p>你让 Claude Code 给 webhook 处理器补了个幂等逻辑，测试全绿，push。终端突然停住，弹出个问题：「你的代码先存事件 ID 再调 charge()。Stripe 超时后重发同一事件，重试时会发生什么？」</p>
+
+<p>答「会扣两次款」。它回「不对——重试找到已存的 ID，直接返回 200。但 ID 是在扣款成功前存的。如果 charge() 失败，下一次重试呢？」</p>
+
+<p>这就是 Sphinx，10 月 18 日上 Show HN 的开源 git hook。npm 装好、挂在保护分支上，以后每次 push——不管是你敲的还是 Agent 敲的——它都先拦下来考你一道，答对才放行。</p>
+
+<h2 id="它考什么怎么考">它考什么，怎么考</h2>
+
+<p>先说出题人。Sphinx 的审查模型<strong>没见过你和 Agent 的对话</strong>，只通过只读 git 工具看提交的 diff 和相关代码。这个隔离很关键：你没法拿聊天记录里的解释背题，它考的是代码本身。</p>
+
+<p>再说什么叫答对。题目不考函数名、文件名这种名词题，专挑三类：这段代码的行为、出错时的失败模式、该保持的不变量——比如「一次成功的支付最终恰好产生一笔扣款，不会是零笔或两笔」。开卷，你可以翻代码、追调用、问你的 Agent。答错不拦到底，它给你讲错在哪，再换一个场景考同一个概念，直到你答到位，push 才继续。小改动一道题，大改动默认最多三道。那考过一次是不是就一劳永逸？不是。通过记录 24 小时有效，代码或目标分支一变就重考。</p>
+
+<p><img src="/imgs/202610/2026-10-21-sphinx-understanding-gate-infographic-1.jpg" alt="push 前的考试：审查模型读 diff 出题，答对放行" /></p>
+
+<h2 id="三个设计细节比工具本身有意思">三个设计细节，比工具本身有意思</h2>
+
+<p>最关键的隔离在答案的去向：你的答案永远不回传给编码 Agent。Agent 只知道检查状态和用量，不知道你答了什么。这一刀切断了「代理替人答题」的污染回路——至少切断了最直接的那条。</p>
+
+<p>另一个把工具抬了半级的设计，是绕过留痕。<code class="language-plaintext highlighter-rouge">sphinx yolo</code> 能跳过考试直接推，但<strong>每一次跳过都落日志</strong>。留了记录的绕过，不再是隐形的漂移，而是一条能审计的决策痕迹。着急的时候你仍然可以走捷径，但捷径会留名。</p>
+
+<p>还有一处容易被忽略：策略跟着仓库走。<code class="language-plaintext highlighter-rouge">sphinx init</code> 生成三个文件——<code class="language-plaintext highlighter-rouge">.sphinxconfig</code> 管哪些分支要考、<code class="language-plaintext highlighter-rouge">.sphinxignore</code> 管审查模型永远不许读的路径、<code class="language-plaintext highlighter-rouge">.sphinxcontext.md</code> 给模型一段项目说明。三个文件提交进仓库，团队所有人共用同一套规则，不会各配各的。一个坑要记住：<code class="language-plaintext highlighter-rouge">.env</code> 和密钥文件默认不读，但粘贴进普通源文件的密钥照样会被读走，敏感路径要在第一次检查前手动补进 ignore 清单。</p>
+
+<p><img src="/imgs/202610/2026-10-21-sphinx-understanding-gate-infographic-2.jpg" alt="三个值得抄的设计：答案隔离、绕过留痕、策略随仓库走" /></p>
+
+<h2 id="hn-把正反方吵完了">HN 把正反方吵完了</h2>
+
+<p>发布当天，讨论区两边都到齐了。赞的一方说它「让节奏慢下来，实现又快」；有做过类似工具的开发者对题目质量表示惊喜；最有分量的一句是行业老本能的回归——<strong>永远不要复制你没看懂的 Stack Overflow 代码</strong>，Sphinx 只是把这条老规矩装进了 git hook。</p>
+
+<p>批的一方也不客气：考试可以被绕过——把题目粘回给 Agent 就行；它抓不住 diff 层面的缺陷，一个遗留的调试打印、一个被削弱的断言，都能通过任何理解力测验；还有人预言「确认疲劳」——考久了，人就开始无脑过关。</p>
+
+<p>两边都对，而且不冲突。Sphinx 的官方文档自己就承认：这是练习，不是安全门。有本地权限的人本来就能绕过任何 hook，考官是个语言模型，也会看错代码。它的真实作用是拖住那八成偷懒但并无恶意的人，让「我没细看就推了」从无感操作变成一次有摩擦的显性决定。</p>
+
+<h2 id="官方自己划的边界">官方自己划的边界</h2>
+
+<p>代价都写在 README 里，不用你自己踩。版本 0.1 只管本地 commit 和 push，不管网页合并、CI 门禁和部署；push 等待上限 25 分钟，编码 Agent 的 shell 可能比 git 先超时。成本要花多少？一次典型检查约 5 到 8 次模型请求，答题过程还会追加，默认没有调用上限——接付费模型的话，记得自己配消费限额，Sphinx 支持按检查设置最大调用数。</p>
+
+<p>还有一个隐性成本别忽略：考试是开卷的，认真作答就要真读代码。如果你团队现在的现状是「review 时没人真读」，那这道闸每 push 一次就把欠的账收一次——疼，但收的本来就是该还的。此前写过让代码库自己「长成 Agent 能读的样子」，Sphinx 补的是另一头：代码写得再可读，也得有人读得进去。</p>
+
+<h2 id="该不该装">该不该装</h2>
+
+<p>那什么样的仓库值得装？判断标准就三条，占两条就值得试：你们的工作流里 Agent 写码占比高；有需要保护的主干分支；你担心过「合并进主干的代码没人说得清为什么这么写」。反过来说，纯个人玩具项目、push 频率极低的仓库，装它纯属自找麻烦——摩擦是要付时间的。</p>
+
+<p>装的时候两步不能省：先把敏感路径补进 <code class="language-plaintext highlighter-rouge">.sphinxignore</code> 再跑第一次检查；给付费模型配调用上限。至于「Agent 替我答题」这种钻空子，工具防不住全部——但日志会记住 yolo 的每一次跳过，团队里谁在裸奔，一目了然。</p>
+
+<h2 id="结论和代价">结论和代价</h2>
+
+<p>这件事的结论是：Sphinx 把「理解」从一句口号变成了 push 前的一道显性闸门，设计上最值得抄的三处是审查隔离、留痕绕过、策略随仓库走。代价是每次 push 多几分钟、每检查约 5 到 8 次请求的模型开销，以及它自己承认的定位——练习，不是安全门。真门禁还得靠测试、静态扫描和你自己的判断力，这道考试只是别让判断力睡着。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://zerohour.day/item/d3c35db34ec3acb331d474191fe72e5ca99effdf">Sphinx — a hook that quizzes you on your AI’s code before shipping（Show HN）</a>：官方交互示例（Stripe 幂等考题）、安装流程、yolo 留痕设计。</li>
+  <li><a href="https://hitreader.com/post/sphinx-adds-a-comprehension-check-before-ai-assisted-code-ships">Sphinx Adds a Comprehension Check to AI Coding（HitReader）</a>：审查模型只读 diff、不变量题型、<code class="language-plaintext highlighter-rouge">.sphinxconfig/.sphinxignore/.sphinxcontext.md</code> 三文件、25 分钟等待上限、5–8 次请求成本、README 自认「练习非安全门」。</li>
+  <li><a href="https://wpnews.pro/news/show-hn-sphinx-a-hook-that-quizzes-you-on-your-ai-s-code-before-shipping">Show HN: Sphinx — Web Pulse</a>：npm <code class="language-plaintext highlighter-rouge">sphinx-understand</code> 安装、支持 Codex/Claude Code/Cursor/OpenCode/Pi、答案不回传。</li>
+  <li><a href="https://www.163.com/dy/article/L9IKVKTM05561FZK_pdya11y.html">一个 Git 钩子拦住你的推送</a>：HN 正反方观点全谱、「Level 1 控制」分析框架、绕过留痕的意义。</li>
+  <li><a href="https://ai-tldr.dev/tools/sphinx">Sphinx: A Git Hook That Quizzes You on Agent-Written Code（AI/TLDR）</a>：题目数量随改动规模伸缩、通过 24 小时有效、MCP 接入 Claude Code、sphinx doctor 校验。</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="Sphinx" /><category term="AI编程" /><category term="Code Review" /><category term="理解门禁" /><category term="Git Hook" /><category term="Agent工程" /><category term="工程实践" /><summary type="html"><![CDATA[摘要：开源工具 Sphinx 在保护分支的 push 前设了道考试：由没见过你对话的审查模型读 diff 出题，答对才放行，绕过会留日志。本文拆它的机制、三个设计细节、HN 两派争论，和你该不该装。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-21-sphinx-understanding-gate.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-21-sphinx-understanding-gate.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">你的 Claude 账号，还活着吗</title><link href="https://tangyuewei.com/posts/claude-ban-replit/" rel="alternate" type="text/html" title="你的 Claude 账号，还活着吗" /><published>2026-10-20T08:43:00+08:00</published><updated>2026-10-20T08:43:00+08:00</updated><id>https://tangyuewei.com/posts/claude-ban-replit</id><content type="html" xml:base="https://tangyuewei.com/posts/claude-ban-replit/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：10 月两件事撞在一起：Replit 终止与 Anthropic 的合作，个人侧 Claude 封号潮再现——官方上半年封了 1140 万账号。本文摆事实、划边界，聊怎么降低对单一供应商的依赖。</p>
+</blockquote>
+
+<p>你早上打开 Claude Code 准备干活，登录页面却写着「账号已暂停」。这不是段子。10 月这波，国内外社区里中招的人不少，有人用了三年的号也没保住。</p>
+
+<p>同一周里还有件事，信号更重：据 Tech in Asia 10 月 17 日报道，AI 编程平台 Replit 终止了与 Anthropic 的合作。这家公司企业客户收入占比从去年的 2% 涨到约 15%，正是要用得上模型的时候，却跟最大的模型供应商之一分了手。报道没披露细节，原因先按下不表。</p>
+
+<p>一家企业用脚投票，一群个人账号接连被封。两件事摆在一起，说的是同一个问题：<strong>你跟 Anthropic 绑得有多深，风险就有多大。</strong></p>
+
+<h2 id="封号这事的几个硬事实">封号这事的几个硬事实</h2>
+
+<p>先把能核实的数字摆出来。Anthropic 自己披露：2026 年上半年，Claude 全球封禁账号 1140 万个，收到 39.8 万次申诉，其中 4.2 万次推翻了原判。换算一下，申诉翻案率约一成——封错了的人不少，但多数申诉没用。</p>
+
+<p>《南华早报》10 月 1 日报道，多名中国香港地区用户集中收到封禁通知，有人连续用了半年，邮件里明确写着「违反支持地区政策」。V2EX 上有用户称三年老号也被停用。10 月 8 日，Anthropic 更新使用政策，再次明确地区限制的适用范围。</p>
+
+<p>更让人不安的是「玄学」部分。有人 10 月 14 日换了邮箱、重建开发虚拟机、通过护照身份验证开通 Max，两小时后账号再次消失。也有人 10 月 12 日在 V2EX 发帖：机房 IP、上海时区、界面全中文，甚至在 Memory 里直接写明自己是中国大陆用户——三个号全部正常，两个还是三年前注册的。LINUX DO 社区 10 月 8 日统计的 59 份问卷里，19 份自述网络环境和行为都没问题的，仍有 5 份被封。</p>
+
+<p>这些案例互相矛盾，你该信哪个？一个都别全信。它恰恰说明：<strong>外部人总结不出可靠的保号规律</strong>。你看到的「防封教程」，样本量撑不起结论。</p>
+
+<h2 id="合规边界先说清楚">合规边界，先说清楚</h2>
+
+<p>有一条必须写明白：Anthropic 官方支持地区名单不包括中国大陆、香港和澳门。用工具切换网络出口，不等于符合规定——官方要求的是实际身处支持地区。企业侧还有一层：2025 年 9 月起，由不受支持地区总部企业直接或间接持股超过 50% 的实体，同样受限，注册在海外也未必豁免。</p>
+
+<p>所以这篇文章不会教你「怎么防封」——在不受支持的地区绕过限制使用，本身就在规则之外，谈保号技巧没有意义。有意思的是 10 月 6 日那次插曲：付款界面短暂出现简体中文和银联标识，社区第一反应不是高兴，而是「这不会是钓鱼吧」。48 小时内入口撤下，全网没有一例可核实的直充成功案例。用户的戒心，是被一次次封号喂出来的。</p>
+
+<h2 id="企业为什么敢分手">企业为什么敢分手</h2>
+
+<p>回到 Replit。它没披露分手原因，但账面变化能说明底气：企业收入占比从 2% 到 15%，说明产品立住了，不再需要靠某一家模型的招牌撑场面。</p>
+
+<p>这符合这几年看到的大趋势：模型层在快速商品化，同一件事多家模型都能做到七八成，差异剩下的部分靠工程补。对供应商来说，大客户流失是最疼的那种疼；对用户来说，这是一次公开演示——<strong>绑定是可以解开的，前提是你一开始就没把它焊死</strong>。</p>
+
+<p><img src="/imgs/202610/2026-10-20-claude-ban-replit-infographic-1.jpg" alt="绑定风险的两个面：企业可以换供应商，个人账号说停就停" /></p>
+
+<h2 id="落到你的工位上">落到你的工位上</h2>
+
+<p>你能从这两件事里带走什么？分两种情况。</p>
+
+<p>如果你是个人开发者，先做一遍依赖盘点：你的关键工作流里，有几个环节只挂在这家供应商的账号上？订阅、额度、代码、对话历史，哪一样丢了会伤筋动骨？想清楚这个，你就知道该把什么迁出来、该给哪条工作流备一条退路。</p>
+
+<p>如果你在团队里做技术决策，Replit 给了现成的参照：模型接入层做抽象，别把业务逻辑和某家 API 写死在一起；主流开源工具链（OpenCode 这类）已经把多家模型做成可切换的，国产模型（DeepSeek、Kimi、GLM，Qwen、MiMo等）在日常编程场景里已经够用；关键项目定期做一次「假设明天这家不可用」的演练，比事后救火便宜得多。</p>
+
+<p>代价也得说：多模型冗余不是免费的。每多接一家，就多一套配额管理、行为差异适配和测试成本，小团队全都要，等于给自己加活。务实做法是二八开：主力一家跑通，备用两家能顶上，不用追求几十家全接。</p>
+
+<p><img src="/imgs/202610/2026-10-20-claude-ban-replit-infographic-2.jpg" alt="给依赖松绑四步：盘点、抽象、备用、演练" /></p>
+
+<h2 id="结论和代价">结论和代价</h2>
+
+<p>这件事的结论是：个人账号的封禁规律外部无法掌握，与其研究玄学，不如盘点依赖；企业的解法也有现成模板——接入层抽象、备用模型、定期演练。代价是多模型冗余有真实的维护成本，二八开比全都要务实。合规那条线再重复一次：支持地区名单是硬边界，别在规则之外押注生产资产。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://aitoolly.com/ai-news/article/2026-10-18-us-ai-coding-startup-replit-ends-work-with-anthropic-as-enterprise-revenue-expands-to-15-percent">US AI Coding Startup Replit Ends Work With Anthropic as Enterprise Revenue Expands to 15 Percent</a>：终止合作报道、企业收入占比 2%→15%。</li>
+  <li><a href="https://www.toutiao.com/article/7694499635175981604">Claude 再现封号潮：中国香港地区用户集中中招，3 年老号也被封</a>：地区政策封禁、误封申诉被拒、10-08 使用政策更新。</li>
+  <li><a href="https://news.sohu.com/a/1084819177_122170321">Claude 在「钓鱼执法」？中文界面背后，是用户挥之不去的封号阴影</a>：10-05 V2EX 两年账号凌晨被封案例、银联界面异动、企业 50% 持股规则。</li>
+  <li><a href="http://mp.weixin.qq.com/s?__biz=Mzk5MDAzMTY0Nw==&amp;mid=2247486055&amp;idx=1&amp;sn=1a0b087efbbe4cb7a198a419ac4dfcd8&amp;chksm=c4f6c9251f1a2deb7c35c8445cc08dedf4fe78c9e8fcb79725e520dc41fd9c36acce98de08a6#rd">Claude 账号生存指南：2026.10 封号规律观察</a>：官方 1140 万封禁/39.8 万申诉/4.2 万推翻数据、LINUX DO 59 份问卷、10-12「什么也不防」与 10-14 KYC 后两小时再封案例。</li>
+  <li><a href="https://www.ai345.info/ai-guide/claude-max-china-usable-status">Claude Max 国内能用吗？10 月银联异动与封号现状</a>：支持地区名单现状、合规风险提示。</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="Claude" /><category term="Anthropic" /><category term="封号" /><category term="Replit" /><category term="供应商依赖" /><category term="AI编程" /><category term="风险治理" /><summary type="html"><![CDATA[摘要：10 月两件事撞在一起：Replit 终止与 Anthropic 的合作，个人侧 Claude 封号潮再现——官方上半年封了 1140 万账号。本文摆事实、划边界，聊怎么降低对单一供应商的依赖。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-20-claude-ban-replit.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-20-claude-ban-replit.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">你的代码库要为 AI 编程重写一遍</title><link href="https://tangyuewei.com/posts/ai-native-codebase-rewrite/" rel="alternate" type="text/html" title="你的代码库要为 AI 编程重写一遍" /><published>2026-10-18T09:22:00+08:00</published><updated>2026-10-18T09:22:00+08:00</updated><id>https://tangyuewei.com/posts/ai-native-codebase-rewrite</id><content type="html" xml:base="https://tangyuewei.com/posts/ai-native-codebase-rewrite/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：代码库一直是为人写的。Agent 进来后多了一类读者：它不脑补，只看得见上下文里那一角。本文聊怎么把边界、契约和隐性知识重写进代码本身，让仓库自己长成 Agent 能干活的样子。</p>
+</blockquote>
+
+<p>你让 Agent 改个小需求：给报表模块加一个导出字段。它在仓库里转了十分钟，最后把逻辑写进了一个几乎同名的方法——那个方法属于隔壁模块。你看着 diff 哭笑不得：模型明明不笨，怎么净往坑里跳？</p>
+
+<p>先别急着怪模型。换你自己进一个陌生仓库，第一件事也是找哪个文件管哪块。你能找对，是因为你会脑补：看到 <code class="language-plaintext highlighter-rouge">calculate_total</code>，你猜得出它跟价格和税有关；看到目录叫 <code class="language-plaintext highlighter-rouge">billing</code>，你知道付款逻辑八成在这。这套脑补能力，Agent 没有。</p>
+
+<p>问题在于：<strong>你的代码库，人写的，有的没有注释，有的注释和跟实际对不上。</strong></p>
+
+<h2 id="agent-读代码跟你不是一回事">Agent 读代码，跟你不是一回事</h2>
+
+<p>过去三十年，软件工程的所有默认设置都围着人脑转。文件夹按人的习惯分，注释写给接手的同事看，抽象层是为了让人脑一次少记几个概念。ShShell 那篇讲 Repository Intelligence 的文章把这个局面说得很准：传统仓库里的命名、目录、注释，服务的都是「一次只能装下几个概念的人脑」，甚至还有那种省行数但藏意图的聪明代码——人看着都要愣一下，Agent 更看不懂。</p>
+
+<p>Agent 是怎么读的？它不脑补，只看得见被塞进上下文的那一小角。一个百万行的单体仓库，对它是大片大片看不见的黑：它能看见正在改的文件，看不见五个目录之外那个会被这次改动连累的遗留模块。ShShell 给了一个数：Agent 把九成精力花在「找业务逻辑在哪」，只剩一成花在真正干活上。</p>
+
+<p>你可能会说，上下文窗口不是越做越大了吗。确实在变大，但塞进去不等于用得上。NVIDIA 的 RULER 基准测过一个扎心的数：模型的有效上下文，往往只有标称窗口的 50% 到 65%。窗口再大，注意力也摊不平。</p>
+
+<p>那怎么办？这就是今年越来越多团队在做的事：<strong>把代码库按 Agent 的读法重写一遍。</strong></p>
+
+<p><img src="/imgs/202610/2026-10-18-ai-native-codebase-rewrite-infographic-1.jpg" alt="人读代码靠脑补，Agent 只看得见一小角" /></p>
+
+<h2 id="补文档写规则文件为什么都不是答案">补文档、写规则文件，为什么都不是答案</h2>
+
+<p>直觉一：给 Agent 补文档。方向对，但它有个致命弱点——会漂移。今年一份工程手册里的 ADR 分析把这层窗户纸捅破了：写在函数旁边的 docstring 跟代码打架，import 的时候就会暴露；可一份独立维护的文档跟代码打架，能静默通过所有 CI 检查，没人发现。文档是复印件，代码才是原件，复印件迟早过期。</p>
+
+<p>直觉二：写规则文件。AGENTS.md 这类约定确实火，开源仓库里已经铺了六万多个。可它的天花板摆在那：Anthropic 自己的建议是 CLAUDE.md 别超 200 行，再长遵循率明显掉；Codex 默认读 AGENTS.md 到 32KiB 就停。更扎心的是网站侧的 llms.txt——Ahrefs 实测，约三万八千个发布了这份文件的域名里，97% 的文件从来没有被任何 AI 爬虫抓取过。你精心写的说明书，读者根本没翻开。</p>
+
+<p>这两个直觉都错在哪？错在把「让 AI 看懂」当成加一层说明的事。说明是路标，路还是那条烂路——路本身不改，路标插得再多，Agent 该迷路还迷路。</p>
+
+<p>正解是把力气花在代码自己身上：<strong>让边界、契约、隐性知识长进代码的结构里，仓库自己会说话。</strong></p>
+
+<h2 id="第一刀把边界画在明面上">第一刀：把边界画在明面上</h2>
+
+<p>先看一个最常见的坑。同一个业务对象，auth 服务里叫 <code class="language-plaintext highlighter-rouge">User</code>，账单服务里叫 <code class="language-plaintext highlighter-rouge">Account</code>，CRM 里叫 <code class="language-plaintext highlighter-rouge">Client</code>。人没问题，知道是一个东西；Agent 会在某个下午把它们当成三个东西，给你幻觉出一个跨系统同步的 bug。命名统一不是洁癖，是在给 Agent 铺语义地图。</p>
+
+<p>目录也一样。Short and Clear 那篇文章给了个好对照：<code class="language-plaintext highlighter-rouge">src/services/user_service.py</code> 是给人看的分层习惯，<code class="language-plaintext highlighter-rouge">src/billing/calculate_invoice_use_case.py</code> 是让 Agent 一眼定位的喊名法——目录名直接喊出业务。它管这叫 Screaming Architecture：让仓库结构自己喊出「这个系统是干嘛的」。</p>
+
+<p>边界画清楚还有个额外好处。六边形架构里，业务核心只暴露端口，数据库、外部服务都是可替换的适配器。你让 Agent 给订单处理加一个 MongoDB 的适配器，它照着端口接口生成就行，核心业务规则碰都不用碰——边界就是护栏。</p>
+
+<p>这里有个反直觉的地方，值得单独说。AI 友好的代码，是拆得更碎吗？恰恰相反。人为了让人脑省力，习惯把一个概念拆成工厂、策略、适配器五层，每层一个文件。对模型来说这是跳转税：每跳一次，就多烧一份上下文。一个概念完整、边界清楚的高内聚文件，比硬拆五层更容易被读懂。真正该留的规矩就一条：有真实的多实现时再做抽象，别为想象中的未来预留。</p>
+
+<h2 id="第二刀让编译器和测试替你管教它">第二刀：让编译器和测试替你管教它</h2>
+
+<p>改代码这件事上，编译器是 Agent 最好的师傅。强类型底下，Agent 生成的调用缺了参数、类型对不上，编译器把行号列号精确报出来，它自己读报错、自己改，全程不用回来烦你。类型系统把模型的搜索空间框住了——它不再凭语感猜，只能在契约里动。这就是为什么 strict 模式下的 TypeScript、Go、Rust 项目里，Agent 的产出明显更稳。</p>
+
+<p>没有类型可依赖的动态语言怎么办？用契约注释补。今年有团队把一条规矩写成了架构决策：每个源文件开头，用该语言原生的文档格式回答四个问题——这个文件做什么、明确不做什么、公开接口是哪些、不显然的设计决策为什么这么定。Agent 动手前先读契约，就能少踩「把有意为之的设计当 bug 修掉」这种坑。</p>
+
+<p>测试的价值也换了位置。<code class="language-plaintext highlighter-rouge">test_should_reject_order_when_credit_limit_exceeded</code> 这个测试名，本身就是一行行为规格，比任何注释都精确地告诉 Agent「超额订单该被拒绝」。ShShell 那句话说得狠：没有测试的代码库，对 AI 是隐形的。顺带一个趋势数据：New Relic 的 2026 报告里，78% 的团队已经习惯在 prompt 里要求把日志和埋点直接写进 AI 生成的代码——可观测性不再是人写完再补的工序，成了生成时的一部分。</p>
+
+<h2 id="第三刀把隐性知识搬进代码">第三刀：把隐性知识搬进代码</h2>
+
+<p>你的项目里一定有这种知识：这个模块容易出事，动它之前先跑全量回归；这个字段看着能删，其实下游有个报表在偷着用；这条链路当年重构踩过坑，别按教科书的方式改。这些全在老员工的脑子里，代码里一个字都没有。</p>
+
+<p>对人类团队，这叫传帮带。对 Agent，这是真空——它每次进项目都是全新人，没有茶水间，没有老同事，只有文件里写没写。你不把知识搬出来，它就只能靠猜，猜错就是开头那个改错模块的故事。</p>
+
+<p>但搬有搬的规矩。记忆文件不是越多越好，它只该装代码表达不了的东西：历史决策、跨系统协议、踩坑记录。能从类型和结构推出来的，就别重复写——写多了文件膨胀，膨胀了遵循率掉，又回到 200 行红线那个问题。隐性知识显性化是好事，把显性知识再抄一遍是给上下文交税。</p>
+
+<p><img src="/imgs/202610/2026-10-18-ai-native-codebase-rewrite-infographic-2.jpg" alt="给代码库动三刀：边界、契约、隐性知识" /></p>
+
+<h2 id="老仓库别推倒改到哪补到哪">老仓库别推倒，改到哪补到哪</h2>
+
+<p>看到这你大概想问：几十万行的老项目，难道要停下来重写半年？不用，这事可以渐进。</p>
+
+<p>有现成的迁移策略可以抄：新建的文件立即按新规矩来，存量文件改到哪个补哪个。三个月下来，最常被改的那批文件就都合规了——而那批文件恰恰是 Agent 最常碰的，投入产出比最高。</p>
+
+<p>施工队都是现成的，就是 Agent 自己。命名统一、类型补全、函数拆分这类活，人做起来枯燥，AI 做起来又快又稳。有开发者拿它重构一个三年老项目的核心模块，代码行数少了四成，单测覆盖率从 30% 拉到 85%。但有一条纪律别破：让它先列清单、你确认、再批量改。一句「自动全改」下去，它漏掉的隐含状态依赖会让你修到怀疑人生。</p>
+
+<p>哪些仓库值得花这个力气？判断标准很简单：Agent 触碰的频率。天天让 AI 改的模块，值得第一个改造；一年没人动的角落，放着就好。重写是给高频读者修的路，不是给荒地铺的铁轨。</p>
+
+<p><img src="/imgs/202610/2026-10-18-ai-native-codebase-rewrite-infographic-3.jpg" alt="老仓库渐进迁移：新文件先合规，改到哪补到哪" /></p>
+
+<h2 id="小结">小结</h2>
+
+<p>你的代码库多了类不脑补的读者，它九成精力花在找路上——这不是模型的 bug，是仓库的债。补文档和写规则文件都是路标，真正的路是把边界、契约、隐性知识长进代码结构：命名统一、目录喊业务、类型框搜索空间、测试当规格、知识只搬代码装不下的。老仓库不用推倒，改到哪补到哪，让 Agent 修它自己要走的路——但批量改动前，先让它列清单，你点头。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://shshell.com/blog/repository-intelligence">Making Your Codebase Legible to AI: Repository Intelligence（ShShell）</a>：Agent 90% 精力用于定位、命名不一致引发幻觉、无测试即隐形。</li>
+  <li><a href="https://thevibelog.dev/blog/ai-driven-system-architecture-2026">AI-Driven System Architecture 2026（The Vibelog）</a>：类型契约作为 Agent 自纠错回路、四大支柱。</li>
+  <li><a href="https://blog.51cto.com/aioldsix/14707702">AI Native 架构：有限上下文、确定性边界与质量闸门（51CTO）</a>：高内聚优于硬拆五层、有真实多实现再抽象、隐性知识显性化分层。</li>
+  <li><a href="https://soviar-systems.github.io/ai_engineering_handbook/adr-26045-ai-native-development-code-as-primary-do">ADR-26045: AI-Native Development — Code as Primary Documentation（Soviar Systems）</a>：文档漂移机制、契约注释四问、渐进迁移策略、NVIDIA RULER 有效上下文 50–65%。</li>
+  <li><a href="https://datapanda.eu/en/dictionary/agent-instruction-file-agents-md-llms-txt">Agent instruction file (AGENTS.md, llms.txt)（Data Panda）</a>：AGENTS.md 六万仓库、CLAUDE.md 200 行建议、Codex 32KiB 截断。</li>
+  <li><a href="http://llms-txt.io/blog/what-is-agents-md">What Is AGENTS.md?（llms-txt.io）</a>：GitHub 分析 2500+ 仓库，可执行命令胜过含糊散文。</li>
+  <li><a href="https://agentinterface.app/tracker">The agent-interface tracker（agentinterface.app）</a>：Ahrefs 实测约 3.8 万域名发布的 llms.txt 中 97% 从未被 AI 抓取。</li>
+  <li><a href="https://www.shortandclear.de/?p=292/">Future-Proofing Your Code（Short and Clear）</a>：Screaming Architecture、六边形端口适配器、测试即规格。</li>
+  <li><a href="http://www.cocoloop.cn/t/topic/1322/3">AI 时代的代码重构该怎么做（CocoLoop）</a>：三年老项目重构实测，行数 -40%、覆盖率 30%→85%、先列清单再批量改。</li>
+  <li><a href="https://www.devopsdigest.com/ai-generated-code-grades-higher-review-yet-triggers-rise-production-incidents">AI-Generated Code Grades Higher in Review, Yet Triggers Rise in Production Incidents（DEVOPSdigest，引 New Relic 2026 报告）</a>：78% 团队要求把遥测埋点写进生成的代码。</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI编程" /><category term="AI原生" /><category term="代码库重构" /><category term="模块边界" /><category term="类型标注" /><category term="工程实践" /><category term="Agent友好" /><category term="上下文" /><summary type="html"><![CDATA[摘要：代码库一直是为人写的。Agent 进来后多了一类读者：它不脑补，只看得见上下文里那一角。本文聊怎么把边界、契约和隐性知识重写进代码本身，让仓库自己长成 Agent 能干活的样子。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-18-ai-native-codebase-rewrite.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-18-ai-native-codebase-rewrite.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">AI 会写代码了，招聘哪些地方变了</title><link href="https://tangyuewei.com/posts/ai-hiring-bar/" rel="alternate" type="text/html" title="AI 会写代码了，招聘哪些地方变了" /><published>2026-10-17T09:33:00+08:00</published><updated>2026-10-17T09:33:00+08:00</updated><id>https://tangyuewei.com/posts/ai-hiring-bar</id><content type="html" xml:base="https://tangyuewei.com/posts/ai-hiring-bar/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：2026 年 10 月，Huntley 与 @poteto 把”招人卡什么”吵上热搜；某脉黑皮书：AI Agent 岗增幅最高，35+ 从斩杀线变加分项。本文聊招聘卡哪道门槛，与老程序员的优势。</p>
+</blockquote>
+
+<p>你写代码写了十年，面试却突然不会面了。不是你退步，是题目变了。以前考你手写快排、撕红黑树，现在面试官问的是：”给你一个代理，现场做出个能用的东西，并说清你为什么这么设计。”AI 把写代码这件事变得跟填空差不多，招聘这道关反而更难了。</p>
+
+<p>10 月 9 日，两篇前后脚发出的文章，把这件事摊开了吵。Geoffrey Huntley（Ralph 循环的作者，那个循环是 Claude Code 官方插件、署名是他）写了一封给工程经理的信，开头就很冲：”如果你的团队忙着做日常、不去试 AI，你是在准备让他们被替换。” 现 xAI 的 Lauren Tan（账号 @poteto）转了这段话，顺手抛了个更激进的提案：软件工程师面试，换成新两轮就够了。</p>
+
+<p>AI 都会写代码了，招聘哪些地方变了？</p>
+
+<h2 id="论战两端一派换门槛一派守门槛">论战两端：一派换门槛，一派守门槛</h2>
+
+<p>先把两边的话摆平，不然容易吵成立场。</p>
+
+<p>换门槛这一派，主将是 Huntley 加 @poteto。他们的核心主张很直接：代码生成已经成了商品，面试再考你手写算法，等于考你打算外包给机器的事。Huntley 给了一套三分桶的招聘尺子——不可接受：抵触 AI、拿不出任何实证经验、面试用 AI 作弊（直接拒）；可接受：能把一个编码代理的底层讲明白，上下文窗口、tokenization、推理流程，白板上能画；理想：有一堆自己鼓捣出来的副业，是”生产者”而不是”消费者”。他甚至给了句狠的资深标准：”2026 年你不算资深工程师，除非你能重建一个最基础的 Agent。”他自述那东西大概三百行循环。</p>
+
+<p>@poteto 把这套落成了具体动作：面试只剩两轮。第一轮系统设计算”你能不能把想法说清楚、懂不懂怎么工程化”，第二轮现场用代理做出真东西算”你能不能把意图翻成高质量产出”。其余那些旧题，”都不必要了”。</p>
+
+<p>守门槛这一派，代表是 chauyan.dev 那篇《AI Doesn’t Define Seniority》。它专挑 Huntley 的”重建 Claude Code”开刀：一个基础代理就三百行循环，这考的是你对 AI 工具的熟悉度，还是工程资深度？换个三百行的面试题，等于把一道旧题换成另一道，真正的问题没解决。文章把三件事拆开：AI 素养（懂不懂上下文窗口、tokenization、推理、工具调用）、AI 熟练度（能不能用 Claude Code 把活干完）、工程资深度（能不能在复杂、信息不全的条件下做成熟判断、扛下结果）。这三样相关，但不是一回事。</p>
+
+<p>数据也站这边。HackerEarth 的招聘分析说，aptitude（思维）类评估比 2024 年涨了 54 倍，可最高频的考核还是 Algorithms、SQL、Data Structures 这”老三样”。TechBullion 那篇说得更直白：AI 没取消基本功，反而是”没基本功，运营 AI 的成本更高”。</p>
+
+<p>守门槛派是在说”老一套不能丢”吗？也不全是，往下看。</p>
+
+<p><img src="/imgs/202610/2026-10-17-ai-hiring-bar-infographic-1.jpg" alt="两派对照：换门槛派卡意图表达与代理驾驭，守门槛派卡基本功与验证" /></p>
+
+<h2 id="某脉上的真实声音门槛已经先变了">某脉上的真实声音：门槛已经先变了</h2>
+
+<p>这场论战不是大洋彼岸的空谈。某脉《2026产研运人才黑皮书》给出了一组中国职场的答案：AI Agent 工程师取代传统前端、后端，成了招聘量增幅最高的岗位；35+ 程序员从”斩杀线”变成了”加分项”，研发岗在淡化年限硬门槛，AI 相关岗位对”十年以上”经验的要求增幅远高于普通岗。</p>
+
+<p>更刺眼的是脉脉上一条原帖，标题就叫”2026裁疯了，程序员被AI批量替代”：80% 的基础业务代码、CRUD 接口、简单页面、单元测试，AI 几分钟全部写完；以前三个初级干一周的活，现在一个资深加 AI 半天搞定。所以大厂在清退初级开发、外包编码岗、实习编码岗，面试逻辑也变了——不问八股、不手写、不问语法，只问一句”你怎么用 AI 提升开发效率”。</p>
+
+<p>一位有十年 Java 经验的程序员在某脉发帖：”看到这个数据我失眠了，感觉自己多年的经验突然不值钱了。”这条帖子引来上千条讨论。可同一份黑皮书偏偏说经验正在变资产，矛盾吗？</p>
+
+<p>某码道社区引某脉职言区的讨论给出了注脚：2026 大厂面试里，手写题从核心分降级成了保底分，以前考你手写 Promise，现在让你找出 AI 生成的 Promise 里的边界处理错误并解释原因。Meta、Shopify 已经把 AI 工具塞进面试环境，字节校招也不再考八股背诵，面试官看的是你在真实工作流里和工具协作的效率，以及能不能敏锐察觉生成代码的潜在缺陷。</p>
+
+<p>既然验证这么贵，那招聘是不是就卡”会不会验收”就够了？</p>
+
+<h2 id="求职者的现实hc-在缩转身要快">求职者的现实：hc 在缩，转身要快</h2>
+
+<p>论战和报告说完了，回到你最关心的那件事：找工作本身。</p>
+
+<p>这两年，程序员的体感是冷的。传统岗位的招聘数和薪资都在往下走——翰德《2026 人才趋势报告》给的数字很直白：传统软件开发需求降了 25%，同期 AI 应用与智能体开发需求涨超 60%。一升一降之间，被吃掉的是那些”古法工种”的坑。脉脉黑皮书里 AI Agent 岗增幅最高，反过来说，就是别的方向在缩。</p>
+
+<p>在 Boss 直聘这类平台上，”已读不回”成了太多人的日常。你投出去的简历石沉大海，常常不是你不够好，是 hc（headcount，招聘名额）真的在变少。竞争大到什么程度？同样的工作量，需要的脑袋更少了：前面那条脉脉原帖说，三个初级干一周的活，现在一个资深加 AI 半天搞定——不是岗位消失了，是一个人干过去一个团队的活，公司就少招几个人。</p>
+
+<p>转身正在发生，而且很具体。后端往 Agent 开发转，前端往全栈转，后端也往全栈转。hc 变少，在这些转向里比比皆是。所以对求职者来说，这场”招聘卡哪道门槛”的论战，落到你头上就是一句话：先过 AI 这关，再把经验翻译成 AI 能干、你能验收的任务。下文拆开讲。</p>
+
+<h2 id="为什么这事突然吵起来">为什么这事突然吵起来</h2>
+
+<p>不是因为谁突然不爱写代码了，是因为成本曲线变了。</p>
+
+<p>AI 把”生成代码”的单位成本砸了下来。一个原型，以前要几天，现在几小时。可有一件事没同步降价：判断这段代码到底对不对、合不合适、会不会埋坑。chauyan.dev 有句话被转了很多次：”AI 让产出变便宜，没让验证变便宜。”Karpathy 在 YC 的分享里也说过，prompt 现在是用英文写的编程模型语言；OpenAI 的 Sean Grove 更夸张，估出代码只占总价值的 10% 到 20%，剩下 80% 到 90% 在”结构化沟通”——也就是把意图和价值写清楚。</p>
+
+<p>这就接上了 09-28 那篇讲过的同一道鸿沟，只是换了个侧面。那篇说 demo 到生产差在模型之外；这篇说，招聘侧差的是”会产出”和”会验收”根本不是一回事。一个人能指挥代理吐出一大屏代码，和他能拍板这屏代码该不该进生产，是两道能力。</p>
+
+<p>脉脉《2026春招求职行为洞察》也印证了这点：要求三年以上经验的岗位占比超过七成，面向一年以内新人的岗位同比缩减约两成。市场不是不招人，是招人的能力模型变了。</p>
+
+<h2 id="换门槛派的逻辑代码便宜了说清要什么才贵">换门槛派的逻辑：代码便宜了，说清要什么才贵</h2>
+
+<p>换门槛派不是拍脑袋。他们的论据是：代理已经把”写”这件事接走了。Huntley 的 Ralph 循环朴素到一句话——<code class="language-plaintext highlighter-rouge">while :; do cat PROMPT.md | claude-code; done</code>，把同一个 prompt 文件喂给编码代理，让它一直跑直到活收敛。写，被外包了。</p>
+
+<p>那招聘该考什么？考你能不能把意图写进一份 spec，考你能不能看代理跑偏了。@poteto 的两轮面试，第一轮”说清给同事”，第二轮”说清给机器并验收”，本质都是在考同一件事：articulation，把脑子里的东西变成足够精确的语言，让人或机器能照着动，而你不在场。</p>
+
+<p>这派对的地方很实在：意图表达确实是新增量，以前没人专门考过。</p>
+
+<h2 id="守门槛派的逻辑验证没便宜验证靠基本功">守门槛派的逻辑：验证没便宜，验证靠基本功</h2>
+
+<p>守门槛派也不是怀旧。他们的论据更硬：验证之所以贵，是因为它建立在基本功上。</p>
+
+<p>一个初级工程师可以很会 Claude Code，一天产出大量高质量代码；一个资深工程师可能不懂 tokenization 的细节，却能在系统设计早期就 spotting 架构风险、兼容性雷、未来维护成本。chauyan.dev 说得很准：资深不是工龄，也不是工具熟练度，是”被真实问题检验过的判断”。</p>
+
+<p>这就引出你真正想问的那句——老程序员的优势到底在哪？</p>
+
+<p>不在手写快排，不在记 API，甚至不在”我比 AI 懂某门语言”。脉脉上的真实故事把这三个优势讲得很透。</p>
+
+<p>第一，见过失败。技术猎头老陈讲过一桩真事：他推荐的一位 42 岁技术总监，到新公司带项目，凌晨被团队电话叫醒——业务层和数据层各一个文件，代码堆到大几千行，结构乱成一锅粥，因为”一直让 AI 改，改着改着就这样了”，天亮才勉强上线。复盘下来，问题是”没有人能管 AI”。这种对失控的肌肉记忆，是跑分跑不出来的。</p>
+
+<p>第二，能验收。AI 给的伪代码能编译、测试能过，不代表它符合你系统的架构和隐性契约。35 岁后端吴森哲，做了十年技术，重回大厂后主要做 AI Agent 应用，他的感受是：”你踩过坑，才知道哪里容易出问题；做过交付，才知道什么东西能上线，什么东西只是看起来能用。”大厂面他，要的正是”既有业务开发经验、又懂 AI 的人”。</p>
+
+<p>第三，知道不做什么。AI 创业公司创始人金翰总结得更妙：”年轻人解题快，有经验的人出题准。”AI 把这两类人的优势都放大了——年轻人研究两天就能用 AI 搓出复杂插件，但缺方向感和交付标准；经验者因为踩过坑，反而能精准描述需求、判断 AI 给的东西对不对。</p>
+
+<p>HackerEarth 那 54 倍增长的 aptitude 评估，和纹丝不动的”老三样”，说的就是同一件事：筛选在往”思维”走，但底层基本功是一道没撤的门槛，因为它正是验证能力的地基。</p>
+
+<p>那招聘官具体该怎么设卡，老程序员又该怎么准备？</p>
+
+<p><img src="/imgs/202610/2026-10-17-ai-hiring-bar-infographic-2.jpg" alt="老程序员的护城河：见过失败、能验收、知道不做什么；招聘设卡双栏行动清单" /></p>
+
+<h2 id="落到你头上程序员怎么转身">落到你头上：程序员怎么转身</h2>
+
+<p>候选人，不分新老，三件事。别只练 prompt 套路，那是最容易被替代的一层。攒一份”代理跑偏我怎么修”的事故史——它哪次崩了、你怎么定位、改完前后失败率差多少，这份履历比会调十个框架值钱。系统设计和验证能力是硬通货，越早练越值钱。</p>
+
+<p>招聘官，把”产出”和”验收”分开考。设一道关：给候选人一个模糊需求，让他写 spec 指挥代理做出东西，再让他审代理的产物——哪里对、哪里埋坑、要不要进生产。底层基本功别废，用白板快速探一探就行，降权但不撤，因为那是验证的地基。脉脉上的技术猎头老陈说得更直白：现在大厂面试根本不问”用没用过 AI”，直接拿你以前的工作问”你当时用 AI 做了什么、效果是什么、产出提升多少”，只”用过”基本这一轮就到头了。</p>
+
+<p>老码农也别慌。你的优势不在和 AI 比手写速度，在比”判”。把年轻时攒的事故、踩过的雷，整理成能口述的判断框架，面试里讲得出”我当时为什么没让这事上线”，这比演示会多少工具都说服人。脉脉黑皮书那句”35+ 从斩杀线变加分项”，前提是你先过 AI 这关——经验要能翻译成 AI 可执行、可验收的任务，才成资产。</p>
+
+<p>这场论战，到底谁赢了？</p>
+
+<h2 id="三句话带走">三句话带走</h2>
+
+<p>第一，会产出的人多了，会验收的人更稀缺，招聘的重心正在从”写”挪到”判”。第二，换门槛派对的：意图表达是新增量；守门槛派也对：基本功是验证的地基，谁也替不了谁。第三，2026 年招人卡的是”产出加验收”两头，老程序员的护城河不在手写快慢，在见过失败、能验收、知道不做什么——脉脉上那些凌晨救火的故事，就是这笔资产最贵的样子。</p>
+
+<blockquote>
+  <p>本文只讨论公开技术趋势与信息；文中人物观点与帖子均来自其公开文章、报告与访谈，引用以原始出处为准。</p>
+</blockquote>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://ghuntley.com/">Geoffrey Huntley — being a hiring manager in 2026</a>：三分桶招聘尺子、资深门槛”能重建基础 Agent”原文。</li>
+  <li><a href="https://reading.sh/articulation-is-the-job-now-25ac7f44688d">Articulation is the job now（reading.sh）</a>：Huntley 与 @poteto 两派同源分析，意图表达即新门槛。</li>
+  <li><a href="https://chauyan.dev/en/blog/seniority-is-the-multiplicand-en">AI Doesn’t Define Seniority. Engineering Judgment Does.（chauyan.dev）</a>：反驳”重建 Claude Code”门槛，拆 AI 素养/熟练度/资深度。</li>
+  <li><a href="https://techbullion.com/why-2026-software-hiring-will-favor-judgment-over-code-output">Why 2026 Software Hiring Will Favor Judgment Over Code Output（TechBullion）</a>：HackerEarth 54x 数据与”老三样”仍主流。</li>
+  <li><a href="https://www.sgpjbg.com/labels/2026chanyanyunrencaiheipishu/1/6570236.html">2026产研运人才黑皮书（脉脉）</a>：AI Agent 岗增幅最高、35+ 从斩杀线变加分项。</li>
+  <li><a href="https://www.thepaper.cn/newsDetail_forward_33473906">35岁职场人，又好找工作了？（澎湃，引脉脉春招洞察与五人访谈）</a>：42 岁总监救火、”年轻人解题快有经验的人出题准”等真实故事。</li>
+  <li><a href="https://maimai.cn/article/detail?fid=1917321910">2026裁疯了，程序员被AI批量替代（脉脉原帖）</a>：80% 基础代码 AI 写完、面试只问”怎么用 AI 提效”。</li>
+  <li><a href="https://codearts.csdn.net/6a9ba281790f037e6e38e339.html">五年前端手写让AI写？2026大厂面试已从默写转为找AI边界Bug（CSDN 码道，引脉脉职言）</a>：面试手写降级、改考找 AI 代码边界错误。</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI招聘" /><category term="招聘门槛" /><category term="Geoffrey Huntley" /><category term="Lauren Tan" /><category term="工程判断" /><category term="面试" /><category term="AI编程" /><category term="软件工程" /><category term="老程序员" /><category term="脉脉" /><summary type="html"><![CDATA[摘要：2026 年 10 月，Huntley 与 @poteto 把”招人卡什么”吵上热搜；某脉黑皮书：AI Agent 岗增幅最高，35+ 从斩杀线变加分项。本文聊招聘卡哪道门槛，与老程序员的优势。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-17-ai-hiring-bar.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-17-ai-hiring-bar.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">DeepSeek 故障补偿到账， WorkBuddy 也补了</title><link href="https://tangyuewei.com/posts/deepseek-compensation/" rel="alternate" type="text/html" title="DeepSeek 故障补偿到账， WorkBuddy 也补了" /><published>2026-10-16T14:55:00+08:00</published><updated>2026-10-16T14:55:00+08:00</updated><id>https://tangyuewei.com/posts/deepseek-compensation</id><content type="html" xml:base="https://tangyuewei.com/posts/deepseek-compensation/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：DeepSeek 10 月 15 日故障近五小时，官方按七日内消耗全额赠金返还，我账号已到账 28.79 元；WorkBuddy 另补 500 积分，要手动领，10 月 22 日截止。</p>
+</blockquote>
+
+<p>你昨天上午如果在用 DeepSeek 的 API，多半撞上过那次抽风：请求超时、连接重置、页面转圈。北京时间 10 月 15 日 8:11 到 13:04，官方确认服务故障，前后近五个小时。</p>
+
+<p>补偿来的真快。当天官方发了【服务恢复及补偿通知】：按你账号 7 日内（10.8–10.14）的消耗金额，以赠金形式全额返还，赠金自动到账，之后的 API 计费先从赠金账户扣。</p>
+
+<p>这笔钱要申请吗？不用。我打开自己的用量页看了一眼，赠送金额已到账。</p>
+
+<p><img src="/imgs/202610/2026-10-16-deepseek-compensation-notice.jpg" alt="DeepSeek 官方补偿通知与到账的赠送余额（截图：本人账号，敏感信息已脱敏）" /></p>
+
+<h2 id="workbuddy-的-500-积分要你自己动手">WorkBuddy 的 500 积分，要你自己动手</h2>
+
+<p>同一场故障还有个连带补偿，WorkBuddy 因为接了 DeepSeek 模型，故障期间受影响的用户会拿到额外补偿：500 积分。这笔和 DeepSeek 的赠金是一回事吗？不是，而且不会自动到账，要你手动领。</p>
+
+<p>路径不复杂：打开 workbuddy.cn/profile/plans-usage，登录后点左侧「套餐与积分」，列表里有一条「DeepSeek 模型服务异常额外补偿 500 积分」，点领取就行。盯紧右上角的红字——请于 10/22 前领取，过期不候。我自己已经领到了，你还没领的话，看完这篇就去点。</p>
+
+<p><img src="/imgs/202610/2026-10-16-deepseek-compensation-workbuddy.png" alt="WorkBuddy 套餐与积分页：500 积分补偿已领取（截图：本人账号）" /></p>
+
+<p>官方说明在参考资料里，规则细节以它为准。</p>
+
+<h2 id="结论">结论</h2>
+
+<p>两家都补了。DeepSeek 的赠金自动到账，去充值页瞄一眼就行；WorkBuddy 的 500 积分要手动领，积分领取：10 月 22 日截止，领取后有效期一个月。赶紧去领吧。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>【服务恢复及补偿通知】（DeepSeek 开放平台站内通知，2026-10-15）：故障时段 8:11–13:04、按 7 日内消耗全额赠金返还、计费先扣赠金。</li>
+  <li><a href="https://mp.weixin.qq.com/s/dGd6Nz03MF4-1ua1CMmZxA">WorkBuddy 关于 DeepSeek 模型服务异常的补偿说明</a>：500 积分额外补偿与领取方式。</li>
+  <li>WorkBuddy 领取入口：https://www.workbuddy.cn/profile/plans-usage（登录后左侧「套餐与积分」）</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="DeepSeek" /><category term="WorkBuddy" /><category term="服务故障" /><category term="补偿" /><category term="赠金" /><category term="积分" /><category term="AI编程" /><summary type="html"><![CDATA[摘要：DeepSeek 10 月 15 日故障近五小时，官方按七日内消耗全额赠金返还，我账号已到账 28.79 元；WorkBuddy 另补 500 积分，要手动领，10 月 22 日截止。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-16-deepseek-compensation.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-16-deepseek-compensation.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">rea 爆火：AI 能拆二进制了，软件的护城河还剩什么</title><link href="https://tangyuewei.com/posts/rea-binary-moat/" rel="alternate" type="text/html" title="rea 爆火：AI 能拆二进制了，软件的护城河还剩什么" /><published>2026-10-16T08:40:00+08:00</published><updated>2026-10-16T08:40:00+08:00</updated><id>https://tangyuewei.com/posts/rea-binary-moat</id><content type="html" xml:base="https://tangyuewei.com/posts/rea-binary-moat/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：2026 年 10 月，开源项目 rea 把 AI 编码 Agent 接上了 Ghidra、JADX 这类专业逆向工具，单日新增 2.5 万 star，一周冲到 20 万以上。没有源码的闭源软件，第一次能被”拆”得这么轻松。本文讲清它能干啥，再聊聊这事对软件护城河到底意味着什么。</p>
+</blockquote>
+
+<p>你写了一个软件，编译、打包、上线，心里默认一件事：源码在我手里，别人只拿得到二进制，看不懂就抄不动。这个假设，2026 年 10 月被一个叫 rea 的项目狠狠撞了一下。</p>
+
+<p><img src="/imgs/202610/2026-10-16-rea-star-history.png" alt="rea 的 GitHub Star 增长曲线（star-history.com）" /></p>
+
+<p>这张曲线几乎是垂直拉上去的。公开趋势数据里，rea 在 10 月 10 日涨到 66,886 star，单日新增 25,784；10 月 11 日 95,662；10 月 12 日突破 10 万。到 10 月中旬，社区里报的数字已经逼近 24 万（不同统计源略有出入，按规模看是这个量级）。它连续多天霸榜 GitHub Trending 第一，Hacker News 那条讨论攒了 769 分、327 条评论。一个逆向工程工具，从来没这么出圈过。</p>
+
+<p>为什么是它？它到底能干什么？更关键的是，你辛苦写的软件，护城河还在不在？</p>
+
+<h2 id="rea-是什么凭什么这么猛">rea 是什么，凭什么这么猛</h2>
+
+<p>一句话：rea（Reverse Engineer Anything）是一个 MCP 服务器，把你正在用的 AI 编码 Agent，接上 Ghidra、Hopper、IDA 这些专业逆向工具。安装就一行命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>npx rea-agents setup
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>跑完，你的 Agent 就多了一组”看二进制”的能力。它能做的事，覆盖的面相当广：</p>
+
+<ul>
+  <li>原生二进制（ELF、PE、Mach-O）：调用 Ghidra/Hopper/IDA，返回伪代码、汇编、函数级分析。</li>
+  <li>JS / Electron 应用：不运行也能画出模块图、source map、IPC 通道和本地存储结构。</li>
+  <li>.NET 程序集：读取元数据与 CIL 指令。</li>
+  <li>Android APK：v4.1.0（2026-10-06 发布）新增了 headless JADX 静态分析。</li>
+  <li>固件：同一版新增 Binwalk / Unblob 解包。</li>
+  <li>运行期行为：进程监控加网络拦截，抓运行时到底调了什么。</li>
+  <li>网页：通过本地 Chrome 的 CDP 端口被动观察页面结构与网络证据；也能直接分析 HAR 抓包。</li>
+</ul>
+
+<p>README 里工具表列了 11 大类、120 多个独立工具，光原生检查就有 41 个。它兼容 Claude Code、Cursor、Codex、Gemini CLI、Grok Build 等一堆 Agent。分析全程在你本机跑，二进制不上传——但要注意，反编译出来的代码会送给你的模型供应商去读，自有代码别随便喂。</p>
+
+<p>你可能会问：这不就是 Ghidra 吗，我以前也能用啊？对，工具一直都在。rea 真正加的东西是两层：一是把十几条工具链包成一个统一接口，Agent 自己会选；二是它的输出带”证据包”——每个结论都附文件偏移、置信度，以及明确标注的”我没搞懂的部分”。这让 Agent 不容易凭空编，也让你能核对它说的对不对。</p>
+
+<p><img src="/imgs/202610/2026-10-16-rea-binary-moat-infographic-1.jpg" alt="rea 能力地图：把专业逆向工具接到 Agent" /></p>
+
+<h2 id="火的根因门槛被压成了一行命令">火的根因：门槛被压成了一行命令</h2>
+
+<p>这么火，不是因为逆向突然变简单了，也不是因为 AI 突然变强了。这两件事一直都成立。真正的变化是：<strong>门槛从”要懂工具、会看汇编、肯花几天”变成了”对 Agent 说一句话”。</strong></p>
+
+<p>以前你想搞清竞品某个功能怎么实现的，得自己开 Ghidra，手动定位相关函数，一行行看反编译出来的伪代码，靠经验猜逻辑。现在你直接对 Agent 说：”理解下这个 App 的搜索是怎么做的，给我看证据，并在我项目里做个类似的。”它去调工具、拿回伪代码和调用关系，再基于真实证据给你讲原理，甚至写出一份可运行的实现。</p>
+
+<p>雪球是这样滚起来的。同一周，AI 游戏逆向也在突破：志愿者用 84 天完整反编译了 N64 游戏 Snowboard Kids，Agent 没写代码，但把重命名符号、找函数边界这些苦活加速了；有 789 款 PS2 游戏发布时把调试符号留在了可执行文件里，等于给 AI 留了现成路标。前 X 厂产品负责人 Nikita Bier 一条相关推文破了百万浏览。多个独立信号在同一周撞在一起，开发者圈层就炸了。</p>
+
+<p>那它真能”克隆”任何 App 吗？先别急着下结论，往下看。</p>
+
+<h2 id="先塌的护城河代码保密">先塌的护城河：代码保密</h2>
+
+<p>第一道塌掉的，是”代码没开源，所以抄不动”。编译产物本身就是实现细节的暴露面：没 strip 的调试符号、没加固的 APK、没删 source map 的 Electron 包，都是现成的入口。rea 把这些入口标准化成 Agent 可调用的一组工具，于是”太复杂所以抄不动”从一句安慰变成了假象。</p>
+
+<p>但你得把这件事说准：塌的是”代码保密”这一层，不是护城河全部。rea 自己的 slogan 是”理解机制，不是模仿功能”。Snowboard Kids 那 84 天里，写代码的还是人，Agent 只加速了最枯燥的部分。96% 的函数一次匹配，是个别开发者的个例，前提是你二进制的编译器、规模、符号覆盖都得跟它差不多。把这些当”一键克隆”的论据，就夸大了。</p>
+
+<h2 id="剩下的护城河是这四件">剩下的护城河，是这四件</h2>
+
+<p>代码能拆，不等于生意能抄。一个产品真正难搬的，往往不是功能实现，而是另外四件。</p>
+
+<p><strong>用户体验。</strong> rea 能给你一个搜索功能的实现，但给不了”你愿意每天打开”的理由。为什么有些产品难抄？不是功能多，是手感顺、关系链在。拆得出按钮怎么摆，拆不出用户为什么留下来。</p>
+
+<p><strong>持续更新。</strong> rea 拆的是某一时刻的二进制快照。你明天发版，它手里的那份就过期了。护城河于是变成迭代速度：你能多快把对手刚抄走的功能再做一遍、并超出一截。静态的”实现”不再保值，动态的”节奏”才保值。</p>
+
+<p><strong>用户数据。</strong> 这是最硬的一道墙。推荐系统、风控模型、个性化排序，靠的是数据沉淀，不是那几百行算法。拆得出逻辑，拆不出你几年攒下的行为与样本。没有数据，抄来的骨架跑不出同样的效果。</p>
+
+<p><strong>售后服务。</strong> 企业采购买的常常不是软件本体，是”出问题有人管”。SLA、工单、合规认证、专属支持，这些是组织信任，开源工具一行命令拆不出来。</p>
+
+<p>那小团队怎么办？反而更该想清楚：你原来靠”别人看不懂我的代码”当护城河，现在这层薄了，得早点把投入挪到数据、体验、服务这三件拆不动的地方。</p>
+
+<p><img src="/imgs/202610/2026-10-16-rea-binary-moat-infographic-2.jpg" alt="护城河四件套：代码保密已塌，剩下体验、更新、数据、服务" /></p>
+
+<h2 id="冷水边界和代价">冷水：边界和代价</h2>
+
+<p>别被热度带偏，三件事得说清。</p>
+
+<p>合法边界上，为互操作性做的逆向工程，在 DMCA 框架下常被认定为合理使用；但很多商业软件的 EULA 明确禁止逆向，那是合同问题，不是版权问题，依然是真问题。rea 本身是 MIT 协议，定位”合法逆向研究、分析与重建”，用之前看一眼它的 DISCLAIMER。</p>
+
+<p>能力边界上，分析在你本机跑，但反编译结果会发给模型供应商。你拿 rea 去扫自己的构建、看漏了什么，没问题；把核心自有代码喂出去让模型读，就得想清楚模型那边的数据政策。</p>
+
+<p>认知边界上，它是”调研后再写”，不是”一键生成竞品”。把它当调研杠杆，价值最大；当克隆按钮，多半会失望。</p>
+
+<h2 id="三句话带走">三句话带走</h2>
+
+<p>第一，别再把”代码没开源”当护城河，这一层已经变薄了。第二，把投入转到数据、体验、服务这三件 AI 拆不动的地方。第三，拿 rea 跑一遍你自己的构建，看看到底漏了哪些符号和接口——这是它当下最实在的用处。</p>
+
+<blockquote>
+  <p>本文只讨论公开技术趋势与信息，rea 限合法研究用途；对他人软件做逆向，请遵守当地法律与对方许可协议。</p>
+</blockquote>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://github.com/morluto/rea">morluto/rea（GitHub 仓库）</a>：项目主页、README 工具矩阵与 DISCLAIMER。</li>
+  <li><a href="https://github.com/morluto/rea/releases/tag/rea-agents-4.1.0">REA 4.1.0 Release Notes</a>：2026-10-06 发布，含 headless JADX 与 Binwalk/Unblob 固件分析。</li>
+  <li><a href="https://www.worldprogramming.org/posts/ai-cloned-your-app-overnight-now-what-7vrssy">AI Cloned Your App Overnight. Now What?（worldprogramming.org）</a>：采用曲线、HN 讨论、游戏逆向案例。</li>
+  <li><a href="https://theclarity.today/story/morluto-rea-connects-coding-agents-to-ghidra-ida-and-jadx-22942906">morluto/rea puts Ghidra, IDA and JADX behind any coding agent（theclarity.today）</a>：star 计数口径与数据矛盾的辨析。</li>
+  <li><a href="https://www.yeyulingfeng.com/a/1139378.html">没有源码，AI 也能把别人的 App 拆个底朝天（夜雨聆风）</a>：DMCA 合理使用与 EULA 限制的边界说明。</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="安全" /><category term="rea" /><category term="逆向工程" /><category term="二进制分析" /><category term="软件护城河" /><category term="AI Agent" /><category term="MCP" /><category term="开源安全" /><summary type="html"><![CDATA[摘要：2026 年 10 月，开源项目 rea 把 AI 编码 Agent 接上了 Ghidra、JADX 这类专业逆向工具，单日新增 2.5 万 star，一周冲到 20 万以上。没有源码的闭源软件，第一次能被”拆”得这么轻松。本文讲清它能干啥，再聊聊这事对软件护城河到底意味着什么。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-16-rea-binary-moat.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-16-rea-binary-moat.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Agent 别裸奔进生产：先搭架构、可观测、人审三道闸</title><link href="https://tangyuewei.com/posts/agent-enterprise-governance/" rel="alternate" type="text/html" title="Agent 别裸奔进生产：先搭架构、可观测、人审三道闸" /><published>2026-10-15T09:38:00+08:00</published><updated>2026-10-15T09:38:00+08:00</updated><id>https://tangyuewei.com/posts/agent-enterprise-governance</id><content type="html" xml:base="https://tangyuewei.com/posts/agent-enterprise-governance/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Agent 本地跑通，不等于生产可靠。本文给三道闸——架构分层、可观测、人审——把”想”和”做”拆开、给每一步留审计轨迹、把不可逆操作锁在人审之后，并用 ThinkingBox 的静默失败数据说明，为什么不能信 Agent 那句”done”。</p>
+</blockquote>
+
+<p>你本地把 Agent 跑通了，产品说一句”上生产”。</p>
+
+<p>刚开始挺顺。后来，客户来投诉说数据状态不对。你翻日志，Agent 回得漂漂亮亮：”任务已完成。”</p>
+
+<p>这就是 demo 和生产之间那条沟。前面几篇我写过工具怎么管、边界画在哪、模型怎么路由，那都是在”Agent 怎么干活”里打转。今天换个位置：Agent 进了生产，怎么不让它裸奔。三道闸：架构、可观测、人审。</p>
+
+<h2 id="demo-能跑不代表生产可靠">demo 能跑，不代表生产可靠</h2>
+
+<p>你可能会问，本地都跑通了，上线怎么会翻车？</p>
+
+<p>Gartner 有个预测常被引用：到 2027 年底，超过 40% 的代理式 AI 项目会被取消。原因列出来——成本不清、业务价值不明、风控不足。注意，没有一条是”模型不够聪明”。</p>
+
+<p>更朴素的数学在另一边。一个单步正确率 95% 的 Agent，已经算不错了。给它一个二十步的流程：拉工单、查客户、核权益、查三个系统、对账、起草回复、发出去。0.95 的二十次方，约等于 0.36。这个”优秀 Agent”完整跑对这个活的概率，只有三成六。</p>
+
+<p>demo 跑的是 happy path，一次，数据还是你自己挑的。生产跑的是长尾，几千次，还有半夜的脏数据和被气疯的用户。这条沟，填的不是模型能力，是工程纪律。</p>
+
+<h2 id="架构分层把想和做拆开">架构分层：把”想”和”做”拆开</h2>
+
+<p>很多 Agent 一上来就把模型推到最前面：模型直接调工具、直接改库、直接发邮件。问题不在于模型不会想，而在于它的”想”和”做”是同一股力——它觉得自己做对了，就真去做了。</p>
+
+<p>把推理层（模型加循环，负责”想”)和确定性执行层（工具、权限、状态，负责”做”)分开，是治理的第一道闸。</p>
+
+<p>模型只发意图：”把订单改成已发货”。执行层来校验这个意图有没有权限、参数对不对、改完要不要留痕。模型不再直接碰生产资料，它递的是一张工单。</p>
+
+<p>授权能只写在 prompt 里吗？我之前写过 SKILL.md 里写不下授权，根因就在这：prompt 里的”你不可以删库”挡不住一个被注入的指令。要把权限落到工具契约上，每个工具调用带一个最小权限的 token（零信任思路），是”这次调用被授权”，不是”这个 Agent 被授权”。</p>
+
+<p><img src="/imgs/202610/2026-10-15-agent-enterprise-governance-infographic-1.jpg" alt="企业级 Agent 三道闸：推理层与执行层分离" /></p>
+
+<h2 id="可观测给-agent-装一条审计轨迹">可观测：给 Agent 装一条审计轨迹</h2>
+
+<p>Agent 跑飞了，第一反应都是”查日志”。但多数 Agent 的日志只有模型的自言自语和工具返回的片段，串不起来：它到底调了哪个工具、参数是什么、改了哪条记录、改之前什么样。</p>
+
+<p>怎么知道 Agent 到底干了什么？可观测这道闸，是让每一步都留痕。三个东西要抓牢：</p>
+
+<ul>
+  <li><strong>链路（trace）</strong>：一次任务里所有工具调用按时间串成一条线，哪步慢、哪步错，一眼定位。</li>
+  <li><strong>状态变更（state diff）</strong>：重点看”它改了什么”，而不只是”它说了什么”。</li>
+  <li><strong>成本（cost）</strong>：把花销归因到具体任务，而不是摊进一个全局 token 池。</li>
+</ul>
+
+<p>为什么不能信 Agent 那句”done”？微软和 Hugging Face 刚发的 ThinkingBox 给了硬数据：507 个有状态业务流程，每个模型跑 20 次，结果 67.24% 的失败跑完时<strong>没有任何工具报错</strong>——它是静默失败的，数据库已经脏了，回复还写得理直气壮。这个框架的评分标准就是”以数据库终态为准”，而不是看对话文本。你生产里也该这么查：别问 Agent 完没完，去 diff 它留下的状态。</p>
+
+<h2 id="人审哪些活必须人点头">人审：哪些活必须人点头</h2>
+
+<p>不是所有活都值得人审，也不是所有活都能放手。把”多自主”落成一张分级表，反而比一句”关键时刻人工确认”管用。</p>
+
+<p><strong>必须人审的</strong>：不可逆写操作（打款、删库、对外发邮件）、权限变更、合规敏感动作。这些错一次就要救火，闸门值得设。</p>
+
+<p><strong>可以放手的</strong>：只读查询、草稿、内部低频操作。这类你让其自跑，反而把人从疲劳里解放出来。</p>
+
+<p>那审批又防什么？真正要防的不是”该审没审”，是”审了等于没审”。微软 2026 红队报告里，人为绕过审批闸门（HITL bypass）是被利用得最频繁的一类弱点——不是被黑客攻破，是审批请求来得太密、给的上下文太少，人变成了一个两秒点一次的自动盖章机。防线很具体：给审批人看完整动作摘要加风险级加下游影响，而不是一个孤零零的”批准/拒绝”；再监控审批延迟和通过率，如果某人两秒内通过了 95% 的请求，那道闸已经失效了。</p>
+
+<p><img src="/imgs/202610/2026-10-15-agent-enterprise-governance-infographic-2.jpg" alt="人审分级：哪些活必须人审，哪些可以放手" /></p>
+
+<h2 id="三道闸怎么串成一条线">三道闸怎么串成一条线</h2>
+
+<p>分开讲是三道闸，落到系统里是一条控制面。</p>
+
+<p>数据面跑业务：Agent 发意图，执行层干活。控制面跑治理：每一次工具调用都过审计、过策略引擎判风险，高风险的自动升级到人工。跑飞了不要让它空转——加熔断（最大步数、成本上限、明确失败态），到点就升人工，而不是卡在那儿烧 token。</p>
+
+<p>这套结构和网络圈的”控制面 / 数据面分离”是同一个思路：业务流别把治理逻辑搅成一团，治理才有地方插手。</p>
+
+<p>不光是写代码的 Agent。客服 Agent 要改工单、财务 Agent 要对账、运维 Agent 要动线上配置——只要它碰到真实数据，逻辑一模一样：谁碰生产数据，谁就得过这三道闸。</p>
+
+<h2 id="java-后端怎么落地">Java 后端怎么落地</h2>
+
+<p>如果你和我一样是 Java 后端，别把它想得多玄。</p>
+
+<ul>
+  <li><strong>零信任 token</strong>：用 Spring Security 或 Sa-Token，给每个工具调用发一个 scoped token，权限精确到”这一次的这个动作”。</li>
+  <li><strong>审计切面</strong>：在所有工具入口统一加一个操作日志切面，记谁、调了什么、改了哪条记录、前后值是多少。</li>
+  <li><strong>终态断言</strong>：关键的写操作前，加一条断言测试去 diff 状态，而不是信返回码。</li>
+</ul>
+
+<p>之前聊过 Java 后端的四道门禁（编译、契约、状态、链路），那是质量门。今天这三道闸是治理门——权限、审计、人审。质量门保”代码对”，治理门保”动作可控”，两样都得有。</p>
+
+<h2 id="最小可行治理清单">最小可行治理清单</h2>
+
+<ol>
+  <li>列清 Agent 能碰的工具和数据，把边界画出来。</li>
+  <li>工具调用全部带最小权限 token，别用”Agent 被授权”糊弄。</li>
+  <li>每步留审计日志：谁、调了什么、改了什么。</li>
+  <li>关键写操作前加终态断言，别信那句”done”。</li>
+  <li>不可逆操作必须人审，且给审批人完整上下文，别让他当盖章机。</li>
+  <li>上线前每个流程跑至少 10 到 20 次重复评测，看 20/20 的全过率，覆盖所有可能，而不是一次通过率。</li>
+</ol>
+
+<p>Agent 能不能进生产，不取决于它有多聪明，取决于你给它装了几道闸。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li>Microsoft &amp; Hugging Face. microsoft/thinkingbox。</li>
+  <li>Shunyu Yao 等. <em>τ-bench</em> (2024-06). 最早提出 pass^k 指标并以数据库状态评分，是 ThinkingBox 的方法前作。</li>
+  <li>Microsoft AI Red Team. <em>2026 Agent Failure Taxonomy</em>.</li>
+  <li>Gartner. 代理式 AI 项目预测：逾 40% 将于 2027 年底前被取消，主因为成本、价值与风控。</li>
+  <li><em>Beyond the Leaderboard</em> (2026-07). 多个综述文献、基准，将 agent 失败聚为工具调用、规划、长程退化、多体协调、安全、评测有效性六类。</li>
+</ol>
+
+<blockquote>
+  <table>
+    <tbody>
+      <tr>
+        <td>作者：<a href="https://tangyuewei.com">唐悦玮</a></td>
+        <td>从后端出发，用 AI 拓展到全栈的工程师。</td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="企业级Agent" /><category term="Agent治理" /><category term="架构分层" /><category term="可观测性" /><category term="人工审批" /><category term="生产落地" /><category term="零信任" /><category term="IAM" /><summary type="html"><![CDATA[摘要：Agent 本地跑通，不等于生产可靠。本文给三道闸——架构分层、可观测、人审——把”想”和”做”拆开、给每一步留审计轨迹、把不可逆操作锁在人审之后，并用 ThinkingBox 的静默失败数据说明，为什么不能信 Agent 那句”done”。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-15-agent-enterprise-governance.png%22,%20%22alt%22=%3E%22Agent%20%E5%88%AB%E8%A3%B8%E5%A5%94%E8%BF%9B%E7%94%9F%E4%BA%A7%EF%BC%9A%E5%85%88%E6%90%AD%E6%9E%B6%E6%9E%84%E3%80%81%E5%8F%AF%E8%A7%82%E6%B5%8B%E3%80%81%E4%BA%BA%E5%AE%A1%E4%B8%89%E9%81%93%E9%97%B8%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202610/2026-10-15-agent-enterprise-governance.png%22,%20%22alt%22=%3E%22Agent%20%E5%88%AB%E8%A3%B8%E5%A5%94%E8%BF%9B%E7%94%9F%E4%BA%A7%EF%BC%9A%E5%85%88%E6%90%AD%E6%9E%B6%E6%9E%84%E3%80%81%E5%8F%AF%E8%A7%82%E6%B5%8B%E3%80%81%E4%BA%BA%E5%AE%A1%E4%B8%89%E9%81%93%E9%97%B8%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
