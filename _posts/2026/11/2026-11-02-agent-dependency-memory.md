@@ -127,5 +127,3 @@ Agent 没有推翻这些做法，它只是把那个做选择的人换掉了。
 - [AI-Native Engineering Insights：The coding agent control plane gets concrete](https://ainativeengineering.net/article/ea469d87-20b8-450f-9666-c845851a3255)
 - [MCP Defense：MCP 漏洞类型参考](https://defensemcp.com/mcp-vulnerabilities)
 
-
-> 作者：[唐悦玮](https://tangyuewei.com)  |  从后端出发，用 AI 拓展到全栈的工程师。
