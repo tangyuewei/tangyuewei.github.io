@@ -126,5 +126,3 @@ n8n 后来的修法很说明问题：它没有继续在沙箱里补洞，而是�
 - [DEF CON 34: One Pyodide Flaw Exposed Seven Products](https://www.esecurityplanet.com/threats/def-con-34-one-pyodide-flaw-exposed-seven-products/)：Cyera 对七个产品的 Pyodide 逃逸复现、四个 CVE 与评分
 - [The Pyodide Sandbox Escape That Hit Cohere, Hugging Face, and n8n](https://aisecuritywire.com/vulnerabilities/pyodide-sandbox-escape-cohere-terrarium-huggingface-smolagents-defcon-2026)：ctypes 与 eval_code 两条绕过路径的技术细节，以及 n8n 改为进程外执行的处置
 - [Generative UI - FastMCP](https://gofastmcp.com/apps/generative)：MCP 侧同样跑模型代码的 Pyodide 沙箱说明，可用于对照
-
-> 作者：[唐悦玮](https://tangyuewei.com)  |  从后端出发，用 AI 拓展到全栈的工程师。
