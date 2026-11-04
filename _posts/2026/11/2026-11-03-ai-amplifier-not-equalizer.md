@@ -157,4 +157,3 @@ GitClear 给了五条建议，其中第四条是：**在判断力最薄的地方
 - [The Maintainability Gap](https://www.gitclear.com/the_ai_code_quality_maintainability_gap)：GitClear 2026 年 6 月报告，6.23 亿次改动，块重复、重构、复制粘贴、函数连通性、长期维护五组信号
 - [The economic impact of the AI-powered developer lifecycle](https://github.blog/news-insights/research/the-economic-impact-of-the-ai-powered-developer-lifecycle-and-lessons-from-github-copilot/)：GitHub 2023 年大样本分析，93 万用户、约 30% 建议接受率、经验较少者获益更多
 
-> 作者：[唐悦玮](https://tangyuewei.com)  |  从后端出发，用 AI 拓展到全栈的工程师。
