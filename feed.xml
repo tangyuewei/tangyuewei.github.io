@@ -1,0 +1,1494 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://tangyuewei.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://tangyuewei.com/" rel="alternate" type="text/html" hreflang="zh-CN" /><updated>2026-11-06T08:44:39+08:00</updated><id>https://tangyuewei.com/feed.xml</id><title type="html">唐悦玮</title><subtitle>不以物喜，不以己悲。努力只是一种生活方式，先敬业，再乐业。</subtitle><entry><title type="html">一个 4GB 的模型，够不够当手脚</title><link href="https://tangyuewei.com/posts/small-model-agent-boundary/" rel="alternate" type="text/html" title="一个 4GB 的模型，够不够当手脚" /><published>2026-11-06T08:48:00+08:00</published><updated>2026-11-06T08:48:00+08:00</updated><id>https://tangyuewei.com/posts/small-model-agent-boundary</id><content type="html" xml:base="https://tangyuewei.com/posts/small-model-agent-boundary/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：NVIDIA 的 4GB 小模型被传成能在笔记本上跑 agent。一手实测里，材料干净时它全对，加两百条无关记录就全错。够不够当手脚，不看跑分高低，看它在哪里整片地输。</p>
+</blockquote>
+
+<p>先说一个我差点踩进去的坑。</p>
+
+<p>看到 4GB、能在笔记本上跑、开源、不要 API 费这几个词摆在一起，第一反应是：终于可以在自己机器上跑一段 agent 了。</p>
+
+<p>这个反应对了一半。它确实能跑，确实免费，确实不联网。但「能跑」和「能当手脚」之间隔着的不是一张显卡，是一整套关于它会在哪里出错的知识——这套知识，跑分表上没有任何一栏。</p>
+
+<p>之前文章里我说过，小模型省钱的正确姿势不是替大模型，是当大模型的手脚。那什么样的手脚才算合格。</p>
+
+<h2 id="4gb-是四个数字里最小的那个">4GB 是四个数字里最小的那个</h2>
+
+<p>NVIDIA 十月二十三日发布的 Nemotron 3.5 Bolt E4B，名字里的 4GB 指的是它在自家测试里占用的显存目标值。</p>
+
+<p>官方 Q4_K_M 格式的权重文件是 6.18GB。走 Ollama 的 e4b 标签下载，大约 7.2 到 7.9GB。硬盘先留 8GB。</p>
+
+<p>显存也不是恒定的。NVIDIA 自己测的：RTX 5070 上短对话占 3.5GB，上下文开到 32K 就变成 4.3GB。也就是说 4GB 是起点，不是天花板——运行时还得给上下文、工具定义、工作记忆留地方。</p>
+
+<p>一个数字被印在标题上，通常因为它是四个数字里最小的那个。那另外三个为什么不印？</p>
+
+<p>还有一个更贵的坑。<code class="language-plaintext highlighter-rouge">ollama run nemotron-3.5-bolt</code> 如果不带冒号后面的 <code class="language-plaintext highlighter-rouge">e4b</code>，默认拉的是同一个名字下的 74B 版本，二十四五 GB，普通显卡跑不动。家族式命名把一堆尺寸不同的东西挂在同一个前缀下面，省事的是厂商，买单的是下载那一下。</p>
+
+<p><img src="/imgs/202611/2026-11-06-small-model-agent-boundary-diagram-1.jpg" alt="同一个名字下面的四种口径" /></p>
+
+<h2 id="那个-40是跟谁比">那个 40%，是跟谁比</h2>
+
+<p>传播最广的一组数字是：对话式智能体基准上平均质量高出约 40%，输出 token 最多比同类少约 80%。</p>
+
+<p>这两句挨着读，很像「它比同类强四成，还省八成 token」。真是这样吗？回到 NVIDIA 的表上，两个百分比挂的是两个不同的基准。</p>
+
+<p>40% 是比它自己的上一代 Nemotron 3 Nano 4B。80% 才是比同类。</p>
+
+<p>一件产品比自己的上一代替换品强四成，这是正常迭代；比同类强四成，那是代差。同一段话里两个百分比用了两个比较对象，读起来却像同一个。没有人造假，是排版把它们并排放了。</p>
+
+<h2 id="它赢的地方恰好没人能替你验证">它赢的地方，恰好没人能替你验证</h2>
+
+<p>NVIDIA 这张表列了三个对手：上一代 Nano 4B、Qwen 3.5 4B、Gemma 4 E4B。逐项看，它不是完胜。</p>
+
+<p>赢的是角色身份与说话风格、指令优先级、输出约束、结构化输出的有效性。</p>
+
+<p>输的是：工具调用四项测试里 Qwen 3.5 4B 赢三项，包括多轮客服任务；长提示理解与上下文检索，Qwen 3.5 4B 更高；角色共情比基座 Gemma 4 E4B 还略低一点。</p>
+
+<p>而在工具调用那一组里，Bolt 唯一赢下的那项很关键——判断该不该调工具。这是 agent 循环里最先要做对的一步，这一步错了后面全废。</p>
+
+<p>问题来了：这项成绩来自 When2Call-MT，是 NVIDIA 自研的基准，发布时没有公开，外部无法核查。表里另一项 Brevity Bench 同样自研。它最擅长的能力，恰好落在唯一没人能替你复核的那一格。这要怎么信？</p>
+
+<h2 id="材料一脏它就从全对掉到全错">材料一脏，它就从全对掉到全错</h2>
+
+<p>跑分表告诉你它能赢多少，不告诉你它怎么输。这部分只能靠独立实测。</p>
+
+<p>十一月一日，The Gadgeteer 在一台 ASUS ProArt P16 上做了一组三跑取中位数的测试，用 llama.cpp，让一个叫 assa 的 agent 跑几类真实活儿。</p>
+
+<p>干净的活儿结果很好。给它一份短产品资料，让它抽指定字段、比两个型号的规格、去掉重复记录，三次重复全部正确。它还完成了一次带监督的文件读取，资料里没写的细节就留空，没有编。这正是本地小助手该有的样子。</p>
+
+<p>同类型的任务加上干扰，形状就变了：在前面塞两百条无关记录，三次尝试，型号和 Wi-Fi 值全选错。</p>
+
+<p>同一件事，材料干净时百分之百对，材料脏了百分之百错。</p>
+
+<p>这个形状跟大模型不一样。大模型是这次差一点、下次好一点，你在一条斜线上找及格线。这类小模型是成片地失效——它不是在某个难度上慢慢掉分，而是一整类活儿它根本干不了，而分界线不在任务类型上，在材料的干净程度上。</p>
+
+<p><img src="/imgs/202611/2026-11-06-small-model-agent-boundary-diagram-2.jpg" alt="同一类任务，材料一换就从满格掉到零" /></p>
+
+<h2 id="让它再仔细一点会更差">让它再仔细一点，会更差</h2>
+
+<p>发现它错了，人的本能是加一句：请更仔细地核对。</p>
+
+<p>实测里这么做的结果是负的。五个留出案例重复跑，基线版本十五次里过十二次；加了通用指令的版本过九次，还把一个原本三次全对的简单任务弄成了三次全错。</p>
+
+<p>有效的做法是另一种：把上一轮的答案连同具体哪个字段不对一起给它，但不告诉它正确值。三次干扰重的都改对了。</p>
+
+<p>代价也清楚。这三次修正合计用掉 78 秒；把原来失败的尝试算进去，三个任务一共 155 秒。修正一次的时间，是第一次做的两倍。</p>
+
+<p>「再仔细一点」是给人说的话。对人有效，是因为人会重新分配注意力；对这类模型，泛泛的要求只会挤掉它本来就不多的那点余量。它需要的是可定位的错误，不是更重的语气。</p>
+
+<h2 id="时间账比分数账更早否掉它">时间账比分数账更早否掉它</h2>
+
+<p>还有一组数，比准确率更早决定它能不能用。</p>
+
+<p>短的结构化抽取，首字中位 0.476 秒，生成速度 24 个 token 每秒；256 token 的生成，首字 0.326 秒。这些快到可以塞进对话里。</p>
+
+<p>输入一长就变脸：5,863 token 的输入，第一个有效内容字要等 20 秒；11,863 token，等 33 秒。另外从进程启动到模型就绪，8K 上下文下要 9 秒多。</p>
+
+<p>所以它不是对话里的手脚，是后台的手脚。你能接受它在夜里跑一批，不能接受用户在那儿等半分钟。</p>
+
+<p>这条边界不在任何一张跑分表上，但它比任何一项分数都硬。</p>
+
+<h2 id="还有个变量比对手更影响分数">还有个变量，比对手更影响分数</h2>
+
+<p>llm-bench 上有一批第三方跑分，机器是 RTX 4060 Laptop 8GB。同一个 Bolt E4B，Q6_K 配 DFlash 和 NVFP4 的那个配置，Agent 分在不同运行里出现过 89.2 和 71.6 两个值；换成 UD-Q4_K_XL 又是 89.8。作为对照，Qwen3.8-9B 是 84.6，Gemma 4 E4B 是 85.3。</p>
+
+<p>同一个模型换个量化配置，Agent 分的波动比它跟对手之间的差距还大。</p>
+
+<p>你在表上比的常常不是模型，是配置。而厂商的对比表里，一般不写它用的是哪一档量化、跑在什么卡上、上下文开多大。</p>
+
+<h2 id="那它够不够">那它够不够？</h2>
+
+<p>够的活儿：材料短、输出契约明确、可以等、结果会有人复核。抽字段、分类、短回复、语音助手前端的意图判断、游戏 NPC 的对话、给旧机器找个轻量大脑。这些它做得住。</p>
+
+<p>不够的活儿：长材料里的检索与比对、多轮工具编排、任何需要它再想想的任务。这些不是它慢，是它错的形状不适合被修正——一次修正的时间是第一次的两倍，而干扰材料下它第一次的正确率是零。</p>
+
+<p>真要给一条能立刻用的判据，就一条：拿你自己最脏的那份材料去试，别拿干净的试。干净材料上它对不对说明不了什么，脏材料上它错不错才决定你能不能上。</p>
+
+<p>这也顺带说明一件事：模型分档不该按任务类型分，该按任务的可干扰程度分。同样叫抽取，材料干净和材料带噪，是两个难度。</p>
+
+<h2 id="最后">最后</h2>
+
+<p>4GB 这个数字之所以动人，是因为它许诺了一件事：把 agent 从云上搬回你自己的机器，代价只是一张入门显卡。</p>
+
+<p>这个许诺有一半是真的。它确实能跑，确实免费，确实不联网。</p>
+
+<p>但「能跑」和「能当手脚」之间隔着的不是 4GB 显存，是你得先知道它会在什么时候整片地输。前半句厂商写在标题上，后半句只能自己量。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB">NVIDIA Nemotron 3.5 Bolt E4B 模型卡</a>（NVIDIA，2026-10-23）：8B 总参、4B 有效参数，上下文 65,536 token，OpenMDW-1.1 许可</li>
+  <li><a href="https://www.runagentrun.co.uk/articles/try-nvidias-4gb-agent-this-afternoon">Nvidia’s Nemotron 3.5 Bolt E4B fits in 4GB</a>（RunAgentRun）：跑分表逐项拆解——40% 的比较对象是 Nemotron 3 Nano 4B；Qwen 3.5 4B 在四项工具调用中赢三项；Brevity Bench 与 When2Call-MT 为自研且未公开</li>
+  <li><a href="https://the-gadgeteer.com/2026/11/01/local-ai-on-the-asus-proart-p16-gets-useful-when-the-job-is-specific">Local AI on the ASUS ProArt P16 gets useful when the job is specific</a>（The Gadgeteer，2026-11-01）：独立实测，llama.cpp 三跑中位数；干扰材料下的失败、通用指令的反效果、首内容延迟</li>
+  <li><a href="https://www.bestfreewebresources.com/nemotron-3-5-local-guide">NVIDIA Nemotron 3.5 Locally: Which Model Fits Your GPU</a>：4GB 是显存目标而非文件大小，NVIDIA 报告测试中占用 3.1–5.0GB；Ollama 裸标签会拉 74B；许可为 OpenMDW-1.1</li>
+  <li><a href="https://localmodel.run/model/nemotron-3.5-bolt-e4b">Nemotron 3.5 Bolt E4B requirements</a>：Q4_K_M 权重 7.9GB、Q8_0 9.76GB、BF16 16.78GB；含视觉音频投影器与 draft 体积</li>
+  <li><a href="https://llm-bench.io/hardware/rtx-4060-laptop">RTX 4060 Laptop 本地模型跑分记录</a>（llm-bench，2026-10-30/31）：同一模型不同量化配置的 Agent 分波动，及 Qwen3.8-9B、Gemma 4 E4B 对照</li>
+  <li><a href="http://mp.weixin.qq.com/s?__biz=MzY5ODQ5MjUwMg==&amp;mid=2247483668&amp;idx=1&amp;sn=d845157bfff3afeb732087605f7ef512">4GB 显存就能跑的 AI 模型：NVIDIA Bolt E4B 本地上手教程</a>（煮茶人，2026-10-29）：Ollama 版本要求 0.40.10、裸标签拉到 74B、RTX 5070 上 3.5GB 与 32K 上下文 4.3GB 的实测</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="小模型" /><category term="端侧部署" /><category term="Agent" /><category term="模型评测" /><category term="量化" /><summary type="html"><![CDATA[摘要：NVIDIA 的 4GB 小模型被传成能在笔记本上跑 agent。一手实测里，材料干净时它全对，加两百条无关记录就全错。够不够当手脚，不看跑分高低，看它在哪里整片地输。]]></summary></entry><entry><title type="html">单任务看模型，多任务看你</title><link href="https://tangyuewei.com/posts/multitask-limit-attention/" rel="alternate" type="text/html" title="单任务看模型，多任务看你" /><published>2026-11-05T10:36:00+08:00</published><updated>2026-11-05T10:36:00+08:00</updated><id>https://tangyuewei.com/posts/multitask-limit-attention</id><content type="html" xml:base="https://tangyuewei.com/posts/multitask-limit-attention/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：DeepSeek 在设计 agent 架构时写下一句判断：单任务的上限取决于模型能力，多任务的上限取决于人的注意力。他们的观察是一个人只能同时跟进 3 到 5 个会话。所以问题不是让模型更强，是把调度从人手里拿走。</p>
+</blockquote>
+
+<p>先说一个你大概经历过的下午。</p>
+
+<p>三个窗口开着：一个在跑重构，一个在等 review 回复，一个在查线上那条慢查询。你在它们之间来回切，每次切过去，前三十秒都在重建「它刚才到哪了」。</p>
+
+<p>下班时你觉得忙了一整天，但三个任务里没有一个真正推进。</p>
+
+<p>这不是效率问题。<strong>你付的不是干活的钱，是切换的钱。</strong></p>
+
+<h2 id="那句话">那句话</h2>
+
+<p>DeepSeek 的 Harness 团队在十月三十一日发了一篇架构文章，讲他们内部的 Super-agent 是怎么设计的。文章里有一句话，我认为是这一年关于 agent 最值得记的判断之一：</p>
+
+<blockquote>
+  <p>单任务的上限取决于模型能力，多任务的上限取决于人的注意力。</p>
+</blockquote>
+
+<p>配套的观察是：一个人通常只能同时跟进 3 到 5 个活跃会话，再多就只能当上下文搬运工。</p>
+
+<p>这句话之所以重要，是因为它把两个一直被混在一起的上限拆开了。</p>
+
+<p>我们过去一年看到的进步，几乎全在第一个上限上：模型能一次读更多文件、一次调更多工具、一次跑更长的循环。单任务的池子在变大。</p>
+
+<p>但第二个上限没动过。人的脑袋还是那颗脑袋。</p>
+
+<h2 id="为什么卡在三到五个">为什么卡在三到五个</h2>
+
+<p>这个数字不是实验测出来的，是工程观察。那它为什么成立？</p>
+
+<p>每多一个并行任务，你就多维护一份心智状态：它现在做到哪一步、卡在哪、下一步该谁动。这份状态不在任何文档里，只在你脑子里。</p>
+
+<p>而每次切换，这份状态都要重新装载一次。装载是有成本的，而且成本随任务复杂度上升，不是固定的。</p>
+
+<p>于是并行数涨到某个点之后，边际收益转负：多开一个窗口带来的推进，抵不过你在所有窗口之间来回装载的损耗。</p>
+
+<p>三到五这个量级，就是那个拐点大概的位置。它因人而异，因任务而异，但不会因为模型变强而变大。</p>
+
+<p>这一点很反直觉。我们习惯了「工具变强，我就能干更多」，但在这件事上，工具变强只是让每个任务跑得更快，<strong>并没有让你同时装下更多任务</strong>。</p>
+
+<h2 id="现在的-agent全都假设你只有一个任务">现在的 agent，全都假设你只有一个任务</h2>
+
+<p>问题在于，几乎所有的 agent 产品都是按「一个会话等于一个工作单元」设计的。</p>
+
+<p>每个会话自成一体：自己的上下文、自己的历史、自己的执行状态。会话之间不通气。</p>
+
+<p>这个设计在单任务时很干净。一旦你并行推进几件事，它就逼着你当调度器：手动切窗口、手动同步上下文、手动记住谁在等谁。</p>
+
+<p>那为什么并行起来还是这么累？因为架构上是并行的，体验上是串行的——瓶颈被人接住了。</p>
+
+<p>DeepSeek 的解法很直接：把会话管理这件事，从人手上移到系统里。</p>
+
+<h2 id="从五个窗口到一个入口">从五个窗口，到一个入口</h2>
+
+<p>他们的架构分两层。</p>
+
+<p>Router 是常驻的全局协调节点，统一接收群聊、GitHub、邮件这些渠道来的消息，判断该不该干活、该派给谁。</p>
+
+<p>Worker 各自持有独立上下文，并行执行具体任务：复现问题、审代码、写功能，必要时还能再叫 Subagent。</p>
+
+<p>用户看到的始终是同一个助手。背后可能同时有五六个东西在跑，但你只需要面对一个入口。</p>
+
+<p>这个设计里，真正被拿走的不是「多开几个 agent」的能力——那个本来就有。被拿走的是<strong>调度权</strong>。</p>
+
+<p>以前调度在你脑子里：谁先谁后、谁在等我。现在调度在系统里，你只在两个时刻出现——定目标，和验收结果。</p>
+
+<p><img src="/imgs/202611/2026-11-05-multitask-limit-attention-diagram-1.jpg" alt="人在调度路径上，还是系统在调度路径上" /></p>
+
+<h2 id="三个配套设计各解决一个问题">三个配套设计，各解决一个问题</h2>
+
+<p>光有分层不够。这套架构里还有三个细节，我觉得比 Router 和 Worker 本身更值得看，因为它们各自回答了一个具体问题。</p>
+
+<p><strong>什么时候该动。</strong> 群聊、邮件、CI 结果都能当触发器，但绝大多数消息不需要 agent 介入。所以他们做了两级过滤：先用程序规则快速筛掉无关的，再让模型判断剩下的是否需要行动。规则挡量，模型挡质。</p>
+
+<p><strong>不确定该不该动的时候怎么办。</strong> 这里借了计算机体系结构里的投机执行：先在后台试，有价值再提交，没价值就闭嘴。</p>
+
+<p>他们内部有个策略叫「静默复现并修复」——有人反馈 bug，agent 先在后台复现、定位，确认问题真实存在、且找到简单修法之后，才开口；否则什么都不说。</p>
+
+<p>这条设计很关键。它把「主动」和「打扰」分开了：主动是在后台做的，打扰是要付代价的。</p>
+
+<p><strong>人走了它还活着吗。</strong> 执行循环放云端，会话状态进数据库，本地只留一个轻量 daemon，电脑合上任务照样跑。再加一个 Watchdog 盯着有没有陷进无效循环。</p>
+
+<h2 id="最难的不是并行是安静">最难的不是并行，是安静</h2>
+
+<p>把这几个设计放在一起看，会发现它们指向同一个目标：<strong>减少人被打断的次数</strong>。</p>
+
+<p>这一点容易被忽略。大家讨论多 agent，注意力都在「同时能跑多少个」。但真到了用的时候，决定体验的不是并发数，是噪音量。</p>
+
+<p>一个每秒都在汇报进度的 agent，比一个不说话但把事情做完的 agent 难用得多。前者把它的工作量转成了你的工作量。</p>
+
+<p>可为什么大多数 agent 还是停不下来地报进度？因为「我在干活」和「你能看见我在干活」是两件事，而做产品的人容易只优化前一件。</p>
+
+<p>所以那两级过滤和静默策略，做的是减法：让系统承担「判断要不要说话」的成本，而不是把这个成本丢给人。</p>
+
+<p><img src="/imgs/202611/2026-11-05-multitask-limit-attention-diagram-2.jpg" alt="四道关卡，最后一道是沉默" /></p>
+
+<h2 id="但它自己列了三件还没解决的事">但它自己列了三件还没解决的事</h2>
+
+<p>这篇文章是架构探讨，不是产品发布。团队自己在开头就写了这句，也在别处承认了短板。</p>
+
+<p>跨会话的记忆还没打通——五个 Worker 各记各的，遇到需要共享前情的任务就露怯。</p>
+
+<p>权限与安全没定论——主动型 agent 能在没人 @ 的情况下动手，那它到底能动到什么范围？</p>
+
+<p>还有一个细节我觉得挺诚实：异步的 ReAct Loop 做出来了，但<strong>没有默认开启</strong>。也就是说，连设计它的人也不敢一上来就把「前台聊天」和「后台干活」彻底解耦。</p>
+
+<p>这三条摆在一起，说明这套东西现在还是「能跑通」，不是「能放心用」。</p>
+
+<h2 id="对你意味着什么">对你意味着什么</h2>
+
+<p>如果你在搭 agent，或者只是在带一个用 agent 的团队，有三件事可以现在就改。</p>
+
+<p><strong>先算人的带宽，再算并发。</strong> 别按「系统能同时跑 20 个」来设计流程，按「人一天能认真验收几个」来设计。后面那个数字小一个量级。</p>
+
+<p><strong>把调度写进系统，别留在人脑里。</strong> 哪怕只是加一个共享的任务列表，让每个任务的状态对外可见，也比让人靠记忆维护五个心智能省。</p>
+
+<p><strong>给打扰分级。</strong> 不是所有进展都值得汇报。定义清楚哪几种情况必须叫人（结果出来了、卡住了、要授权），其余的一律静默。这一条改起来最便宜，收益最直接。</p>
+
+<h2 id="最后">最后</h2>
+
+<p>过去两年，我们一直在给模型加能力：更长的上下文、更多的工具、更久的自主时间。</p>
+
+<p>很少有人给人减负担。</p>
+
+<p>但瓶颈已经换位置了。单任务那头，模型还在往前跑；多任务这头，卡着的是一颗装不下第六个窗口的脑袋。</p>
+
+<p>所以下一个阶段的竞争，可能不是谁家的 agent 更聪明，而是谁家的 agent 更懂得<strong>什么时候不说话</strong>。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://mp.weixin.qq.com/s?__biz=Mzg2NzU3MDgwNg==&amp;mid=2247548272&amp;idx=3&amp;sn=e9e029f0dddd33c382b7e51e545b82d5">Super-agent 设计探索：迈向更自主的 Agent 系统</a>（DeepSeek Harness 团队，2026-10-31）：3 到 5 个活跃会话的观察、Router 与 Worker 双层架构、两级过滤、投机执行与存算分离</li>
+  <li><a href="https://zjnews.zjol.com.cn/zjnews/202611/t20261101_32001328.shtml">DeepSeek 发布最新 Agent 架构 让 AI 指挥 AI</a>（浙江在线）：静默复现并修复、Watchdog、异步 ReAct Loop 尚未默认开启等实现细节</li>
+  <li><a href="https://www.sctv.com/news/2116552553092603906">DeepSeek 发布全新 Agent 架构：Super-agent</a>（四川网络广播电视台）：单任务上限与多任务上限的原始表述</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI Agent" /><category term="多任务" /><category term="人机协作" /><category term="上下文" /><category term="Harness" /><summary type="html"><![CDATA[摘要：DeepSeek 在设计 agent 架构时写下一句判断：单任务的上限取决于模型能力，多任务的上限取决于人的注意力。他们的观察是一个人只能同时跟进 3 到 5 个会话。所以问题不是让模型更强，是把调度从人手里拿走。]]></summary></entry><entry><title type="html">禁了 os.system，两行代码就绕过去了</title><link href="https://tangyuewei.com/posts/sandbox-blocklist-bypass/" rel="alternate" type="text/html" title="禁了 os.system，两行代码就绕过去了" /><published>2026-11-04T10:24:00+08:00</published><updated>2026-11-04T10:24:00+08:00</updated><id>https://tangyuewei.com/posts/sandbox-blocklist-bypass</id><content type="html" xml:base="https://tangyuewei.com/posts/sandbox-blocklist-bypass/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Droid 1.0 让模型写一段脚本，在沙箱里跑几百次工具调用，只有打印输出回到上下文。它的沙箱没有文件、网络、系统访问权限。而另七个同样跑模型代码的沙箱禁掉了危险函数，却被两行 ctypes 绕过。</p>
+</blockquote>
+
+<p>十月二十九日，Factory 给自家的编码 agent 发了个大版本，把「编程化工具调用」设成了默认。</p>
+
+<p>意思很直白：模型别再一个一个调工具了，直接写一段 JavaScript，在沙箱里把活儿跑完。</p>
+
+<p>这不是新想法。CodeAct 在 2024 年就论证过：让模型用代码表达动作，比让它吐 JSON 调工具更准。Cloudflare、Anthropic、Codex 都做过后来的变体。Factory 做的事是把它设成默认，并且给它配了一个边界画得很死的沙箱。</p>
+
+<h2 id="一个请求几百次工具调用">一个请求，几百次工具调用</h2>
+
+<p>机制不复杂。Droid 把这条路做成一个叫 Script 的工具：模型写 JavaScript，跑在沙箱里，脚本里可以调它的工具。</p>
+
+<p>关键在于<strong>什么东西回到模型</strong>。原始文件、搜索结果、日志，全都留在程序里当变量。只有脚本打印出来的东西，才会回到上下文。</p>
+
+<p>配套的两个数字很能说明意图：基础提示词从 20,887 tokens 降到 13,055，少了 37%；开头只发两个工具定义，原来是十一个。</p>
+
+<p>于是同一件事的耗时就变了。修一个失败的单测，同样是 15 次工具调用：</p>
+
+<ul>
+  <li>直接调用：10 个模型回合，约 56.8 秒</li>
+  <li>Script 模式：5 个模型回合，约 41.6 秒</li>
+</ul>
+
+<p>批量越大，差距越明显。Factory 自己给的例子是清理 151 个 Linear issue：312 次工具调用，2 次模型请求，约 6.1 万 tokens。同样的活儿按直接调用估算，要 36 次请求、310 万 tokens。</p>
+
+<p>还有个 CI 的例子：547 次运行里 5,384 个 job，2 次请求跑完，官方说不到 0.1% 的工具结果进入过模型上下文。</p>
+
+<h2 id="省下来的不是钱是每回合重发的东西">省下来的不是钱，是每回合重发的东西</h2>
+
+<p>这件事容易被讲成「省 token」。省 token 只是结果。那机制在哪？</p>
+
+<p>Agent 跑长任务时，每一回合都要把系统提示、工具定义、历史记录再发一遍。工具越多、跑得越久，这部分固定开销越大。你把工具结果塞进上下文，它还会一直待在那儿，后面每一次请求都跟着重发。</p>
+
+<p>改成程序调用之后，工具结果不再是「上下文里的一段文本」，而是「程序里的一个变量」。它被读一次、算一次，然后丢掉。回到模型的只有结论。</p>
+
+<p>这就是为什么基础提示词能砍掉 37%、工具定义能从 11 个减到 2 个——因为工具不再需要描述给模型看那么细，模型是拿代码在调它们。</p>
+
+<p>还有一层不在账面上：确定性。直接调用时，第几步该重试、循环什么时候停，靠模型每个回合重新判断；写成脚本之后，这些就是代码里的 if 和 for，跑一万次都一样。批量任务里，这一条比省下的 token 更值钱。</p>
+
+<p><img src="/imgs/202611/2026-11-04-sandbox-blocklist-bypass-diagram-1.png" alt="工具结果去哪了" /></p>
+
+<h2 id="但这些数字都是厂商自己量的">但这些数字，都是厂商自己量的</h2>
+
+<p>得说清楚：上面每一个数都来自 Factory 自己的测试，三次试验，10 月 23 日到 28 日。目前没有独立复现。</p>
+
+<p>他们的方法论里还写了两条注记，我觉得比结论更值得看：Devin 没法关掉「问用户」那个工具，所以有些任务在 Codex 通过时被记为通过；Anthropic 的审核拦截，是在另一个 Claude 快照上重跑的。</p>
+
+<p>愿意把这些写出来，说明量的人知道自己在做什么。但尺子仍在厂商手里。同一份测试里，Droid 在 GPT-6.1 Sol 上是 57.6%，Codex 54.0%；在 Claude Opus 5.5 上是 65.2%，Cursor 与 OpenCode 都是 62.1%，Claude Code 57.6%。方向上它确实领先，幅度是三到七个点，不是量级。</p>
+
+<h2 id="同一个动作另一头出了事">同一个动作，另一头出了事</h2>
+
+<p>有意思的地方在这里：就在 Droid 把「模型写程序」设成默认的这段时间，另一批同样跑模型代码的沙箱，被人在 DEF CON 34 上当场拆了。</p>
+
+<p>Cyera 的研究者 Vladimir Tokarev 和 Saar Pearl 拿 Pyodide 开刀——那是把 CPython 编译成 WebAssembly、好让 Python 跑在 JavaScript 运行时里的东西。他们一共在七个产品上复现了同类逃逸，落了四个 CVE，评分从 8.3 到 9.9：</p>
+
+<ul>
+  <li>n8n 的 Code 节点，9.9；低权限用户能借此执行系统命令，读到容器里的 SQLite，把自己改成管理员，然后拿到所有已连接集成的凭据</li>
+  <li>Cohere 的 Terrarium，9.3，那本来就是个专门跑 AI 生成代码的沙箱</li>
+  <li>Grist，9.1</li>
+  <li>Hugging Face 的 smolagents，8.3</li>
+</ul>
+
+<p>外加 langchain-sandbox、stlite、cibuildwheel，一共七个。</p>
+
+<h2 id="它们都做对了同一件事然后漏了同一个洞">它们都做对了同一件事，然后漏了同一个洞</h2>
+
+<p>这七个产品的防护思路是一致的：在 Python 层做黑名单。</p>
+
+<p>禁掉 <code class="language-plaintext highlighter-rouge">os.system</code>，给 JavaScript 桥打补丁，锁住通往 <code class="language-plaintext highlighter-rouge">Object</code> 构造器的明显路径。听起来合理，也确实是大多数人会做的第一件事。可它为什么没拦住？</p>
+
+<p>问题是它们都没管 <code class="language-plaintext highlighter-rouge">ctypes</code>——Python 用来直接调本地代码的接口。攻击者不需要碰黑名单上的任何东西：通过 FFI 把 <code class="language-plaintext highlighter-rouge">libc.system()</code> 解析出来，直接从 Python 调用，绕开那个被包装过、被禁掉的 <code class="language-plaintext highlighter-rouge">os.system</code>。按研究者的说法，两行代码就够。</p>
+
+<p>还有第二条路：直接调 <code class="language-plaintext highlighter-rouge">_pyodide._base.eval_code</code>。那个入口跑在一个<strong>从来没打过补丁</strong>的执行上下文里，别处的限制在它身上不生效。</p>
+
+<p>根子在架构上。WebAssembly 保护的是它自己的线性内存，它不阻止代码去够宿主环境<strong>主动暴露</strong>出来的能力。而 Pyodide 的底子是 Emscripten，暴露得不少。你在 Python 层列一张黑名单，没办法覆盖下一层能摸到的东西。</p>
+
+<p>那要挡住，靠什么？</p>
+
+<h2 id="默认拒绝和默认允许">默认拒绝，和默认允许</h2>
+
+<p>把两件事并排放，差别就出来了。</p>
+
+<p>Droid 的沙箱是这么描述的：<strong>它自己没有文件、网络、系统访问权限，只够得到 Droid 的工具</strong>。需要并发的独立调用一起跑，一批的耗时约等于最慢那一次。</p>
+
+<p>这是「默认拒绝」：先什么都不给，再一个一个开。</p>
+
+<p>出事的那些沙箱是「默认允许」：宿主先把能力全打开，再在 Python 层拉一张黑名单，指望把危险的那几个名字堵住。</p>
+
+<p>黑名单这条路的问题不在于列得够不够全，而在于<strong>它假设你知道所有危险的名字</strong>。而底层暴露出来的入口，往往没有名字，或者有很多名字。</p>
+
+<p>n8n 后来的修法很说明问题：它没有继续在沙箱里补洞，而是把 Python 执行搬出了那个进程，放进一个真正隔离的外部 runner。补洞补的是名单，搬家改的是边界。</p>
+
+<p><img src="/imgs/202611/2026-11-04-sandbox-blocklist-bypass-diagram-2.png" alt="名单挡的是名字，边界挡的是能力" /></p>
+
+<h2 id="如果你也在搭这种沙箱">如果你也在搭这种沙箱</h2>
+
+<p>三件事，按顺序问自己。</p>
+
+<p><strong>第一，默认给了什么。</strong> 不是「我禁了什么」，是「如果什么都不写，它能做什么」。默认能读文件、能连网、能起进程，那后面列的每一张黑名单都只是补丁。</p>
+
+<p><strong>第二，有没有一道进程或容器边界。</strong> 同进程里的 Python 补丁，挡不住 C 层和 FFI。要挡，得让代码跑在另一条进程、另一个文件系统、另一套凭据里。这不是性能问题，是边界问题。</p>
+
+<p><strong>第三，模型写的代码，能摸到宿主暴露的哪些接口。</strong> JavaScript 桥、<code class="language-plaintext highlighter-rouge">ctypes</code>、各种 <code class="language-plaintext highlighter-rouge">eval</code> 入口——这些不需要你主动给，往往是运行时自带的。它们才是逃逸的常用通道。</p>
+
+<h2 id="最后">最后</h2>
+
+<p>工具调用正在从「模型说出来」变成「模型写程序」。这个转向是合理的：上下文干净了，循环确定了，成本下来了。</p>
+
+<p>但它同时把一件事推到了台前——你交给模型的，不再是一段会被解析的文本，而是一段<strong>会跑起来的东西</strong>。</p>
+
+<p>文本错了，你能看见。程序错了，它在你的权限里跑完了才告诉你。</p>
+
+<p>所以「沙箱」这两个字，接下来会从安全团队的词，变成每个搭 agent 的人都要会写的代码。而写它的第一课不是学会禁什么，是学会默认什么都不给。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://factory.com/news/frontier-harness">Droid 1.0: Building a Frontier Harness</a>：编程化工具调用的设计、脚本沙箱的权限边界、Terminal-Bench 4 对比与试验条件</li>
+  <li><a href="https://www.esecurityplanet.com/threats/def-con-34-one-pyodide-flaw-exposed-seven-products/">DEF CON 34: One Pyodide Flaw Exposed Seven Products</a>：Cyera 对七个产品的 Pyodide 逃逸复现、四个 CVE 与评分</li>
+  <li><a href="https://aisecuritywire.com/vulnerabilities/pyodide-sandbox-escape-cohere-terrarium-huggingface-smolagents-defcon-2026">The Pyodide Sandbox Escape That Hit Cohere, Hugging Face, and n8n</a>：ctypes 与 eval_code 两条绕过路径的技术细节，以及 n8n 改为进程外执行的处置</li>
+  <li><a href="https://gofastmcp.com/apps/generative">Generative UI - FastMCP</a>：MCP 侧同样跑模型代码的 Pyodide 沙箱说明，可用于对照</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="安全" /><category term="AI Agent" /><category term="沙箱逃逸" /><category term="工具调用" /><category term="Pyodide" /><category term="MCP" /><summary type="html"><![CDATA[摘要：Droid 1.0 让模型写一段脚本，在沙箱里跑几百次工具调用，只有打印输出回到上下文。它的沙箱没有文件、网络、系统访问权限。而另七个同样跑模型代码的沙箱禁掉了危险函数，却被两行 ctypes 绕过。]]></summary></entry><entry><title type="html">AI 是放大器，不是均衡器</title><link href="https://tangyuewei.com/posts/ai-amplifier-not-equalizer/" rel="alternate" type="text/html" title="AI 是放大器，不是均衡器" /><published>2026-11-03T13:21:00+08:00</published><updated>2026-11-03T13:21:00+08:00</updated><id>https://tangyuewei.com/posts/ai-amplifier-not-equalizer</id><content type="html" xml:base="https://tangyuewei.com/posts/ai-amplifier-not-equalizer/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：AI 对新人帮助更大，这句话流传很广，原始论文里被省掉的一句是：子组差异统计上不显著，也没拿到代码评估质量。另一份 6.23 亿次改动的研究补上另一半：差距在 AI 之前就存在。它是放大器，不是均衡器。</p>
+</blockquote>
+
+<p>过去两个月，「AI 对新人帮助更大」这句话，流传很广。</p>
+
+<h2 id="那组数字长什么样">那组数字长什么样</h2>
+
+<p>先说清楚它到底是什么。</p>
+
+<p>2026 年，MIT 斯隆的 Mert Demirer 和五位合作者（普林斯顿、宾大、微软）分析了三家公司的 Copilot 上线实验：微软、埃森哲，以及一家匿名的财富 100 电子制造企业，覆盖近 5000 名开发者。</p>
+
+<p>方式是随机分组：一组先拿到工具，一组暂时没有。微软的分组持续七个月，埃森哲四个月。</p>
+
+<p>结果是这样的：拿到 Copilot 之后，开发者每周完成的任务数平均多了 26%。</p>
+
+<p>再按经验拆开：任期短的、职级低的，产出涨 27% 到 39%；资深的，涨 8% 到 13%。</p>
+
+<p>数字很漂亮，故事也很顺——工具把门槛降低了，新人受益最大。</p>
+
+<p>到这一步，它就可以被引用了。很多文章就引到这一步。那句括号呢？</p>
+
+<h2 id="原文里那句被省掉的括号">原文里那句被省掉的括号</h2>
+
+<p>但论文自己写了一句话，大意是：这些分组的估计噪声比较大，各组之间的差异通常<strong>没有统计显著性</strong>。</p>
+
+<p>同一位作者在接受 MIT 斯隆的访谈时又补了一句：他们拿不到这些开发者产出的代码，所以只测了产出，<strong>没法评估质量</strong>。</p>
+
+<p>这两句话决定了这组数字的用法边界。它能支撑的是：经验水平可能影响你从 AI 里获益多少，值得在自己公司里测一测。它不能支撑的是：AI 让新人追平了资深。</p>
+
+<p>一个说的是「可能有关」，一个说的是「已经追平」。中间隔着一次统计检验，和一个没人做过的质量评估。</p>
+
+<p>还有一层。GitHub 自己在 2023 年那份大样本分析里也说过「经验较少的开发者获益更多」，样本 93 万。但那份研究看的是<strong>代码建议接受率</strong>和开发者自报的生产力，不是产出质量，也不是能力增长。</p>
+
+<p>方向是一致的。证据强度不是一回事。</p>
+
+<h2 id="一个方向是怎么变成一条定论的">一个方向，是怎么变成一条定论的</h2>
+
+<p>我不觉得有谁在故意夸大。传播链上每一步都很自然。</p>
+
+<p>论文写「差异不显著」，摘要里简化成「新人获益更多」，到了报道里变成「新人提速 39%」，再到汇报 PPT 上就剩一行：AI 对新人效果最好。</p>
+
+<p>中间没有人撒谎。只是每一层都在做减法，减掉的恰好是限定条件。</p>
+
+<p>而这条结论现在很好卖。行业正在集体算 AI 的账：Rippling 上线了专门盯 token 消耗的控制台，IBM 的副董事长 Gary Cohn 公开说投资回报「没有人们想的那么高」。在这个气氛里，「新人受益最大」是个让人松一口气的说法——它意味着这笔钱花得值，意味着人手可以重新算。</p>
+
+<p>越是被需要的结论，越容易省略那句括号。</p>
+
+<h2 id="另一半数据差距在-ai-之前就已经在">另一半数据：差距在 AI 之前就已经在</h2>
+
+<p>如果说上面那份研究测的是「AI 带来了什么」，GitClear 那份报告测的是另一件事：用了 AI 之后，代码变成了什么样。</p>
+
+<p>2026 年 6 月发布的《The Maintainability Gap》，分析了 2023 到 2026 年间 6.23 亿次代码改动。它翻了两个旧结论：</p>
+
+<ul>
+  <li>重度 AI 用户的产出是非用户的 4 到 10 倍；</li>
+  <li>但这批人<strong>在采用 AI 之前就已经是高产者</strong>；</li>
+  <li>和自己过去比，他们的提速大约 25%。</li>
+</ul>
+
+<p>4 到 10 倍听起来像奇迹，25% 听起来像正常工程改进。两个数字说的是同一批人，差别只在分母是「别人」还是「过去的自己」。</p>
+
+<p>这就是「放大器」的意思。它不改变排序，只改变幅度。原本产出多的人，用了之后产出更多；原本判断力薄的人呢？这个后面说。</p>
+
+<p><img src="/imgs/202611/2026-11-03-ai-amplifier-not-equalizer-diagram-1.png" alt="同一批人，两个问题" /></p>
+
+<h2 id="放大器放大的不只是产出">放大器放大的不只是产出</h2>
+
+<p>同一份报告里还有一组更难受的数字。全部以 2023 年为基准：</p>
+
+<p><strong>代码块重复率</strong>（连续五行以上的重复片段，每百万改动行）从 40.3 涨到 73.0，四年涨了 81%，是有记录以来最高。</p>
+
+<p><strong>重构比例</strong>（被移动的代码占改动行的比例）从 2022 年的 21%，掉到 2023 年的 13%，2026 年只剩 3.8%。</p>
+
+<p><strong>复制粘贴</strong>则从 9.4% 升到 15.7%。两者一升一降，结果是：开发者现在选择「复制一份」而不是「重构」的倾向，是反过来的五倍。而在 AI 之前的 2022 年，这个比例是反的——重构的倾向是复制的两倍。</p>
+
+<p>还有三条，方向一致：</p>
+
+<ul>
+  <li>新写的代码调用到别处函数的比例，下降 35%；</li>
+  <li>改动「一年以上没碰过的旧代码」的比例，从 1.7% 掉到 0.46%，降了 74%；</li>
+  <li>掩盖错误的写法（空 catch、兜底默认值一类）上升 47%。</li>
+</ul>
+
+<p>报告里有一句话，比所有数字都硬：这些债<strong>集中在那些还没识别出失败模式的人身上</strong>。</p>
+
+<p>不是所有人平均摊。是集中。</p>
+
+<p>需要说清楚一点：这是趋势对照，不是因果实验。三年里 AI 采用率上升、重构率下降，两件事同时发生，报告没有做因果识别，也没排除同期的交付压力与裁员。它证明的是同向变化，不是谁导致了谁。</p>
+
+<h2 id="为什么偏偏是判断力薄的人欠得多">为什么偏偏是判断力薄的人欠得多</h2>
+
+<p>这里要小心，容易写成「新人不行」。不是这个意思。</p>
+
+<p>那到底是什么？看成本结构就清楚了。</p>
+
+<p>「抄一段能跑的代码」，现在的成本是几秒。回车，它给你。你不用读懂周边，不用知道这段逻辑在仓库里是不是已经存在第三份。</p>
+
+<p>「把这段逻辑并进已有的结构」，成本一分没变。要读懂周边五个文件，要判断它该不该抽成函数，要确认抽完之后别处没坏。</p>
+
+<p>工具把第一件事的边际成本压到接近零，第二件事的边际成本原地不动。</p>
+
+<p><img src="/imgs/202611/2026-11-03-ai-amplifier-not-equalizer-diagram-2.png" alt="一条成本降到零，一条原地不动" /></p>
+
+<p>于是任何一个理性的人，都会做更多第一件事，更少第二件事。这不是态度问题，也不是能力问题，是激励结构。</p>
+
+<p>区别在于：一个写了十年的人，抄的时候心里会响一下——「这个我好像在哪写过」。这一下不是道德感，是他在过去十年里因为重复代码付过账，形成了直觉。</p>
+
+<p>而一个入行半年的人，那一下不会响。他不是不想重构，是<strong>根本没看见有东西需要重构</strong>。</p>
+
+<p>所以「判断力薄」在这件事上的具体含义，不是「写不出来」，是「识别不出自己刚刚制造了一份重复」。</p>
+
+<p>而这种识别力，恰好只能靠被重复代码咬过几次长出来。</p>
+
+<h2 id="够用这条线正在往下走">「够用」这条线，正在往下走</h2>
+
+<p>把这些拼起来，会看到一个正在发生的决策。</p>
+
+<p>如果一家公司相信「AI 让新人够用」，它接下来的动作是可预测的：少招初级，多招能定方向的，把执行层压薄。</p>
+
+<p>省下来的是人头成本，欠下去的是三年后的账。这笔账怎么算？</p>
+
+<p>重复代码的账，落在传播税上。改一处逻辑，你得找齐所有副本，而副本散在你可能不熟的模块里。漏掉一个，就是一个只在特定路径下复现的 bug。这笔税不在当期发生，它在你最想改的时候发生。</p>
+
+<p>GitClear 那句总结写得很准：最大的风险不是 AI 写了你维护不了的代码，而是它写得比以往任何时候都快，而账单会在你最付不起的时候送到。</p>
+
+<h2 id="如果你在带人">如果你在带人</h2>
+
+<p>GitClear 给了五条建议，其中第四条是：<strong>在判断力最薄的地方做教练。</strong></p>
+
+<p>这条比前面四条都难执行，因为它要求你知道谁薄在哪。但有三件事现在就能做，不用等度量体系建起来。</p>
+
+<p><strong>让新人做一次「改造」，而不是一直做「新增」。</strong> 新增功能天然是抄，改造旧代码天然是提炼。给一个「把这三处重复合并掉」的活，比给三个新需求有用得多。</p>
+
+<p><strong>评审时换一个问法。</strong> 「这能跑吗」得到的是执行层答案；「这段和仓库里哪段像」得到的是结构层答案。后一个问题新人第一次会答不上来，答不上来就是教学的开始。</p>
+
+<p><strong>给重复设一条绊线。</strong> CI 里加一条规则：连续五行以上重复就报警。不用一开始就拦死，先让它可见。看不见的东西，教练也教不了。</p>
+
+<h2 id="最后">最后</h2>
+
+<p>那组数字没有错，写它的人也没有错。</p>
+
+<p>错的是它离开原文之后，那句括号被留在了原地，而结论自己走遍了整个行业。</p>
+
+<p>一个真实的方向，被当成一个确定的结论，然后被用来决定招不招人——这条路上没有坏人，只有一层层的减法。</p>
+
+<p>所以下次再看到「某类人用 AI 效果最好」，不妨先问一句：那句话的原文里，是不是也有一句括号。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://mitsloan.mit.edu/ideas-made-to-matter/how-generative-ai-affects-highly-skilled-workers">How generative AI affects highly skilled workers</a>：Demirer 等六人对微软、埃森哲与一家财富 100 企业的 Copilot 实验分析，含 26% 整体提升、分组差异与「统计不显著」「未取得代码」两条局限</li>
+  <li><a href="https://www.gitclear.com/the_ai_code_quality_maintainability_gap">The Maintainability Gap</a>：GitClear 2026 年 6 月报告，6.23 亿次改动，块重复、重构、复制粘贴、函数连通性、长期维护五组信号</li>
+  <li><a href="https://github.blog/news-insights/research/the-economic-impact-of-the-ai-powered-developer-lifecycle-and-lessons-from-github-copilot/">The economic impact of the AI-powered developer lifecycle</a>：GitHub 2023 年大样本分析，93 万用户、约 30% 建议接受率、经验较少者获益更多</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI编程" /><category term="新人培养" /><category term="研发度量" /><category term="代码质量" /><category term="重构" /><summary type="html"><![CDATA[摘要：AI 对新人帮助更大，这句话流传很广，原始论文里被省掉的一句是：子组差异统计上不显著，也没拿到代码评估质量。另一份 6.23 亿次改动的研究补上另一半：差距在 AI 之前就存在。它是放大器，不是均衡器。]]></summary></entry><entry><title type="html">在 98% 的会话里，agent 从记忆里挑了已弃用的 MCP 包</title><link href="https://tangyuewei.com/posts/agent-dependency-memory/" rel="alternate" type="text/html" title="在 98% 的会话里，agent 从记忆里挑了已弃用的 MCP 包" /><published>2026-11-02T08:55:00+08:00</published><updated>2026-11-02T08:55:00+08:00</updated><id>https://tangyuewei.com/posts/agent-dependency-memory</id><content type="html" xml:base="https://tangyuewei.com/posts/agent-dependency-memory/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：你让 agent 接个 GitHub，它没问你用哪个实现，直接挑了一个装上。依据不是仓库现状，是训练记忆。安全公司看到，这类决定在 98% 的会话里没回到人手上；有的案例里，它挑的就是早就弃用的参考实现。</p>
+</blockquote>
+
+<p>你让 agent 帮忙接一下 GitHub。它回一句「好的」，然后跑了一条 <code class="language-plaintext highlighter-rouge">npx</code>，起了一个 server，通了。</p>
+
+<p>全程没问你用哪个实现，也没问版本。</p>
+
+<p>这件事单看没什么。你本来就想省掉这个决定。<strong>但它替你做的这个决定，依据不是仓库现在有什么，是它训练时见过什么。</strong></p>
+
+<h2 id="它不问是因为它觉得不用问">它不问，是因为它觉得不用问</h2>
+
+<p>安全公司 Glow 做过一组观察，结论被行业媒体反复引用：开发者提出一个能力需求，比如「要能读 GitHub」，在观察到的会话里有 98% 的比例，agent 自己就把包选定了，没有回头确认。</p>
+
+<p>这个 98% 容易被读错。它不是「98% 的会话装错了包」。它说的是<strong>这个决定几乎从不回到人手上</strong>。</p>
+
+<p>至于选得对不对，是另一个发现。同一组观察里有个案例：agent 从训练数据里翻出一个 Anthropic 的参考实现装了上去，而那个实现早就弃用了，官方维护的版本就在同一个仓库里。</p>
+
+<h2 id="索引是旧的因为索引是记忆">索引是旧的，因为索引是记忆</h2>
+
+<p>为什么放着新的不用，去拿旧的？</p>
+
+<p>把它想成查表就清楚了。你问它「装哪个」，它去查表。表在哪？在权重里。</p>
+
+<p>权重是某一天冻结的。那天之后，仓库改了名字、换了维护者、把参考实现挪进 <code class="language-plaintext highlighter-rouge">deprecated/</code> 目录、README 顶上加了警告——这些它都不知道。</p>
+
+<p>所以这不是判断力问题。它记得的那个版本，在它学习的时候是对的。</p>
+
+<p><strong>你让一个只能回忆、不能检索的东西，去做一个必须看现状才能做对的判断。</strong></p>
+
+<p>有人会说，它不是能联网搜吗？能。但那是另一条路径，要它主动想起来去搜，而「装个包」这个动作太熟练了，熟练到它不觉得需要查。</p>
+
+<p>就算它真去搜了，也补不上这个洞。搜出来的第一个结果不是「最正确的那个」，是「最像那么回事的那个」——名字可以像，README 可以像，星标数也能像。把依据从权重换成搜索结果，只是换了一张别人也写得出来的表。</p>
+
+<p><img src="/imgs/202611/2026-11-02-agent-dependency-memory-diagram-1.png" alt="两条路，差别只在查哪张表" /></p>
+
+<h2 id="那批旧包上挂着四个高危漏洞">那批旧包上挂着四个高危漏洞</h2>
+
+<p>Glow 在那批弃用的参考实现里翻到四个高危漏洞。哪四个、什么类型、有没有编号，我手上的转述都没写，原始报告也没拿到——这一条只能按「有人数过」记，不能拿来推严重到什么程度。</p>
+
+<p>能拿来说事的是下载量：更宽的那一批弃用参考实现，月下载量大约 165 万次。</p>
+
+<p>这个数字同样得打折。它是厂商自己发布的研究，我只能按二手转述引；165 万次里多少是 agent 装的、多少是人手敲的，报告也没拆开。<strong>但方向是清楚的：有人在持续安装一批明确标了弃用的东西。</strong></p>
+
+<p>这也解释了一个反常现象。你在代码仓库里很少见到有人主动 <code class="language-plaintext highlighter-rouge">npm i</code> 一个 README 写着「本仓库已废弃」的包——装的时候会看见。而 agent 不装给你看。</p>
+
+<h2 id="最麻烦的是它不在你的清单里">最麻烦的是，它不在你的清单里</h2>
+
+<p><code class="language-plaintext highlighter-rouge">npx</code> 这东西的工作方式是：临时拉下来，跑起来，不留痕。</p>
+
+<p>它不进 <code class="language-plaintext highlighter-rouge">package.json</code>，不进 <code class="language-plaintext highlighter-rouge">lockfile</code>，不进 <code class="language-plaintext highlighter-rouge">node_modules</code> 的长期列表。你的 SBOM 里没有它。你公司每季度做的那次软件资产盘点，也扫不到它。</p>
+
+<p>问一句：<strong>你的资产清单上一次更新是什么时候？</strong></p>
+
+<p>很多团队的答案是「上季度」。而 agent 昨天已经在你机器上装过三个包了。</p>
+
+<p><img src="/imgs/202611/2026-11-02-agent-dependency-memory-diagram-2.png" alt="三层依赖，只有两层在清单里" /></p>
+
+<p>这条缝在两个方向上被撑大。一头是它不属于任何项目的依赖树，所以没人负责；另一头是它一旦跑起来，拿的就是你 agent 手上的权限。</p>
+
+<p>OpenCode 那个缺陷是个具体例子。在 Windows 和 WSL 上，一个恶意或被劫持的 MCP server 可以把命令塞进 OAuth 授权 URL，在你走登录授权那一步，这个 URL 被原样拼进了一条 PowerShell 命令。Pillar Security 提出按 9.8 计。</p>
+
+<p>修得不算慢：8 月底私下报告，9 月 28 日的 1.18.33 就改掉了，10 月中才由研究者公开。</p>
+
+<p>难受的地方在后面。<strong>1.0.137 到 1.18.32 这些版本没有 CVE，也没有安全公告。</strong>没编号，扫描器就不报。你跑的版本可能在受影响区间里，而你的漏洞扫描结果是干净的。</p>
+
+<p>为什么没编号？厂商给的理由是：恶意 MCP server 不在他们的威胁模型里。</p>
+
+<p>这句话值得停一下。它不是说「我们忘了发」，是说「我们认为这不该算我们的漏洞」。一台装着 agent 的机器，被一个你不认识的服务端拿走了命令执行权——在威胁模型那张表格上，这一格是空的。</p>
+
+<h2 id="批准一次不代表下次还是那个东西">批准一次，不代表下次还是那个东西</h2>
+
+<p>还有一种情况比装错包更隐蔽。</p>
+
+<p>你装了一个 server，看过它的工具列表，点了同意。这一步在你的心理账户里是一次性的：这个 server 我审核过了。</p>
+
+<p>那你当时批准的到底是什么？是那个名字，还是那一刻的清单？</p>
+
+<p>可工具列表不是常量。它在你每次连上去的时候重新拉取，而工具的描述文字会进入模型的上下文——也就是说，<strong>描述本身是提示的一部分</strong>。</p>
+
+<p>于是就有了那种叫 rug pull 的做法：先上架一个规矩的工具，等你批准，之后某次 <code class="language-plaintext highlighter-rouge">tools/list</code> 换成带指令的版本。多数客户端是按工具名缓存授权的，名字没变，它就不会再问你。</p>
+
+<p>这条不是某个产品的漏洞，是这套机制的自然结果。你批准的对象是「名字」，实际在跑的是「内容」。</p>
+
+<h2 id="有人已经在补了">有人已经在补了</h2>
+
+<p>那有没有人在管这件事？有，但补的位置跟你以为的不一样，有的补在分发端，有的补在运行时。</p>
+
+<p>分发端做得比较完整的是 Adyen 的 Agent Marketplace。一份配置能生成八种客户端认的资源——Claude Code、Codex、Cursor、Devin CLI、Factory Droid、Gemini CLI、OpenCode、Windsurf。它做的事很实在：钉死版本、校验下载摘要、扫描隐藏内容与可执行脚本与远程 URL 与能力声明，遇到本地已有冲突文件就拒绝覆盖。</p>
+
+<p>不过他们自己写了一句，我觉得比功能列表更值得记：「这些检查降低风险，但不能证明一个 hook 或 MCP server 是安全的。」</p>
+
+<p>运行时那头在收的是工具厂商自己，动静集中在十月这一个月。Claude Code 2.1.307 在权限规则、hook、沙箱或任何一种安全机制打断工具调用时，会发一条 OpenTelemetry 事件——<strong>安全机制出手这件事，本身变得可观测了</strong>。同一个版本还把掉线的 HTTP MCP 调用限制成只在只读或幂等时才重试。Codex 那边收紧的是把宿主密钥代入代理流量的目标与请求条件。</p>
+
+<p>这些都不解决「agent 该装哪个包」。它们解决的是装完之后，出事能不能看见。</p>
+
+<h2 id="先把它当依赖管别当配置管">先把它当依赖管，别当配置管</h2>
+
+<p>如果你的团队已经在用 agent 跑真实仓库，有三件事现在就能做，都不难。</p>
+
+<p><strong>把 MCP server 当依赖，不当配置。</strong>配置可以随手改，依赖要有人批。给每个要用的服务定一个批准过的实现，写死版本，记下来源。别让「随手 <code class="language-plaintext highlighter-rouge">npx</code> 一下」成为默认路径。</p>
+
+<p><strong>让它进清单。</strong>不管你的清单是 SBOM、是资产库、还是一个 Markdown 表格，先有个地方能查到「这台机器上跑过哪些 server、谁装的、什么时候」。这一步不做，后面所有讨论都是空的。</p>
+
+<p><strong>盯住能力，不只是盯住包名。</strong>包名不变，能力可以变。至少要能回答：这个 server 现在能读什么、能写什么、能往外发什么。Adyen 那套扫描里最值钱的一项就是能力声明扫描，不是摘要校验。</p>
+
+<h2 id="最后">最后</h2>
+
+<p>依赖可信这件事，工程界做了二十年。锁版本、校验摘要、SBOM、私有源、准入清单——该有的都有。</p>
+
+<p>Agent 没有推翻这些做法，它只是把那个做选择的人换掉了。</p>
+
+<p>以前是你在写 <code class="language-plaintext highlighter-rouge">import</code> 那一行时做的决定，现在是一个只能回忆的东西替你做的。而它做这个决定的时候，不会告诉你它记的是哪一年的仓库。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://ainativeengineering.net/article/ea469d87-20b8-450f-9666-c845851a3255">AI-Native Engineering Insights：The coding agent control plane gets concrete</a></li>
+  <li><a href="https://defensemcp.com/mcp-vulnerabilities">MCP Defense：MCP 漏洞类型参考</a></li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="安全" /><category term="MCP" /><category term="Agent安全" /><category term="依赖供应链" /><category term="npx" /><category term="影子依赖" /><summary type="html"><![CDATA[摘要：你让 agent 接个 GitHub，它没问你用哪个实现，直接挑了一个装上。依据不是仓库现状，是训练记忆。安全公司看到，这类决定在 98% 的会话里没回到人手上；有的案例里，它挑的就是早就弃用的参考实现。]]></summary></entry><entry><title type="html">两个月一万三千星，一个自托管媒体库</title><link href="https://tangyuewei.com/posts/peach-selfhosted-media-library/" rel="alternate" type="text/html" title="两个月一万三千星，一个自托管媒体库" /><published>2026-11-01T12:16:00+08:00</published><updated>2026-11-01T12:16:00+08:00</updated><id>https://tangyuewei.com/posts/peach-selfhosted-media-library</id><content type="html" xml:base="https://tangyuewei.com/posts/peach-selfhosted-media-library/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：散在硬盘、SMB 和网盘里的影片，它能聚成一个库，按编号认出来，自动补齐标题和海报，浏览器里直接播。项目开源两个多月拿到一万三千星。好用，但门槛和边界它也写在明面上。</p>
+</blockquote>
+
+<p>你硬盘里躺着几百个视频文件，名字长这样：<code class="language-plaintext highlighter-rouge">abc-123_1080p.mkv</code>、<code class="language-plaintext highlighter-rouge">新建文件夹 (2)</code>、<code class="language-plaintext highlighter-rouge">最终版_真的最终.mp4</code>。</p>
+
+<p>三个月后再打开，你已经分不清哪个看过、哪个是重复的、哪个版本更清楚。</p>
+
+<p>想找一部看，只能在文件夹里靠记忆翻。翻到了还得猜能不能播、字幕放在哪。</p>
+
+<p>自己攒媒体库的人都会撞上这面墙。</p>
+
+<h2 id="有人把它做成了一整套">有人把它做成了一整套</h2>
+
+<p>Jellyfin、Emby 这些老牌方案解决的也是这件事，但它们默认你已经把文件名理干净了、元数据有人刮过了。整理这一步，往往比看片本身还费劲。</p>
+
+<p>Peach 想省掉的就是这一步。把目录指给它，剩下的它自己认。</p>
+
+<p>一句话说清它是干什么的：<strong>把散在本地盘、SMB 共享和网盘上的影片聚成一个库，按编号认出来，多来源补齐标题、演员、厂牌和封面，然后在浏览器里浏览和播放。</strong></p>
+
+<p>项目开源两个多月，GitHub 上一万三千星、一千五百多次 fork。这个速度在自托管工具里不算常见。</p>
+
+<p>代码是 Python 3.14 加 FastAPI，前端 React，桌面端打成 Windows 和 macOS 的安装包，NAS 上可以直接跑 Docker。许可证 AGPL-3.0。</p>
+
+<h2 id="认片补资料">认片，补资料</h2>
+
+<p>影片编号是这套东西的钥匙。它从文件名里把编号抠出来，认出来之后，再去几个来源分别取标题、演员、厂牌、封面，让它们互相核对。</p>
+
+<p>那这些资料从哪来？项目自己列了一份来源清单，社区站、厂牌官网、图库都在里面。本地 NFO 也读，认不出来的文件还留着手工补录的入口。</p>
+
+<p>几个来源给出不一样的答案，听谁的？<strong>人改的优先。</strong>你手改过的字段，后面的自动刮削不会覆盖回去。</p>
+
+<p>听着像常识，真做对的项目不多。只要一个工具带自动刮削、又没有字段级的归属记录，默认就是「最后写入者赢」——脚本一跑，你上周订正的名字就没了，还查不出是谁改的。</p>
+
+<h2 id="放在哪都能看">放在哪都能看</h2>
+
+<p>本地硬盘、SMB 共享、已经挂载的网盘，在界面上是一视同仁的。</p>
+
+<p>不用先同步到一块盘再看。</p>
+
+<p>播放直接走浏览器，也能把地址丢给外部播放器。字幕、倍速、画面旋转、续播、时间轴预览这些都有。</p>
+
+<p>那远端文件呢？总不能先拖回本地再看。</p>
+
+<p>远端文件默认发标准 Range 请求，不做转码。什么时候开 HLS 是个显式开关——他们的理由写得很实在：HEVC 封进 TS 会静默黑屏，与其默认开一个会出事的模式，不如让需要的人自己打开。</p>
+
+<h2 id="找得到也管得住">找得到，也管得住</h2>
+
+<p>关注人物和创作者的更新，有新作品会冒出来，不用一个个站去翻。</p>
+
+<p>看到想看的、库里又没有，先扔进「想要」清单。等哪天扫描到同名文件，自动对上。</p>
+
+<p>云下载是另一条路：按编号找磁力，交给网盘离线，文件落地之后由扫描登记入库。下载和入库是分开的两件事，中间不断链。</p>
+
+<p>馆藏那边管标签、重复文件、多版本和分卷。资料和观看记录都存在本机，不上传。</p>
+
+<h2 id="一趟走完数据是怎么流的">一趟走完，数据是怎么流的</h2>
+
+<p><img src="/imgs/202611/2026-11-01-peach-selfhosted-media-library-diagram-1.png" alt="从目录到海报墙" /></p>
+
+<p>从一堆文件到一面海报墙，中间是这么几道：扫描把文件认出来，探测拿到时长和分辨率，按编号去外部来源补元数据，全部落进本机一个 SQLite 库，界面和播放器都从这个库读。</p>
+
+<p>关键的一条是：<strong>外部来源改不了这个库。</strong>它们产出的是「候选」——带来源、带置信度，你确认过才算数。</p>
+
+<p>这条边界在他们的协作约定里写死了：模型打分、冲突、多候选，只产生候选，不许自己标成已批准。让程序提议、让人拍板，这条在代码层就卡住了。</p>
+
+<h2 id="装起来麻烦吗">装起来麻烦吗</h2>
+
+<p>NAS 上三步。仓库根有个 <code class="language-plaintext highlighter-rouge">compose.yaml</code>，在旁边建个 <code class="language-plaintext highlighter-rouge">.env</code>，填三个值——地址换成你 NAS 的局域网 IP，别照抄：</p>
+
+<pre><code class="language-dotenv">PEACH_BIND=192.168.1.10
+PEACH_PORT=8900
+PEACH_MEDIA_ROOT=/srv/videos
+</code></pre>
+
+<p>然后 <code class="language-plaintext highlighter-rouge">docker compose up -d</code>。浏览器打开 <code class="language-plaintext highlighter-rouge">http://192.168.1.10:8900</code>，会让你输登录口令。没有默认密码，口令在容器里现查：<code class="language-plaintext highlighter-rouge">docker compose exec peach peach token</code>。</p>
+
+<p>媒体目录默认只读挂载。扫描和播放都不需要写权限，要整理、移动、删除时才得自己开可写。这个默认值是对的——一个上来就能删你文件的工具，谁敢用。</p>
+
+<p>端口默认只绑 <code class="language-plaintext highlighter-rouge">127.0.0.1</code>，也就是只有宿主机能访问。想在局域网里别的设备上看，得显式改 <code class="language-plaintext highlighter-rouge">PEACH_BIND</code>。容器里的服务固定监听 8900，宿主机这头用什么端口由你挑。</p>
+
+<p>装完之后，运行数据都落在一个数据卷里，分八层：</p>
+
+<p><img src="/imgs/202611/2026-11-01-peach-selfhosted-media-library-diagram-2.png" alt="数据目录的分层" /></p>
+
+<p>SQLite 真相库、可重建的产物（海报、头像、厂牌 Logo）、不可变的原始输入（浏览器导出、追更抓取）、任务检查点和锁、只留在本机的凭据、日志、历史备份、待处理导入。</p>
+
+<p>这么分的好处很实际：想备份只备数据库和原始输入，想瘦身就删可重建的那部分。不用猜哪个文件夹能动。</p>
+
+<h2 id="几处跟同类不一样的选择">几处跟同类不一样的选择</h2>
+
+<p>媒体默认原地不动，除非你主动点整理——它不接管你的目录结构，这一条让很多人敢把它直接指向已有的盘。</p>
+
+<p>技术选型更保守。数据库是 SQLite，架构文档里明确写了不做微服务、不做消息总线、不做整站重写。前后端逻辑分开，但部署起来只有一个进程；桌面安装包和 Docker 镜像共用一套代码，不是两条分支各维护一份。</p>
+
+<p>这几条单独看都不稀奇，凑一起就少见了。一个要长期跑在自己机器上的东西，很多方案会先上 PostgreSQL 和一排容器，它反过来挑了最土的那条路。</p>
+
+<h2 id="一百二十九份决策记录">一百二十九份决策记录</h2>
+
+<p>那它凭什么在两个多月攒到一万三千星？翻一翻仓库，答案不全在功能表里。</p>
+
+<p><code class="language-plaintext highlighter-rouge">docs/adr/</code> 目录躺着一百二十九份架构决策记录，编号从 0001 到 0129。</p>
+
+<p>标题不是名词，是判断句。比如「没人要求整理，文件就别动」「新文件靠推送，扫描是兜底」「字段优先级链裁定分歧」。</p>
+
+<p>这份目录比 README 有用。想知道某个决定为什么这么定，点进去就是当时的理由、备选项、以及为什么否掉。</p>
+
+<p>配套的还有五十一个手写 SQL 迁移，一条条写，不靠自动生成。翻到做字段归属的那份 <code class="language-plaintext highlighter-rouge">0029_asset_field_owners.sql</code>，开头几段注释就把「为什么要这么改」和「为什么不建子表」一起交代了。</p>
+
+<p>一次改动连理由一起存档，这个习惯比功能本身更难抄。</p>
+
+<h2 id="谁适合谁别碰">谁适合，谁别碰</h2>
+
+<p>那我到底该不该装？</p>
+
+<p>适合：自己攒了一堆影片、会装 Docker 或者能装安装包、一个人用。</p>
+
+<p>不适合：要多人共用、要账号体系的——它明确不做完整账号体系，Docker 镜像也不提供多租户隔离。想开箱即用、不爱折腾的也别急，桌面安装包还没签名，macOS 也没完成公证，第一次打开会被系统拦一道。技术栈是 Java 或 Go、打算深度改它的，得先接受 Python 3.14。</p>
+
+<p>还有一条硬件门槛容易踩：官方镜像目前只发布 <code class="language-plaintext highlighter-rouge">linux/amd64</code>，ARM 架构的 NAS 还没通过验收。买的是 ARM 小主机，得等或者自己构建。</p>
+
+<p>最后一条要提前讲明白：<strong>这个项目的领域是成人影像，README 上挂着 18+ 标记，只用于管理自己持有或获授权的媒体。</strong>它的工程做法值得读，但这决定了它不适合当公开的团队工具，也不适合在内容审核严格的平台上推。</p>
+
+<h2 id="最后">最后</h2>
+
+<p>一个媒体库工具能讲的故事不多。无非是认得更准、补得更全、放得更开。</p>
+
+<p>Peach 在两个多月攒到一万三千星，靠的不是功能表比别人长。是它把「谁说了算」想清楚了——文件放哪由你说了算，字段填什么由来源和人协商，数据存哪由本机说了算。</p>
+
+<p>想试的话，NAS 上一条 Docker 命令就能起来。想读代码的话，那 129 份决策记录比源码好读。</p>
+
+<blockquote>
+  <table>
+    <tbody>
+      <tr>
+        <td>作者：<a href="https://tangyuewei.com">唐悦玮</a></td>
+        <td>从后端出发，用 AI 拓展到全栈的工程师。</td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://github.com/peach-mitao/peach">peach-mitao/peach</a></li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="工程实践" /><category term="自托管" /><category term="开源项目" /><category term="媒体库" /><category term="NAS" /><category term="Python" /><category term="FastAPI" /><summary type="html"><![CDATA[摘要：散在硬盘、SMB 和网盘里的影片，它能聚成一个库，按编号认出来，自动补齐标题和海报，浏览器里直接播。项目开源两个多月拿到一万三千星。好用，但门槛和边界它也写在明面上。]]></summary></entry><entry><title type="html">老 Java 项目接 Agent，写接口还是建目录</title><link href="https://tangyuewei.com/posts/legacy-java-agent-two-paths/" rel="alternate" type="text/html" title="老 Java 项目接 Agent，写接口还是建目录" /><published>2026-10-31T11:03:00+08:00</published><updated>2026-10-31T11:03:00+08:00</updated><id>https://tangyuewei.com/posts/legacy-java-agent-two-paths</id><content type="html" xml:base="https://tangyuewei.com/posts/legacy-java-agent-two-paths/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：两条路都能让老项目接上 Agent，但入口完全不同。LangChain4j 让你声明一个接口，老 Service 加注解变成工具；AgentScope Java 让你建一个 workspace 目录，项目约定写成 Markdown。改动落在哪，决定你后面要维护什么。</p>
+</blockquote>
+
+<p>改一个跑了七八年的 Spring 项目，让它接上 Agent，最容易想到的问题是”选哪个框架”。</p>
+
+<p>真正决定工作量的问题在另一个地方：<strong>改动落在代码里，还是落在目录里</strong>。</p>
+
+<p>LangChain4j 和 AgentScope Java 正好是这两条路的代表。</p>
+
+<h2 id="两条路的入口不一样">两条路的入口不一样</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>LangChain4j</th>
+      <th>AgentScope Java</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>你要写的东西</td>
+      <td>一个 interface</td>
+      <td>一个 workspace 目录</td>
+    </tr>
+    <tr>
+      <td>老 Service 怎么变成工具</td>
+      <td>加 <code class="language-plaintext highlighter-rouge">@Tool</code> 注解</td>
+      <td>挂 MCP server，或写进 <code class="language-plaintext highlighter-rouge">skills/</code></td>
+    </tr>
+    <tr>
+      <td>上下文放哪</td>
+      <td>接口入参 + ChatMemory</td>
+      <td><code class="language-plaintext highlighter-rouge">AGENTS.md</code>、<code class="language-plaintext highlighter-rouge">MEMORY.md</code>、<code class="language-plaintext highlighter-rouge">knowledge/</code></td>
+    </tr>
+    <tr>
+      <td>动业务代码吗</td>
+      <td>动，但基本是加法</td>
+      <td>基本不动</td>
+    </tr>
+    <tr>
+      <td>运行时模型</td>
+      <td>同步为主，也有 <code class="language-plaintext highlighter-rouge">Flow.Publisher</code></td>
+      <td>基于 Project Reactor</td>
+    </tr>
+    <tr>
+      <td>最低 JDK</td>
+      <td>8 起</td>
+      <td>17</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="/imgs/202610/2026-10-31-legacy-java-agent-two-paths-diagram-1.png" alt="两条路的入口形状对照" /></p>
+
+<h2 id="langchain4j把老-service-声明成接口">LangChain4j：把老 Service 声明成接口</h2>
+
+<p>官方文档给 AI Services 的类比很直白：它像 Spring Data JPA 或 Retrofit——你声明一个接口，框架给你一个代理实现。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="kd">interface</span> <span class="nc">OrderAssistant</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="nf">answer</span><span class="o">(</span><span class="nd">@MemoryId</span> <span class="nc">String</span> <span class="n">sessionId</span><span class="o">,</span> <span class="nd">@UserMessage</span> <span class="nc">String</span> <span class="n">question</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nc">OrderAssistant</span> <span class="n">assistant</span> <span class="o">=</span> <span class="nc">AiServices</span><span class="o">.</span><span class="na">builder</span><span class="o">(</span><span class="nc">OrderAssistant</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">chatModel</span><span class="o">(</span><span class="n">model</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">tools</span><span class="o">(</span><span class="k">new</span> <span class="nc">LegacyOrderService</span><span class="o">())</span>
+    <span class="o">.</span><span class="na">chatMemoryProvider</span><span class="o">(</span><span class="n">id</span> <span class="o">-&gt;</span> <span class="nc">MessageWindowChatMemory</span><span class="o">.</span><span class="na">withMaxMessages</span><span class="o">(</span><span class="mi">20</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>老 Service 一行不用改，加个注解就行：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="nd">@Tool</span><span class="o">(</span><span class="s">"按订单号查订单详情，返回状态、金额、下单时间"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">OrderDetail</span> <span class="nf">queryByNo</span><span class="o">(</span><span class="nc">String</span> <span class="n">orderNo</span><span class="o">)</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">@Tool</code> 里那句描述要当回事。它是模型决定调不调这个方法的唯一依据。老方法名往往叫 <code class="language-plaintext highlighter-rouge">queryByNo</code>、<code class="language-plaintext highlighter-rouge">getDetail</code>、<code class="language-plaintext highlighter-rouge">selectById</code>，模型看不出差别，描述必须自己写清楚。</p>
+
+<p>这条路对老项目友好在<strong>改动是加法</strong>：老的 Service、Controller、Mapper 都不动，新增一个接口加一个配置类。Spring Boot starter 会自动把接口注册成 bean，连 <code class="language-plaintext highlighter-rouge">AiServices.create</code> 都不用调。</p>
+
+<p>但有个坑得提前知道。官方文档写得很明确：同一个 <code class="language-plaintext highlighter-rouge">@MemoryId</code> 的 AI Service 不能被并发调用，会损坏 ChatMemory，而且框架没做任何防护。</p>
+
+<p>老系统恰恰是高并发的。用户快速点两下、页面轮询、重试机制，同一个 sessionId 就会并发进来。这不是”可能出问题”，是设计上就没打算管。要么在入口加锁，要么保证一个会话同时只有一个请求，要么干脆不用 ChatMemory。</p>
+
+<h2 id="agentscope把项目知识搬进一个目录">AgentScope：把项目知识搬进一个目录</h2>
+
+<p>AgentScope 是阿里的多智能体框架，Java 版 2026 年 7 月 GA，JDK 17 起，Maven 坐标 <code class="language-plaintext highlighter-rouge">io.agentscope:agentscope-harness</code>。</p>
+
+<p>它的入口不是接口，是一个目录：</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>workspace/
+├── AGENTS.md          # 角色与项目约定
+├── MEMORY.md          # 长期记忆，框架自己维护
+├── knowledge/         # 领域知识与检索索引
+├── skills/            # 可复用的技能文件
+└── subagents/         # 子 agent 规格
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>代码这边很短：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="kt">var</span> <span class="n">agent</span> <span class="o">=</span> <span class="nc">HarnessAgent</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"order-helper"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">model</span><span class="o">(</span><span class="k">new</span> <span class="nc">QwenConfig</span><span class="o">(</span><span class="s">"qwen-plus"</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">filesystem</span><span class="o">(</span><span class="k">new</span> <span class="nc">LocalFilesystemSpec</span><span class="o">(</span><span class="s">"./workspace"</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">session</span><span class="o">(</span><span class="k">new</span> <span class="nc">RedisSession</span><span class="o">(</span><span class="n">jedisPool</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>这套设计的取舍很清楚：<strong>项目约定写成 Markdown，不是写成代码</strong>。<code class="language-plaintext highlighter-rouge">AGENTS.md</code> 里写一句”这个项目的订单状态只有五种，不要臆造第六种”，比在代码里加一层校验好改，也更容易让不写代码的人参与。</p>
+
+<p>代价在另一面。业务逻辑不在你熟悉的类里了，出问题翻的不是堆栈，是几个 Markdown 文件和对话记录。</p>
+
+<p>部署要求也比 LangChain4j 高。会话默认落本地 workspace，上生产要换成 Redis 或远端存储。官方文档提到，用了沙箱或远端存储却没把会话配置切过去，框架会在启动时直接失败——宁可起不来，也不让生产丢数据。</p>
+
+<p><img src="/imgs/202610/2026-10-31-legacy-java-agent-two-paths-diagram-2.png" alt="两条路的取舍" /></p>
+
+<h2 id="怎么选">怎么选</h2>
+
+<p>判据不在框架好不好，在你的老项目价值在哪。</p>
+
+<p><strong>价值在代码里</strong>——一堆业务规则、状态机、复杂 SQL——选 LangChain4j。它的做法是把这些已有方法包成工具，让模型来调。业务逻辑留在原处，模型只是多了一个入口。</p>
+
+<p><strong>价值在知识里</strong>——一堆口径、约定、历史决策，散在文档和人脑里——选 AgentScope 那套 workspace。它允许你先把这些写下来，再让 agent 去读。</p>
+
+<p><strong>如果是高并发对外服务</strong>，LangChain4j 的 <code class="language-plaintext highlighter-rouge">@MemoryId</code> 并发限制要提前处理，或者干脆不用 ChatMemory，每次请求无状态。</p>
+
+<p><strong>如果要嵌进现有 Spring Boot 微服务、上 K8s 横向扩容</strong>，AgentScope Java 2.0 的会话外置就是为这个场景做的，前提是能接受它的存储依赖。</p>
+
+<h2 id="代价">代价</h2>
+
+<p>三条要说清楚。</p>
+
+<p>LangChain4j 是同步为主的库。虽然有 <code class="language-plaintext highlighter-rouge">Flow.Publisher</code>，但线程和上下文传递得自己管。它最近一个 PR 就在修这个：非阻塞调用下，工具执行和 RAG 卸载跑在”投递答案的线程”上，调用方的 MDC、trace span、security context 全丢，解法是给 <code class="language-plaintext highlighter-rouge">ExecutorProvider</code> 加 <code class="language-plaintext highlighter-rouge">captureContext()</code>。老项目那套链路追踪，接完 Agent 可能要重新接一遍。</p>
+
+<p>AgentScope 的 JDK 17 门槛意味着不少存量项目（还在 8 或 11）先得升 JDK，这本身就是一次改造，跟选框架是两笔账。</p>
+
+<p>两个框架都不解决”改完怎么验证”。那是另一件事。</p>
+
+<h2 id="最后">最后</h2>
+
+<p>回到开头那个问题。选框架之前先看清楚：你是要给老代码加一个入口，还是要给项目知识找一个落脚点。</p>
+
+<p>写接口的那条，动的是代码，换来的是确定性——逻辑在哪、谁调的、出错看哪，全都清楚。</p>
+
+<p>建目录的那条，动的是文档，换来的是可改性——规则谁都能改，改了立刻生效，但边界也松了。</p>
+
+<p>都不轻松，只是疼的地方不一样。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li>LangChain4j AI Services 官方文档 — <a href="https://docs.langchain4j.dev/tutorials/ai-services">https://docs.langchain4j.dev/tutorials/ai-services</a>（接口代理、<code class="language-plaintext highlighter-rouge">@Tool</code>、<code class="language-plaintext highlighter-rouge">@MemoryId</code> 并发限制均出自此页）</li>
+  <li>LangChain4j 仓库 README — <a href="https://github.com/langchain4j/langchain4j">https://github.com/langchain4j/langchain4j</a>（官方原话：”Despite the name, LangChain4j is not a Java port of LangChain”）</li>
+  <li>LangChain4j PR #6623：把调用方上下文传播到 AI Services 卸载的工作 — <a href="https://github.com/langchain4j/langchain4j/pull/6623">https://github.com/langchain4j/langchain4j/pull/6623</a></li>
+  <li>AgentScope Java 官方文档 — <a href="http://java.agentscope.io/en/intro.html">http://java.agentscope.io/en/intro.html</a>（<code class="language-plaintext highlighter-rouge">HarnessAgent</code>、workspace 结构、MCP/A2A、沙箱与多租户）</li>
+  <li>AgentScope Java 2.0 发布说明 — <a href="https://www.alibabacloud.com/blog/603231">https://www.alibabacloud.com/blog/603231</a>（会话外置、K8s 横向扩容、启动自检）</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="Java" /><category term="AI编程" /><category term="LangChain4j" /><category term="AgentScope" /><category term="遗留系统" /><category term="Agent" /><category term="Spring" /><category term="改造" /><summary type="html"><![CDATA[摘要：两条路都能让老项目接上 Agent，但入口完全不同。LangChain4j 让你声明一个接口，老 Service 加注解变成工具；AgentScope Java 让你建一个 workspace 目录，项目约定写成 Markdown。改动落在哪，决定你后面要维护什么。]]></summary></entry><entry><title type="html">聊聊这六个超火的 AI 编程工具</title><link href="https://tangyuewei.com/posts/ai-coding-frameworks-four-layers/" rel="alternate" type="text/html" title="聊聊这六个超火的 AI 编程工具" /><published>2026-10-30T11:48:00+08:00</published><updated>2026-10-30T11:48:00+08:00</updated><id>https://tangyuewei.com/posts/ai-coding-frameworks-four-layers</id><content type="html" xml:base="https://tangyuewei.com/posts/ai-coding-frameworks-four-layers/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Superpowers、ECC、mattpocock/skills、OpenSpec、spec-kit、Trellis，六个工具常被放在一起比，但它们不在同一个层面上。这篇按定位、触发方式和强制性摆开看，再给五套搭配方案。多数人装两个就够，装六个反而互相打架。</p>
+</blockquote>
+
+<p>这六个工具并非竞争关系，而是各自解决不同的问题。核心思路：<strong>用方法论约束思路，用规范固化决策，用工具箱补足能力，用编排串联全局</strong>。</p>
+
+<h2 id="核心定位对比">核心定位对比</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>工具</th>
+      <th>定位</th>
+      <th>思路</th>
+      <th>触发方式</th>
+      <th>强制性</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong><a href="https://github.com/obra/superpowers">Superpowers</a></strong></td>
+      <td>方法论（教练）</td>
+      <td>强制按正确的软件工程流程走：<code class="language-plaintext highlighter-rouge">brainstorming</code> -&gt; <code class="language-plaintext highlighter-rouge">writing-plans</code> -&gt; <code class="language-plaintext highlighter-rouge">subagent-driven-development</code> -&gt; <code class="language-plaintext highlighter-rouge">TDD</code></td>
+      <td>自动触发（靠 <code class="language-plaintext highlighter-rouge">using-superpowers</code>）</td>
+      <td>★★★★★（最高）</td>
+    </tr>
+    <tr>
+      <td><strong><a href="https://github.com/affaan-m/ECC">ECC (Everything Claude Code)</a></strong></td>
+      <td>工具箱（瑞士军刀）</td>
+      <td>提供大量预设的 agents、slash commands、hooks、skills，按需调用</td>
+      <td>手动（<code class="language-plaintext highlighter-rouge">/tdd</code>、<code class="language-plaintext highlighter-rouge">/security</code>、<code class="language-plaintext highlighter-rouge">/code-review</code> 等）</td>
+      <td>★☆☆☆☆（最低）</td>
+    </tr>
+    <tr>
+      <td><strong><a href="https://github.com/mattpocock/skills">mattpocock/skills</a></strong></td>
+      <td>技能库（可改可组合）</td>
+      <td>技能拆小，能改能拼。动手前用 <code class="language-plaintext highlighter-rouge">/grill-me</code> 把需求问清楚，再按需挂 <code class="language-plaintext highlighter-rouge">/tdd</code>、<code class="language-plaintext highlighter-rouge">/diagnosing-bugs</code></td>
+      <td>手动为主（用户调用才触发，部分可被 Agent 自动取用）</td>
+      <td>★★☆☆☆（较低）</td>
+    </tr>
+    <tr>
+      <td><strong><a href="https://github.com/Fission-AI/OpenSpec">OpenSpec</a></strong></td>
+      <td>轻量 SDD（变更文档）</td>
+      <td>变更优先（change-first）。每个变更一个目录，用 <code class="language-plaintext highlighter-rouge">proposal</code>、<code class="language-plaintext highlighter-rouge">specs</code>、<code class="language-plaintext highlighter-rouge">design</code>、<code class="language-plaintext highlighter-rouge">tasks</code> 记录意图、需求、设计与拆解</td>
+      <td>半手动（<code class="language-plaintext highlighter-rouge">/opsx:propose</code>、<code class="language-plaintext highlighter-rouge">/opsx:apply</code>、<code class="language-plaintext highlighter-rouge">/opsx:archive</code>）</td>
+      <td>★★★☆☆（中等）</td>
+    </tr>
+    <tr>
+      <td><strong><a href="https://github.com/github/spec-kit">spec-kit</a></strong></td>
+      <td>全量 SDD（企业文档）</td>
+      <td>规范优先（spec-first）。<code class="language-plaintext highlighter-rouge">/speckit-constitution</code> 起头，specify、plan、tasks、implement、converge 走完一个特性</td>
+      <td>半手动（slash 命令逐条敲，每步要人看结果）</td>
+      <td>★★★★☆（较高）</td>
+    </tr>
+    <tr>
+      <td><strong><a href="https://github.com/mindfold-ai/Trellis">Trellis</a></strong></td>
+      <td>工程框架（上下文持久化）</td>
+      <td>约定、任务上下文、历史记忆分别落在 <code class="language-plaintext highlighter-rouge">.trellis/</code> 的三个目录，每次会话自动注入</td>
+      <td>半自动（仓库里 init 一次，之后自动带上下文）</td>
+      <td>★★★☆☆（取决于你写了多少约定）</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="/imgs/202610/2026-10-30-ai-coding-frameworks-four-layers-diagram-1.png" alt="六个工具的强制性阶梯" /></p>
+
+<p>mattpocock/skills 和 spec-kit 是明确的路线冲突。它的 README 把 Spec-Kit 这类方案点了名：那些工具试图”拥有流程”，代价是你交出控制权，流程本身出问题的时候也难修。它的解法反过来——技能拆到你手里能改，并且分两类：只有你敲命令才触发的负责编排，Agent 能自己取用的承载纪律。前者可以调用后者，反过来不行。</p>
+
+<h2 id="如何选择">如何选择</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>场景</th>
+      <th>推荐</th>
+      <th>原因</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>不知道从哪下手，想强制养成好习惯</strong></td>
+      <td><strong>Superpowers</strong></td>
+      <td>装上就够用。它会在你还没想清楚就开始写代码时把你拉回到设计和规划。</td>
+    </tr>
+    <tr>
+      <td><strong>临时做专项检查（安全、语言审查、死代码清理）</strong></td>
+      <td><strong>ECC</strong></td>
+      <td>点对点最省事。特别适合 OpenCode，用 <code class="language-plaintext highlighter-rouge">/ecc:*</code> 命令比让 Agent 去猜 skill 要快且可控。</td>
+    </tr>
+    <tr>
+      <td><strong>已经有自己的流程，只想补几个动作</strong></td>
+      <td><strong>mattpocock/skills</strong></td>
+      <td>不接管你的流程。<code class="language-plaintext highlighter-rouge">/grill-me</code> 管动手前对齐，<code class="language-plaintext highlighter-rouge">/tdd</code> 管实现，<code class="language-plaintext highlighter-rouge">/diagnosing-bugs</code> 管排查，缺哪个挂哪个。</td>
+    </tr>
+    <tr>
+      <td><strong>中小型项目，需要记住”为什么改”</strong></td>
+      <td><strong>OpenSpec</strong></td>
+      <td>轻量又实用。每个变更自成一篇小文档，项目越大也不会膨胀成一堆巨型 spec。</td>
+    </tr>
+    <tr>
+      <td><strong>大型项目、团队协作、要交接或严格审批</strong></td>
+      <td><strong>spec-kit</strong></td>
+      <td>流程最完整，产出的文档最适合团队共识和后续维护。</td>
+    </tr>
+    <tr>
+      <td><strong>跨多个 AI 工具，嫌每次都要重讲一遍规矩</strong></td>
+      <td><strong>Trellis</strong></td>
+      <td>约定、任务上下文、历史记忆都落在 <code class="language-plaintext highlighter-rouge">.trellis/</code> 里，换个工具换个人接手都不丢。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="/imgs/202610/2026-10-30-ai-coding-frameworks-four-layers-diagram-2.png" alt="按场景选择工具的分支路径" /></p>
+
+<h2 id="推荐搭配方案">推荐搭配方案</h2>
+
+<p>别全都装上。选一套主干，再按需补充即可。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>方案</th>
+      <th>组合</th>
+      <th>适用人群</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>极简（个人最常用）</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">Superpowers + ECC</code></td>
+      <td>大多数个人开发者</td>
+      <td><strong>最省心的组合</strong>。Superpowers 负责全流程（思考-&gt;规划-&gt;实现），ECC 负责临时的专业化审查和清理。你已经在用这个组合，完全够用。</td>
+    </tr>
+    <tr>
+      <td><strong>轻量 SDD（个人注重文档）</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">Superpowers + OpenSpec</code></td>
+      <td>想既要流程约束，又想留下变更记录的开发者</td>
+      <td>Superpowers 帮你规划和执行，OpenSpec 把关键变更固化成可追溯的文档。特别适合长期维护的个人项目。</td>
+    </tr>
+    <tr>
+      <td><strong>只补动作（工程老手）</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">mattpocock/skills + ECC</code></td>
+      <td>已经有自己的开发节奏，只缺几个动作的人</td>
+      <td>不动你的流程，缺什么补什么。<code class="language-plaintext highlighter-rouge">/grill-me</code> 对齐需求，<code class="language-plaintext highlighter-rouge">/tdd</code> 管实现，ECC 补各语言的专项审查。</td>
+    </tr>
+    <tr>
+      <td><strong>企业级 SDD（团队）</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">spec-kit + ECC</code></td>
+      <td>需要强规范、多人协作的团队</td>
+      <td>spec-kit 定义”做什么、怎么做”的全套规范，ECC 提供各语言、各场景的审查和工具。Trellis 可选，用来把约定和记忆留在仓库里。</td>
+    </tr>
+    <tr>
+      <td><strong>跨工具长跑（重度 Agent 使用者）</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">Superpowers + Trellis + ECC</code></td>
+      <td>同时用好几个 AI 编程工具、任务周期长的人</td>
+      <td>Superpowers 约束方法论，Trellis 把约定和记忆留在仓库里，ECC 提供专项能力。三件叠起来每次会话灌的上下文最多，收益得自己算。</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="精简建议">精简建议</h2>
+
+<ul>
+  <li><strong>如果只想选一个装上</strong>：选 <strong>Superpowers</strong>。它是唯一能真正”改变 Agent 行为”的工具。</li>
+  <li><strong>如果已经装了 Superpowers，还想补充</strong>：优先补 <strong>ECC</strong>（实用性最高，几乎零冲突）。</li>
+  <li><strong>如果特别在乎变更留痕</strong>：再加 <strong>OpenSpec</strong>。比 spec-kit 更适合个人日常使用。</li>
+  <li><strong>如果你已经有一套自己的流程</strong>：用 <strong>mattpocock/skills</strong>。它只补动作，不抢流程。</li>
+  <li><strong>如果你同时在用好几个 AI 编程工具，嫌每次都要重讲一遍规矩</strong>：才考虑 <strong>Trellis</strong>。只用一个工具写代码，用不到它。</li>
+</ul>
+
+<p><strong>核心原则：方法论（Superpowers） &gt; 规范（OpenSpec/spec-kit） &gt; 工具箱（ECC/mattpocock skills） &gt; 编排（Trellis）。主干用方法论约束思路，其他的都是锦上添花。</strong></p>
+
+<blockquote>
+  <p>star 数与最后提交时间取自 GitHub API，统计于 2026-10-28。工具迭代快，具体命令请以各自 README 为准。</p>
+</blockquote>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li>Superpowers — <a href="https://github.com/obra/superpowers">https://github.com/obra/superpowers</a>（超 30.6 万 star）</li>
+  <li>ECC — <a href="https://github.com/affaan-m/ECC">https://github.com/affaan-m/ECC</a>（超 29.1 万 star）。原仓库名 <code class="language-plaintext highlighter-rouge">everything-claude-code</code> 已改名</li>
+  <li>mattpocock/skills — <a href="https://github.com/mattpocock/skills">https://github.com/mattpocock/skills</a>（超 30.5 万 star）</li>
+  <li>OpenSpec — <a href="https://github.com/Fission-AI/OpenSpec">https://github.com/Fission-AI/OpenSpec</a>（超 7.3 万 star）</li>
+  <li>spec-kit — <a href="https://github.com/github/spec-kit">https://github.com/github/spec-kit</a>（超 14.3 万 star）</li>
+  <li>Trellis — <a href="https://github.com/mindfold-ai/Trellis">https://github.com/mindfold-ai/Trellis</a>（超 1.5 万 star）</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="Superpowers" /><category term="ECC" /><category term="OpenSpec" /><category term="spec-kit" /><category term="Trellis" /><category term="规格驱动开发" /><category term="工作流" /><summary type="html"><![CDATA[摘要：Superpowers、ECC、mattpocock/skills、OpenSpec、spec-kit、Trellis，六个工具常被放在一起比，但它们不在同一个层面上。这篇按定位、触发方式和强制性摆开看，再给五套搭配方案。多数人装两个就够，装六个反而互相打架。]]></summary></entry><entry><title type="html">模型降价九成，为何实际却是七成半</title><link href="https://tangyuewei.com/posts/model-upgrade-tax-tokenizer/" rel="alternate" type="text/html" title="模型降价九成，为何实际却是七成半" /><published>2026-10-29T10:25:00+08:00</published><updated>2026-10-29T10:25:00+08:00</updated><id>https://tangyuewei.com/posts/model-upgrade-tax-tokenizer</id><content type="html" xml:base="https://tangyuewei.com/posts/model-upgrade-tax-tokenizer/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：10 月 7 日 Claude Haiku 5.5 降价九成，很多人改了个模型名就上线。一周后账单只降七成半，代码还先报了五个错。这篇把三层账拆开算：计费单位、定价阶梯、参数契约，各变了一次。</p>
+</blockquote>
+
+<p>十月的第一周，你大概做过这件事：把配置里的 claude-haiku-4-5 换成 claude-haiku-5-5，跑通测试，上线。</p>
+
+<p>价目表上写着降九成。你心里有个预期，月底账单出来，数字对不上。</p>
+
+<p>先别急着怀疑自己算错了。</p>
+
+<p>那九成去哪了？</p>
+
+<p>答案是它从来不是九成。九成是<strong>单价</strong>的降幅，而账单等于单价乘 token 数再乘落在哪一档。三个乘数里，厂商只宣传第一个。</p>
+
+<h2 id="公告写的是单价">公告写的是单价</h2>
+
+<p>先把官方数字摆清楚。Haiku 5.5 的输入输出单价，按提示长度分两档：十万 token 以内每百万 token 收 0.10 美元和 0.50 美元；超过十万，跳到 0.50 和 2.50 美元。</p>
+
+<p>对照 Haiku 4.5 的一口价 1 美元和 5 美元，短档是整整十分之一，长档是二分之一。</p>
+
+<p>缓存另有算法，读缓存 0.01 和 0.05 美元，五分钟写缓存 0.125 和 0.625 美元。批处理半价。</p>
+
+<p>只看这张表，降九成没毛病。</p>
+
+<p>问题是价目表的单位是”每百万 token”，而你的账单单位是”这次请求要花多少 token”。这两个单位之间隔着一个东西，叫分词器。</p>
+
+<h2 id="同一段文字多算了三成">同一段文字，多算了三成</h2>
+
+<p>Haiku 5.5 换了新的分词器，官方给的换算比例是 1.3 倍——同一段文字，在 4.5 上算 1000 个 token，在 5.5 上要算 1300 个。</p>
+
+<p>这一条决定了你能拿到多少折扣。官方脚注自己也写了：十万以内大约便宜九成，十万以上大约便宜五成，把分词器的膨胀算进去，加权平均接近七成半。</p>
+
+<p>为什么厂商要换分词器？</p>
+
+<p>官方没解释原因，只说”更新了”。这个态度可以理解——分词器换代通常是跟着上下文窗口扩容一起做的长期工程决定，新词表要在更长的文本上保持压缩效率。但它对存量代码的副作用是直接的：<strong>你原来调好的 max_tokens、算好的预算、写死的截断逻辑，全部要重新量一遍</strong>。</p>
+
+<p>按官方公布的单价和 1.3 倍的比例折算，同一条请求的实际成本大致是这样：</p>
+
+<p><img src="/imgs/202610/2026-10-29-model-upgrade-tax-tokenizer-diagram-1.png" alt="同一条请求在 Haiku 4.5 与 5.5 上的成本折算" /></p>
+
+<p>短请求降到一成三，长请求降到六成半，加权之后大约两成五。图里这些数是按公开单价和官方给的 tokenizer 比例折算出来的，不是实测；你自己的业务落在哪，得拿真实请求跑一遍才知道。</p>
+
+<h2 id="十万-token-那道坎">十万 token 那道坎</h2>
+
+<p>第二层是定价结构变了。Haiku 4.5 是一口价，无论发多长都按 1 美元和 5 美元算；Haiku 5.5 把它切成两级，十万 token 是那条线。</p>
+
+<p>十万 token 是个什么概念？把一份几百页的技术文档整本塞进去，大概就是这个量级。</p>
+
+<p>这意味着一件事：<strong>短请求你吃到的是十分之一，长请求只剩二分之一，再乘上 1.3 倍的分词器膨胀，实际只降了三成半</strong>。</p>
+
+<p>而长 prompt 恰恰是很多人最近在做的方向——把整个仓库、整份合同、整套客服记录一次性塞进去。上下文窗口从 20 万扩到 100 万，本来就是为了鼓励你这么干。</p>
+
+<p>于是出现一个反直觉的组合：窗口变大了，你能塞的变多了，但越过十万之后单价跳五倍。<strong>窗口的扩容和计费的分级，是同一件事的两面</strong>。</p>
+
+<p>真要做长上下文，动这笔账的顺序应该是先分块、再上检索、最后才考虑缓存。顺带说一句，这一代的缓存读只要 0.01 美元，比 4.5 的 0.10 美元便宜九成，长对话反复引用同一份材料的场景，省的钱比降单价还多。</p>
+
+<h2 id="代码会先报错">代码会先报错</h2>
+
+<p>第三层最直接。官方发布说明写得很直白：为 Haiku 4.5 写的代码，在 Haiku 5.5 上会坏掉。</p>
+
+<p>不是”可能有细微差异”，是坏掉。返回 400，不是警告。</p>
+
+<p>迁移说明列了五处：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>旧写法</th>
+      <th>新模型下的结果</th>
+      <th>改法</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">thinking: {type: "enabled", budget_tokens: N}</code></td>
+      <td>400</td>
+      <td>改成 <code class="language-plaintext highlighter-rouge">type: "adaptive"</code>，深浅由 <code class="language-plaintext highlighter-rouge">effort</code> 控制</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">temperature</code> / <code class="language-plaintext highlighter-rouge">top_p</code> / <code class="language-plaintext highlighter-rouge">top_k</code> 非默认值</td>
+      <td>400</td>
+      <td>删掉，靠提示词引导</td>
+    </tr>
+    <tr>
+      <td>结尾放 assistant 预填</td>
+      <td>400</td>
+      <td>格式要求改用结构化输出或工具</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">computer_20250124</code> 工具集</td>
+      <td>400</td>
+      <td>换成 <code class="language-plaintext highlighter-rouge">computer_toolset_20260801</code></td>
+    </tr>
+    <tr>
+      <td>改了 system 或早期消息后回传 thinking 块</td>
+      <td>400</td>
+      <td>会话只能追加，不能改写</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>这几条的共同点，是厂商把”每次请求临时调参”的权力收回去了，改由模型级配置统一管。对横跨多个服务、共用一个模型 ID 的团队来说，这确实是简化；对一个靠扫温度、手工掐 thinking 预算来压成本的服务来说，等于把调用约定整个重写。</p>
+
+<p>顺带一提，他们还给了条捷径：在 Claude Code 里跑一句 <code class="language-plaintext highlighter-rouge">/claude-api migrate this project to claude-haiku-5-5</code>，让它自己去改。省事，但改完还是得自己复核，因为它不知道你的业务里哪句 max_tokens 是故意写小的。</p>
+
+<h2 id="还有两处不报错的">还有两处不报错的</h2>
+
+<p>真正容易在半夜出事的，往往不是上面那五个。</p>
+
+<p><strong>回复的第一个内容块可能是 thinking，不再是正文。</strong> 以前拿 <code class="language-plaintext highlighter-rouge">content[0].text</code> 当答案的代码，现在会拿到一段推理过程。得按 type 去挑。</p>
+
+<p><strong>thinking 的 token 计入 max_tokens。</strong> 以前按 4.5 调好的小额度，现在可能刚够模型想完，正文一个字都没输出就停了。</p>
+
+<p>这两处都不报错，只是结果变了。上面五处跑一次集成测试就能发现，这两处要等到线上用户投诉”回答是空的”才会浮出来。</p>
+
+<p>还有个配套变化值得一并处理：adaptive thinking 默认是开的，effort 默认中等。也就是说，<strong>你不能再靠”关掉思考”来把模型变便宜</strong>，思考本身就是这个产品的一部分，你能调的只是它多用力。低档位适合分类和抽取，高档位留给调试和推理，这成了部署时的常规选择，而不是准备两个模型。</p>
+
+<h2 id="迁不迁先量四件事">迁不迁，先量四件事</h2>
+
+<p>那干脆不迁行不行？先看清代价的另一面。</p>
+
+<p>Haiku 5.5 的上下文从 20 万扩到 100 万，最大输出从 6.4 万提到 12.8 万，官方承诺 2027 年 10 月 7 日之前不退役——两年的下限，对那种要长期挂着的流水线不算短。</p>
+
+<p>能力上它也不是原地踏步。在独立榜 Artificial Analysis 的智能指数上拿到 43 分，在 182 个条目里排到第二位，把不少厂商的旗舰压在下面；电脑操作的 OSWorld 2.1 离线子集从上一代的 15.7% 涨到 72.4%，终端任务的 Terminal-Bench 4.0 从 0 分变成 39.2%。</p>
+
+<p>官方还放过一个 demo，任务是用家用杂物设计一个装鸡蛋的架子，要求从 32 米扔下来不碎。Opus 5.5 单干，3 分 37 秒，试了 25 种方案，花 0.47 美元；让 Opus 带十个 Haiku 5.5 子 Agent，58 秒，试了 86 种，花 0.14 美元。</p>
+
+<p>这个 demo 比任何价格表都更能说明问题：小模型省钱的正确姿势不是拿它替大模型，是拿它当大模型的手脚。</p>
+
+<p>所以要不要迁，我建议先量四件事，缺一件就先别动。</p>
+
+<p>同一批真实请求，在两个模型上各跑一遍，比 token 数，不要比单价。这一步花不了几分钟，能省掉后面所有的猜测。</p>
+
+<p>数一下你的请求有多少会越过十万 token。如果一个都没有，恭喜，你吃满折扣；如果有不少，先做分块和检索，再谈迁移。</p>
+
+<p>搜一遍代码里的 <code class="language-plaintext highlighter-rouge">temperature</code>、<code class="language-plaintext highlighter-rouge">top_p</code>、<code class="language-plaintext highlighter-rouge">budget_tokens</code>、<code class="language-plaintext highlighter-rouge">content[0]</code>。前三个决定你能不能跑起来，最后一个决定你跑起来之后拿到的对不对。</p>
+
+<p>最后跑一遍集成测试，把五个 400 都撞出来。这一圈只能验”起不起得来”；起得来之后还得回头改一次 max_tokens，因为思考的 token 现在算在里面，额度不够，模型想完就没地方写答案了。</p>
+
+<p><img src="/imgs/202610/2026-10-29-model-upgrade-tax-tokenizer-diagram-2.png" alt="迁不迁，先走这四步判断" /></p>
+
+<h2 id="写在最后">写在最后</h2>
+
+<p>回到开头那笔对不上的账。</p>
+
+<p>九成是单价，七成半是账单，这两者之间隔着一个分词器。厂商没有说谎，只是宣传的口径和你的成本口径不是同一个。</p>
+
+<p>定价从一口价变成阶梯，是这一代最容易被忽略的变化。窗口变大和单价跳档，是同一件事的两面。</p>
+
+<p>迁移会先给你五个 400，再给你两个不报错的坑。前者是麻烦，后者是事故。</p>
+
+<p>唯一真正能省钱的地方，可能不在单价上，而在结构上——主模型规划、小模型跑腿，那个 0.47 美元到 0.14 美元的对比，比降九成有说服力得多。</p>
+
+<p>下次再看到”降价多少”，先问三句：计费单位变了吗？价格阶梯变了吗？接口契约变了吗？</p>
+
+<p>三个里只要有一个变了，价目表上的那个百分比，就不是你要算的那个数。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li>Anthropic 发布说明与迁移说明（Claude Haiku 5.5，2026-10-07），模型 ID <code class="language-plaintext highlighter-rouge">claude-haiku-5-5</code>；转述见 <a href="https://codedtx.com/insights/claude-haiku-5-5">CodeDTX 的迁移梳理</a> 与 <a href="https://www.orcarouter.ai/blog/claude-haiku-5-5-explained">OrcaRouter 的发布解读</a></li>
+  <li>价格与分档：<a href="https://blog.sandbase.ai/claude-haiku-5-5-api-pricing-2026">Claude Haiku 5.5 API Pricing, Context, and Limits</a></li>
+  <li>分词器与迁移要点：<a href="https://wpnews.pro/news/moving-your-classifier-to-claude-haiku-5-5-what-changes">Moving Your Classifier to Claude Haiku 5.5</a></li>
+  <li>完整指南与各平台模型 ID：<a href="https://qcode.cc/claude-haiku-5-5-guide">Claude Haiku 5.5 完整指南</a></li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="Claude" /><category term="Haiku" /><category term="模型迁移" /><category term="Token成本" /><category term="API设计" /><category term="成本治理" /><summary type="html"><![CDATA[摘要：10 月 7 日 Claude Haiku 5.5 降价九成，很多人改了个模型名就上线。一周后账单只降七成半，代码还先报了五个错。这篇把三层账拆开算：计费单位、定价阶梯、参数契约，各变了一次。]]></summary></entry><entry><title type="html">他们的代码，没人读过一行</title><link href="https://tangyuewei.com/posts/dark-factory-no-code-review/" rel="alternate" type="text/html" title="他们的代码，没人读过一行" /><published>2026-10-28T10:41:00+08:00</published><updated>2026-10-28T10:41:00+08:00</updated><id>https://tangyuewei.com/posts/dark-factory-no-code-review</id><content type="html" xml:base="https://tangyuewei.com/posts/dark-factory-no-code-review/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：有一支三人团队，规矩是代码不能由人写、也不能由人审。他们把代码评审换成场景验证，用行为克隆顶替真实的 Okta 和 Slack。这篇讲清楚这套东西怎么转起来，以及为什么你的团队多半还不能照抄。</p>
+</blockquote>
+
+<p>上周你审了多少个 PR？</p>
+
+<p>大概率答不上来。但你记得那种手感：早上打开代码仓库，红色的一排，每个三五百行。从第一行读到最后一行，读懂七成，剩下三成因为 CI 是绿的，点了通过。</p>
+
+<p>这不是你不认真。</p>
+
+<p>Dan Shapiro 给 AI 编程分了五级，从自动补全一路排到黑灯工厂。他把第四级的日常形容得很直接——你的生活就是一堆 diff。绝大多数人卡在这里，因为放手比想象中难。他自己也停在这一级，原文里只有一句，”我在这里”。</p>
+
+<p><img src="/imgs/202610/2026-10-28-dark-factory-no-code-review-diagram-1.png" alt="AI 编程的五级自主，绝大多数人停在代码审查员那一级" /></p>
+
+<p>那第五级长什么样？</p>
+
+<p>先把一个不太舒服的数据放上来。Faros AI 今年分析了 22,000 名开发者、4,000 多个团队、两年的遥测数据，把这种状态叫加速鞭打——车头提了速，车厢被甩在后面。</p>
+
+<p>提速是真的。人均任务完成量涨 33.7%，人均完成的 epic 涨 66.2%。</p>
+
+<p>被甩在后面也是真的。PR 评审时间中位数涨了 441%，每个 PR 对应的事故涨了 242.7%。新写的代码很快被删掉重写的比例，涨了 861%。</p>
+
+<p>还有更扎心的：完全没有人评审就合并的 PR，多了 31.3%。</p>
+
+<p>所以你其实已经在做实验了。只是这场实验没有对照组：你的团队里大概率有一批代码没经过人眼就上线，那不是设计出来的，是漏出来的。</p>
+
+<p>StrongDM 做的事，是把这个漏出来的结果，变成一条明写的规矩。</p>
+
+<h2 id="两条没有解释空间的规矩">两条没有解释空间的规矩</h2>
+
+<p>StrongDM 的 AI Lab 在 2025 年 7 月启动，从头到尾三个人，牵头的就是他们的 CTO。他们给自己定的章程里有两句话：</p>
+
+<p>代码不能由人写。
+代码不能由人审。</p>
+
+<p>人的工作退到只剩说清意图：系统该做什么、要处理哪些场景、哪些约束不能碰。剩下的生成、验证、迭代，Agent 自己跑到收敛，中间不需要人调参，也不需要人点通过。</p>
+
+<p>他们把这套东西叫软件工厂。词听着像营销，但他们真拿它造自己的产品——一款特权访问管理平台。这个品类对可靠性的要求不低，选它当实验田本身就说明点问题。</p>
+
+<p>他们复盘时说，转折点是 Claude 3.5 之后长会话的表现变了，从错误累积翻成正确累积。这个判断我没法独立验证，只能记下是他们自己的说法。</p>
+
+<h2 id="评审到底在干什么">评审到底在干什么</h2>
+
+<p>要理解他们为什么敢删评审，得先把自己那一关过了。</p>
+
+<p>直觉上，评审不能删。删了质量谁兜。</p>
+
+<p>那就在评审上加码。有人已经在加：hunk 级评审，逐块通过或者打回；CI 里塞静态检查；前面再垫一层 AI 预审。颗粒度越做越细，队列一点没短，因为细审花的是同一个人的同一双眼睛。</p>
+
+<p>换个方向，加人呢？瓶颈不是人头，是注意力。十个人的评审能力不会变成十份，只会多出九份上下文切换。</p>
+
+<p>那换更强的模型？产出更快，待审的 diff 更多。</p>
+
+<p>三条路都有人走过。走完你会发现，卡住的不是哪一环，是你把代码当成了验收对象。</p>
+
+<p>评审这个动作，本质上是在代码里反推意图。你读 diff，猜作者想干什么，再判断这么干对不对。它之所以必要，是因为意图不在代码里，在人脑子里。</p>
+
+<p>那如果意图本来就在外面呢？</p>
+
+<p>他们要求把系统该有的行为写成端到端场景：用户处在什么状态、做什么操作、系统该怎么响应。场景存在代码库外面，Agent 开发的时候看不到。</p>
+
+<p>这是整个设计的支点。测试住在代码库里，Agent 读得到，于是它能学会让测试通过，而不是让功能正确。最粗暴的版本是写个 return true；隐蔽一点的版本是悄悄把断言改宽，改到刚好能过。</p>
+
+<p>场景在库外，相当于机器学习里的留出集。你看不见判分标准，只能真的把它做对。</p>
+
+<p>判分方式也跟着换了。不再是过或不过，而是一个比例：在所有观察到的执行路径里，有多大比例像是满足了需求。</p>
+
+<p>为什么要用比例？因为行为验证天生是概率的。同一个场景跑二十次，十八次对、两次错，你说它过还是不过。布尔判断会把这个信息直接抹掉。</p>
+
+<h2 id="假-slack-的意义">假 Slack 的意义</h2>
+
+<p>还剩一个硬问题：这些场景在哪跑。</p>
+
+<p>真实环境跑不起。调一次 Okta 的接口要联网、要额度，撞上限流就卡住；更要紧的是，你不敢在生产 Slack 上试一件事：如果它半路挂掉会怎样。</p>
+
+<p>他们的解法是造一个数字孪生宇宙。Okta、Jira、Slack、Google Docs 和 Drive，每个都做一个行为克隆，复刻接口、边界情况和可观测行为。</p>
+
+<p>克隆的价值不在省事，在解锁。一小时跑几千个场景，不联网、不花钱、不限流，还能故意让它坏：让 Jira 返回乱码，让 Slack 在写操作进行到一半时断掉，看系统撑不撑得住。</p>
+
+<p>以前重写一个 Slack 服务端是疯子才干的事，因为不经济。现在让 Agent 生成一个行为近似的 mock 很便宜。</p>
+
+<p>变的不是技术可行性，是经济学。</p>
+
+<p><img src="/imgs/202610/2026-10-28-dark-factory-no-code-review-diagram-2.png" alt="软件工厂的验证回路：Agent 在数字孪生上跑，场景库放在库外判分" /></p>
+
+<h2 id="我去看了一眼他们的仓库">我去看了一眼他们的仓库</h2>
+
+<p>说到这，你可能想去看他们怎么实现的。</p>
+
+<p>我去了。GitHub 上 attractor 这个仓库，全部内容五个文件：一个 884 字节的 README、三份规格文档（93KB、71KB、112KB）、一个许可证。没有一行能跑的代码，GitHub 的语言统计是空的。最后一次提交停在 2026 年 3 月 17 日。</p>
+
+<p>拿另一边的 cxdb 对照，那是真代码库：Rust 约 946KB、TypeScript 574KB、Go 449KB，还在维护。</p>
+
+<p>所以我拿到的是图纸，不是产线。三份规格把设计讲得很细，但数字孪生怎么搭、场景库长什么样、流水线怎么串，都不在里面。</p>
+
+<p>这其实合理。场景库是他们最值钱的资产，每一条都对应一次踩过的坑。换我也不会开源。</p>
+
+<h2 id="代价比收益更需要说清楚">代价比收益更需要说清楚</h2>
+
+<p>他们有个内部基准：一个人一天如果没烧掉一千美元 token，说明工厂还有优化空间。</p>
+
+<p>注意这话的性质。它是说给自己听的鞭子，不是账单，也不是给你的预算建议。可就算按这个标准算，三个人一天也是三千美元的额度，一个月就够压掉大多数团队的试点预算。</p>
+
+<p>另一个限制是规模。三个人、一条产品线。三五个人的协作半径和三十人不是一个问题。人一多，意图本身先开始打架，场景库会出现互相矛盾的条目，那时候概率满意度是判不出来的。</p>
+
+<p>还有一层更微妙：人力没消失，是前移了。场景要人写、要人挑、要人判断这条算不算通过。区别在于场景能复用，diff 是一次性消耗品。</p>
+
+<p>前期投入也得算进去。造一个 Okta 的克隆要多久，公开材料里没说。这不是拉个容器就有的事。</p>
+
+<p>最要命的一条是覆盖面：它只能验证你想到的场景。想不到的边界照样漏。而且因为没人在读代码，漏了也没人凭直觉发现。你失去的不只是评审，还有评审时那点说不清的直觉——翻到某一行，心里咯噔一下。</p>
+
+<h2 id="换掉评审不是取消验证">换掉评审，不是取消验证</h2>
+
+<p>顺着这条线看回去，Faros 那组数据的意思就清楚了。产出涨了六成，事故涨了两倍多，评审时间涨了四倍多。这不是 AI 不行，是生成快到把下游撑爆了。</p>
+
+<p>验证就是这套系统里的传感器。StrongDM 的答案是换一个更宽的，不是把它摘掉。</p>
+
+<p>这个区别很关键。他们要的不是不验证，是验证得比人快一个数量级。评审被换掉了，兜底没有。</p>
+
+<p>两者放在一起看，没人审这件事有两种含义。一种是失控，一种是设计。区别在于你有没有造出替代品。</p>
+
+<h2 id="你的项目能不能这么干">你的项目能不能这么干</h2>
+
+<p>三个前置条件，缺一个就先别动。</p>
+
+<p>意图能不能写成端到端场景。如果你的需求长这样——这个类要线程安全、这个接口 QPS 要过万——那不是场景，是约束。场景得是：用户点了退款，余额在五秒内回到账上，且通知发出去了。</p>
+
+<p>外部依赖造不造得出克隆。依赖三个公开 SaaS，还能试；依赖几十个内部服务、每个都没文档，先别想。这一条最卡人。</p>
+
+<p>失败模式可不可观测。出了问题你得能看见。日志、指标、链路追踪都没有的系统，把评审拆掉等于蒙眼开车。</p>
+
+<p>反过来也成立。跨服务交互的 bug，单元测试的保真度天然不够，这类系统恰恰最需要行为克隆；而遗留系统既没有克隆也没有场景，最该留着人审。</p>
+
+<p>还有个更根本的前提：你得有能力判断什么叫对。场景写得含糊，概率满意度就是自欺欺人。它会稳定地告诉你 95% 通过，而那个 95% 什么都不代表。</p>
+
+<h2 id="写在最后">写在最后</h2>
+
+<p>回到开头那个问题。</p>
+
+<p>评审这一环正在被换掉，不是被取消。换成了场景验证，换成了行为克隆，换成了概率判分。</p>
+
+<p>场景必须放在代码库外面，不然它就是另一种测试，Agent 照样能对着判分标准写代码。</p>
+
+<p>判分从布尔换成比例，因为行为验证本来就没有绝对的对错。</p>
+
+<p>数字孪生让造一个假 Slack 从奢侈变成日常。这件事变的是经济学，不是技术。</p>
+
+<p>他们公开了图纸，没公开产线。</p>
+
+<p>三个人、一条产品线、人均每天一千美元，这三个数字绑在一起才成立。拆开任何一个，结论都不成立。</p>
+
+<p>至于你自己。如果你还在审 diff 审到半夜，先别急着羡慕黑灯工厂。问问你的需求能不能写成场景。写不出来，说明意图还不在你手上，那才是真正卡住的地方。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li>StrongDM 官方博客：<a href="https://www.strongdm.com/blog/the-strongdm-software-factory-building-software-with-ai">The StrongDM Software Factory: Building Software with AI</a></li>
+  <li>Dan Shapiro：<a href="https://www.danshapiro.com/blog?p=594">The Five Levels: from Spicy Autocomplete to the Dark Factory</a></li>
+  <li>Simon Willison：<a href="https://simonwillison.net/2026/Feb/7/software-factory/">StrongDM’s Software Factory</a></li>
+  <li>Faros AI：<a href="https://pages.faros.ai/hubfs/AI_Engineering_Report_2026_The_Acceleration_Whiplash_Faros.pdf">AI Engineering Report 2026: The Acceleration Whiplash</a></li>
+  <li>GitHub：<a href="https://github.com/strongdm/attractor">strongdm/attractor</a>、<a href="https://github.com/strongdm/cxdb">strongdm/cxdb</a></li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI编程" /><category term="软件工厂" /><category term="代码评审" /><category term="Agent工程" /><category term="数字孪生" /><category term="验证" /><summary type="html"><![CDATA[摘要：有一支三人团队，规矩是代码不能由人写、也不能由人审。他们把代码评审换成场景验证，用行为克隆顶替真实的 Okta 和 Slack。这篇讲清楚这套东西怎么转起来，以及为什么你的团队多半还不能照抄。]]></summary></entry></feed>
