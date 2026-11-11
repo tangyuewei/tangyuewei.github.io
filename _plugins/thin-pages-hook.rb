@@ -8,17 +8,21 @@
 # jekyll-archives 生成的 tag / category 页也已进入 site.pages。
 #
 # 与 _includes/head.html 中的 noindex / 广告守卫保持同一套判定规则。
+#
+# 注意：_tabs/ 属于 collections.tabs，是 Jekyll::Document 而非 Jekyll::Page，
+# jekyll-sitemap 也会把它们输出。因此必须连 site.documents 一起处理，否则
+# /tags/ /categories/ 索引页与带 noindex 的 tab 页仍会留在 sitemap 里。
 Jekyll::Hooks.register :site, :pre_render do |site, _payload|
-  thin_prefixes = %w[/tags/ /categories/ /moments/page].freeze
+  thin_prefixes = %w[/tags/ /categories/ /moments/page /assets/photo-lab/].freeze
   thin_exact = %w[/archives/ /tags/ /categories/].freeze
 
-  site.pages.each do |pg|
-    url = pg.url.to_s
+  (site.pages + site.documents).each do |doc|
+    url = doc.url.to_s
     is_thin = thin_exact.include?(url) ||
               thin_prefixes.any? { |prefix| url.start_with?(prefix) } ||
-              pg.data["noindex"] == true
+              doc.data["noindex"] == true
     next unless is_thin
 
-    pg.data["sitemap"] = false
+    doc.data["sitemap"] = false
   end
 end
