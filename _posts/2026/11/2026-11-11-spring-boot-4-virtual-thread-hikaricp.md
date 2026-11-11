@@ -6,6 +6,7 @@ categories: [Java, 性能调优]
 tags: [SpringBoot4, 虚拟线程, HikariCP, 连接池, 性能调优, Java]
 pin: false
 comments: true
+mermaid: true
 keyword: SpringBoot4, 虚拟线程, HikariCP, 连接池调优, 性能优化, 数据库
 ---
 
