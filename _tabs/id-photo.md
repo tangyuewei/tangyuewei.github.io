@@ -2,6 +2,7 @@
 title: 证件照
 icon: fas fa-id-card
 order: 8
+noindex: true   # 页面几乎全由 iframe 承载，属政策所述嵌入式内容屏幕
 ---
 
 <style>

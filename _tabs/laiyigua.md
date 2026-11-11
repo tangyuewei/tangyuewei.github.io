@@ -2,6 +2,7 @@
 title: 来一卦
 icon: fas fa-gamepad
 order: 7
+noindex: true   # 通用占卜文案，非原创技术内容
 ---
 #### 一般什么时候占卜？
 

@@ -2,6 +2,7 @@
 title: 导航
 icon: fas fa-desktop
 order: 5
+noindex: true   # 纯外链列表，属政策所述「用于导航目的」屏幕
 ---
 
 - **[开发人员导航](http://cxy521.com/){:target="_blank"}**

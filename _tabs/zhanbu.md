@@ -3,6 +3,7 @@
 title: 占卜
 icon: fas fa-gift
 order: 6
+noindex: true   # 通用占卜脚本页，非原创技术内容
 ---
 <html lang="zh-CN">
 <head>

@@ -47,8 +47,7 @@ Disallow:
 # 通用爬虫规则
 User-agent: *
 Disallow: /norobots/
-Disallow: /tags/          # 新增：阻止抓取单篇文章的标签聚合页，防止薄内容判定
-Disallow: /categories/    # 新增：阻止抓取分类聚合页，防止薄内容判定
-Disallow: /moments/       # 新增：阻止抓取分页列表页（如 /moments/page2/）
+# 聚合页与分页页改由页面级 noindex 控制（见 _includes/head.html），
+# 此处不再用 Disallow 屏蔽，以便爬虫读到 noindex 并据其退出索引。
 
 Sitemap: https://tangyuewei.com/sitemap.xml
