@@ -8,6 +8,8 @@ pin: false
 comments: true
 mermaid: true
 keyword: PostgreSQL 慢查询排查, pg_stat_statements, EXPLAIN ANALYZE, 性能调优, 数据库优化, 索引
+image:
+  src: /imgs/202611/2026-11-12-postgres-slow-query-troubleshooting.png
 ---
 
 > **摘要**：AI 帮你写的 SQL 跑得飞起，某天接口却突然变慢超时。这篇讲清：为什么"直接加索引"在 Postgres 上反而危险，以及用 pg_stat_statements 和 EXPLAIN ANALYZE 把慢查询揪出来的固定路线。

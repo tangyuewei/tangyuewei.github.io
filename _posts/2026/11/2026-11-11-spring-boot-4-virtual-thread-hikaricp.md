@@ -8,6 +8,8 @@ pin: false
 comments: true
 mermaid: true
 keyword: SpringBoot4, 虚拟线程, HikariCP, 连接池调优, 性能优化, 数据库
+image:
+  src: /imgs/202611/2026-11-11-spring-boot-4-virtual-thread-hikaricp.png
 ---
 
 > **摘要**：升到 Spring Boot 4.1，虚拟线程自动开启，CI 全绿，你以为高并发稳了。结果压测第一轮连接池就打满、请求超时。这篇讲清楚：为什么虚拟线程会反手拖垮 HikariCP，以及三招把它救回来。
