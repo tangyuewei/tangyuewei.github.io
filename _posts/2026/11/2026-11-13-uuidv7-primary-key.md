@@ -106,4 +106,3 @@ UUID 当主键本身没错，错在用了完全随机的 v4。InnoDB 的聚簇�
 - Percona Server 8.4 技术文档：UUID_VX 组件对 v1–v7 的原生支持
 - 公开基准与 Shopify 工程实践：有序 UUID 相对随机 UUID 的写入吞吐对比
 
-> 作者：[唐悦玮](https://tangyuewei.com)  |  从后端出发，用 AI 拓展到全栈的工程师。
