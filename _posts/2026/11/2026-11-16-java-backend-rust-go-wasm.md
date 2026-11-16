@@ -87,5 +87,3 @@ flowchart TD
 
 ![AI 时代语言选型：出错代价越高越靠强类型，验证负担决定胜负](/imgs/202611/2026-11-16-java-backend-rust-go-wasm-infographic-1.jpg)
 
-
-> 作者：[唐悦玮](https://tangyuewei.com)  |  从后端出发，用 AI 拓展到全栈的工程师。
