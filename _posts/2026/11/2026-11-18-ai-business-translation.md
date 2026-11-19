@@ -6,6 +6,7 @@ categories: [AI编程, 工程实践]
 tags: [AI落地, 业务理解, 工程判断, 幂等, 企业应用]
 pin: false
 comments: true
+mermaid: true
 keyword: AI落地难, 业务约束, 隐性知识, 幂等, Agent门禁, 德勤AI报告, 工程判断
 ---
 
