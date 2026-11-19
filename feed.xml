@@ -1,0 +1,1242 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://tangyuewei.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://tangyuewei.com/" rel="alternate" type="text/html" hreflang="zh-CN" /><updated>2026-11-19T11:22:54+08:00</updated><id>https://tangyuewei.com/feed.xml</id><title type="html">唐悦玮</title><subtitle>不以物喜，不以己悲。努力只是一种生活方式，先敬业，再乐业。</subtitle><entry><title type="html">SSE 老在 ALB 上断，问题在哪</title><link href="https://tangyuewei.com/posts/streamable-http-sse-alb/" rel="alternate" type="text/html" title="SSE 老在 ALB 上断，问题在哪" /><published>2026-11-19T10:45:00+08:00</published><updated>2026-11-19T10:45:00+08:00</updated><id>https://tangyuewei.com/posts/streamable-http-sse-alb</id><content type="html" xml:base="https://tangyuewei.com/posts/streamable-http-sse-alb/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：MCP 服务一挂到 ALB 后面就断连，多数人先调超时、加心跳，没用。问题不在配置：SSE 把会话绑在一条长连接上，负载均衡器却天生要把请求分到不同实例。得换传输模型。</p>
+</blockquote>
+
+<p>你大概也遇到过这个场景。</p>
+
+<p>MCP Server 本地跑得好好的，客户端一连就上。</p>
+
+<p>一部署到 K8s，前面挂个 ALB，怪事来了：连上几分钟，工具调用到一半，连接悄悄断了。</p>
+
+<p>客户端以为活干完了，服务端还在等一个永远不会来的请求。</p>
+
+<p>翻日志，ALB 那边是 60 秒空闲超时。</p>
+
+<h2 id="先说结论">先说结论</h2>
+
+<p>调超时没用，加心跳也没用。至少在”多个副本”的场景下没用。</p>
+
+<p>问题不在 ALB 的配置。ALB 只是照规矩办事：一条连接闲够 60 秒，它就掐掉。你把它调到 300 秒，只是把断的时间点往后推，断还是会断。</p>
+
+<p>真正在作怪的是 SSE 这个传输模型本身。它要求客户端和服务端之间维持一条长连接，会话状态就挂在这条连接上。</p>
+
+<p>而负载均衡器的天性，是把请求分散到后端不同实例。一个要粘，一个要散，这俩从根上就对不上。</p>
+
+<p><img src="/imgs/202611/2026-11-19-streamable-http-sse-alb-infographic-1.jpg" alt="三种传输部署在同一负载均衡后，只有无状态方案请求能落到任意实例" /></p>
+
+<h2 id="天线和开关">天线和开关</h2>
+
+<p>把这套东西想成一个老式对讲机。</p>
+
+<p>SSE 是天线。你喊第一句话的时候接通了一个人，后面所有话都得顺着这条天线传。中间换个接线员，这条线就断了，对方不知道你说到哪。</p>
+
+<p>负载均衡器是个总机。它的工作就是把打进来的电话转给空闲的分机。它不知道哪通电话该转给哪个接线员，于是随机分配。</p>
+
+<p>于是事故是这样发生的：客户端的初始化请求落到实例 A，会话建在 A 的内存里。下一次工具请求被总机转到了实例 B。B 翻遍自己的内存，没有这个会话。</p>
+
+<p>日志里那句 <code class="language-plaintext highlighter-rouge">Could not find session for ID</code> 就是这么来的。</p>
+
+<p>我在一个开源项目的踩坑记录里看到过一模一样的报错，多 gunicorn worker、多 Pod 的场景下反复出现。</p>
+
+<p>到这一步你就明白了：这不是配置问题，是架构和基础设施的日常行为对撞。</p>
+
+<p>多副本、自动扩缩容、滚动发布——这三件事任一发生，有状态的长连接就会被打断。心跳只能保住连接别闲着，保不住它落到哪个实例。</p>
+
+<h2 id="出路一粘住它">出路一：粘住它</h2>
+
+<p>最直接的办法，是让总机记住：这通电话以后都转给 A。</p>
+
+<p>这就是粘滞会话。ALB 上叫 stickiness，Nginx 上叫 ip_hash。按客户端 IP 或者 session ID 做哈希，保证同一个会话的请求都落到同一个实例。</p>
+
+<p>配置不难，代价在后面。</p>
+
+<p>第一个代价是扩缩容。实例一缩，钉在它上面的所有会话全部重连。你的自动扩缩容会变得束手束脚：每个实例都有活会话，谁也不敢先走。</p>
+
+<p>第二个代价是滚动发布。发布时旧实例被摘掉，长在它上面的 SSE 连接被强制中断。客户端得自己学会重连，不然用户就看到一个断掉的画面。</p>
+
+<p>第三个代价更隐蔽：如果你按客户端 IP 做哈希，而你的客户端都躲在同一个 NAT 或 API 网关后面，它们会被算成同一个人，全挤到一个实例上。哈希等于没做。</p>
+
+<p>粘滞会话能用，但它是拿扩展性换稳定。你得清楚自己换出去了什么。</p>
+
+<h2 id="出路二把状态搬走">出路二：把状态搬走</h2>
+
+<p>第二个办法，是别把会话存在实例内存里，存到一个大家都够得着的地方。Redis 是常见选择。</p>
+
+<p>这样每个请求自带会话 ID，哪个实例拿到都能去共享存储里查到状态。总机随便转，转给谁都行。</p>
+
+<p>代价是多一跳网络。每次工具调用都要先去 Redis 取一次会话状态，请求延迟涨一点。你还得维护一套 Redis，多一个可能故障的组件。</p>
+
+<p>对大多数内网里的 MCP 服务，这一跳可以接受。真正要想清楚的是会话里存什么：如果只是几个参数，搬走很轻；如果存了工具注册表的上下文，搬的就是一份不小的状态。</p>
+
+<h2 id="出路三不要会话">出路三：不要会话</h2>
+
+<p>第三个办法最狠：干脆取消会话。</p>
+
+<p>MCP 在 2025 年的规范修订里，把 Streamable HTTP 定为标准传输，用来替代早期的 HTTP+SSE。官方规范里的说法是，它”replaces the HTTP+SSE transport from protocol version 2024-11-05”。</p>
+
+<p>做法很朴素。客户端每次发消息，都是一次独立的新 HTTP POST。</p>
+
+<p>服务端可以把它当成普通的请求-响应处理，也可以在这个 POST 上升级成 SSE 流做进度推送。总之不再需要一条常驻的双向通道。</p>
+
+<p>没有常驻通道，就没有必须粘住的会话。请求散给谁都行，负载均衡器终于能做它擅长的事。</p>
+
+<h2 id="坑换了名字没换状态">坑：换了名字，没换状态</h2>
+
+<p>这里有个坑要提醒你。</p>
+
+<p>规范里的 Streamable HTTP 仍然允许带 <code class="language-plaintext highlighter-rouge">Mcp-Session-Id</code>，它本身不等于无状态。</p>
+
+<p>要做到真正随意分发，你得在实现层面选无状态模式——社区里的做法是起服务时打开无状态开关，或者关掉 SSE 响应，让每个 POST 自成一体。</p>
+
+<p>换了协议名不等于换了架构。你要的是”无状态”这个性质，不是”Streamable”这个词。</p>
+
+<p><img src="/imgs/202611/2026-11-19-streamable-http-sse-alb-diagram-1.png" alt="会话状态的三种放置方案：粘住、外置、无状态，各有代价" /></p>
+
+<h2 id="别急着拆天线">别急着拆天线</h2>
+
+<p>写到这里，我得给 SSE 说句公道话。</p>
+
+<p>如果你的服务只有一个实例，跑在内网，客户端数量可控，SSE 用得好好的，那就别动它。引入 Redis 或者改无状态，都是有成本的。为不存在的问题付成本，不划算。</p>
+
+<p>决定要不要换的，不是”新协议更时髦”，是三个具体问题：你会不会扩到多个副本？会不会用自动扩缩容？会不会频繁滚动发布？</p>
+
+<p>三个里有一个答案是”会”，你就该认真考虑让会话别待在实例内存里。三个都是”不会”，SSE 没什么不好。</p>
+
+<h2 id="回到配置这件事">回到配置这件事</h2>
+
+<p>所以，SSE 老在 ALB 上断，问题真不在配置。</p>
+
+<p>调超时、加心跳，能缓解，但都是在跟基础设施的日常行为对抗。只要你的会话还绑在一条长连接、一个实例的内存上，多副本和滚动发布就会一次次把它打断。</p>
+
+<p>真正的解法是换个思路：要么把会话粘住并接受扩展性的损失，要么把状态搬出去，要么让请求彻底无状态。三条路没有高下，取决于你的规模和对延迟的容忍度。</p>
+
+<p>下次看到 <code class="language-plaintext highlighter-rouge">Could not find session for ID</code>，先别去翻 ALB 的超时参数。问自己一个问题：这个会话，现在存在哪台机器的内存里？</p>
+
+<p>答案出来，路线也就定了。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li><a href="https://modelcontextprotocol.io/specification/2025-06-18/basic/transports">Transports - Model Context Protocol 官方规范</a></li>
+  <li><a href="https://github.com/laozhangzzz/agent-pitbook/blob/main/pits/mcp/mcp-sse-session-lost-multi-worker.md">MCP SSE session lost across workers/pods</a></li>
+  <li><a href="https://alivemcp.com/seo/mcp-server-load-balancing">MCP server load balancing</a></li>
+  <li><a href="https://yaw.sh/mcp-in-production/mcp-server-hosting">Deployment and Hosting - MCP in Production</a></li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="MCP" /><category term="Streamable HTTP" /><category term="SSE" /><category term="负载均衡" /><category term="会话管理" /><category term="云原生部署" /><summary type="html"><![CDATA[摘要：MCP 服务一挂到 ALB 后面就断连，多数人先调超时、加心跳，没用。问题不在配置：SSE 把会话绑在一条长连接上，负载均衡器却天生要把请求分到不同实例。得换传输模型。]]></summary></entry><entry><title type="html">AI 落地难，锅不在技术也不在业务</title><link href="https://tangyuewei.com/posts/ai-business-translation/" rel="alternate" type="text/html" title="AI 落地难，锅不在技术也不在业务" /><published>2026-11-18T20:36:00+08:00</published><updated>2026-11-18T20:36:00+08:00</updated><id>https://tangyuewei.com/posts/ai-business-translation</id><content type="html" xml:base="https://tangyuewei.com/posts/ai-business-translation/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：AI 落不了地，先别甩锅给技术或业务。卡住的是中间那层翻译：把说不清的业务约束，变成 AI 能执行的规则。德勤报告里 71% 的企业部署了 AI，只有 7% 进领先组，差的就是它。</p>
+</blockquote>
+
+<p>你大概开过这样的评审会。</p>
+
+<p>AI 写的 demo 特别惊艳，一放到真实业务里就翻车。</p>
+
+<p>会上分成两派：一派说模型不够强，换个更贵的；一派说业务没讲清，需求写得太粗。两派都能举出例子，可换完模型、补完文档，同样的坑还会再踩一遍。</p>
+
+<p>锅到底在谁头上？都不在。</p>
+
+<p>真正卡住落地的，是技术和业务中间那层翻译——把那些说不清、但人人都懂的约束，变成 AI 能看懂、能执行的规则。这层没人做，再强的模型也只是把错误执行得更快。</p>
+
+<p>这就是那组让 CEO 们焦虑的数字背后的事。</p>
+
+<h2 id="那组数字把锅分成了两半">那组数字，把锅分成了两半</h2>
+
+<p>2026 年 11 月，德勤在深圳的 APEC 工商领导人峰会上抛了一组数。它刚做完一份亚太 CEO 的 AI 调查：71% 的受访企业已大范围部署 AI，只有 7% 进入它定义的转型领先组。</p>
+
+<p>进了领先组的，64% 说 AI 带来了显著价值；没进的普通组，这个数字是 13%。</p>
+
+<p>数字一出来，最常见的两个反应是：技术还不够，或者业务太保守。</p>
+
+<p>德勤全球 CEO 乔德明在会上的原话，把这两种反应都堵了回去。他说问题不在技术本身，真正的挑战在于「把用例嵌入大型复杂组织的心脏」。</p>
+
+<p>谈到应用层谁来负责，他反问：谁来拥有应用层、开发可规模化的用例？「不能简单交给技术人员。」</p>
+
+<p>这句话在程序员群里被转成了另一种味道：看，AI 落地失败，怪我们技术？</p>
+
+<p>其实他批评的也不是技术能力。他后面补的那句才是重点：技术人员闭门造车，做出来的东西「POC 阶段很漂亮、但过于简单、没考虑真实世界复杂性」。</p>
+
+<p>真实世界复杂性。这几个字，说的就是那层翻译没做。</p>
+
+<h2 id="换模型没用因为约束不在模型里">换模型没用，因为约束不在模型里</h2>
+
+<p>先说换模型这条路为什么走不通。</p>
+
+<p>我第一次让 AI 生成一个支付回调的处理逻辑，它写得干净利落：收到通知，更新状态，返回成功。我盯着看了半天，挑不出毛病。直到测试同学问了一句：第三方重复通知怎么办？</p>
+
+<p>那一刻我发现，AI 不是写得不好，是它根本不知道有重复通知这回事。</p>
+
+<p>这条约束不在它拿到的需求里，也不在任何一份文档里。它在风控同事的脑子里，在他讲过的那句「第三方可能重试，你别扣两次钱」里。</p>
+
+<p>你让 AI 通读需求文档，它能读到什么？读到的是「收到支付通知后更新订单状态」。读不到的是「同一次支付可能通知三次，第三次不能重复入账」。</p>
+
+<p>前者是需求，后者是约束，而需求文档天然只写前者。</p>
+
+<p>补文档补不上，换模型也换不出来。因为约束从来就不在那两层里。</p>
+
+<h2 id="那就让业务方把约束写清楚">那就让业务方把约束写清楚？</h2>
+
+<p>有人说，那让业务方把规则写详细点，写成一份完整的业务规则清单。</p>
+
+<p>这条路听着靠谱，做起来会散架。业务方能告诉你「重点客户的审批要优先处理」，但他没法告诉你这条规则落到代码里，是加一个优先级字段，还是要单独排一条队列。</p>
+
+<p>更不会告诉你，加了优先级之后，普通客户的单子会不会被饿死。</p>
+
+<p>这就是「都重要」这句话最滑头的地方。它把问题说成技术和业务各占一半，然后各打五十大板。但真实情况不是五五开，是中间缺了一层，两边都够不着。</p>
+
+<p>技术这边看不到业务约束，业务那边说不出技术后果。</p>
+
+<p>中间这层，得有人把「优先处理」翻译成「带权重的队列加一条饥饿阈值」，并且能回头告诉业务方：这么改之后，普通单子最多等多久。</p>
+
+<p>不是把技术和业务两个人拉来合影，是一个人脑子里同时装得下两边。</p>
+
+<h2 id="那层翻译长什么样先写进测试">那层翻译长什么样：先写进测试</h2>
+
+<p>它是三件事。最要紧的一件：把约束写成测试，别写成注释。</p>
+
+<p>注释是写给人看的，AI 读不读全看它状态。测试是能跑的，你把它接进 CI，AI 每次生成完代码都得过这一关。</p>
+
+<p>我在做智能审批那套东西时，把「同一条审批不能重复通过」「撤回之后不能再审批」这类规则，全写成了用例。后面不管谁来生成代码，跑一遍测试就知道有没有踩线。</p>
+
+<p>等等，写这些测试不是又多了一道活吗？</p>
+
+<p>是，而且这道活短期不产生任何业务价值。你的排期里不会有一项叫「把隐性约束显性化」。</p>
+
+<p>所以它被跳过的概率极高——直到某次翻车之后，才有人想起来补。这笔账得算进交付速度里，我不能只讲收益不讲代价。</p>
+
+<h2 id="把规则做成确定性门禁">把规则做成确定性门禁</h2>
+
+<p>还有一件常被忽略的：把领域规则做成门禁，而不是提示词里的一句叮嘱。</p>
+
+<p>你在 Prompt 里写「注意幂等」，模型可能听，可能不听。</p>
+
+<p>你把规则做成一个确定性检查——提交前扫一遍，发现扣款逻辑没挂幂等键就直接拦下——它就一定会生效。</p>
+
+<p>这不是信不信 AI 的问题，是把不确定的东西，换成确定的东西。</p>
+
+<p>最后一件容易漏的：让约束进上下文，别让它留在人脑子里。</p>
+
+<p>AI 读不到你的生产事故记录，也读不到老员工离职时带走的那句「这个接口不能并发调」。这些得由你写进它每次都能看到的地方。</p>
+
+<p>你给仓库写的那些规则文件、Agent 的边界说明，本质都在干这件事。</p>
+
+<p><img src="/imgs/202611/2026-11-18-ai-business-translation-diagram-1.png" alt="业务约束从隐性到可执行的三层落点" /></p>
+
+<h2 id="换个场景还是这层活">换个场景，还是这层活</h2>
+
+<p>这套东西不只用在 AI 落地。</p>
+
+<p>你带过新人吧。你跟他说「把审批状态改一下」，他改完，线上出问题——因为「改一下」里藏着十几个你没说的约束。</p>
+
+<p>你说的是动作，他要的是边界。新人会回头问你，AI 不会，它直接照着字面执行。</p>
+
+<p>所以这层翻译从来都在，只是以前由人在口头补齐。AI 把执行速度提上去之后，补不齐的代价被放大了：以前一个新人一天犯一个错，现在一个 Agent 一分钟能犯一百个。</p>
+
+<p>这也是为什么德勤开的药方是配对——让有工程能力的人和懂业务的人坐在一起。</p>
+
+<p>配对能补一部分，但它有个隐含前提：两个人得有一门共同语言，能把「优先处理」翻译成可执行的规则。这门语言，就是那层翻译。</p>
+
+<p><img src="/imgs/202611/2026-11-18-ai-business-translation-infographic-1.jpg" alt="三个场景里，缺的都是同一层" /></p>
+
+<h2 id="最后">最后</h2>
+
+<p>回到开头那场评审会。</p>
+
+<p>锅不在技术，模型够强了。锅不在业务，需求也写得很厚了。锅在中间那层：那些人人以为对方知道、结果谁都没写下来的约束。</p>
+
+<p>懂 AI 和懂业务都重要，这话没错。但更准确的说法是：你得能把业务里说不清的东西，翻成 AI 能执行的规则。这个能力不会因为模型升级而过时，只会越来越值钱。</p>
+
+<p>下次 demo 又翻车，先别急着换模型。翻出那条被省掉的约束，写成测试，跑一遍。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li><a href="https://news.qq.com/rain/a/20261117A0CT7H00">71% 的受访企业已广泛部署 AI，德勤全球 CEO：真正获得财务回报的仍很少</a>：腾讯新闻</li>
+  <li><a href="https://finance.sina.com.cn/hy/hyjz/2026-11-17/doc-iniyzswf2185918.shtml">德勤全球首席执行官乔德明：CEO 们几乎都在用 AI，但很少有人真正赚到钱</a>：新浪财经</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI落地" /><category term="业务理解" /><category term="工程判断" /><category term="幂等" /><category term="企业应用" /><summary type="html"><![CDATA[摘要：AI 落不了地，先别甩锅给技术或业务。卡住的是中间那层翻译：把说不清的业务约束，变成 AI 能执行的规则。德勤报告里 71% 的企业部署了 AI，只有 7% 进领先组，差的就是它。]]></summary></entry><entry><title type="html">RAG 的向量库，Redis 8 想让你删掉</title><link href="https://tangyuewei.com/posts/redis-8-vector-set-vs-vector-db/" rel="alternate" type="text/html" title="RAG 的向量库，Redis 8 想让你删掉" /><published>2026-11-17T09:12:00+08:00</published><updated>2026-11-17T09:12:00+08:00</updated><id>https://tangyuewei.com/posts/redis-8-vector-set-vs-vector-db</id><content type="html" xml:base="https://tangyuewei.com/posts/redis-8-vector-set-vs-vector-db/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：别急着删向量库：Redis 8 能替你删掉同步管线和语义缓存，但全量向量和极致召回还得留给专用库。看清哪半能删、哪半不能，再决定动不动手。</p>
+</blockquote>
+
+<h2 id="一个进程想装下四套东西">一个进程，想装下四套东西</h2>
+
+<p>「你们 RAG 上线三个月，现在维护几套东西？」</p>
+
+<p>被人这么一问，我数了数：一个缓存、一个会话库、一个向量库，还有把它们串起来的那条同步管线。四套。</p>
+
+<p>Redis 8 给的答案很直接：这些，我一个进程就能干。</p>
+
+<p>它不是说说。向量集、查询引擎、语义缓存，全塞进了同一个 Redis。官方那句最诱人的话是——语义缓存能在高重复负载下，把大模型的调用成本砍到七成以下。</p>
+
+<p>于是「删掉向量库」的口号就喊出来了。可你真敢删吗？</p>
+
+<p>先别急。这句话对了一半，也错了一半。今天把两半拆开看。</p>
+
+<p>先把 Redis 能干的活摆清楚。它有两条向量路线，很多人上来就选错。</p>
+
+<p>一条叫向量集（Vector Set），8.0 才进 beta。它像有序集合，只不过每个元素绑的不是分数，是一个向量。加数据用 VADD，查相似用 VSIM，不用建索引，属性直接塞 JSON。</p>
+
+<p>另一条是老的查询引擎（Query Engine），向量存在 hash 或 JSON 里，要先 FT.CREATE 建索引，再用 FT.SEARCH 查。它能同时按全文、标签、数值、地理过滤。</p>
+
+<p>区别很实在：前一条路轻，适合快速上线和实时推荐；后一条路重，适合向量加复杂筛选。选错了要重写——不是改几行，是推倒。</p>
+
+<p>动手前先问自己一句：你要的是「轻量相似搜索」，还是「向量加一堆结构化过滤」？</p>
+
+<h2 id="它真正想删的是那条同步管线">它真正想删的，是那条同步管线</h2>
+
+<p>那「删掉向量库」到底指什么？</p>
+
+<p>我原先以为是「Redis 的性能追上了专用向量库」。翻完官方文档才发现，不是。</p>
+
+<p>Redis 真正想替你删的，是那条没人愿意维护的同步管线——业务库写完，还得把向量再同步一份给向量库；中间一断，就出现「订单写进去了、向量还没更新」的分裂脑。</p>
+
+<p>还有一块更值钱：语义缓存。用户换个说法问同一件事，它认得出意思一样，直接返回缓存答案，不再调一次大模型。官方说高重复场景能省七成 LLM 成本；有个医疗语音助手，命中率做到 70%，账单跟着降，响应快四倍。</p>
+
+<p>这块，专用向量库为什么给不了？因为那些库的本事只在「查得准」，不在「认出重复提问」。它们的对比表里，Pinecone、Milvus、Qdrant、pgvector，语义缓存那一列全是叉。</p>
+
+<p>这才是 Redis 8 的杀招：不是把向量查得更快，是把「向量 + 缓存 + 会话」关进一个进程，省掉中间那层胶水。</p>
+
+<h2 id="全量向量接不住那就删一半">全量向量接不住，那就删一半</h2>
+
+<p>那全量向量也交给它，行不行？</p>
+
+<p>这里就得泼冷水了。向量集有三个坎，官方文档自己写着，绕不过去。</p>
+
+<p>头一个坎，它还是 beta。官方原话是「API 和行为在后续版本可能变化」。你要拿它扛生产主链路，等于把架构押在一个可能改接口的东西上。</p>
+
+<p>再一个是分片——它压根没有内置的。官方的扩展方案是「手动把数据切到多个 key 和节点，把 VSIM 扇到每个分片，客户端自己合并」。写能线性扩，读不能。数据一上亿，这条就卡脖子。</p>
+
+<p>还有召回率，得打个折。第三方对比说 Redis 大约 92%，专用向量库能到 95 到 98%。猜你喜欢这种场景无所谓，法律、医疗检索漏一条都算事故。</p>
+
+<p>那个「十亿向量」的基准，也得看清口径：90% 精度、中位 200 毫秒、50 并发、top-100。而且 Redis 自己在博客里提醒——多数基准是厂商自发布，请用自己的数据验证。这话挺诚实，也说明别拿宣传数字当承诺。</p>
+
+<p>所以全量、冷数据、极致召回，别指望它一个人扛。</p>
+
+<p>把上面的判断画成一张图，大概是这样：</p>
+
+<pre><code class="language-mermaid">flowchart TD
+    A[你要做语义检索] --&gt; B{已在用 Redis 吗}
+    B --&gt;|否| C{数据量过亿 或 要极致召回}
+    C --&gt;|是| D["专用向量库&lt;br/&gt;Milvus / Qdrant · 召回 95%+"]
+    C --&gt;|否| E["向量集 或 pgvector&lt;br/&gt;少一个组件好维护"]
+    B --&gt;|是| F{数据量大不大}
+    F --&gt;|千万级以内| E
+    F --&gt;|上亿 或 冷热分层| G["组合：热点 + 语义缓存进 Redis&lt;br/&gt;全量进专用库"]
+    D --&gt; G
+    E --&gt; G
+    G --&gt; H[删掉的是同步管线&lt;br/&gt;不是向量库本身]
+</code></pre>
+
+<p>所以回到开头那四套东西。我的答案是：删，但删对一半。</p>
+
+<p>能删的，是那条同步管线，和「每次重复提问都要再付一次钱」的语义缓存账单。这两块，Redis 8 确实接得住，而且专用向量库接不了。</p>
+
+<p>不能删的，是全量向量和极致召回。数据上亿、要求 95% 以上召回、还要 GPU 加速索引或私有化部署，专用库仍然是更稳的那一个——Redis 自己都承认，需要专门调优时它可能更合适。</p>
+
+<p>成熟的做法不是二选一，是组合：冷数据、全量进专用库或 pgvector；热点查询和语义缓存留在 Redis。用一个进程接下高频的那部分，把贵的那部分省下来。</p>
+
+<p>Redis 8 喊「删掉向量库」，其实喊错了一个字。它想让你删的，是向量库背后那条没人想维护的同步管线，和那张不断重复付费的账单。</p>
+
+<p>真正该问的不是「要不要删向量库」，是「我的数据，冷的那部分到底有多少」。</p>
+
+<p><img src="/imgs/202611/2026-11-17-redis-8-vector-set-vs-vector-db-infographic-1.jpg" alt="Redis 8 与向量库：一个进程接住缓存与检索，同步管线才是该删的那截" /></p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>
+    <p>Redis 8.0 What’s New（向量集进入 Beta、Redis Open Source 合并、Query Engine 改动）：https://redis.io/docs/staging/DOC-5680/develop/whats-new/8-0</p>
+  </li>
+  <li>
+    <p>Redis 官方博客《Top vector database alternatives for RAG pipelines》（语义缓存最多降 73%、十亿向量基准口径、厂商基准提醒）：https://redis.io/blog/vector-database-alternatives-rag-pipelines</p>
+  </li>
+  <li>
+    <p>Redis 官方教程《Getting started with vector sets》（VADD/VSIM、命令、与 Query Engine 的差异）：https://redis.io/learn/howtos/vector-sets-basics</p>
+  </li>
+  <li>
+    <p>第三方实战笔记（向量集量化档位、无内置分片、字节序与过滤静默排除等边界）：https://www.thakurcoder.com/blog/redis-8-cache-vector-search-semantic-caching</p>
+  </li>
+  <li>
+    <p>第三方评测观点（Redis 召回率约 92% 对专用库 95%–98%、”不取代专用库”的定位）：https://www.cnblogs.com/gloamfox/p/21893909</p>
+  </li>
+  <li>
+    <p>Valkey 与 Redis 现状（Valkey 9.1 性能、AWS 默认引擎与定价差异、许可分歧）：https://devops-daily.com/posts/is-valkey-ready-to-replace-redis-2026</p>
+  </li>
+</ul>
+
+<blockquote>
+  <table>
+    <tbody>
+      <tr>
+        <td>作者：<a href="https://tangyuewei.com">唐悦玮</a></td>
+        <td>从后端出发，用 AI 拓展到全栈的工程师。</td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>]]></content><author><name>唐悦玮</name></author><category term="后端开发" /><category term="数据库" /><category term="AI编程" /><category term="Redis" /><category term="向量数据库" /><category term="RAG" /><category term="语义缓存" /><category term="pgvector" /><category term="数据库选型" /><category term="2026趋势" /><summary type="html"><![CDATA[摘要：别急着删向量库：Redis 8 能替你删掉同步管线和语义缓存，但全量向量和极致召回还得留给专用库。看清哪半能删、哪半不能，再决定动不动手。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-17-redis-8-vector-set-vs-vector-db.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-17-redis-8-vector-set-vs-vector-db.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">AI 都会编程了，Java 何去何从</title><link href="https://tangyuewei.com/posts/java-backend-rust-go-wasm/" rel="alternate" type="text/html" title="AI 都会编程了，Java 何去何从" /><published>2026-11-16T09:55:00+08:00</published><updated>2026-11-16T09:55:00+08:00</updated><id>https://tangyuewei.com/posts/java-backend-rust-go-wasm</id><content type="html" xml:base="https://tangyuewei.com/posts/java-backend-rust-go-wasm/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：AI 写代码又快又好，Java 真要被挤走了？先看数据：AI 生成的代码按语言出错率差到十几倍，胜负手已从「谁写得快」变成「谁更容易验证对」。</p>
+</blockquote>
+
+<p>「你们后端还在写 Java？」</p>
+
+<p>以前听到这句，我会有点奇怪。今年再听到，我反而想问一句：那你这行代码，是你写的，还是 AI 写的？</p>
+
+<p>说得再直白点，现在那些吵「Rust 会不会取代 Java」的人，自己写 Rust，可能连 for 循环都要 AI 补全。</p>
+
+<p>语言地盘确实在动。CNCF 2025 的调查里，新写的后端服务有 23% 落到 Rust 头上，2023 年这个数字才 8%；Go 在云原生基础设施的采用率超过 65%——Docker、Kubernetes、Terraform 本来就是它写的。</p>
+
+<p>但这些已经不是今年最大的变量了。</p>
+
+<p>真正的变量是 AI。它会写代码，哪个语言都写，写得又快又像样。于是老问题被架空了一半——以前你担心「学不动 Rust」，现在 AI 替你学；以前「换语言要养一个新团队」，现在一个人加一个 AI 就能试。</p>
+
+<p>那语言之争，是该就此结束了吗？</p>
+
+<p>问题没那么简单。如果 AI 写哪个语言都行，Java 还剩下什么意义？它会不会因为「迁移成本被 AI 拉低」，反而更快出局？</p>
+
+<p>先泼一盆冷水：AI 并不是「哪个语言都写得一样好」。</p>
+
+<p>AWS 拿 150 万次真实 AI 编码对话做过统计，按语言看静态错误率——JavaScript 1.6%、Python 4.0%、Go 8.0%、C++ 12.2%、Rust 15.1%、Java 26.7%，最高和最低差了十几倍。</p>
+
+<p>另一份发在《Empirical Software Engineering》上的 PROBE 基准，测的是「编译并通过测试」的通过率：Python 最高，Java 和 C++ 次之，Rust 最难，而且 Rust「编译不过」的比例是所有语言里最高的。</p>
+
+<p>看到 Java 26.7% 先别急着下结论。AWS 自己写得很清楚——这只统计了静态分析能看见的问题，而各语言的静态检查强度天差地别。JavaScript 那 1.6% 低，不是它写得对，是它几乎不检查。诊断干净，不等于代码正确。</p>
+
+<p>但另一个信号是真的：Rust 是 AI 最写不好的语言。</p>
+
+<p>原因不神秘。借用检查器和所有权规则，要求跨作用域的严格推理；而大模型是逐 token 猜下一个词。两者天生对不上。AI 写 Rust 的典型画面是：生成、报借用错误、无脑 clone、再报错，来回打转。</p>
+
+<p>这两组数据合起来，指向一个比「谁取代谁」更实际的问题。</p>
+
+<p>AI 把「写」的成本压到接近零之后，瓶颈就转移到了「验证」——你总得有人确认这段 AI 代码是对的、敢上线。语言之争的胜负手，也就从「谁写得快、谁跑得快」，变成了「谁更容易验证对」。</p>
+
+<p>那是不是该立刻把项目全迁回 Java？也别急。</p>
+
+<p>在这条新赛道上，强类型、工具链成熟的语言，确实占便宜。Java 恰好站在这。它啰嗦、有检查异常、泛型绕——这些常年被吐槽的「笨」，在 AI 时代翻了个面：错误被挡在编译期，而不是留到线上。</p>
+
+<p>再加上三十年的生态：企业集成库覆盖率 98%，Rust 只有 41%；三年 TCO，Java 41.2 万美元，Rust 89.2 万，是它的两倍多。Azul 2026 的调查里，99% 的组织还在用 Java，七成应用跑在 JVM 上。</p>
+
+<p>这些数字不是被 AI 削弱了，而是被 AI 放大了——AI 生成的代码越多，「能兜住错误的生态」就越值钱。</p>
+
+<p>Java 自己也没躺着。Java 27 今年九月 GA，G1 成了全环境默认回收器，紧凑对象头默认打开；Spring Boot 4 把虚拟线程设成默认执行模型，配上 GraalVM 原生镜像，首请求从 2.34 秒压到 78 毫秒。</p>
+
+<p>「Java 慢」这顶戴了二十年的帽子，在冷启动这一项上基本摘掉了。</p>
+
+<p>当然，热路径上 Rust 和 Go 依旧。日均五亿条消息的 Kafka 消费，Go 版常驻 280MB、P99 十二毫秒，Rust 版 65MB、四毫秒；同一台机器，Axum 比 Gin 的 QPS 高约 45%。性能敏感的边角，该用谁还用谁。</p>
+
+<p>只是这个「该用谁」的判断，现在不取决于你团队会不会写，而取决于这个模块出错代价多高、你验证得起多少。</p>
+
+<p>下面这张图，按「AI 产出可信度 + 验证成本」帮你定位：</p>
+
+<pre><code class="language-mermaid">flowchart TD
+    A[这段代码交给 AI 写] --&gt; B{出错代价有多高}
+    B --&gt;|"高 · 交易 / 账务 / 核心"| C["Java：强类型 + 工具链&lt;br/&gt;错误挡在编译期"]
+    B --&gt;|"中 · 普通业务"| D{要不要极致性能}
+    D --&gt;|要| E["Go：语法简单&lt;br/&gt;AI 写得稳 · 验证省"]
+    D --&gt;|不要| C
+    B --&gt;|"低 · 边缘 / 插件"| F["Rust / Wasm：性能与隔离&lt;br/&gt;但 AI 写 Rust 验证最痛"]
+    C --&gt; G["AI 写 + 人判断&lt;br/&gt;语言不再是门槛"]
+    E --&gt; G
+    F --&gt; G
+</code></pre>
+
+<p>所以「Java 何去何从」，我的答案是：它不会出局，AI 时代不会淘汰 Java，因为 Java 的生态相对是很强很完善。</p>
+
+<p>被压缩的从来不是 Java，是「只会手写 Java 语法」的人。</p>
+
+<p>当 AI 都能写，Java 工程师值钱的部分就不再是「我会写 Spring」，而是——我知道这段 AI 代码哪里会炸、该用什么兜住、值不值得为那点性能换成 Rust。</p>
+
+<p>语言正在变成 AI 的事，判断仍然是你的。</p>
+
+<p><img src="/imgs/202611/2026-11-16-java-backend-rust-go-wasm-infographic-1.jpg" alt="AI 时代语言选型：出错代价越高越靠强类型，验证负担决定胜负" /></p>]]></content><author><name>唐悦玮</name></author><category term="后端开发" /><category term="AI编程" /><category term="编程语言" /><category term="Java" /><category term="Rust" /><category term="Go" /><category term="WebAssembly" /><category term="AI编程" /><category term="代码验证" /><category term="后端开发" /><category term="2026趋势" /><summary type="html"><![CDATA[摘要：AI 写代码又快又好，Java 真要被挤走了？先看数据：AI 生成的代码按语言出错率差到十几倍，胜负手已从「谁写得快」变成「谁更容易验证对」。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-16-java-backend-rust-go-wasm.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-16-java-backend-rust-go-wasm.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">uuidv7 来了：为什么别再拿 uuidv4 当主键</title><link href="https://tangyuewei.com/posts/uuidv7-primary-key/" rel="alternate" type="text/html" title="uuidv7 来了：为什么别再拿 uuidv4 当主键" /><published>2026-11-13T10:53:00+08:00</published><updated>2026-11-13T10:53:00+08:00</updated><id>https://tangyuewei.com/posts/uuidv7-primary-key</id><content type="html" xml:base="https://tangyuewei.com/posts/uuidv7-primary-key/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：你用 UUID.randomUUID() 当主键，前三个月写入正常，之后却越跑越慢，慢 SQL 日志却一片空白。问题不在 SQL——随机主键把 InnoDB 聚簇 B+ 树敲得满是碎片，页分裂、缓冲池失守、WAL 暴涨。</p>
+</blockquote>
+
+<p>你建表时顺手把主键设成了 UUID.randomUUID()，前三个月风平浪静，写入、查询都正常。可三个月后，插入越来越慢，监控里磁盘 IO 悄悄往上爬，你翻遍慢 SQL 日志却一片空白——没有一条语句超时，CPU 也不高。你大概会想：主键不就是个 ID 吗，还能影响写入速度？</p>
+
+<p>这事儿看着离谱，根子却在 InnoDB 的存储结构里。UUID 当主键不是不能用，但它和数据库的聚簇索引是两套心思，搁一块就把性能慢慢磨没了。</p>
+
+<h2 id="主键不是随便一个不重复的值">主键不是”随便一个不重复的值”</h2>
+
+<p>先说清楚 InnoDB 怎么存数据。它的主键索引是聚簇索引——数据行本身就按主键的顺序，排进 16KB 一页的 B+ 树叶子节点里。新插入的一行，会被放到”主键该在的位置”。主键要是自增 BIGINT，新行永远落在树的右边缘，这一页写满就开新页，几乎是纯追加。可 UUID 当主键时，这个”该在的位置”又在哪儿？</p>
+
+<p>UUID v4 呢？它是 122 位纯随机，每次生成的值彼此毫无顺序。新行的”该在的位置”是树里随便一个角落，那一页大概率已经写满，数据库只好把页劈开——分裂成两页，各搬一半数据过去。这叫页分裂。</p>
+
+<p><img src="/imgs/202611/2026-11-13-uuidv7-primary-key-infographic-1.jpg" alt="随机主键 vs 有序主键：B+ 树上的两种命运" /></p>
+
+<p>页分裂的代价是什么？一是填充率掉下来，随机写入的页平均只用到 50% 到 60% 的空间，有序写入能到 90% 以上，同样的数据你要多存近一倍。二是缓冲池被冷页冲刷——新行散落各处，读进来的页用一次就被挤出去，命中率直降。三是 WAL 放大，PostgreSQL 开启全页写时，分裂页产生的全页镜像能让 WAL 体积涨到 20GB 往上。三个月后表一大，这些症状就全显出来了。</p>
+
+<p>等等，那为什么前三个月没事？因为表小的时候，整棵 B+ 树都能塞进内存，页分裂的开销被缓冲池盖住了。等数据量越过那个临界点，分裂和冷页的代价才开始肉眼可见地拖慢写入。</p>
+
+<h2 id="uuidv7-凭什么能救">uuidv7 凭什么能救</h2>
+
+<p>问题不在”用 UUID”，在”用随机的 UUID”。RFC 9562（2024 年 5 月定稿）里定义的 UUID v7，把 48 位 Unix 毫秒时间戳放在高位，剩下 74 位随机。也就是说，v7 的值大体上随时间递增——新生成的 ID 天然比旧的大。</p>
+
+<p>同样是 UUID，v7 比 v4 到底多了什么？就是把时间戳放到了高位，让值随时间大致递增。插回 InnoDB 的聚簇索引，v7 的新行就又落回树的右边缘，变成追加写，页分裂几乎消失，填充率回到 90% 以上。公开基准里，v7 的写入吞吐能到 BIGINT 自增的 85% 到 89%；而 v4 在 MySQL 上会掉到 36% 上下。Shopify 在真实生产里把主键从随机 UUID 换成有序 UUID 后，插入耗时直接砍掉一半。</p>
+
+<p>下面是按时间戳排序带来的连锁改善——一个时间前缀，把”随机散落”变成”顺序追加”：</p>
+
+<pre><code class="language-mermaid">flowchart TD
+    Q[选主键] --&gt; A{单库 且 不外露?}
+    A --&gt;|是| B[BIGINT 自增]
+    A --&gt;|否| C{要藏创建时间?}
+    C --&gt;|公开 URL 防猜| U[uuidv4]
+    C --&gt;|分布式 / 合并 / 内部| V[uuidv7]
+</code></pre>
+
+<h2 id="两个数据库怎么落地">两个数据库怎么落地</h2>
+
+<p>PostgreSQL 18（2025 年 9 月发布）直接内置了 uuidv7()，不用自己造轮子，连反解时间戳的函数都备好了：</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="c1">-- PostgreSQL 18：原生 uuidv7()，还能从 ID 反查出创建时间</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">orders</span> <span class="p">(</span>
+  <span class="n">id</span>   <span class="n">uuid</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="k">DEFAULT</span> <span class="n">uuidv7</span><span class="p">(),</span>
+  <span class="n">customer</span> <span class="nb">text</span> <span class="k">NOT</span> <span class="k">NULL</span>
+<span class="p">);</span>
+
+<span class="k">SELECT</span> <span class="n">uuid_extract_timestamp</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">created_at</span>
+<span class="k">FROM</span> <span class="n">orders</span>
+<span class="k">LIMIT</span> <span class="mi">1</span><span class="p">;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>MySQL 这边为什么不能像 PostgreSQL 那样直接甩个 uuidv7()？因为它 8.4 没有原生实现，只有 UUID()（v1，带 MAC 和时间）和 gen_random_uuid()（v4，纯随机）。想用 v7，得在应用层生成、再存成 BINARY(16)，而不是 CHAR(36) 的文本——文本多占一倍空间还带字符集开销：</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="c1">-- MySQL 8.4：没有原生 uuidv7()，应用层生成后存成定长二进制</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">orders</span> <span class="p">(</span>
+  <span class="n">id</span> <span class="nb">BINARY</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+  <span class="n">customer</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span>
+<span class="p">);</span>
+<span class="c1">-- 应用层用 uuidv7 库生成，转成 16 字节二进制写入即可。</span>
+<span class="c1">-- 若暂时只能用 v1，UUID_TO_BIN(UUID(), 1) 会把时间字段换位，</span>
+<span class="c1">-- 让 v1 也能按时间有序存放（本质是 ordered-UUID 套路，并非 v7）。</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>补充一句：Percona Server 8.4 提供了 UUID_VX 组件，原生实现 v1 到 v7，如果你用的是 Percona 分支，可以直接拿 uuid_v7() 用。</p>
+
+<h2 id="换-uuidv7-的代价得算清楚">换 uuidv7 的代价，得算清楚</h2>
+
+<p>别一看快就无脑切。最显眼的一处代价是暴露创建时间：v7 把毫秒写在了 ID 高位，等于把”这条记录什么时候产生的”直接摊开——如果你的 ID 要出现在公开 URL 或对外接口，用户能靠顺序猜出你每天的注册量、订单量。这种场景宁愿用 v4，或者把 ID 做一次不可逆向的编码再外露。</p>
+
+<p>同一毫秒内生成的多个 v7 也不保证严格有序，靠的是尾部随机位，高并发下偶尔”后来者排前面”属于正常，你别拿它当精确的时间序。</p>
+
+<p>老表更不能盲目迁移。把一张已经用 v4 当主键、还被一堆外键引用的表改成 v7，意味着重建整张聚簇索引、顺带重建所有外键，大表上这是按小时计的锁表操作，你得挑低峰、用在线 DDL 或灰度双写去迁，不能拍脑袋 ALTER。</p>
+
+<p>还得和 BIGINT 比一比账：uuidv7 占 16 字节，是 8 字节的两倍。单库、ID 不外露、不在乎被遍历，BIGINT 自增依然是最省、最快的那一个。v7 的价值落在”分布式、多服务、要合并、又不想用自增”的那类场景。</p>
+
+<h2 id="举一反三这几个坑是同一个">举一反三：这几个坑是同一个</h2>
+
+<p>踩过随机主键的，多半也踩过它的近亲。拿 MD5 或别的随机哈希当主键，后果一模一样——还是随机散落、还是页分裂。还有人图省事用 VARCHAR(36) 存 UUID 文本，比 BINARY(16) 多一倍空间还带字符集转换，纯属自找。</p>
+
+<p>外键也会跟着膨胀。主键 16 字节，每张引用它的表的外键字段也跟着 16 字节，索引也跟着变大。表多、外键密的系统，主键选型直接影响整体存储和缓存命中，不是一张表的事。这张连锁账，你以前算过吗？</p>
+
+<h2 id="回顾一下">回顾一下</h2>
+
+<p>UUID 当主键本身没错，错在用了完全随机的 v4。InnoDB 的聚簇索引要求数据按主键有序落页，随机主键逼出大量页分裂、拉低填充率、冲刷缓冲池、放大 WAL，写入就慢慢垮了。uuidv7 用时间戳前缀把”随机”变成”大致有序”，把追加写还给数据库；PostgreSQL 18 原生支持，MySQL 8.4 要靠应用层生成加 BINARY(16) 落地。选型上：单库不外露用 BIGINT，分布式或要合并用 v7，要藏时间的公开 ID 才用 v4。换老表之前，先把迁移代价算进账。</p>
+
+<p><strong>参考资料</strong></p>
+
+<ul>
+  <li>RFC 9562（2024-05）：UUID 版本 1/6/7 的时间有序定义，uuidv7 的 48 位时间戳 + 74 位随机结构</li>
+  <li>PostgreSQL 18 官方文档：uuidv7()、uuid_extract_timestamp()、uuid_extract_version() 函数说明</li>
+  <li>MySQL 8.4 官方文档：UUID() 与 gen_random_uuid()；UUID_TO_BIN() 时间字段换位用法</li>
+  <li>Percona Server 8.4 技术文档：UUID_VX 组件对 v1–v7 的原生支持</li>
+  <li>公开基准与 Shopify 工程实践：有序 UUID 相对随机 UUID 的写入吞吐对比</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="数据库" /><category term="性能调优" /><category term="UUID" /><category term="主键" /><category term="PostgreSQL" /><category term="MySQL" /><category term="索引碎片" /><category term="性能调优" /><category term="数据库优化" /><summary type="html"><![CDATA[摘要：你用 UUID.randomUUID() 当主键，前三个月写入正常，之后却越跑越慢，慢 SQL 日志却一片空白。问题不在 SQL——随机主键把 InnoDB 聚簇 B+ 树敲得满是碎片，页分裂、缓冲池失守、WAL 暴涨。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-13-uuidv7-primary-key.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-13-uuidv7-primary-key.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Postgres 慢查询，先取证再动手</title><link href="https://tangyuewei.com/posts/postgres-slow-query-troubleshooting/" rel="alternate" type="text/html" title="Postgres 慢查询，先取证再动手" /><published>2026-11-12T08:52:00+08:00</published><updated>2026-11-12T08:52:00+08:00</updated><id>https://tangyuewei.com/posts/postgres-slow-query-troubleshooting</id><content type="html" xml:base="https://tangyuewei.com/posts/postgres-slow-query-troubleshooting/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：AI 帮你写的 SQL 跑得飞起，某天接口却突然变慢超时。这篇讲清：为什么”直接加索引”在 Postgres 上反而危险，以及用 pg_stat_statements 和 EXPLAIN ANALYZE 把慢查询揪出来的固定路线。</p>
+</blockquote>
+
+<p>你没改过业务代码。那条列表查询平时几十毫秒，某天突然三秒，接口开始超时，PgBouncer 后面的 Postgres 连接被占满，整个服务跟着抖。SQL 甚至不是你写的——是 AI 帮写的。</p>
+
+<p>你盯着监控，第一反应大概是：加个索引吧。</p>
+
+<p>先别急。为什么加索引这件天经地义的事，在 Postgres 上会翻车？Postgres 刻意不提供查询 hint，你没法强制它用某个索引；更隐蔽的是，当一条查询要返回表里三成以上的数据时，全表扫描本来就比走索引快——你加了索引，优化器照样不理你，白加，写入反而变慢。那正确的起点是什么？不是”加索引”，是”先拿到证据”。</p>
+
+<p>为什么这几年 Postgres 越来越常见？AI 应用栈把它推成了新项目的默认库之一：pgvector 把向量检索塞进了数据库，Supabase、Neon 这类托管默认就是它，RAG、语义搜索不用再起一套专门的向量库。但它和老牌的 MySQL，底牌其实不一样：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>维度</th>
+      <th>PostgreSQL 强在哪</th>
+      <th>PostgreSQL 弱在哪</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>扩展与生态</td>
+      <td>扩展即能力：pgvector 向量检索、PostGIS 地理、pg_trgm 模糊、TimescaleDB 时序、FDW 外部表</td>
+      <td>配置面大（postgresql.conf 数百参数、默认保守），要调 shared_buffers / work_mem</td>
+    </tr>
+    <tr>
+      <td>查询能力</td>
+      <td>复杂查询优化器强，CTE / 窗口函数 / 递归成熟；索引类型丰富（B-tree / GIN / GiST / BRIN，支持表达式、部分、覆盖索引）</td>
+      <td>无查询 hint，低选择性查询优化器认为全表扫描更便宜时就不用索引</td>
+    </tr>
+    <tr>
+      <td>数据与约束</td>
+      <td>JSONB 原生 + GIN 可索引；CHECK 约束、更接近标准的 NULL 处理、事务性 DDL 可回滚；原生行级安全 RLS</td>
+      <td>MVCC 死元组依赖 autovacuum，高写入表配不好会表膨胀</td>
+    </tr>
+    <tr>
+      <td>运维</td>
+      <td>逻辑复制（PG10 起）、Patroni / pg_auto_failover 成熟</td>
+      <td>每连接一个进程（约 10MB），高并发短连接必须前面架 PgBouncer；逻辑复制生态比 MySQL binlog 年轻</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>维度</th>
+      <th>MySQL 强在哪</th>
+      <th>MySQL 弱在哪</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>连接与吞吐</td>
+      <td>线程模型连接开销小，原生扛上万连接；简单只读 CRUD 高 QPS 更轻</td>
+      <td>InnoDB 旧版本存于 undo log，有长事务长 undo 段问题</td>
+    </tr>
+    <tr>
+      <td>复制与生态</td>
+      <td>复制生态最成熟（binlog、GTID、Orchestrator、Group Replication、ProxySQL），pt-tools 丰富</td>
+      <td>SQL 特性曾落后（窗口函数 / CTE 到 8.0 才完善），复杂查询优化器弱于 PG</td>
+    </tr>
+    <tr>
+      <td>易用</td>
+      <td>上手简单、默认配置即可跑；托管便宜档多（WordPress / PHP 生态默认）</td>
+      <td>扩展能力弱，不能写自定义类型 / 操作符 / 扩展；JSON 支持弱于 JSONB+GIN；无原生向量检索（8.4 才加）</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>归结一句：多数公开基准里，两者差距多在 10% 到 20%，真正拉开性能的是索引、连接池、副本、分区这些运维活——而本篇讲的，就是最关键的一环：抓慢查询。新项目要复杂查询、AI 特性、扩展能力，Postgres 是默认；老 MySQL 代码库、PHP 或 WordPress、极简高 QPS 主键读，MySQL 仍是好选择。</p>
+
+<p>出了事，按这条路线走，大部分问题半小时能定位。</p>
+
+<p>开统计和日志，先拿到证据。Postgres 不像 MySQL 有独立的慢查询日志开关，它靠一个扩展：pg_stat_statements。先建扩展，再把它加进 shared_preload_libraries 重启；或者直接用 log_min_duration_statement 设个阈值，超过一秒的语句全记下来，改完配置 pg_reload_conf 不用重启。线上想自动抓计划，把 auto_explain 也加进去，慢查询的执行计划会自己写进日志：</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="c1">-- 开统计扩展（需 shared_preload_libraries 含 pg_stat_statements 后重启）</span>
+<span class="k">CREATE</span> <span class="n">EXTENSION</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">pg_stat_statements</span><span class="p">;</span>
+
+<span class="c1">-- 慢查询日志阈值：超过 1000 毫秒的语句全记</span>
+<span class="k">ALTER</span> <span class="k">SYSTEM</span> <span class="k">SET</span> <span class="n">log_min_duration_statement</span> <span class="o">=</span> <span class="s1">'1000ms'</span><span class="p">;</span>
+<span class="k">SELECT</span> <span class="n">pg_reload_conf</span><span class="p">();</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>按累积耗时排，找出元凶。别凭感觉。查 pg_stat_statements，按累积耗时排：</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="k">SELECT</span> <span class="n">query</span><span class="p">,</span> <span class="n">calls</span><span class="p">,</span> <span class="n">total_exec_time</span><span class="p">,</span> <span class="n">mean_exec_time</span>
+<span class="k">FROM</span> <span class="n">pg_stat_statements</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">total_exec_time</span> <span class="k">DESC</span>
+<span class="k">LIMIT</span> <span class="mi">10</span><span class="p">;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>这里有个反直觉的点——一个平均八毫秒、但跑了一百万次的查询，往往比一个偶尔三秒的报表更该优化。历史日志可以用 pgBadger 出 HTML 报告，看清哪个查询在拖库。</p>
+
+<p>EXPLAIN 出来的一大串，到底看哪几行？拿到嫌疑 SQL，跑这个：</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="k">EXPLAIN</span> <span class="p">(</span><span class="k">ANALYZE</span><span class="p">,</span> <span class="n">BUFFERS</span><span class="p">)</span>
+<span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">created_at</span>
+<span class="k">FROM</span> <span class="n">orders</span>
+<span class="k">WHERE</span> <span class="n">customer_id</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">created_at</span> <span class="k">DESC</span>
+<span class="k">LIMIT</span> <span class="mi">20</span><span class="p">;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>ANALYZE 是真执行，给你真实耗时；BUFFERS 告诉你数据是命中缓存还是从磁盘读。重点看几个地方：大表上的 Seq Scan，多半是缺索引；estimated rows 和 actual rows 差出几个数量级，说明统计信息陈旧，先 ANALYZE 这张表；Rows Removed by Filter 数值很大，说明读了大量根本用不上的行；Sort 节点出现 external merge Disk，是 work_mem 不够、排序溢到了磁盘。对 UPDATE、DELETE 这种会改数据的，用 BEGIN 包住 EXPLAIN ANALYZE，看完 ROLLBACK。</p>
+
+<p>怎么判断优化器看不看得上你的索引？看上面那几个信号就够了，但真没用上，八成是下面这几类写法。缺索引就 CONCURRENTLY 建，函数列建表达式索引。最常用的是建索引，但务必加 CONCURRENTLY——没有它就锁表，生产上直接卡死写入。复合索引记住一条：等值条件的列放前面，范围或排序列放后面。在列上套了函数的，比如 WHERE lower(email) = …，普通索引用不上，得建表达式索引；LIKE ‘%关键词%’ 这种前导通配也废掉 B-tree，得上 pg_trgm 加 GIN 索引。统计信息陈旧了怎么办？先 ANALYZE。ORM 常见的 N+1，是把一次查询拆成一堆循环查询，合并成 JOIN 或用 IN 批量查。还有人爱写 SELECT *，只取要的字段，网络和内存都省。</p>
+
+<p><img src="/imgs/202611/2026-11-12-postgres-slow-query-troubleshooting-infographic-1.jpg" alt="一条慢 SQL 如何把连接打满、拖垮服务" /></p>
+
+<p>下面这张图是上面四步的压缩版，存手机里也看得清：</p>
+
+<pre><code class="language-mermaid">flowchart LR
+    A[接口突然变慢] --&gt; B[开统计/慢日志]
+    B --&gt; C[pg_stat_statements 按耗时排]
+    C --&gt; D[EXPLAIN ANALYZE BUFFERS]
+    D --&gt; E[缺索引 CONCURRENTLY 建]
+    D --&gt; F[函数列表达式索引]
+    D --&gt; G[前导% 上 pg_trgm]
+    D --&gt; H[统计旧 ANALYZE]
+</code></pre>
+
+<p>顺带把索引”失效”和”用不上”两件容易混的事列清楚——前者是你写错了，后者是优化器故意的：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>现象</th>
+      <th>典型写法</th>
+      <th>修法</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>列上套函数</td>
+      <td>WHERE lower(email) = ‘A’、WHERE date(created_at) = ‘2026-01-01’</td>
+      <td>改范围查询，或建表达式索引</td>
+    </tr>
+    <tr>
+      <td>隐式类型转换</td>
+      <td>email 是 text，却用 WHERE email = 123</td>
+      <td>类型对齐，别让优化器替你转</td>
+    </tr>
+    <tr>
+      <td>前导通配</td>
+      <td>LIKE ‘%john%’</td>
+      <td>建 pg_trgm + GIN 索引；前缀 ‘john%’ 才用 B-tree</td>
+    </tr>
+    <tr>
+      <td>违反最左前缀</td>
+      <td>索引 (status, created_at)，却只查 created_at</td>
+      <td>调整列顺序，或单列建索引</td>
+    </tr>
+    <tr>
+      <td>统计信息陈旧</td>
+      <td>大表批量导入后没 ANALYZE</td>
+      <td>跑 ANALYZE，确认 autovacuum 正常</td>
+    </tr>
+    <tr>
+      <td>低选择性</td>
+      <td>查 status=’active’ 命中八成数据</td>
+      <td>接受 Seq Scan，别硬加索引</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>几个容易忽略的点。索引不是越多越好，每多一个，写入就多更新一遍，表也更大。Postgres 没有 hint，返回数据量大的查询，全表扫描就是对的，别硬加索引。work_mem 太小，排序和哈希会溢到磁盘，必要时调大或加索引把排序消掉。连接模型上，Postgres 一个连接一个进程，高并发短连接必须前面架 PgBouncer。大表超过上亿行，考虑按时间分区。</p>
+
+<p>出事别慌，路线记牢：开统计和日志，拿证据；按累积耗时排，找元凶；EXPLAIN ANALYZE BUFFERS 读计划；缺索引就 CONCURRENTLY 建、函数列建表达式索引、前导%上 pg_trgm。代价也记牢：建索引要 CONCURRENTLY 才不锁表，索引变更当一次发布，压测通过再上线，持续监控一周。AI 能帮你写 SQL，但它不会替你 profile 慢查询——这条路线，得自己攥在手里。</p>
+
+<p><strong>参考资料</strong></p>
+
+<ul>
+  <li>PostgreSQL 官方文档：pg_stat_statements、EXPLAIN、auto_explain、CREATE INDEX</li>
+  <li>pgBadger 官方文档：PostgreSQL 日志分析与慢查询 HTML 报告</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="数据库" /><category term="性能调优" /><category term="PostgreSQL" /><category term="慢查询" /><category term="pg_stat_statements" /><category term="EXPLAIN" /><category term="性能调优" /><category term="数据库优化" /><summary type="html"><![CDATA[摘要：AI 帮你写的 SQL 跑得飞起，某天接口却突然变慢超时。这篇讲清：为什么”直接加索引”在 Postgres 上反而危险，以及用 pg_stat_statements 和 EXPLAIN ANALYZE 把慢查询揪出来的固定路线。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-12-postgres-slow-query-troubleshooting.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-12-postgres-slow-query-troubleshooting.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Spring Boot 4 默认开虚拟线程，HikariCP 却成瓶颈</title><link href="https://tangyuewei.com/posts/spring-boot-4-virtual-thread-hikaricp/" rel="alternate" type="text/html" title="Spring Boot 4 默认开虚拟线程，HikariCP 却成瓶颈" /><published>2026-11-11T08:35:00+08:00</published><updated>2026-11-11T08:35:00+08:00</updated><id>https://tangyuewei.com/posts/spring-boot-4-virtual-thread-hikaricp</id><content type="html" xml:base="https://tangyuewei.com/posts/spring-boot-4-virtual-thread-hikaricp/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：升到 Spring Boot 4.1，虚拟线程自动开启，CI 全绿，你以为高并发稳了。结果压测第一轮连接池就打满、请求超时。这篇讲清楚：为什么虚拟线程会反手拖垮 HikariCP，以及三招把它救回来。</p>
+</blockquote>
+
+<p>你照着官方文档把项目升到 Spring Boot 4.1，CI 跑绿，部署上去，满心欢喜压一轮。结果第一轮就卡死——接口大面积超时，监控面板上 HikariCP 的 pending 连接数飙到几千。你什么业务代码都没改，性能不升反降。</p>
+
+<p>你大概会想：虚拟线程不是提并发的吗，怎么反而把连接池搞爆了？其实这不是 Spring Boot 的 bug，是两套设计假设撞了车。虚拟线程假设“线程很便宜”，HikariCP 假设“连接越少越好”。两个各自都对，搁一块就出事。</p>
+
+<h2 id="两套假设撞了车">两套假设撞了车</h2>
+
+<p>先搞懂虚拟线程动了什么。传统平台线程和操作系统线程 1:1 绑定，每个默认栈 512KB 到 1MB，一台 8G 的机器撑死几千个。Tomcat 默认 maxThreads 200，再往上上下文切换比 IO 等待还费。虚拟线程是 Java 21 的 Project Loom 产物，活在 JVM 层面、不绑内核。它一阻塞——查库、调接口、sleep——JVM 就把它从载体线程上卸下来，等 IO 好了再挂回去。代码不用动，synchronized、Thread.currentThread() 照样写。同一台机器，虚拟线程能轻松扛几万并发，因为大部分时间在等 IO，不占 CPU。</p>
+
+<p>Spring Boot 4.1 在 Java 21+ 上会自动把 Tomcat 的工作线程换成虚拟线程，spring.threads.virtual.enabled=true 默认就是开的，零改动。这正是麻烦的起点。</p>
+
+<p>HikariCP 的哲学刚好相反：连接越少越好。数据库连接是昂贵资源，它默认 maximumPoolSize=10，官方建议单服务别超过 20 到 30。传统架构下完全合理：Tomcat 最多 200 线程，不可能 200 个同时查库，十来个连接够用。</p>
+
+<p>虚拟线程把这前提拆了。Tomcat 现在能接几万个请求，假设五千个同时打到数据库，连接池却只有 10 个。剩下四千九百多个全挂起等连接，等 connection-timeout 到了（默认 30 秒），一波 SQLTimeoutException 砸下来。虚拟线程把 IO 并发提了上百倍，连接池容量没跟上——这就是压测第一轮就炸的根因。</p>
+
+<p><img src="/imgs/202611/2026-11-11-spring-boot-4-virtual-thread-hikaricp-infographic-1.jpg" alt="请求洪峰挤在连接池前的冲突示意" /></p>
+
+<h2 id="怎么把它救回来">怎么把它救回来</h2>
+
+<p>最该先动的，是把连接池调大。maximumPoolSize 先设 50，connection-timeout 缩到 3000 毫秒，快速失败而不是傻等，max-lifetime 设 1800000 防数据库侧会话超时断连。</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="na">spring</span><span class="pi">:</span>
+  <span class="na">datasource</span><span class="pi">:</span>
+    <span class="na">hikari</span><span class="pi">:</span>
+      <span class="na">maximum-pool-size</span><span class="pi">:</span> <span class="m">50</span>
+      <span class="na">connection-timeout</span><span class="pi">:</span> <span class="m">3000</span>
+      <span class="na">max-lifetime</span><span class="pi">:</span> <span class="m">1800000</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>另一招是开惰性连接。Spring Boot 4.1 内置了 LazyConnectionDataSourceProxy 的自动集成，加一行 spring.datasource.connection-fetch=lazy 就行。意思是：开事务时先不占连接，等到真正执行第一条 SQL 才去池子里拿。那些先查缓存、命中就返回的路径，传统模式下事务一开始就占住一个连接，lazy 模式下这段根本不占。配合虚拟线程，lazy 能把真实占用的连接数明显压下来——社区复盘里常看到所需连接降到原先的几分之一（属社区经验、非统一实测，实际幅度取决于缓存命中率）。</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="na">spring</span><span class="pi">:</span>
+  <span class="na">datasource</span><span class="pi">:</span>
+    <span class="na">connection-fetch</span><span class="pi">:</span> <span class="s">lazy</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>两招一起上，是社区里最稳的组合。</p>
+
+<p>等等，池子是不是越大越好？不是。数据库端的连接是硬上限，MySQL 默认 max_connections=151，你这一个服务不能独吞。多个服务共享一个库，所有服务的连接池加起来别超过库 max_connections 的 70%。池子调太大，数据库 CPU 也可能先被打满。所以先设 50，压测盯着 pending 指标再调，别拍脑袋拉到 200+。</p>
+
+<p>lazy 有副作用吗？几乎没有。唯一注意点是极少数直接拿物理连接做特殊操作的代码路径，正常用 JdbcTemplate、MyBatis 碰不到。</p>
+
+<h2 id="还有个更隐蔽的坑">还有个更隐蔽的坑</h2>
+
+<p>synchronized 锁钉死（pinning）比连接池更难排查。虚拟线程有个已知限制——在持有 synchronized 锁的情况下遇到阻塞，JVM 没法把它卸载，它会直接占住载体线程，那段时间内这个载体线程彻底堵死，别的虚拟线程也跑不了。Java 21 里这是个真问题，Java 24 已经修掉了 synchronized 的 pinning。你还在 21 的话，启动加 -Djdk.tracePinnedThreads=full，日志里搜 “pinned” 就能定位，把热点锁从 synchronized 换成 ReentrantLock，后者不会 pinning。有些老版本 JDBC 驱动爱用 synchronized，在虚拟线程下表现尤其拉胯，值得排查。</p>
+
+<p>如果你用的是 WebFlux，就别凑虚拟线程的热闹。WebFlux 本就是响应式、不阻塞线程，虚拟线程是给传统 Servlet 架构用的，让阻塞代码也能高并发。两者选一个，别混。</p>
+
+<p>下面是请求到数据库的连接竞争时序——数万虚拟线程挤在只有 10 个连接的池子前，排队的就会超时：</p>
+
+<pre><code class="language-mermaid">flowchart LR
+    R[请求洪峰] --&gt; T[虚拟线程]
+    T --&gt;|数万并发| P[(连接池 仅10)]
+    P --&gt;|获取连接| D[(数据库)]
+    P -. 排队堆积 .-&gt; X[连接超时]
+</code></pre>
+
+<h2 id="升级完先确认这几件事">升级完，先确认这几件事</h2>
+
+<p>升级完第一件事，先确认虚拟线程真的开了。写个接口返回 Thread.currentThread().isVirtual()，是 true 才算数；要是 false，检查 Java 是不是 21+，以及有没有手滑关掉 spring.threads.virtual.enabled。</p>
+
+<p>调连接池、开 lazy，要在开虚拟线程之前想清楚，否则性能不升反降。上线后盯两个指标：hikaricp.connections.pending 和 hikaricp.connections.timeout，pending 一直涨就说明池不够，timeout 在涨说明超时太短或池严重不足。动手调池子之前，先排除数据库本身是慢的那一腿——慢 SQL、缺索引会让连接久占不释放，调大池子只是掩盖问题。确认 pending 在涨、且 DB 端单条 query 耗时正常，才算真的是连接池容量不够。验收也别含糊：稳态压测下 pending 应趋近 0、timeout 计数应为 0，达不到就继续往上微调 maximumPoolSize，别停在 50 不动。</p>
+
+<p>最后一句：虚拟线程是好事，但它改的是“能接多少请求”，改不了“能扛多少连接”。连接池这道闸，得你自己去拧。</p>
+
+<p><strong>参考资料</strong></p>
+
+<ul>
+  <li>Spring Boot 4.1 虚拟线程默认开启与 HikariCP 调优（besthub.dev 技术解读）</li>
+  <li>掘金 / SegmentFault 社区同主题实战复盘：虚拟线程默认开启后连接池耗尽</li>
+  <li>HikariCP 官方池大小指南：maximumPoolSize、connectionTimeout 取值建议</li>
+  <li>Spring 官方文档：spring.threads.virtual.enabled、spring.datasource.connection-fetch</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="Java" /><category term="性能调优" /><category term="SpringBoot4" /><category term="虚拟线程" /><category term="HikariCP" /><category term="连接池" /><category term="性能调优" /><category term="Java" /><summary type="html"><![CDATA[摘要：升到 Spring Boot 4.1，虚拟线程自动开启，CI 全绿，你以为高并发稳了。结果压测第一轮连接池就打满、请求超时。这篇讲清楚：为什么虚拟线程会反手拖垮 HikariCP，以及三招把它救回来。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-11-spring-boot-4-virtual-thread-hikaricp.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-11-spring-boot-4-virtual-thread-hikaricp.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">agent 撑爆 Git 之后，两家改的不是同一层</title><link href="https://tangyuewei.com/posts/agent-outgrows-git/" rel="alternate" type="text/html" title="agent 撑爆 Git 之后，两家改的不是同一层" /><published>2026-11-10T08:55:00+08:00</published><updated>2026-11-10T08:55:00+08:00</updated><id>https://tangyuewei.com/posts/agent-outgrows-git</id><content type="html" xml:base="https://tangyuewei.com/posts/agent-outgrows-git/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：OpenAI 把中位推送延迟压到原来的五分之一，代价是仓库不再有一个统一时间点；Anthropic 干脆换掉了 Git，换来的是取消合并队列的全局锁。同一个症状，两家给出了相反的诊断。</p>
+</blockquote>
+
+<p>下午四点，你在等 CI。三个分支挂着，push 上去要等十几秒，fetch 卡在 resolving deltas 上转圈。</p>
+
+<p>你骂了一句：Git 真慢。</p>
+
+<p>把这个量级放大到几千倍，就是 OpenAI 去年年底的状态。而他们给出的结论，跟你的第一反应正好相反。</p>
+
+<h2 id="先看两家被压成什么样">先看两家被压成什么样</h2>
+
+<p>两个月前，OpenAI 工程博客发了一篇《Scaling Git at OpenAI》。11 月 2 日，作者是 Aaron Friel、Taylor Blau 和 Ted Nyman 三个人。</p>
+
+<p>起因写得很平实：Codex 普及之后，一个工程师手头同时挂着好几个改动等 CI，而每次 push 又会触发多个任务去拉同一个 commit。去年年底开始，拉取和推送变慢，合并开始失败，可靠性一度掉到 90% 以下。</p>
+
+<p>Anthropic 那边的数字更狠。他们 10 月 13 日发的那篇里写，2026 年 5 月平均每天合并 2500 个改动，到 9 月超过 3 万个。主分支历史近 100 GB，压缩之后的工作副本还有 25 GB 以上。</p>
+
+<p>光 CI 每天就要检出 2500 万次，这还没算开发环境和 agent 沙箱。峰值时他们维护着几百个内部 Git 镜像。</p>
+
+<p>这里得拆一个在中文圈传得很广的数字。有个说法是一天 600 PB 的 Git 流量。原文那句是「如果用最朴素的方式拉」，意思是把 2500 万次检出乘上每次拉完整仓库，属于算术推演，不是实测流量。他们自己在前面加了 Fetched naively 这个前提。</p>
+
+<p>所以症状是同一个：机器写代码的速度，超过了版本控制系统被设计时预期的读者和写者数量。</p>
+
+<p>那病因呢？</p>
+
+<h2 id="openai-只动了最底下一层">OpenAI 只动了最底下一层</h2>
+
+<p>他们的诊断可以拆成一句话：这是 Git 的极限，还是我们托管单一大仓库的方式到了极限？</p>
+
+<p>选了后者之后，改法就很清楚了——<strong>只换服务端，Git 的命令、协议、客户端原样不动</strong>。</p>
+
+<p>Git 扩容其实只有两个维度：很多人往不同分支写，很多人读同一段历史。Pando 对这两个方向各做了一个选择。</p>
+
+<p>写的方向，按分支独立协调。推 foo 的人不用等推 bar 的人，不相关的分支并行推进。读的方向，不再给每个客户端单独打一个包，而是复用同一批 packfile——客户端可能多下一点自己已经有的对象，但服务器算一次，同样的字节能发给成千上万个客户端。</p>
+
+<p>效果按官方说法：中位推送延迟降到原来的五分之一，每天要发近 1 PB 的 Git 数据。还有个更具体的数，一小时发过 57 TB 的 packfile，其中 99% 以上来自本地磁盘缓存，几十个 CPU 核就够。</p>
+
+<p><img src="/imgs/202611/2026-11-10-agent-outgrows-git-diagram-1.jpg" alt="同一个症状，两家动的是不同的层" /></p>
+
+<p>真正有意思的是他们否掉的两条路。这两条恰好是大部分团队会先想到的：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>方案</th>
+      <th>写这条路</th>
+      <th>读这条路</th>
+      <th>仓库级一致性</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>三阶段提交</td>
+      <td>推送要把包复制到所有副本，还得等多数派点头</td>
+      <td>本地有完整副本，快</td>
+      <td>有</td>
+    </tr>
+    <tr>
+      <td>共享 WAL + manifest</td>
+      <td>连推不相关分支也要改同一个 manifest</td>
+      <td>要从日志里追，慢</td>
+      <td>有</td>
+    </tr>
+    <tr>
+      <td>Pando</td>
+      <td>按分支独立协调，不同分支并行</td>
+      <td>复用 packfile，99% 命中本地缓存</td>
+      <td>放弃，改因果一致</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>三阶段提交死在「等多数派」上。原文那句话点得很准：等待多数派，等于把副本的磁盘性能和网络延迟放进了推送路径。</p>
+
+<p>共享 WAL 死在「同一个 manifest」上。compare-and-swap 的往返时间，直接卡住了发布新 manifest 的频率——推不相关的分支也要排队。</p>
+
+<p>两条路栽在同一个地方：所有写操作都得抢同一个协调点。</p>
+
+<h2 id="代价是仓库不再有一个统一时间点">代价是仓库不再有一个统一时间点</h2>
+
+<p>这是整件事里最容易被忽略的一段，也是我最想让你看清楚的一段。</p>
+
+<p>Pando 放弃的第一样东西，是仓库级一致性。它提供的是因果一致性。</p>
+
+<p>翻成人话：同一条分支上的更新还是严格有序的，但你的仓库不再有一个「此刻所有分支都长这样」的快照。</p>
+
+<p>原文举了个例子。一次完整 clone 的协商期间，假设 foo 和 bar 都被更新了。协商结束时，一个客户端可能看到 foo 是 v1、bar 是 v2；另一个客户端看到的正好相反，foo 是 v2、bar 是 v1。</p>
+
+<p><img src="/imgs/202611/2026-11-10-agent-outgrows-git-diagram-2.jpg" alt="没有统一时间点之后" /></p>
+
+<p>听着像学术细节，落到实处是这样的。</p>
+
+<p>任何需要「同时读多个分支、并且假设它们属于同一个时刻」的脚本，都可能读到一个现实中从未存在过的组合。CI 里那种拿 A 分支的配置去跑 B 分支测试的活儿，就是典型。</p>
+
+<p>OpenAI 的辩护是：实际上人和 agent 都不在意 ref 的全局顺序，他们在意的是单条 ref 上的顺序。这个辩护站得住。</p>
+
+<p>它不站得住的地方，是自动化开始跨分支做判断的时候。比如判断「主干和发布分支是不是指向同一批改动」，比如把三个分支的依赖版本对齐。这类逻辑过去靠的是一个隐式假设，现在得自己写显式检查。</p>
+
+<p>顺带说一句，单条 ref 内的更新仍然是串行化的。所以日常用 git push、git merge、git log 的体验，一点没变——这也是他们敢只换后端的原因之一。</p>
+
+<h2 id="anthropic-把三层都换了">Anthropic 把三层都换了</h2>
+
+<p>Scion 走的是另一条路，而且走得彻底。</p>
+
+<p>客户端不再持有完整仓库。提交、rebase、合并都在服务端做，查历史、看 diff 是 API 调用，工作副本是可选的、虚拟的，文件被读到时才出现。</p>
+
+<p>7 个人，5 个月，做出 Scion、一个叫 Antique 的代码评审工具，还有半打配套系统，把整个主干迁了过去。</p>
+
+<p>按他们的说法，基础设施占用小了 200 倍（CPU 和内存），CI 检出从分钟级降到秒级，光 CI 就省出 25% 的 CPU 容量。</p>
+
+<p>这三层里，最上面那层原本是 Git 二十年攒下来的资产：完整的本地副本、离线也能提交、任何工具都能直接读 .git 目录。Scion 把这份资产换成了另一份——服务端算完再发结果。</p>
+
+<h2 id="他们的代价在合并队列">他们的代价在合并队列</h2>
+
+<p>这里有个反问，我觉得是全文最狠的一句：</p>
+
+<p>当成百上千个改动能在测试还在跑的时候合并，CI 到底意味着什么？</p>
+
+<p>（那他们怎么保住主干的绿？）</p>
+
+<p>答案是不保了。</p>
+
+<p>行业标准的合并队列会给仓库上一把全局锁，一个一个来，每个改动都对着最新的主干加上前面排队的那些跑一遍。Anthropic 说自己没能把这件事在 agent 规模下复刻出来，于是把门挪到了后面——投在合并后、部署前的自动测试上。</p>
+
+<p>代价是主干可能一段时间是坏的。并发改动会冲突，他们的应对是让 Claude 去修，官方说通常比人发现得还快。这句话我信一半：修得快是真的，但「主干坏着的时候有人在往里合」这个窗口，不会因为修得快就消失。</p>
+
+<p>他们还自己划了边界，原话是：Scion 绝不是 git 的通用替代品。紧跟着的限定是，只有「几万个工程师，或者成群 agent 猛写代码」的超大仓库，这套东西才说得通。</p>
+
+<h2 id="为什么结论会反着来">为什么结论会反着来</h2>
+
+<p>到这儿你可能会问：都是第一手的监控数据，凭什么一个说 Git 没问题，一个说 Git 不行。</p>
+
+<p>Pando 那篇的三个作者里，有一位叫 Taylor Blau。这个名字在 Git 邮件列表里出现很多年了，发的补丁集中在几何重打包、多包索引、可达性位图这几块——恰好是大仓库能变快的那几个底层特性。</p>
+
+<p>今年 9 月 30 日，他还用 <code class="language-plaintext highlighter-rouge">@openai.com</code> 的邮箱往 git 邮件列表发 repack 的补丁，改的是几何重打包时 cruft pack 怎么进多包索引。也就是说，他一边在 OpenAI 重写 Git 后端，一边还在往上游交代码。</p>
+
+<p>让一个长年在 Git 存储层动手的人去诊断「仓库为什么变慢」，他很难得出「把这东西扔了」的结论。他更可能去看：协议里是不是早就留了口子，只是没人真正用起来。</p>
+
+<p>（这算不算屁股决定脑袋？）</p>
+
+<p>某种程度算。但反过来看，这件事比「谁对谁错」有用得多：<strong>同一个技术问题，你请谁来看，决定了你拿到什么答案</strong>。</p>
+
+<p>请一个 Git 存储层的维护者，他会还你一个兼容 Git 的后端。请一个习惯服务端集中式方案的人，他会还你一套新系统。两家都没错，只是擅长的地方不一样。</p>
+
+<p>Anthropic 那篇没有公开署名，作者背景我不猜。但从方案形态看，那种「客户端不该持有状态、都交给服务端算」的思路，不太像从 Git 这条线长出来的。这一步是推测，我没找到公开材料。</p>
+
+<h2 id="你的团队要不要动">你的团队要不要动</h2>
+
+<p>（那我们是不是也该重写一个？）</p>
+
+<p>不用。</p>
+
+<p>Pando 至今没有代码、没有 API、没有部署指南，能拿到的只有客户端的 Git 分支 <code class="language-plaintext highlighter-rouge">openai/git</code> 和一批已经进上游的补丁。Scion 更直接，官方说不适合通用场景。</p>
+
+<p>（那看这两篇有什么用？）</p>
+
+<p>三个信号现在就能量：push 的中位延迟、单次 checkout 的耗时、同一条分支上同时 push 的次数。前两个开始变差、第三个经常超过一两个，说明你也快撞上了。</p>
+
+<p>在撞上之前，有三件事不用重写就能做。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="c"># 给 agent 的沙箱用稀疏检出，别每次全量拉</span>
+git clone <span class="nt">--filter</span><span class="o">=</span>blob:none <span class="nt">--sparse</span> https://git.example.com/app.git
+<span class="nb">cd </span>app <span class="o">&amp;&amp;</span> git sparse-checkout <span class="nb">set </span>services/payments
+
+<span class="c"># 每个 agent 一个独立 worktree，别在一个检出里互相踩</span>
+git worktree add ../agent-42 feature/agent-42
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>第三件是把合并队列配上必需检查，让「谁先合」这件事显式化，而不是靠谁手快。</p>
+
+<p>代价也都有。稀疏检出会让依赖全量目录的构建直接失败，worktree 开多了磁盘占用翻倍，合并队列会拉长单次交付的感知时间。它们买的是撞墙时不至于手忙脚乱，不是更快。</p>
+
+<h2 id="最后">最后</h2>
+
+<p>把这两篇合起来看，真正值得带走的不是哪个方案。</p>
+
+<p>同一个症状，可能对应完全不同的病因，而病因取决于谁在诊断。</p>
+
+<p>OpenAI 放弃了全仓库的时间点快照，换到了五倍的推送速度。Anthropic 放弃了全局锁的合并队列，换到了秒级的检出和 200 倍小的基础设施。</p>
+
+<p>两家都不是给普通团队准备的。能抄的只有那几个可以量的信号，和那句反问：你流水线里哪一步，是必须一个一个来的？</p>
+
+<p>那个「必须一个一个来」的地方，就是 agent 压过来时最先响的地方。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://openai.com/index/scaling-git-at-openai">Scaling Git at OpenAI（OpenAI Engineering，2026-11-02）</a>：Pando 的设计、按分支独立协调与 packfile 复用、中位推送延迟降至原五分之一、每天近 1 PB、一小时 57 TB 且 99% 来自本地磁盘缓存、被否决的 3PC 与 WAL 两条路径、因果一致性的定义与 foo/bar 示例、10 周从立项到生产、Rust 实现</li>
+  <li><a href="https://www.anthropic.com/engineering/redesigning-source-control">Redesigning source control at Anthropic（Anthropic Engineering，2026-10-13，10-15 更新）</a>：合并量从每天约 2500 到超过 3 万、主分支历史近 100 GB、压缩工作副本超 25 GB、每天约 2500 万次 CI 检出、峰值数百个 Git 镜像、7 人 5 个月、基础设施占用小 200 倍、检出快两个数量级、CI 省出 25% CPU、取消全局锁改投合并后与部署前测试、以及「Scion 绝不是 git 的通用替代品」的原话</li>
+  <li><a href="https://marc.info/?m=179073158065799">git 邮件列表：repack 系列补丁（Taylor Blau，2026-09-30）</a>：几何重打包下 cruft pack 与多包索引的处理，署名邮箱为 openai.com 域</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI编程" /><category term="Git" /><category term="Agent" /><category term="版本控制" /><category term="工程实践" /><summary type="html"><![CDATA[摘要：OpenAI 把中位推送延迟压到原来的五分之一，代价是仓库不再有一个统一时间点；Anthropic 干脆换掉了 Git，换来的是取消合并队列的全局锁。同一个症状，两家给出了相反的诊断。]]></summary></entry><entry><title type="html">最会审代码的 AI，也只挑得出三分之一</title><link href="https://tangyuewei.com/posts/ai-code-review-ceiling/" rel="alternate" type="text/html" title="最会审代码的 AI，也只挑得出三分之一" /><published>2026-11-09T08:50:00+08:00</published><updated>2026-11-09T08:50:00+08:00</updated><id>https://tangyuewei.com/posts/ai-code-review-ceiling</id><content type="html" xml:base="https://tangyuewei.com/posts/ai-code-review-ceiling/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：Nutanix 的新评测集让八个 AI 评审去认 584 个真实 PR 里埋的缺陷，最强的也只认出三分之一。而另一项重放研究发现，一个强评委能给 63% 跑不起来的代码打 93.95 分。</p>
+</blockquote>
+
+<p>你让 agent 改完一段代码，再把 diff 丢回去让它自己审。它回你一句：整体没问题，只有一处命名可以更好。</p>
+
+<p>你信了。三天后，那个它没点出来的空指针在凌晨把一批定时任务全带崩了。</p>
+
+<p>回头翻 diff，那个缺陷明晃晃地躺在那里。于是你得出一个结论：这个评审 agent 不够聪明。</p>
+
+<p>这个结论可能是错的。</p>
+
+<p>这周有两份新数据，搁在一起看，指向的是另一件事——不是它不够聪明，是「审代码」这件事本身有个天花板，而你以为能衡量它的那把尺子，也在骗你。</p>
+
+<h2 id="先看天花板">先看天花板</h2>
+
+<p>这个月 2 号，Nutanix 的四位研究员放出一份叫 CR-Bench 的评测集（arXiv:2611.02566）。他们没用现成的评审数据集，而是把 SWE-Bench 反过来用：那里每条 issue 背后都是一个真实的 pull request，PR 里确实埋了一个后来被修掉的缺陷。</p>
+
+<p>筛掉「评审根本看不出来」的那些，让每个缺陷都锚定到唯一那个 PR，最后留下 584 条任务，其中 174 条来自 SWE-Bench Verified。</p>
+
+<p>然后让八个评审 agent 上场，跑在四个骨干模型上，另外还拉来了商业产品 Gemini Code Assist。评分用了三个独立的 LLM 评委，看两个轴：有没有认出那个已知缺陷，以及给出的评论里有多少是能执行的。</p>
+
+<p>结果是：最强的也只认出大约三分之一。Gemini Code Assist 是 8.1%。</p>
+
+<p>三分之一是什么概念？如果评审 agent 是你和主干分支之间唯一那道关，三个埋进去的 bug，两个会直接过去。</p>
+
+<p><img src="/imgs/202611/2026-11-09-ai-code-review-ceiling-diagram-1.jpg" alt="CR-Bench 的评测集怎么攒出来，以及最强评审与商业产品各交出什么成绩" /></p>
+
+<p>那换个更强的模型行不行？</p>
+
+<p>这里得停一下，因为第二份数据说的是：问题不在模型那一层。</p>
+
+<h2 id="评分器给-63-跑不起来的代码打了-9395-分">评分器给 63% 跑不起来的代码打了 93.95 分</h2>
+
+<p>1 号，新南威尔士大学的 Masoud Fetanat 发了一篇重放研究（arXiv:2611.01572）。他做的事很朴素——把别人做过的一次评测，原样重跑一遍。</p>
+
+<p>原本的评测是 421 道编程题，模型是 Qwen-2.5-7B-Instruct，外加两个用 GRPO 训出来的版本。一个拿执行测试当奖励，另一个拿一个很强的 LLM 评委当奖励。</p>
+
+<p>重跑之后，基础模型的语法失败率没什么变化。但两个训过的版本，写出的 Python 有 63% 到 67% 是无效的——跑都跑不起来。</p>
+
+<p>那个强评委看出来了吗？它的 Pass@32 从 96.67% 掉到 93.95%。三个点。</p>
+
+<p>更难看的是把尝试次数放大之后。每题给 128 次机会，评委在 96.44% 的题上至少接受了一个「评委训练版」的答案；同一批题交给执行测试，这个数字是 28.27%。</p>
+
+<p><img src="/imgs/202611/2026-11-09-ai-code-review-ceiling-diagram-2.jpg" alt="同一批答案，评分器几乎没动，执行测试已经翻了脸" /></p>
+
+<p>评委为什么会瞎？</p>
+
+<p>因为它读的是「这看起来像不像对的代码」，不是「这段代码跑不跑得起来」。而七成的无效输出恰好是「看起来对」的典型：变量名对、结构对、注释都在位置上，就是括号没闭合。</p>
+
+<p>这里要抄一句作者自己的克制：他说没法确定这批 checkpoint 当初为什么变成这样，也不认为这证明了奖励作弊或者 GRPO 有问题。这是一次重放，样本是一次既有评测。</p>
+
+<h2 id="他给的补丁成本接近于零">他给的补丁，成本接近于零</h2>
+
+<p>一句话：在每个 LLM 评委的分数旁边，并排报一个数字——有多少答案通过了 Python 的语法检查。</p>
+
+<p>这个检查不要测试、不要执行、不要沙箱，成本接近于零。他也没吹，明写了它不能证明功能正确，只能当第一道筛子。</p>
+
+<p>我觉得这才是这两份材料合起来最值钱的地方。不是「换个更贵的模型再审一遍」，而是用一个不会说谎的检查，去校验那个会说谎的分数。</p>
+
+<p>回到你那个凌晨。</p>
+
+<p>你当时问了 agent「有没有问题」，它说没有。你没做错什么——它确实「觉得」没有问题。你少问的是另一句：这段代码，连解释器这一关都过不了吗？</p>
+
+<p>所以真正该抄回团队的不是哪个工具，是那个习惯：凡是让模型打分的地方，旁边都得放一条确定性的、零成本的、跑起来只会红或者绿的检查。CI 里那句 python -c “import ast; ast.parse(…)”，比再多一次 LLM 评审都稳。</p>
+
+<h2 id="边界也得说清楚">边界也得说清楚</h2>
+
+<p>语法检查只能抓语法错，逻辑错它抓不到。确定性规则只能抓你已经知道的东西。</p>
+
+<p>所以它不是用来替代评审的，是把「根本不成立」的那部分先剔出去，让人和模型把力气花在剩下那一半上。</p>
+
+<p>那份 CR-Bench 也一样。它测的是「评审能不能认出已知缺陷」，不是「评审有没有用」。三分之一这个上限，说的是你该给它配几道别的关，不是该不该用它。</p>
+
+<p>那么，你团队里现在最便宜、最不会骗人的那条检查，是什么？</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://arxiv.org/abs/2611.02566">CR-Bench-v2: Evaluating the Real-World Utility of AI Code Review Agents（arXiv:2611.02566，2026-11-02）</a>：584 条任务与 174 条 Verified 子集、八个评审 agent 跑在四个骨干模型上、三个独立 LLM 评委、KDDR ≈ 33% 与 Gemini Code Assist 的 8.1%</li>
+  <li><a href="https://arxiv.org/abs/2611.01572">Impossible Code, Barely Changed Score: A Replay Study of Judge-Based Evaluation（arXiv:2611.01572，2026-11-01）</a>：421 道题的重放、训练后 63%–67% 的无效 Python、Pass@32 从 96.67% 降到 93.95%、128 次尝试下 96.44% 对 28.27%、以及并排报语法通过率的建议</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI编程" /><category term="代码审查" /><category term="评测" /><category term="LLM评委" /><category term="Agent" /><summary type="html"><![CDATA[摘要：Nutanix 的新评测集让八个 AI 评审去认 584 个真实 PR 里埋的缺陷，最强的也只认出三分之一。而另一项重放研究发现，一个强评委能给 63% 跑不起来的代码打 93.95 分。]]></summary></entry><entry><title type="html">$149 一个月，租一部 agent 能用的手机</title><link href="https://tangyuewei.com/posts/agent-rents-a-real-phone/" rel="alternate" type="text/html" title="$149 一个月，租一部 agent 能用的手机" /><published>2026-11-08T11:57:00+08:00</published><updated>2026-11-08T11:57:00+08:00</updated><id>https://tangyuewei.com/posts/agent-rents-a-real-phone</id><content type="html" xml:base="https://tangyuewei.com/posts/agent-rents-a-real-phone/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：agent 操作真实 App，往往不是不会用，是被平台认出不是人。有人拿硬件解决：旧金山机架上的真 iPhone、一根触控笔、一个顶部摄像头，$149 一个月。这笔钱买的不是算力，是「通过检测」。</p>
+</blockquote>
+
+<p>你想让 agent 帮你回一条评论。它打开 App，两秒后收到一条提示：检测到异常环境，账号受限。</p>
+
+<p>它没做错任何事。它只是被认出来了。</p>
+
+<p>问题出在哪？不在它的判断，在它跑在什么设备上。</p>
+
+<p>这类卡点，现在开始有人拿硬件解决——不是把 agent 调得更聪明，而是给它配一部真手机、一根机械臂、一个摄像头，让对面相信用户是个活人。</p>
+
+<h2 id="它租的不是算力是一部真手机">它租的不是算力，是一部真手机</h2>
+
+<p>十一月三日，Hacker News 上出现一个叫 PhoneUse 的项目。它给 agent 的不是 API，是十二个操作手机的工具，走 MCP 接进去。</p>
+
+<p><code class="language-plaintext highlighter-rouge">phone.acquire</code> 拿一部手机、<code class="language-plaintext highlighter-rouge">screen.read</code> 读屏、<code class="language-plaintext highlighter-rouge">tap</code> 点、<code class="language-plaintext highlighter-rouge">type</code> 打字、<code class="language-plaintext highlighter-rouge">swipe</code> 滑动、<code class="language-plaintext highlighter-rouge">app.open</code> 开应用、<code class="language-plaintext highlighter-rouge">sms.read</code> 读短信，还有五个没在首页列出来。</p>
+
+<p>接进 Claude Code、Codex、Cursor 或 Windsurf 就能用，不用装 SDK。</p>
+
+<p>背后是两条路，差别比名字大得多。</p>
+
+<h2 id="四秒和一分钟">四秒，和一分钟</h2>
+
+<p>两条路差在哪？先看便宜的那条。</p>
+
+<p>云端那条是虚拟 Android，启动约四秒，按 <strong>$0.024 每分钟</strong>计费，包月二十美元起。</p>
+
+<p>真机那条在旧金山的机架上，零售版 iPhone 和 Android，插着真实运营商的 SIM 卡。<strong>不越狱，也不装任何辅助 App。</strong> 输入靠一根物理触控笔真的去点，画面靠顶部摄像头真的去拍。</p>
+
+<p>这么做不是为了好看。App 会检查自己跑在什么设备上，模拟器和虚拟机过不了 Play Integrity、App Attest 这类完整性校验，一串自动化框架扫描也都过不去。真机加真 SIM 加真触控，在设备眼里它就是一个普通用户。</p>
+
+<p>切换两条路只改一个参数：<code class="language-plaintext highlighter-rouge">device="cloud"</code> 还是 <code class="language-plaintext highlighter-rouge">device="real"</code>，同一个接口。</p>
+
+<p>差别最后落在延迟上。MCP server 往返是「低三十毫秒级」，但物理世界那一段——真的伸出一根笔去点、真的拍一张照片回来——<strong>大约一分钟</strong>。</p>
+
+<p>官方举过一个例子：一部 iPhone 15 Pro 读到 Instagram Reel 的三十八条评论，逐条回复，2.8 秒跑完。这个 2.8 秒是工具层的账，物理世界那本账另算。</p>
+
+<p><img src="/imgs/202611/2026-11-08-agent-rents-a-real-phone-diagram-1.jpg" alt="同一条 MCP 接口下的两条路：云端虚拟 Android 与机架上的真机" /></p>
+
+<h2 id="为什么不直接调-api">为什么不直接调 API</h2>
+
+<p>这里得停一下。既然只是回评论、点外卖、读验证码，为什么不调 API？</p>
+
+<p>因为大部分 App 没有对外 API。有 API 的那些，条款里通常也明写禁止自动化调用。剩下唯一的路，是像人一样去操作界面。</p>
+
+<p>而界面这条路，现在被反欺诈守着。</p>
+
+<p>于是整件事变成了一个奇怪的循环：为了让 agent 用上 App，你得先让它<strong>在设备层面装成一个人</strong>。这不是模型能力的问题，是准入的问题。</p>
+
+<p><img src="/imgs/202611/2026-11-08-agent-rents-a-real-phone-diagram-2.jpg" alt="从「想让 agent 操作一个 App」走到「租一部手机」，中间隔了三道闸" /></p>
+
+<h2 id="同一招也用在浏览器和整台电脑上">同一招，也用在浏览器和整台电脑上</h2>
+
+<p>手机不是孤例。十一月初还有两个项目，思路一模一样，只是租的东西不同。</p>
+
+<p>Cloudbrowser 给每个 agent 一个<strong>持久化的 Chrome 身份</strong>——Cookie、localStorage、下载记录都存在里面，暂停再恢复还在。</p>
+
+<p>人可以先用 live view 登录自己的账号，然后把同一个浏览器交出去，agent 接手时登录态是现成的。agent 通过一个受限的 CDP 地址接 Playwright 或 Puppeteer，暂停中的浏览器还能 fork 成独立副本去跑并行任务。</p>
+
+<p>terminal-mac 更狠一点：它在 Apple 芯片的 Mac 上用 Apple Virtualization 起一台<strong>独立的 macOS 虚拟机</strong>，把画面流进 Kitty、Ghostty 或 iTerm2。</p>
+
+<p>agent 在这台虚拟机里截图、点击、拖拽、输入，宿主机上的应用、登录态、剪贴板一概不碰。</p>
+
+<p>三个项目租的东西不一样——一部手机、一个浏览器身份、一整台电脑——但卖的是同一件东西：<strong>一个专属的、隔离的、在对方看来正常的执行环境。</strong></p>
+
+<h2 id="连我是不是虚拟机都要自证">连「我是不是虚拟机」都要自证</h2>
+
+<p>terminal-mac 里有个细节，我看了两遍。</p>
+
+<p>虚拟机里的 helper 会检查硬件型号是不是以 <code class="language-plaintext highlighter-rouge">VirtualMac</code> 开头。如果对不上，操作就不往那台虚拟机上发。</p>
+
+<p>这个检查不是给 App 看的，是给你自己看的——防的是 agent 的操作意外落到真实的 Mac 上，动了你的鼠标和剪贴板。</p>
+
+<p>但你反过来想：一台机器需要主动确认自己「是不是虚拟机」，说明在被识别这件事上，它没有把握。</p>
+
+<h2 id="这笔账怎么算">这笔账怎么算</h2>
+
+<p>这钱到底买了什么？先说价格，因为这里有个不一致。</p>
+
+<p>多个二手报道写的是<strong>真机 $149 一个月</strong>。但有一份十月二十二日的产品复核记的是官网标 <strong>$99 起、预约制</strong>，而且加了一句更要紧的：当前设备文档显示，机械臂那批 iPhone <strong>仅支持通话，不在 API、MCP 和 CLI 的覆盖范围内</strong>。</p>
+
+<p>如果这句成立，那 Show HN 上「把 Claude Code 接上一部真 iPhone」的演示，和实际能买到的东西之间，还隔着一层说明。</p>
+
+<p>再看规模。一台设备同一时刻只能干一件事，那么「几百台并行」就只能是几百个机位、几百根笔、几百个摄像头。这不是软件弹性，是物理堆叠。云端 Android 那边才谈得上弹性——四秒起一台，按分钟计费。</p>
+
+<p>还有一处容易忽略：Cloudbrowser 说得很清楚，暂停再恢复能保住 Cookie 和存储，但<strong>内存里的页面状态不保证能活下来</strong>。也就是说，恢复之后的 agent 面对的是一个登录着的、但可能已经翻篇的页面。</p>
+
+<h2 id="和九月那篇不冲突是接上">和九月那篇不冲突，是接上</h2>
+
+<p>九月我写过 Anthropic 的 MHS，给显微镜、机械臂、移液机器人定一套统一的驱动规范，让 AI 能指挥实验室设备。那篇的结论是：协议本身不是瓶颈，真正卡住的是厂商愿不愿意开放接口。</p>
+
+<p>这一篇是同一个问题的另一半，但走向相反。那为什么还要单独写？</p>
+
+<p>MHS 的前提是<strong>设备有编程接口</strong>——有了接口，剩下的是标准化。PhoneUse 面对的是<strong>没有接口、而且明确不欢迎你自动化</strong>的 App。没有接口可接，就只能从物理那一端硬接上去：一根笔、一个摄像头、一部真手机。</p>
+
+<p>一边是把有接口的东西连起来，一边是给没接口的东西造一只假手。这两件事放在一起，才看得清 agent 到真实世界的路有多长。</p>
+
+<h2 id="说句不好听的">说句不好听的</h2>
+
+<p>这套设计的目标写得很坦白：让 App 认不出对面是机器。而 App 做设备完整性校验的目的，恰恰是把机器挡在外面。</p>
+
+<p>两边的目标正好相反。</p>
+
+<p>大多数 App 的用户协议里都写着禁止自动化访问。租一部真手机、装一只机械臂去点它，算不算绕过了对方的技术措施？这个问题我没有一个干净的答案。</p>
+
+<p>工具本身是中性的，卖手机的服务也不为你的用途负责——但签下那份使用条款的时候，你其实已经默认了一件事：<strong>你打算让对面不知道它是机器。</strong></p>
+
+<p>这笔钱里有一半，是「通过检测」的费用。</p>
+
+<h2 id="最后">最后</h2>
+
+<p>把这一圈看下来，形状是这样：agent 卡住的地方，往往不在它会不会，而在对面允不允许。允许的方式有两种——给你接口，或者识别不出你。</p>
+
+<p>给接口那条路（MHS 那种）走得慢，卡在厂商激励上。识别不出那条路走得快，代价是硬件和月租：$0.024 一分钟的云端 Android，或者报价从 $99 到 $149 不等的真机加机械臂。</p>
+
+<p>三个项目值得记住的也不是具体产品，是它们共同的定义方式：<strong>给 agent 一台设备，说到底是给它一个身份</strong>。这个身份要能登录、要有历史、要骗得过检查，还得关起门来别碰到你自己的东西。</p>
+
+<p>terminal-mac 那句「不是现成的沙箱安全方案」写得很实在——默认网络还能通外网和局域网，快照回滚也还没做。这些坑现在都敞着。</p>
+
+<p>那这条路能走多远？租得来硬件，租不来允许。平台换一种检测方式，这批设备就得重新证明自己一次。</p>
+
+<p>至于值不值，取决于你要干的事有多绕不开那个 App。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li><a href="https://news.ycombinator.com/show">PhoneUse – Phones for AI Agents（Show HN，2026-11-03）</a>：十二个 MCP 工具、云端 Android 约四秒启动与 $0.024 每分钟、真机机架与物理触控笔加顶部摄像头、通过 Play Integrity 与 App Attest、单一参数切换两条路</li>
+  <li><a href="https://www.my2cents.ai/news/2026-11-03-commercial-agents">Commercial Agent Tools: November 3, 2026（my2cents.ai）</a>：PhoneUse 与 Cloudbrowser 的同期记录，含真机 $149 每月、Cloudbrowser 的暂停、恢复与 fork 行为及定价</li>
+  <li><a href="https://aiproductdb.com/products/phoneuse">PhoneUse 产品复核（aiproductdb，复核日 2026-10-22）</a>：官网标 $99 起预约制，以及「机械臂 iPhone 仅支持通话、不在 API/MCP/CLI 覆盖范围」的记录</li>
+  <li><a href="https://github.com/govijr/terminal-mac">terminal-mac（govijr/terminal-mac）</a>：Apple Virtualization 启动独立 macOS guest、guest 内 helper 检查硬件型号 <code class="language-plaintext highlighter-rouge">VirtualMac</code> 前缀、早期候选版本与非沙箱的自陈限制</li>
+  <li><a href="/2026/09/01/mhs-physical-ai/">MHS：给 AI 一张硬件驾照（本站，2026-09-01）</a>：MHS 的驱动层设计、只支持有编程接口的设备、以及「协议不是瓶颈」的判断</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="Agent" /><category term="computer-use" /><category term="MCP" /><category term="设备农场" /><category term="反自动化" /><summary type="html"><![CDATA[摘要：agent 操作真实 App，往往不是不会用，是被平台认出不是人。有人拿硬件解决：旧金山机架上的真 iPhone、一根触控笔、一个顶部摄像头，$149 一个月。这笔钱买的不是算力，是「通过检测」。]]></summary></entry></feed>
