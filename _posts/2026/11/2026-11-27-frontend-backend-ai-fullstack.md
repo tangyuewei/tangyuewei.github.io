@@ -1,5 +1,5 @@
 ---
-title: "前端和后端，转 AI 全栈各缺一块"
+title: "前端和后端，转 AI 全栈怎么转"
 author: 唐悦玮
 date: 2026-11-27 11:53:00 +0800
 categories: [AI编程, 工程实践]
@@ -182,5 +182,3 @@ Andela 把“产品前端工程师”单列成一个新岗位，意思是前端�
 - A job by any other name：Cory Hymel 访谈与“净通才”判断 https://www.andela.com/publication/a-job-by-any-other-name
 - Next.js 2026 年 11 月安全版本说明 https://nextjs.org/blog/november-2026-security-release
 - GHSA-mfr8-8qww-v76h / CVE-2026-119790 https://github.com/advisories/GHSA-mfr8-8qww-v76h
-
-> 作者：唐悦玮 |  从后端出发，用 AI 拓展到全栈的工程师。
