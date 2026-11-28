@@ -1,0 +1,1763 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://tangyuewei.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://tangyuewei.com/" rel="alternate" type="text/html" hreflang="zh-CN" /><updated>2026-11-28T22:39:35+08:00</updated><id>https://tangyuewei.com/feed.xml</id><title type="html">唐悦玮</title><subtitle>不以物喜，不以己悲。努力只是一种生活方式，先敬业，再乐业。</subtitle><entry><title type="html">虚拟线程下 ThreadLocal 的三个坑</title><link href="https://tangyuewei.com/posts/virtual-thread-threadlocal-pitfalls/" rel="alternate" type="text/html" title="虚拟线程下 ThreadLocal 的三个坑" /><published>2026-11-29T12:09:00+08:00</published><updated>2026-11-29T12:09:00+08:00</updated><id>https://tangyuewei.com/posts/virtual-thread-threadlocal-pitfalls</id><content type="html" xml:base="https://tangyuewei.com/posts/virtual-thread-threadlocal-pitfalls/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：切到虚拟线程，ThreadLocal 一行没动，行为却变了。实测 20 万虚拟线程，常见写法多吃 250 MB 内存。内存放大、上下文传不过去、ScopedValue 不是万能替代，三个坑和可复现的实测代码都在这。</p>
+</blockquote>
+
+<p>你把项目切到虚拟线程，压测跑起来，QPS 上去了。然后内存报警，或者日志里的 userId 莫名其妙成了 null。你回头看代码，ThreadLocal 一行没动。</p>
+
+<p>问题就出在这——ThreadLocal 一行没动，但它脚下的线程换了。</p>
+
+<h2 id="第一个坑内存被放大">第一个坑：内存被放大</h2>
+
+<p>JEP 444 里有一句提醒，很多人扫过去了。官方说，虚拟线程支持 ThreadLocal，但因为虚拟线程可以非常多，用 ThreadLocal 要”经过仔细考虑”。</p>
+
+<p>JDK 自己就把 java.base 里大量 ThreadLocal 用法的内存占用降了下来，为的就是应对百万级线程。</p>
+
+<p>话比较绕，翻译成你能用的话：ThreadLocal 是每线程一份副本的。平台线程就那么几百个，一份副本占 1KB，微不足道。</p>
+
+<p>虚拟线程能开到几十万，副本数跟着线程数走，乘起来就是另一个量级。</p>
+
+<p>我在本机跑了个数。JDK 21.0.10，20 万个虚拟线程，每个线程阻塞住不退出，往 ThreadLocal 里塞一个 1KB 数组，量峰值堆内存：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>写法</th>
+      <th>存活期内存增量</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>空虚拟线程，什么都不塞</td>
+      <td>约 163–211 MB</td>
+    </tr>
+    <tr>
+      <td>每个线程 <code class="language-plaintext highlighter-rouge">new byte[1024]</code> 塞进 ThreadLocal</td>
+      <td>约 462 MB</td>
+    </tr>
+    <tr>
+      <td>所有线程共享同一个 1KB 数组</td>
+      <td>约 208 MB</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="/imgs/202611/2026-11-29-virtual-thread-threadlocal-pitfalls-diagram-2.png" alt="20 万虚拟线程存活期内存增量实测对比" /></p>
+
+<p>看出问题了吗？多出来的 250 MB 左右，不是线程本身占的，是”每个线程各自 new 了一份”占的。空线程基线和”共享引用”那一行几乎一样，都在 200 MB 上下。</p>
+
+<p>等等，那是不是说 ThreadLocal 本身没问题，只是别往里放大对象？对了一半。</p>
+
+<p>真正的问题是很多人把 ThreadLocal 当成线程级的缓存用，往里塞上下文对象、服务定位器、临时大 Map。</p>
+
+<p>平台线程时代这是一个小 Map，虚拟线程时代这是 20 万个 Map。</p>
+
+<p>JEP 444 把这条写得很直白：别用 ThreadLocal 在共享同一线程的多个任务之间池化昂贵资源，虚拟线程本来就不该被池化，每个线程一辈子只跑一个任务。</p>
+
+<p>线程数一多，”每线程一份”这个设计假设就从优点变成了成本。</p>
+
+<h2 id="第二个坑上下文传不过去">第二个坑：上下文传不过去</h2>
+
+<p>这个坑更隐蔽，因为它不报错，只是值没了。</p>
+
+<p>我在主线程里 <code class="language-plaintext highlighter-rouge">TL.set("req-TL")</code>，然后开一个虚拟线程去读：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="kd">static</span> <span class="kd">final</span> <span class="nc">ThreadLocal</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="no">TL</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ThreadLocal</span><span class="o">&lt;&gt;();</span>
+<span class="no">TL</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">"req-TL"</span><span class="o">);</span>
+<span class="nc">Thread</span><span class="o">.</span><span class="na">ofVirtual</span><span class="o">().</span><span class="na">start</span><span class="o">(()</span> <span class="o">-&gt;</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="no">TL</span><span class="o">.</span><span class="na">get</span><span class="o">())</span>   <span class="c1">// 输出 null</span>
+<span class="o">).</span><span class="na">join</span><span class="o">();</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>输出是 null。你可能会愣一下：同一个进程，主线程设的值，子线程怎么读不到？</p>
+
+<p>因为虚拟线程也是 Thread 的实例，有自己独立的 ThreadLocalMap。它不是从主线程 fork 出来的子线程，不继承父线程的 ThreadLocal。</p>
+
+<p>你原来在线程池里那套”请求进来先 set 一下，后面随便 get”的写法，一旦最外层换成虚拟线程，链条就从第一环断了。</p>
+
+<p>那 InheritableThreadLocal 呢？我测了，它能读到。但先别急着换。</p>
+
+<p>InheritableThreadLocal 是在线程创建的那一刻把父线程的值复制过来的，是一次快照。</p>
+
+<p>虚拟线程往往是任务来了才创建，创建时机跟你 set 的时机不一定对得上。</p>
+
+<p>而且官方在 JEP 506 里点名了它的毛病：子线程要为父线程写过的每个 ThreadLocal 都分配一份存储，线程一多，这笔内存开销很可观。</p>
+
+<p>所以这不是”换个类就完事”的问题。你要先想清楚：这个上下文是跟着线程走，还是跟着一次调用走。</p>
+
+<p><img src="/imgs/202611/2026-11-29-virtual-thread-threadlocal-pitfalls-diagram-1.png" alt="主线程上下文传给虚拟线程的三种路径" /></p>
+
+<h2 id="第三个坑scopedvalue-不是直接替换">第三个坑：ScopedValue 不是直接替换</h2>
+
+<p>官方给的替代方案是 ScopedValue。它在 JDK 20 孵化，21 到 24 一路预览，JDK 25 由 JEP 506 正式转正。</p>
+
+<p>核心特点三个：绑定一次不能改、生命周期由代码块限定、退出作用域自动销毁。听起来正好治 ThreadLocal 的病。</p>
+
+<p>但直接照搬会踩坑。我测了两种情况。</p>
+
+<p>在虚拟线程里 fork 子任务，子任务能读到父作用域的绑定：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="nc">ScopedValue</span><span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="no">SV</span><span class="o">,</span> <span class="s">"req-SV"</span><span class="o">).</span><span class="na">run</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">(</span><span class="kt">var</span> <span class="n">scope</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StructuredTaskScope</span><span class="o">.</span><span class="na">ShutdownOnFailure</span><span class="o">())</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">sub</span> <span class="o">=</span> <span class="n">scope</span><span class="o">.</span><span class="na">fork</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="no">SV</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
+        <span class="n">scope</span><span class="o">.</span><span class="na">join</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">sub</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>   <span class="c1">// req-SV</span>
+    <span class="o">}</span>
+<span class="o">});</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>可如果你在绑定之后，再新起一个虚拟线程，那边读不到。得在新线程里重新 <code class="language-plaintext highlighter-rouge">ScopedValue.where(...)</code> 绑一次。它传的是”当前调用栈的下方”，不是”我这个线程往后新建的所有线程”。</p>
+
+<p>还有个反直觉的实测结果。同样 20 万虚拟线程，ScopedValue 共享一个 1KB 对象，存活期内存增量约 333 MB，比 ThreadLocal 共享引用的 208 MB 还高。</p>
+
+<p>这不是说 ScopedValue 更差。JDK 21 里它还是预览实现，绑定本身要建作用域数据结构，20 万次绑定不是免费的。这个数字提醒你一件事：换 API 不等于自动省内存，别拿它当性能银弹。</p>
+
+<p>ScopedValue 真正值钱的地方是生命周期和不可变性。作用域结束绑定就没了，你忘不了 remove；只有 <code class="language-plaintext highlighter-rouge">get</code> 没有 <code class="language-plaintext highlighter-rouge">set</code>，远处那段代码偷偷改值的可能也被堵死了。</p>
+
+<p>这些是正确性收益，不是性能收益。</p>
+
+<p>一张表把三者的边界摆清楚，你按场景挑：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>场景</th>
+      <th>该用什么</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>一次请求内传 userId、traceId</td>
+      <td>ScopedValue</td>
+    </tr>
+    <tr>
+      <td>每个线程独立缓存昂贵对象</td>
+      <td>别在虚拟线程里这么干</td>
+    </tr>
+    <tr>
+      <td>老代码，平台线程，能管住 remove</td>
+      <td>ThreadLocal 留着</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="升级前先认清一件事">升级前先认清一件事</h2>
+
+<p>回过头看，这三个坑其实是同一个根源：ThreadLocal 假设”线程少、活得久、会复用”，虚拟线程恰好反过来——”线程多、活得短、不复用”。假设一翻，同一个类的行为就变了。</p>
+
+<p>所以别急着动手改。先在启动参数上加一行 <code class="language-plaintext highlighter-rouge">-Djdk.traceVirtualThreadLocals=true</code>。这是 JEP 444 提供的诊断开关，哪个虚拟线程给 ThreadLocal 设了值，JVM 就打一份堆栈出来。</p>
+
+<p>拿这份堆栈去判断：哪些是真需要每线程一份的，哪些只是老习惯顺手 set 的。</p>
+
+<p>我自己的顺序是这样的：先用这个开关把 ThreadLocal 的用法捞出来，再按”跟着线程”还是”跟着调用”分类。</p>
+
+<p>跟着调用的换成 ScopedValue，真正每线程独立的评估一下能不能共享。</p>
+
+<p>内存那条实测先别当成普适结论。它是 JDK 21、20 万线程、1KB 负载下的本机数据，你的负载得自己压一遍。</p>
+
+<p>同源的坑之前聊过一个：虚拟线程默认开启之后，HikariCP 连接池会先被打满。那次是连接数没跟上，这次是上下文和内存没跟上。虚拟线程把并发门槛降下来了，但原来那些”线程稀缺”时代形成的假设，得一个一个重新验。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li><a href="https://openjdk.org/jeps/444">JEP 444: Virtual Threads</a> — OpenJDK，Thread-local variables 小节</li>
+  <li><a href="https://openjdk.org/jeps/506">JEP 506: Scoped Values</a> — OpenJDK，JDK 25 正式版</li>
+  <li><a href="https://openjdk.org/jeps/505">JEP 505: Structured Concurrency</a> — OpenJDK</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="Java" /><category term="性能调优" /><category term="虚拟线程" /><category term="ThreadLocal" /><category term="ScopedValue" /><category term="Java" /><category term="并发" /><summary type="html"><![CDATA[摘要：切到虚拟线程，ThreadLocal 一行没动，行为却变了。实测 20 万虚拟线程，常见写法多吃 250 MB 内存。内存放大、上下文传不过去、ScopedValue 不是万能替代，三个坑和可复现的实测代码都在这。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-29-virtual-thread-threadlocal-pitfalls.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-29-virtual-thread-threadlocal-pitfalls.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">前端和后端，转 AI 全栈怎么转</title><link href="https://tangyuewei.com/posts/frontend-backend-ai-fullstack/" rel="alternate" type="text/html" title="前端和后端，转 AI 全栈怎么转" /><published>2026-11-27T11:53:00+08:00</published><updated>2026-11-27T11:53:00+08:00</updated><id>https://tangyuewei.com/posts/frontend-backend-ai-fullstack</id><content type="html" xml:base="https://tangyuewei.com/posts/frontend-backend-ai-fullstack/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：转 AI 全栈，前端缺的是边界，后端缺的是不确定。两条路看着分岔，卡人的地方却是同一张验收单：你能做出东西，还得敢在上线单上签字。这篇分开讲各自怎么补，也说清最容易走错的那两步。</p>
+</blockquote>
+
+<p>这一周看到两份招聘启事，看完觉得挺有意思。</p>
+
+<p>一份挂的是前端岗，职责里写的却是 Agent 服务编排、多端 SDK、云平台。另一份挂的是后端，要求放在最后一行，有 LLM 应用开发经验优先。</p>
+
+<p>名字不一样，干的活其实是一件事——把 AI 功能从界面一路做到上线。</p>
+
+<p>两份 JD 摆在一起，比什么趋势报告都直白。</p>
+
+<p>先把结论放这儿。前端和后端转 AI 全栈，缺的东西不一样。</p>
+
+<p>前端缺的是边界，后端缺的是不确定。方向要是补反了，两边最后都卡在同一个地方——东西能做出来，就是不敢上线。</p>
+
+<p>我自己是写 Java 的。这一年多，把手上几个服务一个一个接上了界面。</p>
+
+<h2 id="招聘数据里这两条路早就分开了">招聘数据里，这两条路早就分开了</h2>
+
+<p>先看数据。</p>
+
+<p>2026 年 9 月，人才平台 Andela 发了一份<a href="https://www.andela.com/newsroom/andela-research-finds-that-53-of-ai-job-postings-seek-skills-that-dont-match-job-title-also-identifies-new-emerging-tech-roles">研究</a>，拆了财富 500 强的 47,101 份技术岗招聘启事，一共 2,026 项技能。</p>
+
+<p>标题写着“AI 工程师”“ML 工程师”的，有 1,832 份。这 1,832 份里头，53% 要求你会至少两种岗位的技能。</p>
+
+<p>研究负责人 Cory Hymel 跟 Stack Overflow 说了一句话，我觉得挺硬：</p>
+
+<blockquote>
+  <p>We didn’t see in the data this idea of a net generalist.</p>
+</blockquote>
+
+<p>翻成中文就是，数据里根本没有“什么都懂一点”的通才岗位。</p>
+
+<p>那企业到底想要什么人？报告里有个说法，叫技能渗漏。</p>
+
+<p>意思是，技能会从一条岗位的边界，慢慢渗到隔壁去。前端往产品定义那边渗，后端往“把模型部署进生产”那边渗。方向正好相反。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>出身</th>
+      <th>手上已经有的</th>
+      <th>要补的那块</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>前端</td>
+      <td>状态、交互、空态</td>
+      <td>数据边界与失败路径</td>
+    </tr>
+    <tr>
+      <td>后端</td>
+      <td>隔离、幂等、超时</td>
+      <td>非确定性与成本上限</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>两边都缺的那件东西，是签字。</p>
+
+<h2 id="前端缺的是边界">前端缺的是边界</h2>
+
+<p>先说个你肯定见过的场面。</p>
+
+<p>AI 帮你写完一个表单页，提交按钮有，loading 有，成功提示也有，看着挺完整。</p>
+
+<p>可断网了呢？接口返回 409 呢？用户手快，连点三次呢？</p>
+
+<p>这些状态，AI 不一定会写，但你一定会查。这是你的本钱，别丢。</p>
+
+<p>现在还多了一种情况，就是流式输出。</p>
+
+<p>首字还没到，是一种情况。中途断了，是另一种。正常收尾，又是一种。</p>
+
+<p>AI 写的流式界面，一般只处理开头和结尾。中间一断，它就在那儿一直转圈。</p>
+
+<p>这三种情况怎么区分，断了以后怎么重来，靠的还是你带过来的经验。</p>
+
+<p>真正的问题在另一头：页面拿到的那份数据，能不能给别人看。</p>
+
+<p>我举个真事。</p>
+
+<p>Next.js 16 在 2026 年 11 月发了个<a href="https://nextjs.org/blog/november-2026-security-release">安全版本</a>，修掉 CVE-2026-119790。受影响的是 16.3.0 到 16.4.4，16.4.5 修好。</p>
+
+<p>问题出在一个用了 <code class="language-plaintext highlighter-rouge">'use cache'</code> 的函数上。渲染的时候，它先被直接调了一次，后来又被 <code class="language-plaintext highlighter-rouge">unstable_cache()</code> 包了一层，又调了一次。</p>
+
+<p>冷启动那一下，跨请求去重让后一次调用搭了前一次的车，结果拿到了别的租户的数据。</p>
+
+<p>存缓存的时候，key 里没带区分租户的 root 参数。</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="c1">// 示意：readSettings 内部是 'use cache'，外面又包了一层</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">getSettings</span> <span class="o">=</span> <span class="nx">unstable_cache</span><span class="p">(</span>
+  <span class="k">async</span> <span class="p">(</span><span class="nx">tenant</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">readSettings</span><span class="p">(</span><span class="nx">tenant</span><span class="p">),</span>
+  <span class="p">[</span><span class="dl">'</span><span class="s1">settings</span><span class="dl">'</span><span class="p">],</span>            <span class="c1">// 这层 key 里没有 tenant</span>
+<span class="p">);</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>你看，语法没错，类型也没错，AI 写出来也是这个样子。错的是隔离，key 里少了一个租户。</p>
+
+<p>按公告的说法，这种嵌套本来就该报错。只有冷启动那个窗口能漏过去，所以测试也抓不到。</p>
+
+<p>写页面的直觉是，缓存归框架管。做过多租户的直觉是，缓存 key 里必须带租户。</p>
+
+<p>前端转 AI 全栈，要装的就是后面这个直觉，不是再学一门语言。</p>
+
+<p>前端这边先说到这儿。后端是另一摊事。</p>
+
+<h2 id="后端缺的是不确定">后端缺的是不确定</h2>
+
+<p>隔离和失败路径，这是后端的老本行。幂等键、超时降级、补偿任务，写过几百遍。</p>
+
+<p>模型这东西，跟支付网关其实一个性质：会超时，会抽风，价格也会变。区别只有一个，它不保证同样的输入给你同样的输出。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="c1">// 模型调用当外部依赖：限时、兜底，别让它拖死线程</span>
+<span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="nc">CompletableFuture</span>
+    <span class="o">.</span><span class="na">supplyAsync</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">llm</span><span class="o">.</span><span class="na">chat</span><span class="o">(</span><span class="n">prompt</span><span class="o">),</span> <span class="n">llmPool</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">orTimeout</span><span class="o">(</span><span class="mi">20</span><span class="o">,</span> <span class="nc">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">exceptionally</span><span class="o">(</span><span class="n">e</span> <span class="o">-&gt;</span> <span class="n">fallback</span><span class="o">.</span><span class="na">answer</span><span class="o">(</span><span class="n">prompt</span><span class="o">));</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>这么写，产品会显得有点笨。模型挂了，就回一句“稍后再试”，它不会自己想办法。</p>
+
+<p>可笨一点，总比卡死强。</p>
+
+<p>真正难的不是这段代码，是代码后面那笔账。</p>
+
+<p>同一个请求，用户手一抖重试了两次，你到底扣几次费？</p>
+
+<p>这就是后端最容易漏的地方。模型的不确定，最后不体现在接口返回里，体现在账单上。</p>
+
+<p>解法不新鲜。给每次业务动作发一个幂等键，命中就直接返回上次的结果，token 也顺手省了。</p>
+
+<p>还有一处也容易漏。模型失败，别直接抛 500。</p>
+
+<p>页面分不清是服务挂了，还是参数错了，用户那边只看到一个白屏。</p>
+
+<h2 id="最后签字的只有你">最后签字的，只有你</h2>
+
+<p>前面这两块补完，还有一件事没人能替你干：把东西交出去，签上自己的名字。</p>
+
+<p>一个人负责上线，出了事，没人可推。</p>
+
+<p>日志里至少得有三样：request id、这次花了多少 token、端到端用了多少毫秒。</p>
+
+<p><img src="/imgs/202611/2026-11-27-frontend-backend-ai-fullstack-diagram-1.png" alt="一次请求经过的几处地方，标了小字的那几处得你自己签字" /></p>
+
+<p>这张单子，不会因为你出身前端还是后端，就变短一点。</p>
+
+<p><img src="/imgs/202611/2026-11-27-frontend-backend-ai-fullstack-infographic-1.jpg" alt="两条路径在验收这一步汇成一条" /></p>
+
+<p>有些路，我不建议走。</p>
+
+<p>前端那条，是跑去补 Java 分层、啃 Spring 全家桶。</p>
+
+<p>Andela 把“产品前端工程师”单列成一个新岗位，意思是前端要往产品定义上伸，不是往“再多会一门后端语言”上伸。</p>
+
+<p>后端那条，是跑去啃 PyTorch、预训练、显存估算。报告里给“LLM 应用工程师”的定义很清楚：基于基础模型做应用，不是训练基础模型。</p>
+
+<p>真想训模型，那是 MLOps 流水线工程师的活。</p>
+
+<p>这两条路看着不一样，最后都落到同一件事上：往上走一步，自己拿主意。</p>
+
+<p>装修这事最能说明白。AI 把墙刷了，地也铺了，看着像模像样。可水电是你自己验的，验收单上签字的也是你。</p>
+
+<p>门开在哪儿，插座留几个，跳闸了谁去合闸，这些它替不了。</p>
+
+<p>你现在就可以打开手上那个“AI 帮我写完”的页面，问自己三句话。</p>
+
+<p>数据库里换个租户 id，这页面会不会显示别人的数据？</p>
+
+<p>模型接口挂十分钟，用户看到的是什么？</p>
+
+<p>这个月账单翻了三倍，你从哪张图里能看出来？</p>
+
+<p>三句都答得上来，说明你已经跨过去了。答不上来，就是缺的那块还没补上。</p>
+
+<p>最后捋一遍。前端缺边界，后端缺不确定，补完以后，面对的是同一张单：你签不签得下去。</p>
+
+<p>顺序也别搞反。边界和兜底在前，界面在后。界面 AI 写得比你快，但验收这一步，它替不了你。</p>
+
+<p>下次再看 AI 全栈的 JD，先数一数它要你对哪一段负责，再数它要几门语言。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>Andela：53% 的 AI 岗位要求与岗位名不符（2026-09-10）https://www.andela.com/newsroom/andela-research-finds-that-53-of-ai-job-postings-seek-skills-that-dont-match-job-title-also-identifies-new-emerging-tech-roles</li>
+  <li>A job by any other name：Cory Hymel 访谈与“净通才”判断 https://www.andela.com/publication/a-job-by-any-other-name</li>
+  <li>Next.js 2026 年 11 月安全版本说明 https://nextjs.org/blog/november-2026-security-release</li>
+  <li>GHSA-mfr8-8qww-v76h / CVE-2026-119790 https://github.com/advisories/GHSA-mfr8-8qww-v76h</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI全栈" /><category term="前端转型" /><category term="后端转型" /><category term="LLM应用工程师" /><category term="招聘数据" /><category term="验收" /><summary type="html"><![CDATA[摘要：转 AI 全栈，前端缺的是边界，后端缺的是不确定。两条路看着分岔，卡人的地方却是同一张验收单：你能做出东西，还得敢在上线单上签字。这篇分开讲各自怎么补，也说清最容易走错的那两步。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-27-frontend-backend-ai-fullstack.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-27-frontend-backend-ai-fullstack.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">一个 FDE 怎么干过一个项目组</title><link href="https://tangyuewei.com/posts/fde-ai-coding-team-leverage/" rel="alternate" type="text/html" title="一个 FDE 怎么干过一个项目组" /><published>2026-11-25T11:09:00+08:00</published><updated>2026-11-25T11:09:00+08:00</updated><id>https://tangyuewei.com/posts/fde-ai-coding-team-leverage</id><content type="html" xml:base="https://tangyuewei.com/posts/fde-ai-coding-team-leverage/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：AI 编程把写压短、驻场把传话压没，一个 FDE 带着 agent 能跑完整条交付线，过去这要一个项目组跑几个月。哪些环节真被压缩、哪些没被压缩？没被压缩的那部分，才是他的价钱。</p>
+</blockquote>
+
+<p>有个问题最近被反复问到：FDE 不就是驻场实施吗，凭什么说一个 FDE 能干过一个项目组？</p>
+
+<p>问这话的人见过传统交付。一套系统进企业，咨询顾问先访谈两周，架构师出方案，开发团队排期三个月，实施进场，培训走一圈。每个环节一群人，每个交接一次翻译。加起来，就是个项目组半年的活。</p>
+
+<p>可今年跑通的案例长这样：一位零售 FDE 在客户工作群里放了个智能体，先让它观察群里的聊天记录。AI 总结出的问题里，有几条连老板自己都没意识到。然后她分步拆解工作流，人机分工，包装审核里 80% 的低级错误被 AI 拦下，沟通时间省了一半以上。</p>
+
+<p>一个人，几周，可量化的结果。这中间到底发生了什么？</p>
+
+<h2 id="项目组的活先拆开看哪几段">项目组的活，先拆开看哪几段</h2>
+
+<p>你把传统项目组的活拆开，其实是五段：找问题、翻译需求、写实现、部署上线、教会用户。</p>
+
+<p>先看”写实现”。这段过去最吃人力，也是项目组人头的大头。AI 编程之后，这段被压得最短。你给 agent 一个边界清晰的任务，它当天就能给出可跑的原型。</p>
+
+<p>Palantir 把 FDE 分成两组：Echo 进现场、贴业务、做需求翻译；Delta 把需求变成原型、部署、迭代。Delta 干的正是”写”这一段，而这段恰好是 AI 编程放大最狠的地方。</p>
+
+<p>再看”找问题”加”翻译需求”。过去这两段散在会议纪要和邮件里，信息每传一次就走样一次。驻场的意义就在这：FDE 直接坐在业务旁边，需求不用来回传话。那位零售 FDE 是在客户工作群里放智能体，让 AI 替她盯日常沟通里的堵点——翻译的输入端，信息损耗接近零。</p>
+
+<p>至于”部署上线”和”教会用户”，前者被标准化的交付流水线吃掉一部分，后者恰恰是压缩不掉的。你会看到，这两段的差别，就是这个岗位价钱的来源。</p>
+
+<p>所以”一个 FDE 干过一个项目组”，不是他手速快，是五段活里有三段的单位成本塌了：写实现被 AI 编程压短，找问题和翻译被驻场压没。剩下的活变少了，一个人就端得住。</p>
+
+<h2 id="他手里那张纸叫任务契约">他手里那张纸，叫任务契约</h2>
+
+<p>AI 编程压缩了”写”，但 agent 的产出要可控，靠的不是运气。</p>
+
+<p>你有没有试过让 agent”把这个功能优化一下”？出来的改动看起来对，跑起来一堆暗坑。问题不在模型，在于任务没有边界。</p>
+
+<p>圈里现在成型的做法是任务契约：每个任务写清目标、非目标、验收标准、禁止改动区域、回滚方式。验收标准没写清，agent 就自己发明标准；禁改区没划定，它就顺手动了你不许碰的模块。</p>
+
+<p>FDE 恰好是全公司最会写这种契约的人。他要能把模糊需求”翻译成可执行的方案”——这是行业里对 FDE 的定义。翻译的产物，过去叫需求规格，现在就是给 agent 的任务契约。目标是什么、做到什么算完、哪里不许碰，这些句子同时约束人和 agent。</p>
+
+<p>回到那个零售案例。她不是把活一股脑丢给智能体，而是先分步拆解工作流，再决定人和 AI 各管哪段。结果是 80% 的低级错误被 AI 拦截，沟通时间节约 50% 以上，包装审核排队现象基本消失。注意这几个数字是怎么来的：不是”感觉快了”，是拆完工作流之后验证出来的。</p>
+
+<p>这也是 FDE 自己的说法：交付的不是单一工程或软件，而是重新定义的”人+AI”协作组织。任务契约就是这个组织的岗位说明书。</p>
+
+<h2 id="没被压缩掉的那几段才是价钱">没被压缩掉的那几段，才是价钱</h2>
+
+<p>五段活里压掉了三段，剩下”教会用户”和横贯全程的验收。这两段恰恰最值钱。</p>
+
+<p>验收为什么压不掉？因为 AI 生成的东西默认”看起来对”。80% 错误拦截率、沟通省 50%，这些数字只能由人设计度量、人确认口径。你让 AI 自己验收 AI，就是把静默出错制度化。这个判断咱们之前聊过：AI 让验证负担更贵，而不是更便宜。FDE 的日常里，审输出占的比重只会越来越大。</p>
+
+<p>信任更压不掉。阿里云副总裁霍嘉说过一句很直白的话：阿里云不靠 FDE 赚钱，考核核心指标是能否带动产品。他还说，能告诉客户”什么做不到”，这本身也是巨大的价值。你看，这个岗位的产出不只是代码和系统，还包括敢说不行的判断——你没法把这些写进 prompt。</p>
+
+<p>商业模式也跟着变。霍嘉更看好按结果付费：传统按功能付费容易打价格战，因为功能价值难量化；按结果付费要求服务商真有交付能力，AI 确实带来降本增效，才有议价空间。长期服务合同取代短期项目合同，是同一个逻辑。</p>
+
+<p>最后一层诚实话。这个行业自己也在吵：FDE 是新工种还是旧角色换皮，规模化交付会不会把质量磨平？门槛高、难速成，需要技术、业务、咨询、项目管理的复合能力。AI 编程既然能放大 FDE，会不会有一天连 FDE 也放大没了？</p>
+
+<p>我的判断没变：被压缩的是”实现”和”传话”，被放大的是”定义问题、审输出、管上下文”。一个 FDE 干过一个项目组，靠的正是把力气花在没被压缩的那几段上。至于这个岗位叫 FDE 还是叫别的什么，反倒不重要。你所在的团队里，哪一段活已经被 AI 压短了？哪一段还压不动？欢迎聊聊。</p>
+
+<p><img src="/imgs/202611/2026-11-25-fde-ai-coding-team-leverage-infographic-1.jpg" alt="五段交付活：驻场压缩找问题与翻译需求，AI 编程压缩写实现，教会用户与验收才是值钱的那截" /></p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>每日经济新闻：《AI落地”最后一公里”痛点带火FDE岗位，部分年薪高达百万元，阿里云副总裁霍嘉：更看好两类商业化模式》</li>
+  <li>《经济参考报》：《打通AI落地”最后一公里” 职场”特种兵”FDE成香饽饽》</li>
+  <li>工业和信息化部：《关于开展人工智能应用服务商培育专项行动的通知》</li>
+  <li>LinkedIn：《2026 年劳动力报告》</li>
+  <li>猎聘大数据研究院：《2026 FDE人才供需趋势洞察报告》</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="FDE" /><category term="AI编程" /><category term="交付工程" /><category term="任务契约" /><category term="Agent工程" /><category term="AI落地" /><category term="驻场交付" /><summary type="html"><![CDATA[摘要：AI 编程把写压短、驻场把传话压没，一个 FDE 带着 agent 能跑完整条交付线，过去这要一个项目组跑几个月。哪些环节真被压缩、哪些没被压缩？没被压缩的那部分，才是他的价钱。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-25-fde-ai-coding-team-leverage.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-25-fde-ai-coding-team-leverage.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">系统崩了，一屋子人在等 AI 出方案</title><link href="https://tangyuewei.com/posts/incident-decision-waiting-for-ai/" rel="alternate" type="text/html" title="系统崩了，一屋子人在等 AI 出方案" /><published>2026-11-24T08:16:00+08:00</published><updated>2026-11-24T08:16:00+08:00</updated><id>https://tangyuewei.com/posts/incident-decision-waiting-for-ai</id><content type="html" xml:base="https://tangyuewei.com/posts/incident-decision-waiting-for-ai/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：故障会上所有人打开对话框等 AI 给方案，缺的不是模型，是让人自己下判断的素材。这篇拆开 Agent 为什么天然不给你留诊断面，以及 Java 服务里怎么把判断的位置补回来。</p>
+</blockquote>
+
+<p>Armin Ronacher 听同行讲过一次故障会。系统崩了，一屋子工程师围着桌子，没人说得清故障落在哪一层。所有人都在做同一件事——打开对话框，问 Claude。</p>
+
+<p>问到后半程，味道变了。他们不光问原因，还在等它拿方案。</p>
+
+<p>那天会议室里真正的麻烦，不是没人会。是没人敢拍板。</p>
+
+<p>Ronacher 的评价只有四个字：”这很可怕。”他紧接着补了一句，大意是：我们做软件最终还是为了人，把人彻底移出流程，算不上一个值得追求的目标。</p>
+
+<h2 id="先别急着说人变笨了">先别急着说人变笨了</h2>
+
+<p>看到这个场景，最顺的解释是技能退化。代码让 AI 写，人读得少，手就生了。这个解释我认，不打算推翻。</p>
+
+<p>但它解释不了另一半——他们为什么要去问。</p>
+
+<p>如果只是人变笨，那 AI 应该答得上来才对。往细里想一步：就算 Claude 给出三条可能原因，会议桌上谁能判断哪条是真的？</p>
+
+<p>判断方案对不对，和判断故障在哪，用的是同一种能力。这个能力不会因为对话框打开就自动恢复。</p>
+
+<p>所以问题还得往下压一层：那天缺的不是答案，是让人自己下判断的素材。</p>
+
+<p>素材这词听着虚，换成三个问题就实了。哪一层坏了？最近改了什么？正常的时候该是什么样？答不上来，会议室就只剩一个动作可做——问。</p>
+
+<h2 id="它给的方案你凭什么判断">它给的方案，你凭什么判断</h2>
+
+<p>Ronacher 自己做过一个更极端的实验，把这件事的量级摆了出来。</p>
+
+<p>他给一个 Agent 一个目标：给 Python 加上虚拟线程和词法作用域，然后完全放手。Agent 自己管上下文，自己派生子 Agent，自己记笔记。他过了个周末回来。</p>
+
+<p>35 小时。净增 7.5 万行代码，79 次提交，烧掉约 10 亿 token，按 API 原价算约 1200 美元，平均一次提交 15.5 美元。</p>
+
+<p>他的结论是：没有交付任何有价值的东西。</p>
+
+<p>比账单更值得看的，是他翻出来的代码形态。有一段是 Bash 调 Python，Python 调 Node，Node 再调 PowerShell。</p>
+
+<p>层层套下去，只为了验证一次剪贴板行为。他说这东西人基本读不了，想跟上发生了什么，只能最后拿 diff 看成品。</p>
+
+<h2 id="问题出在目标函数">问题出在目标函数</h2>
+
+<p>这不是模型不努力。它 35 小时没停过。</p>
+
+<p>它被奖励的是”任务完成”，不是”完成后有人能看懂”。当它判断这段代码没人会看，就不再为人类读者写，也不为长期维护写。</p>
+
+<p>把这个机制搬到你的服务上，结论很直接：<strong>Agent 没有动力给系统留诊断面。</strong></p>
+
+<p>它为什么不顺手加一个？因为加一个健康检查端点，不会让任何一条测试从红变绿。写一段启动自检，也不影响功能验收。这些事在它的评分里权重是零。</p>
+
+<p>所以它不干。这是结构问题，怪不到态度上。</p>
+
+<p><img src="/imgs/202611/2026-11-24-incident-decision-waiting-for-ai-infographic-1.jpg" alt="Agent 优化的是跑通，不是可诊断" /></p>
+
+<h2 id="写快了查慢了这笔账有数">写快了，查慢了，这笔账有数</h2>
+
+<p>个人的感受靠不住，看调查。</p>
+
+<p>Undo 委托 Coleman Parkes 在 2026 年 7 月到 8 月问过 300 位工程负责人，都是两亿五千万美元以上营收的组织。</p>
+
+<p>结果是这样：团队每周花 9.8 小时写代码，花 16.9 小时调试。调试吃掉四成工作时间，比写码多出七成。</p>
+
+<p>更扎心的是另一项：79% 的人说，代码写得快多了，发布周期一点没变快。</p>
+
+<p>省下来的时间没消失，挪到下游去了。</p>
+
+<h2 id="没人说得清就只剩问">没人说得清，就只剩问</h2>
+
+<p>Lightrun 同年问了两百位 SRE 和 DevOps 负责人。43% 的 AI 生成改动，过了 QA 和预发，还得在生产里手工调。</p>
+
+<p>问到高危事故怎么处理，54% 说靠的是组织里的口头经验，不是诊断工具给出的证据。</p>
+
+<p>数据没直接说这些人会去问 AI。可证据不在桌上，问就成了唯一能做的动作。</p>
+
+<p>New Relic 的调查里还有一组对照，最能说明错位在哪：94% 的负责人认为 AI 写的代码在评审阶段质量更高，78% 说上线之后事故更多了。</p>
+
+<p>评审时好看，运行时难查。这两件事不矛盾，是同一个原因的两面。</p>
+
+<p>要留个限定。这些都是受访者的自述和估计，不是受控实验，样本也集中在大型组织。它证明的是这种感受很普遍，不是”AI 代码必然更差”。</p>
+
+<h2 id="让人重新拿得回判断">让人重新拿得回判断</h2>
+
+<p>判断力不是靠决心回来的，得靠系统给它留位置。落到 Java 服务上，是三件很土的工作。</p>
+
+<p><img src="/imgs/202611/2026-11-24-incident-decision-waiting-for-ai-diagram-1.png" alt="三个问题，对应系统里要补的三样东西" /></p>
+
+<p>最要紧的一件，把”整体健康”拆成”分层可查”。默认的 <code class="language-plaintext highlighter-rouge">/actuator/health</code> 只回一个 UP，故障时它只告诉你进程还活着。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">DownstreamHealth</span> <span class="kd">implements</span> <span class="nc">HealthIndicator</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nc">Health</span> <span class="nf">health</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">Probe</span> <span class="n">p</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">probe</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">p</span><span class="o">.</span><span class="na">ok</span><span class="o">()</span>
+            <span class="o">?</span> <span class="nc">Health</span><span class="o">.</span><span class="na">up</span><span class="o">().</span><span class="na">withDetail</span><span class="o">(</span><span class="s">"p99"</span><span class="o">,</span> <span class="n">p</span><span class="o">.</span><span class="na">p99</span><span class="o">()).</span><span class="na">build</span><span class="o">()</span>
+            <span class="o">:</span> <span class="nc">Health</span><span class="o">.</span><span class="na">down</span><span class="o">().</span><span class="na">withDetail</span><span class="o">(</span><span class="s">"why"</span><span class="o">,</span> <span class="n">p</span><span class="o">.</span><span class="na">err</span><span class="o">()).</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>标了 <code class="language-plaintext highlighter-rouge">@Component</code> 就自动注册成 Bean，指标名是类名去掉 <code class="language-plaintext highlighter-rouge">HealthIndicator</code>。</p>
+
+<p>单个指标不够，还要分组。让运维一眼看到是哪一层掉下去了：</p>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="py">management.endpoint.health.group.live.include</span><span class="p">=</span><span class="s">ping,downstream</span>
+<span class="py">management.endpoint.health.group.deps.include</span><span class="p">=</span><span class="s">db,redis,mq</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Spring Boot 4 把 <code class="language-plaintext highlighter-rouge">HealthIndicator</code> 挪到了 <code class="language-plaintext highlighter-rouge">org.springframework.boot.health.contributor</code> 包下。</p>
+
+<p>3.x 还在 <code class="language-plaintext highlighter-rouge">org.springframework.boot.actuate.health</code>。升版本时这一行 import 会红。</p>
+
+<h2 id="变更也要跟着请求走">变更也要跟着请求走</h2>
+
+<p>故障时最先想知道的是什么？大概是”刚才改了什么”。</p>
+
+<p>版本号和 commit 不该只躺在发布系统里，得跟着每条日志走：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="no">MDC</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"build"</span><span class="o">,</span> <span class="n">buildProperties</span><span class="o">.</span><span class="na">getVersion</span><span class="o">());</span>
+<span class="no">MDC</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"commit"</span><span class="o">,</span> <span class="n">gitProperties</span><span class="o">.</span><span class="na">getShortCommitId</span><span class="o">());</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">git.properties</code> 由 git-commit-id 插件生成，<code class="language-plaintext highlighter-rouge">build-info</code> 由 Spring Boot 插件产出。</p>
+
+<p>两个文件都会打进 classpath，<code class="language-plaintext highlighter-rouge">/actuator/info</code> 就能直接读。故障时先看日志里的 commit，跟上一版比一眼，比问谁都准。</p>
+
+<h2 id="把我以为写成断言">把”我以为”写成断言</h2>
+
+<p>最容易被跳过的是这一件。</p>
+
+<p>连接池该是 32 个，线程池核心数该是 16，时区该是东八区。这些默认值平时没人提，出事时全是嫌疑。</p>
+
+<p>写进启动自检，配置漂了就直接起不来：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="nd">@PostConstruct</span>
+<span class="kt">void</span> <span class="nf">freezeBaseline</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">pool</span><span class="o">.</span><span class="na">getMaximumPoolSize</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">32</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"maxPoolSize 不是 32"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>起不来当然难看。可它比”上线三天后在故障会上发现连接池被改成了 4”要好得多。</p>
+
+<p>代价也在这。这些 Indicator 要写、要维护，分组配错还会让服务起不来——Spring Boot 启动时会校验 group 里的指标名，写错了直接失败。</p>
+
+<h2 id="还有一件不属于代码的事">还有一件不属于代码的事</h2>
+
+<p>上面这些解决的是”看得见”。剩下那件是”敢拍板”。</p>
+
+<p>会议室里等方案，本质是没人愿意承担选错的后果。这件事装不进任何框架，只能靠事先划界。</p>
+
+<p>哪些操作 Agent 可以自己执行，哪些它只能出建议，哪些必须两个人签字——写进 runbook，别停在默契上。事故现场没有余裕讨论流程。</p>
+
+<p>还有一层，是把预演补回来。故障演练不少团队有，但常常演成按剧本点一遍，演完没人记得。</p>
+
+<p>真正能长出判断力的演法，是把信息掐掉一部分：只给三条日志，问你这三条能推出什么，还缺什么。</p>
+
+<h2 id="一个判断不了价值的系统">一个判断不了价值的系统</h2>
+
+<p>Ronacher 讲过一个反例，很能说明问题。他朋友试过黑灯工厂那套，问他还在用吗，说没用了。</p>
+
+<p>问为什么停，说一直烧 token 很浪费。问那你怎么不停掉，说对啊，我确实该关了。</p>
+
+<p>一个连自己有没有产生价值都判断不了的系统，你没法从里面拿到方案。</p>
+
+<h2 id="慢下来的那部分">慢下来的那部分</h2>
+
+<p>回头看这趟。一屋子人问 AI，缺的东西其实很具体：分层可查的健康状态、随手可追的变更记录、写明了的判断边界。</p>
+
+<p>Agent 不会主动补这几样，因为它的目标是跑通，不是可诊断。加个健康端点，测试不会变绿。</p>
+
+<p>数据摆在那儿：每周 9.8 小时写码，16.9 小时查问题，79% 的人说发布没变快。写快的钱，付在了查慢上。</p>
+
+<p>所以那天会议室里真正丢掉的，是拍板的位置。这件事没有外包通道——AI 能一口气给你五个方案，它不能替你选，也不能替你担。</p>
+
+<p>方案可以外包。责任不行。</p>
+
+<p>如果断网了，我们还能解决问题不？</p>
+
+<hr />
+
+<p><strong>参考资料</strong></p>
+
+<ol>
+  <li>Armin Ronacher, <a href="https://lucumr.pocoo.org/2026/9/7/astra-why/">Astra for Coding: Why Are We Doing This Again?</a></li>
+  <li>Matt Pocock 访谈（Armin Ronacher、Mario Zechner），<a href="https://www.163.com/dy/article/LCB5CENQ0511D3QS.html">InfoQ 中文译文</a></li>
+  <li>Undo / Coleman Parkes, <a href="https://www.devopsdigest.com/ai-made-writing-code-cheap-understanding-it-now-bottleneck">AI Made Writing Code Cheap. Understanding It Is Now the Bottleneck</a></li>
+  <li>Lightrun, <a href="https://lightrun.com/ebooks/state-of-ai-powered-engineering-2026">State of AI-Powered Engineering Report 2026</a></li>
+  <li>Spring Boot, <a href="https://docs.spring.io/spring-boot/reference/actuator/endpoints.html">Actuator Endpoints</a></li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI编程" /><category term="故障排查" /><category term="可观测性" /><category term="工程判断" /><category term="Agent工程" /><summary type="html"><![CDATA[摘要：故障会上所有人打开对话框等 AI 给方案，缺的不是模型，是让人自己下判断的素材。这篇拆开 Agent 为什么天然不给你留诊断面，以及 Java 服务里怎么把判断的位置补回来。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-24-incident-decision-waiting-for-ai.png%22,%20%22alt%22=%3E%22%E7%B3%BB%E7%BB%9F%E5%B4%A9%E4%BA%86%EF%BC%8C%E4%B8%80%E5%B1%8B%E5%AD%90%E4%BA%BA%E5%9C%A8%E7%AD%89%20AI%20%E5%87%BA%E6%96%B9%E6%A1%88%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-24-incident-decision-waiting-for-ai.png%22,%20%22alt%22=%3E%22%E7%B3%BB%E7%BB%9F%E5%B4%A9%E4%BA%86%EF%BC%8C%E4%B8%80%E5%B1%8B%E5%AD%90%E4%BA%BA%E5%9C%A8%E7%AD%89%20AI%20%E5%87%BA%E6%96%B9%E6%A1%88%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Spring AI 2.0 只支持 Boot 4</title><link href="https://tangyuewei.com/posts/spring-ai-2-forces-boot-4/" rel="alternate" type="text/html" title="Spring AI 2.0 只支持 Boot 4" /><published>2026-11-23T20:48:00+08:00</published><updated>2026-11-23T20:48:00+08:00</updated><id>https://tangyuewei.com/posts/spring-ai-2-forces-boot-4</id><content type="html" xml:base="https://tangyuewei.com/posts/spring-ai-2-forces-boot-4/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：想用 Spring AI 2.0，Boot 得先到 4.x。而 3.5 的免费补丁六月就停了，4.0 只剩一个月。这篇把三条时间线算清，再给一个不会返工的升级顺序。</p>
+</blockquote>
+
+<p>现在能同时拿到正式版的组合，只有一套：JDK 21、Spring Boot 4.1、Spring AI 2.0.1。</p>
+
+<p>往上再走一步，Boot 4.2 是十一月十九号刚发的，Spring AI 那边配它的 2.1 还停在 milestone。往下退一步，Boot 4.0 的免费补丁十二月三十一号到期。</p>
+
+<p>一个多月后还得再来一次。</p>
+
+<p>中间这条线窄，但能走通。</p>
+
+<p>你翻 Spring AI 的文档，看到 <code class="language-plaintext highlighter-rouge">@McpTool</code> 标在方法上，启动就得到一个 <code class="language-plaintext highlighter-rouge">/mcp</code> 端点，Controller 都不用写。挺顺。</p>
+
+<p>翻到安装那页，坐标没问题，再往下看，第一行写着 Spring Boot 4 基线。</p>
+
+<p>这就不是加个依赖的事了。</p>
+
+<h2 id="六月那一周spring-把账结清了">六月那一周，Spring 把账结清了</h2>
+
+<p>先把时间摆出来，后面所有判断都架在这几行上。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>日期</th>
+      <th>发生了什么</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2026-06-10</td>
+      <td>Spring Boot 4.1 GA</td>
+    </tr>
+    <tr>
+      <td>2026-06-12</td>
+      <td>Spring AI 2.0.0 GA；同一天，Spring AI 1.0.9 和 1.1.8 也发了</td>
+    </tr>
+    <tr>
+      <td>2026-06-25</td>
+      <td>Spring Boot 3.5.16，3.5 线最后一个公开补丁</td>
+    </tr>
+    <tr>
+      <td>2026-06-30</td>
+      <td>Spring Boot 3.5 的 OSS 支持结束</td>
+    </tr>
+    <tr>
+      <td>2026-11-19</td>
+      <td>Spring Boot 4.2 GA，4.1.3 和 4.0.10 同日发布</td>
+    </tr>
+    <tr>
+      <td>2026-12-31</td>
+      <td>Spring Boot 4.0 的 OSS 支持结束</td>
+    </tr>
+    <tr>
+      <td>2027-07-31</td>
+      <td>Spring Boot 4.1 的 OSS 支持结束</td>
+    </tr>
+    <tr>
+      <td>2027-12-31</td>
+      <td>Spring Boot 4.2 的 OSS 支持结束</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>六月八号到十四号这一周，Spring 把整条发布列车压了进去。原本排在五月的火车被挪了两次，最后挤进这一周集中发车。</p>
+
+<p>4.1 在十号落地，两天后 Spring AI 2.0.0 GA，再三天后 Spring Tools 5.2.0。</p>
+
+<p>关键是六月二十五号那个补丁。3.5.16 发出来，五天后 3.5 的 OSS 支持就关了。</p>
+
+<p>最后一个补丁和停止维护之间隔五天，这不是巧合，是正常节奏——一条线在关门前把攒着的修复推完。</p>
+
+<p>所以六月不是一个普通的发布月。它同时做了三件事：给 4.x 一个稳定落点，把 AI 框架搬上 4.x，关掉 3.x 的门。</p>
+
+<p>你现在的选择，是在这三件事都发生完之后做的。</p>
+
+<h2 id="落点选错等于白干一轮">落点选错，等于白干一轮</h2>
+
+<p>4.0 是第一个坑，而且很隐蔽。</p>
+
+<p>它是 2025 年十一月发的，比 4.1 早半年，教程和博客上一大半还在写 4.0。你照着升，编译过了，启动正常，团队验收通过。</p>
+
+<p>然后十二月三十一号，这条线的 OSS 支持到期。</p>
+
+<p>从今天算，一个月的窗口。二〇二七年一月开始，你手上是一个没有任何免费补丁的 Boot 4.0。</p>
+
+<p>Boot 每个 minor 的 OSS 支持大概十三个月，够不到两年。这条规则本身没什么问题。</p>
+
+<p>问题是它把”最新的大版本”和”能长期待的版本”拆成了两个概念。4.0 是最先到的大版本，不是能待的那个。</p>
+
+<p>真正能待的是 4.1 和 4.2。4.1 到 2027 年七月底，4.2 到 2027 年十二月底。</p>
+
+<p>有意思的地方在 2027 年八月到十二月这五个月。按目前公开的发布日历推，Spring 还没给 4.2 之后的线排期，而 4.1 在七月底就到期了。</p>
+
+<p>也就是说这段时间里，4.2 是唯一还有 OSS 支持的线。这是推断，不是承诺——日历随时会变，但至少现在看不到下一条线。</p>
+
+<p>落到执行上，结论很干脆：现在就从 3.5 跳到 4.1，别在 4.0 停。</p>
+
+<p>等你把 4.1 跑稳了，4.2 已经发了三个月，再升一次就顺了。反过来说，如果现在就冲 4.2，等于把”升大版本”和”踩新版本第一波坑”两件事叠在一个迭代里。</p>
+
+<p>急和稳，在这里是两条路，不是一条路上的两档速度。</p>
+
+<h2 id="ai-框架的基线总落后-boot-一个身位">AI 框架的基线，总落后 Boot 一个身位</h2>
+
+<p>第二条时间线更麻烦，因为它是滚动落后的。</p>
+
+<p>Spring AI 2.0 的 GA 公告原话是「designed to be used with Spring Boot 4.0 / 4.1 and Spring Framework 7.0」。注意它写的是 4.0 和 4.1，不是”4.x”。框架作者在给自己圈一个已验证的范围。</p>
+
+<p>等到 Spring AI 2.1.0-M1，基线换成了 Boot 4.2。</p>
+
+<p>看出来了吗？Boot 每往前走一个 minor，Spring AI 要等下一个版本才跟上来，而且先出的是 milestone。</p>
+
+<p>这意味着你永远拿不到”Boot 最新 + Spring AI 最新 GA”这个组合，最多只能拿到”Boot 次新 + Spring AI 最新 GA”。</p>
+
+<p>想把 Boot 4.2 和 Spring AI 用在一起，就得吃 2.1 的 milestone。</p>
+
+<p>这不是不能干，是要清楚自己在干什么：milestone 的 API 会变，你的代码要跟着变，生产上出问题没有人给你背书。</p>
+
+<p>所以那道选择题其实是这样：</p>
+
+<ul>
+  <li>要两边都是正式版，Boot 停在 4.1，Spring AI 上 2.0.1</li>
+  <li>要 Boot 撑到 2027 年底，Spring AI 吃 2.1 的 milestone</li>
+</ul>
+
+<p>落到排期上，前一个组合更省事。二〇二六年剩下的时间里，4.1 的 OSS 支持还有大半年，够你把 AI 这条链路跑出真实流量。等到 2.1 GA 出来再动 Boot，两次升级拆开做，每次都能单独定位问题。</p>
+
+<p>一次升两个大版本，出了事你连是框架的问题还是 AI 层的问题都分不清。</p>
+
+<h2 id="留在-35-要付的账">留在 3.5 要付的账</h2>
+
+<p>那能不能干脆不动？</p>
+
+<p>商业支持确实还在。3.5 是 3.x 的最后一个 minor，所以拿到了延长线，商业支持到 2032 年六月。听起来能扛六年。</p>
+
+<p>代价写在细节里。3.5 的公开补丁停在 3.5.16，之后 Spring Security 和 Spring Framework 在 3.5 线上的修复不再公开发布，只出企业版构建。</p>
+
+<p>也就是说你拿不到完整的修复列表，只能等厂商打包。Broadcom 不公开这套支持的报价，得谈。</p>
+
+<p>还有一条更实际的：Spring AI 2.0 不能跑在 Boot 3 上。你留在 3.5，AI 那条线就只能停在 1.x。</p>
+
+<p>1.x 还没死——六月十二号那天 1.0.9 和 1.1.8 是和 2.0.0 GA 一起发的。但 1.x 拿不到新东西，工具循环外移、<code class="language-plaintext highlighter-rouge">@McpTool</code> 注解、Tool Search 这些全在 2.x 里。</p>
+
+<p>这就是”留后路”的真实含义：路还在，只是不通向新地方。</p>
+
+<p>对一个要接企业知识库、智能审批这类场景的后端来说，这个代价不难算。你真正在赌的不是框架版本，是接下来两年能不能用上官方主线的 AI 能力。</p>
+
+<h2 id="顺序反了会返工">顺序反了，会返工</h2>
+
+<p>真要动，顺序比版本更重要。同一批改动，排错了就得做两遍。</p>
+
+<h3 id="jdk-先动单独一轮">JDK 先动，单独一轮</h3>
+
+<p>Boot 4 本身只要 Java 17，官方文档列出的兼容范围到 Java 27。Spring AI 2.0 在 M1 公告里写的是要求 Java 21。</p>
+
+<p>两份材料口径不完全一致。稳妥的做法是按 21 起步——Boot 4.1 里有些托管依赖的门槛比框架本身高，比如 jOOQ 3.20 就要 21。你先按 21 走，不会因为某个库卡住。</p>
+
+<p>这一轮只改三样东西：编译的 source/target、CI 的镜像、启动参数。别和 Boot 升级混在一个分支里。JDK 升级踩的坑是运行时的——GC 日志格式、<code class="language-plaintext highlighter-rouge">--add-opens</code> 的报错文本、某些反射库的行为——这些和 Boot 的编译错误混在一起，排查成本翻倍。</p>
+
+<p>跑一轮全量回归，确认干净了，再开下一个分支。</p>
+
+<h3 id="从-35-直接到-41中间不停">从 3.5 直接到 4.1，中间不停</h3>
+
+<p>Boot 4 的破坏性改动集中在编译期，机械但量大。</p>
+
+<p><code class="language-plaintext highlighter-rouge">spring-boot-starter-web</code> 改成了 <code class="language-plaintext highlighter-rouge">spring-boot-starter-webmvc</code>，<code class="language-plaintext highlighter-rouge">spring-boot-starter-aop</code> 改成了 <code class="language-plaintext highlighter-rouge">-aspectj</code>。</p>
+
+<p><code class="language-plaintext highlighter-rouge">@MockBean</code> 和 <code class="language-plaintext highlighter-rouge">@SpyBean</code> 被移除了，换 Spring Framework 的 <code class="language-plaintext highlighter-rouge">@MockitoBean</code> 和 <code class="language-plaintext highlighter-rouge">@MockitoSpyBean</code>。</p>
+
+<p>这两个新注解不能写在 <code class="language-plaintext highlighter-rouge">@Configuration</code> 类里。测试基建要是把 mock 声明在共享配置类，得拆成 <code class="language-plaintext highlighter-rouge">@TestConfiguration</code> 加 <code class="language-plaintext highlighter-rouge">@Import</code>。</p>
+
+<p><code class="language-plaintext highlighter-rouge">@SpringBootTest</code> 也不再自动装 MockMvc，Web 层测试要显式加 <code class="language-plaintext highlighter-rouge">@AutoConfigureMockMvc</code>，否则注入点全是空指针。</p>
+
+<p>Undertow 直接没了。Boot 4 的 Servlet 基线是 6.1，Undertow 跟不上，整个 starter 被移除。用它的服务得先切 Tomcat 或 Jetty，而且不是改一行配置——压缩配置、access-log 配置项都要重写。</p>
+
+<p>量大的部分可以交给 OpenRewrite。<code class="language-plaintext highlighter-rouge">org.openrewrite.java.spring.boot4.UpgradeSpringBoot_4_0</code> 这个配方把这些改名串成一次执行，包括 starter 替换和 <code class="language-plaintext highlighter-rouge">@MockBean</code> 的替换。</p>
+
+<p>跑之前先看许可证。它在 rewrite-spring 里，走的是 Moderne 的源码可见许可，公司合规可能卡。跑完的 diff 当同事的 PR 那样读一遍，别直接合。</p>
+
+<p>还有个过渡手段：<code class="language-plaintext highlighter-rouge">spring-boot-starter-classic</code> 和 <code class="language-plaintext highlighter-rouge">spring-boot-starter-test-classic</code>，把所有模块一次性拉进来，先让构建跑通，之后再逐个收拾。这是给大仓库用的，先通后优。</p>
+
+<h3 id="spring-ai-放到最后">Spring AI 放到最后</h3>
+
+<p>它动的是业务代码，得在框架稳定之后再动。</p>
+
+<p>最根本的一条：<code class="language-plaintext highlighter-rouge">ChatModel</code> 不再跑工具调用循环。</p>
+
+<p>1.x 里每个模型的实现内部都藏着自己的 loop，<code class="language-plaintext highlighter-rouge">internalToolExecutionEnabled</code> 那个开关就是给它用的。2.0 把 loop 提到了 Advisor 链上，<code class="language-plaintext highlighter-rouge">ToolCallAdvisor</code> 改名 <code class="language-plaintext highlighter-rouge">ToolCallingAdvisor</code>。</p>
+
+<p>你的代码如果依赖过模型自带的循环，现在要么交给 <code class="language-plaintext highlighter-rouge">ChatClient</code>，要么自己驱动 <code class="language-plaintext highlighter-rouge">ToolCallingManager</code>。</p>
+
+<p>Options 全部变成不可变，只能通过 builder 创建，<code class="language-plaintext highlighter-rouge">copy()</code> 和 <code class="language-plaintext highlighter-rouge">fromOptions()</code> 都没了。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="c1">// 1.x：先建对象再改属性</span>
+<span class="nc">OpenAiChatOptions</span> <span class="n">options</span> <span class="o">=</span> <span class="nc">OpenAiChatOptions</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+<span class="n">options</span><span class="o">.</span><span class="na">setTemperature</span><span class="o">(</span><span class="mf">0.2</span><span class="o">);</span>   <span class="c1">// 2.0 里这行不编译</span>
+
+<span class="c1">// 2.0：一次成型</span>
+<span class="nc">OpenAiChatOptions</span> <span class="n">options</span> <span class="o">=</span> <span class="nc">OpenAiChatOptions</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">temperature</span><span class="o">(</span><span class="mf">0.2</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>模块也砍了。<code class="language-plaintext highlighter-rouge">spring-ai-azure-openai</code> 被删除，Azure 走统一的 OpenAI SDK 模块。Anthropic 的实现重写成了官方 Java SDK 的薄封装，<code class="language-plaintext highlighter-rouge">maxTokens</code> 的默认值从 500 变成 4096——这一条会直接改变你的账单和响应长度。</p>
+
+<p>数据层有一处要迁移：JDBC 的 chat memory 表新增了 <code class="language-plaintext highlighter-rouge">sequence_id</code> 列，老表得补。空表无所谓，有历史会话的表就得写迁移脚本。</p>
+
+<p>MCP 的注解包和传输包都换了位置，服务端工具入参校验默认打开。</p>
+
+<h2 id="三个不会报错的变更">三个不会报错的变更</h2>
+
+<p>上面那些都会在编译或启动时给你一巴掌。真正难查的是下面这些——编译过、启动成功、冒烟测试通过，然后在某个下游系统里悄悄变形。</p>
+
+<p><strong>Jackson 3 改了默认值。</strong> Boot 4 从 Jackson 2 换到 Jackson 3，包名从 <code class="language-plaintext highlighter-rouge">com.fasterxml.jackson</code> 搬到 <code class="language-plaintext highlighter-rouge">tools.jackson</code>，注解包没动，<code class="language-plaintext highlighter-rouge">@JsonProperty</code> 这些照旧能用。</p>
+
+<p>麻烦在默认行为，四个开关翻了：</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">WRITE_ENUMS_USING_TO_STRING</code></li>
+  <li><code class="language-plaintext highlighter-rouge">SORT_PROPERTIES_ALPHABETICALLY</code></li>
+  <li><code class="language-plaintext highlighter-rouge">FAIL_ON_NULL_FOR_PRIMITIVES</code></li>
+  <li><code class="language-plaintext highlighter-rouge">FAIL_ON_TRAILING_TOKENS</code></li>
+</ul>
+
+<p>反着翻的有两个：<code class="language-plaintext highlighter-rouge">WRITE_DATES_AS_TIMESTAMPS</code> 和 <code class="language-plaintext highlighter-rouge">DEFAULT_VIEW_INCLUSION</code> 默认关闭。</p>
+
+<p>容易被漏掉的是异常：所有 Jackson 异常都改成了非检查异常，<code class="language-plaintext highlighter-rouge">catch</code> 里那些 <code class="language-plaintext highlighter-rouge">JsonProcessingException</code> 得重写。</p>
+
+<p><code class="language-plaintext highlighter-rouge">WRITE_ENUMS_USING_TO_STRING</code> 这条最阴。你的枚举如果覆写过 <code class="language-plaintext highlighter-rouge">toString()</code> 为了日志好看，序列化输出就从 <code class="language-plaintext highlighter-rouge">IN_PROGRESS</code> 变成了中文。自己的服务照样跑，下游那个按 <code class="language-plaintext highlighter-rouge">"IN_PROGRESS"</code> 分支的 <code class="language-plaintext highlighter-rouge">switch</code>，可能一个分支都进不去。</p>
+
+<p>兜底有两个开关：<code class="language-plaintext highlighter-rouge">spring.jackson.use-jackson2-defaults=true</code> 让自动配置的 <code class="language-plaintext highlighter-rouge">JsonMapper</code> 尽量回到 3.x 行为，或者引 <code class="language-plaintext highlighter-rouge">spring-boot-jackson2</code> 模块把 Jackson 2 留着。</p>
+
+<p>后者官方标了废弃，未来版本会删。两个都算拖延，不算方案。</p>
+
+<p>要真正确认没变形，得写契约测试，而且测的必须是 Spring 实际配置出来的那个 mapper：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre><span class="nd">@SpringBootTest</span>
+<span class="kd">class</span> <span class="nc">OrderJsonContractTest</span> <span class="o">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="nc">JsonMapper</span> <span class="n">mapper</span><span class="o">;</span>   <span class="c1">// tools.jackson.databind.json.JsonMapper</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">orderJsonMatchesContract</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">actual</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="na">writeValueAsString</span><span class="o">(</span><span class="n">sampleOrder</span><span class="o">());</span>
+        <span class="kt">var</span> <span class="n">expected</span> <span class="o">=</span> <span class="n">contract</span><span class="o">(</span><span class="s">"order.json"</span><span class="o">);</span>
+        <span class="nc">JSONAssert</span><span class="o">.</span><span class="na">assertEquals</span><span class="o">(</span><span class="n">expected</span><span class="o">,</span> <span class="n">actual</span><span class="o">,</span> <span class="no">STRICT</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">order.json</code> 这个期望文件在升级前、在 Boot 3 那边生成一次存进去，升级后它告诉你具体哪个字段换了形状。每个对外 payload 写一个，不是每个端点写一个。</p>
+
+<p>再加一条 ArchUnit 拦住回潮——Jackson 3 把注解留在老包名下，半迁移的代码库看上去一切正常：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="nd">@ArchTest</span>
+<span class="kd">static</span> <span class="kd">final</span> <span class="nc">ArchRule</span> <span class="n">noJackson2Databind</span> <span class="o">=</span> <span class="n">noClasses</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">should</span><span class="o">().</span><span class="na">dependOnClassesThat</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">resideInAnyPackage</span><span class="o">(</span><span class="s">"com.fasterxml.jackson.databind.."</span><span class="o">,</span>
+                            <span class="s">"com.fasterxml.jackson.core.."</span><span class="o">);</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><strong>工具调用加了硬上限。</strong> 2.0.1 引进了 <code class="language-plaintext highlighter-rouge">ToolCallLimits</code>，默认每个工具每轮最多 40 次，所有工具合计 150 次，超了直接抛 <code class="language-plaintext highlighter-rouge">ToolCallLimitExceededException</code>，finish reason 是 <code class="language-plaintext highlighter-rouge">toolCallLimitExceeded</code>。</p>
+
+<p>在 2.0.0 上跑 160 次工具调用没事的 agent，升到 2.0.1 就断了。判断标准是”一轮”从最后一条用户消息算起，记忆里回放的历史不算数。</p>
+
+<p>这组默认值可以改，也能改成不抛异常：</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="na">spring</span><span class="pi">:</span>
+  <span class="na">ai</span><span class="pi">:</span>
+    <span class="na">tools</span><span class="pi">:</span>
+      <span class="na">limits</span><span class="pi">:</span>
+        <span class="na">max-calls-per-tool-default</span><span class="pi">:</span> <span class="m">20</span>      <span class="c1"># 单工具每轮上限，-1 关闭</span>
+        <span class="na">max-total-tool-calls</span><span class="pi">:</span> <span class="m">60</span>            <span class="c1"># 全部工具合计</span>
+        <span class="na">on-limit-exceeded</span><span class="pi">:</span> <span class="s">RETURN_ERROR_RESPONSE</span>   <span class="c1"># 默认 THROW</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">RETURN_ERROR_RESPONSE</code> 是把超限当成一条错误结果喂回模型，让它换个路子。这个模式得配一个会读错误信息的模型，否则它只会继续撞。</p>
+
+<p>顺带说一句，2.0.1 起工具解析的 fallback 默认关了。容器里有 Tool Bean、模型也点了名，但没执行——先确认有没有显式挂上 <code class="language-plaintext highlighter-rouge">tools(...)</code>，再考虑开 <code class="language-plaintext highlighter-rouge">spring.ai.tools.resolution.fallback.enabled</code>。</p>
+
+<p>默认为关是有道理的：容器里躺着的危险工具，不该被模型撞个名字就执行。</p>
+
+<p><strong>记忆裁剪换了切点。</strong> <code class="language-plaintext highlighter-rouge">MessageWindowChatMemory</code> 淘汰消息的时候，现在停在最近一条用户消息的边界，不再从中间硬切。</p>
+
+<p>听上去是修 bug，实际改变了多轮对话里模型看到什么。以前可能把一轮问答切成半截，模型拿着无主的工具调用记录发呆；现在不会了，但窗口里少了几条消息。上下文预算得重新算一遍。</p>
+
+<h2 id="最后">最后</h2>
+
+<p>回到那个最开始的问题：为了一个 AI 框架，把整个后端推到 Boot 4，值不值。</p>
+
+<p>答案不在”值”或”不值”，在你的 AI 代码占多少比例。企业知识库、智能审批、智能客服这类已经把模型接进主链路的系统，1.x 拿不到工具循环外移和新 MCP 注解，拖下去是能力上的欠账。只是零星调几个接口的系统，留在 3.5 买商业支持，账面上更划算。</p>
+
+<p>真要动，三个组合摆在这里。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>组合</th>
+      <th>版本</th>
+      <th>OSS 支持到</th>
+      <th>适合谁</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>稳</td>
+      <td>JDK 21 / Boot 4.1.3 / Spring AI 2.0.1</td>
+      <td>2027-07-31</td>
+      <td>今年要上线，两边都要正式版</td>
+    </tr>
+    <tr>
+      <td>长</td>
+      <td>JDK 21 / Boot 4.2.0 / Spring AI 2.1.0-M1</td>
+      <td>2027-12-31</td>
+      <td>能等，愿意吃 milestone</td>
+    </tr>
+    <tr>
+      <td>扛</td>
+      <td>JDK 17 / Boot 3.5.16 / Spring AI 1.1.x</td>
+      <td>已结束（商业支持到 2032-06-30）</td>
+      <td>动不了，且只做轻度 AI</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>顺序上只有一句话值得记住：JDK、Boot、Spring AI，从下往上，一次只动一层。反过来做，你会在一块正在移动的地基上改业务代码。</p>
+
+<p>六月那一周 Spring 已经替你把版本关系定好了。你能选的不是要不要跟，是跟的时候走哪条道。</p>
+
+<hr />
+
+<p><strong>参考资料</strong></p>
+
+<ul>
+  <li><a href="https://spring.io/blog/2026/06/12/spring-ai-2-0-0-GA-available-now/">Spring AI 2.0.0 GA Available Now</a>（Spring 官方，2026-06-12）</li>
+  <li><a href="https://spring.io/blog/2025/12/11/spring-ai-2-0-0-M1-available-now/">Spring AI 2.0.0-M1 Available Now</a>（Spring 官方，2025-12-11）</li>
+  <li><a href="https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.1-Release-Notes">Spring Boot 4.1 Release Notes</a>（GitHub Wiki）</li>
+  <li><a href="https://endoflife.ai/article-spring-boot-eol">Spring Boot End of Life &amp; Support Options</a>（版本支持期，2026-11 截面）</li>
+  <li><a href="https://ecorpit.com/spring-boot-4-1-end-of-support-2027">Spring Boot 4.1 end of support on 31 July 2027</a>（发布日历与支持期推算）</li>
+  <li><a href="https://marc-nuetzel.de/posts/spring-boot-4-upgrade-what-breaks-first">Upgrading to Spring Boot 4: What Breaks First</a>（Jackson 3 默认值与契约测试）</li>
+  <li><a href="https://www.irurueta.com/ai/spring-ai/tool-calling-advisor-and-tool-search.html">Tool Calling Advisor &amp; Tool Search</a>（工具调用上限的属性与默认值）</li>
+</ul>]]></content><author><name>唐悦玮</name></author><category term="后端开发" /><category term="工程实践" /><category term="Spring AI" /><category term="Spring Boot 4" /><category term="JDK 21" /><category term="升级迁移" /><category term="Jackson 3" /><category term="工具调用" /><summary type="html"><![CDATA[摘要：想用 Spring AI 2.0，Boot 得先到 4.x。而 3.5 的免费补丁六月就停了，4.0 只剩一个月。这篇把三条时间线算清，再给一个不会返工的升级顺序。]]></summary></entry><entry><title type="html">Super-Agent 的瓶颈不是判断力</title><link href="https://tangyuewei.com/posts/proactive-agent-when-to-speak/" rel="alternate" type="text/html" title="Super-Agent 的瓶颈不是判断力" /><published>2026-11-21T11:18:00+08:00</published><updated>2026-11-21T11:18:00+08:00</updated><id>https://tangyuewei.com/posts/proactive-agent-when-to-speak</id><content type="html" xml:base="https://tangyuewei.com/posts/proactive-agent-when-to-speak/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：DeepSeek 开源的主动编程 Agent，默认只看不做。15 个模型、28 种配置的实测里，实时判断该不该插话的准确率只有 19%。四道闸逐条拆开，末尾附一段能落到服务里的 Java 判断。</p>
+</blockquote>
+
+<p>先设想一个场景。你在改一个接口，项目群里有人顺口说了句：登录最近有点慢。</p>
+
+<p>四十分钟后，一个 agent 在群里回：找到 <code class="language-plaintext highlighter-rouge">TokenService.java</code> 里的缓存 key 了，少拼了租户 ID，要我提个 PR 吗。</p>
+
+<p>没人 @ 它。</p>
+
+<p>主动 agent 的难点不在写代码，在判断此刻该不该开始处理。</p>
+
+<p>DeepSeek 在 2026 年 10 月 31 日开源的 <code class="language-plaintext highlighter-rouge">dsh-superagent-prototype</code>，把答案写进了第一条设计原则：默认只看不做。</p>
+
+<p>你能拿走的，是它那四道闸，还有一段能落到自己服务里的判断逻辑。</p>
+
+<h2 id="先把这东西说清楚">先把这东西说清楚</h2>
+
+<p>不是新模型。是一套调度框架，挂在 DeepSeek Harness 上，常驻一个 GitHub 仓库。</p>
+
+<p>分两层。Router 长时间在线，只做接待和分派，自己不下场跑命令。Worker 按工单并行，各自一个会话、一个独立工作目录。</p>
+
+<p>外面再挂一个 Watchdog，盯死循环和卡住的任务。</p>
+
+<p>听起来像多 agent 编排。差别在触发方式：你不用开终端，它自己从 issue、PR 评论、CI 结果、飞书群里捡活。</p>
+
+<h2 id="一个提交的原型">一个提交的原型</h2>
+
+<p>它涨得很快。开源八天，仓库页面上两万一千多 star、两千四百多 fork。</p>
+
+<p>但 README 第一行写得很直白：这是研究原型，不是官方产品，代码大量由 coding agent 写成，用之前自己审一遍。</p>
+
+<p>仓库只有一个提交，没有 release，没有 tag。当产品看太早，当设计稿读刚好。</p>
+
+<h2 id="先问它凭什么开口">先问它凭什么开口</h2>
+
+<p>多数人会先想：让它更聪明一点。判断不准，换个更强的模型。</p>
+
+<p>这条思路已经被实测否掉了。</p>
+
+<p>2026 年 10 月 19 日挂上 arXiv 的 PITCH 基准，找了 89 个人做 35 场无脚本群聊。</p>
+
+<p>流程是这样的：每人先写一条候选发言，再把它插到聊天记录里自己认为最合适的位置，然后一组人讨论每条消息的理想轮次和多长一个可接受窗口。</p>
+
+<p>最后攒出 384 条候选、1091 条人工判断。</p>
+
+<p>然后让 15 个模型、28 种配置去做同一件事。</p>
+
+<h2 id="离线578在线190">离线57.8%，在线19.0%</h2>
+
+<p>结果分成两半。</p>
+
+<p>给它完整对话历史，让它离线判断该插在哪，准确率 57.8%。信息一点也不缺，它做得还行。</p>
+
+<p>换成实时决策——对话一条条滚过来，它得当场决定说不说——准确率掉到 19.0%。将近一半的插入位置，比所有参与者能接受的最早时点还早。</p>
+
+<p>在场普通人实时判断的准确率是 23.7%，过早插入比例 39.7%，两项都比模型好。</p>
+
+<p>23.7% 很高吗？</p>
+
+<p>也不高。两边的差距不在谁更准，在错的方向：模型抢着说，人宁可晚一点。</p>
+
+<h2 id="缺口不在判断力">缺口不在判断力</h2>
+
+<p>为什么掉这么多？</p>
+
+<p>去看模型的推理日志：93% 的介入理由在讲「这条内容相关」，几乎没有一条在考虑「要不要再等一等」。</p>
+
+<p>缺口不在判断力。缺口是它没把沉默当成一个合法选项。</p>
+
+<p>再算另一笔账。另一份研究（arXiv:2609.37267）找了 30 个人做多日实验，结论更难看：任务做对了、时机错了，信任照样塌。</p>
+
+<h2 id="加个确认弹窗行不行">加个确认弹窗行不行</h2>
+
+<p>那就加个确认弹窗，人工点一下？</p>
+
+<p>主动 agent 的成本本来就是你的注意力。每弹一次窗，就有人要放下手上的事切过来看一眼。</p>
+
+<p>一个能替全组干活的 agent，也能把全组的注意力一起烧掉。</p>
+
+<p>团队在那篇设计文章里把问题定在这儿：单个任务的上限看模型，一堆任务的上限看人的注意力。</p>
+
+<p>换成你的场景想一下。工单系统每天推两百条催办，每条都合规、都准确。你会感谢它还是屏蔽它？</p>
+
+<h2 id="权限跟着工单走">权限跟着工单走</h2>
+
+<p>这套设计里最值得看的不是 Router/Worker，是一个叫 Mandate 的东西。一条消息进来，先过准入：发信人在不在白名单，有没有点名 agent。</p>
+
+<p>过了准入，开一张工单，工单带一份 Mandate。里面写三件事：谁提的、依据哪一版策略、允许动的范围有多大。</p>
+
+<p>它不可变。后续讨论再多，只往工单里送上下文，不送权限。想要更大范围，得另开一张工单。</p>
+
+<p>这条堵死了权限膨胀。你回想一下平常用的 agent：聊到第三轮，它顺手把范围从「改这个类」扩到「重构这个模块」，中间没人拦。</p>
+
+<p>Mandate 的做法是把扩权变成一个需要重新审批的动作，不是对话里自然长出来的结果。</p>
+
+<p>配套还有策略版本号。规则一改，跑着的评估作废，触发的消息重新排队，在跑的工单收到一条「策略变了」的输入。</p>
+
+<p><img src="/imgs/202611/2026-11-21-proactive-agent-when-to-speak-diagram-1.png" alt="一条消息怎么变成一张带授权的工单" /></p>
+
+<h2 id="默认只看不做">默认只看不做</h2>
+
+<p>accept 模式有三档，写在策略里。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>模式</th>
+      <th>落到行为上</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>off</td>
+      <td>没人点名的消息一律不接</td>
+    </tr>
+    <tr>
+      <td>observe</td>
+      <td>命中的单照样判，只记一条「本来会接」，不执行</td>
+    </tr>
+    <tr>
+      <td>auto</td>
+      <td>判定通过就接</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>默认停在 observe。</p>
+
+<p>我第一次读到这里时最没看懂的就是它：光看不动，那这东西装了干嘛。</p>
+
+<p>后来想通了。这不是保守，是把「校准」做成了流程。它先把「agent 本来会干什么」攒成一份记录，你看几天，觉得对了，再切 auto。</p>
+
+<p>官方文档的原话就是先在 observe 里跑，看过记录之后再切。</p>
+
+<h2 id="它什么时候被允许说话">它什么时候被允许说话</h2>
+
+<p>最硬的一条在时机上。</p>
+
+<p>文档里写：它只在有人必须行动、或者结果有人能用的时候才说话。确认请求说一次，干活期间闭嘴，结果出来了再说。</p>
+
+<p>还有一条更细：silence rule 可以压掉那条「收到，我开始做了」。</p>
+
+<p>专门写一条规则，用来让 agent 少说一句废话。</p>
+
+<p>这算小题大做吗？</p>
+
+<p>不算。群里那句「收到，我开始做了」，一天响二十遍，就是二十次打断。省掉它，比优化十句提示词都管用。</p>
+
+<h2 id="相关性不是时机">相关性不是时机</h2>
+
+<p>回到那个 93%。</p>
+
+<p>模型判断要不要开口，几乎全靠「这条内容跟任务相关」。相关性是个好筛子，挡噪音够用。</p>
+
+<p>但它答不了另一个问题：现在说，是不是比十分钟后说更好。</p>
+
+<p>这两个问题在工程上差得很远。相关性可以离线算，给全量历史，准确率 57.8%。时机必须在线算，信息在滚，人在打字，你手上只有这一秒。</p>
+
+<h2 id="告警也卡在同一个地方">告警也卡在同一个地方</h2>
+
+<p>所以你看告警那套东西就懂了。告警不准，大家去调阈值。告警很准但一天响两百次，你调的是抑制规则和聚合窗口。</p>
+
+<p>不是让告警更准，是让它少响。</p>
+
+<p>主动 agent 现在停在第一阶段。所有人都在卷「它说得对不对」，没人管「它该不该现在说」。</p>
+
+<p>DeepSeek 的解法是把时机也变成规则：白名单决定谁能叫它，规则决定什么活它能接，模式决定它接不接，silence rule 决定它什么时候闭嘴。</p>
+
+<p>四道闸，全是能写下来、能 review、能回滚的文本。</p>
+
+<p><img src="/imgs/202611/2026-11-21-proactive-agent-when-to-speak-infographic-1.jpg" alt="四道闸把主动收住" /></p>
+
+<h2 id="落到你的服务里">落到你的服务里</h2>
+
+<p>任何「系统主动推东西给人」的地方都是同一个结构：工单催办、审批提醒、监控告警、代码审查机器人。</p>
+
+<p>判断逻辑大致长这样。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="nc">Decision</span> <span class="nf">decide</span><span class="o">(</span><span class="nc">Signal</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">addressesAgent</span><span class="o">()</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="o">.</span><span class="na">requesterAllowed</span><span class="o">())</span> <span class="k">return</span> <span class="no">ACCEPT</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mode</span> <span class="o">==</span> <span class="nc">Mode</span><span class="o">.</span><span class="na">OFF</span> <span class="o">||</span> <span class="o">!</span><span class="n">s</span><span class="o">.</span><span class="na">matchesEnabledRule</span><span class="o">())</span> <span class="k">return</span> <span class="no">IGNORE</span><span class="o">;</span>
+    <span class="k">return</span> <span class="n">mode</span> <span class="o">==</span> <span class="nc">Mode</span><span class="o">.</span><span class="na">OBSERVE</span> <span class="o">?</span> <span class="no">RECORD_ONLY</span> <span class="o">:</span> <span class="no">ACCEPT</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>六行，四件事：谁有资格叫它、模式关没关、命中哪条规则、这一档该不该真干。</p>
+
+<p><code class="language-plaintext highlighter-rouge">RECORD_ONLY</code> 那一支最容易被省掉，也最不该省。它落进日志，是你事后回答「它本来会做什么」的唯一凭据。</p>
+
+<p>真正要改的是 <code class="language-plaintext highlighter-rouge">matchesEnabledRule</code>。规则别写成「相关就提醒」，把成立条件写清楚：这条提醒发出去，收件人能不能在五分钟内做点什么。</p>
+
+<p>不能，就别发。</p>
+
+<h2 id="等等这套的账还没算完">等等，这套的账还没算完</h2>
+
+<p>影子模式有代价：你得定期去看那份「本来会接」的记录。不看，它就是个垃圾场，切 auto 那天等于闭眼开车。</p>
+
+<p>数据边界也是真问题。它读群聊，读的是公司内部讨论。文档里承认这块还没解决，提示注入的防护也还开着口子。</p>
+
+<p>权限更直接。Worker 用你的系统账户跑命令，没有逐条审批。接到一个有写权限的仓库上，那一层权限就等于交出去了。</p>
+
+<p>还有一个容易被忽略的：它默认只接「不需要设计决策」的活。要拍板的事它停下来问你，这个停下来的频率，决定了它到底在省你时间还是在打断你。</p>
+
+<p>最后一句得说明白。文章里讨论的很多设计方向，原型并没有实现，也没有独立基准可查。</p>
+
+<h2 id="最后">最后</h2>
+
+<p>回到开头那个没被 @ 的 agent。</p>
+
+<p>它写代码这件事已经够用了。难的是它知道什么时候不说话。</p>
+
+<p>这份原型最值钱的地方，是把「主动」拆成了四道可以写下来的闸：谁能叫它、它能干什么、这一档真不真干、什么时候该闭嘴。四样都是文本，都能被人改。</p>
+
+<p>文档最后一句是这么写的：目标是合适的时间给合适的帮助，其他任何时间，什么都不给。</p>
+
+<p>这不是产品口号，是这套设计的验收标准。</p>
+
+<p>下次给系统加一条主动推送，先问一句：这一条发出去，收件人五分钟内能做点什么。答不上来，就把它留在 <code class="language-plaintext highlighter-rouge">RECORD_ONLY</code> 里。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li><a href="https://github.com/deepseek-ai/dsh-superagent-prototype">dsh-superagent-prototype</a></li>
+  <li><a href="https://arxiv.org/abs/2610.25896">When Should AI Chime In? Benchmarking Timely Contribution of Proactive Agents in Multi-Party Chat</a></li>
+  <li><a href="https://arxiv.org/abs/2609.37267">Foundations of Proactive Agents: Principles, Technical Layers, and Proactivity-Gym</a></li>
+  <li><a href="https://devpress.csdn.net/aibjcy/6af39dc7e5f4ca4eff8fb46a.html">DeepSeek Super-agent 架构拆解：双层 Router/Worker、工单授权与影子模式</a></li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI Agent" /><category term="DeepSeek" /><category term="主动Agent" /><category term="介入时机" /><category term="权限设计" /><category term="影子模式" /><summary type="html"><![CDATA[摘要：DeepSeek 开源的主动编程 Agent，默认只看不做。15 个模型、28 种配置的实测里，实时判断该不该插话的准确率只有 19%。四道闸逐条拆开，末尾附一段能落到服务里的 Java 判断。]]></summary></entry><entry><title type="html">多花 token，加钱加大推理并没有更强</title><link href="https://tangyuewei.com/posts/agent-token-cost-curve/" rel="alternate" type="text/html" title="多花 token，加钱加大推理并没有更强" /><published>2026-11-20T11:32:00+08:00</published><updated>2026-11-20T11:32:00+08:00</updated><id>https://tangyuewei.com/posts/agent-token-cost-curve</id><content type="html" xml:base="https://tangyuewei.com/posts/agent-token-cost-curve/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：效果不达标，第一反应是调高推理档位、加预算。几份实测研究给出同一个反证：同一道题跑四遍，最贵那次准确率并不更高，钱花在了反复读同一个文件上。</p>
+</blockquote>
+
+<p>前几天有个读者问我，说他给 agent 加了预算、把推理档位调到最高，活还是没干好。</p>
+
+<p>我问他，你怎么判断是”没想够”？他说账单涨了三倍。</p>
+
+<p>这个对话很典型。加钱加大推理，是这几年最像物理定律的一条经验。想不出来？让它多想一会儿。还不行？再想久一点。</p>
+
+<p>但有一批实测数据，把这个直觉按住了。</p>
+
+<h2 id="那张倒-u-形图">那张倒 U 形图</h2>
+
+<p>密歇根、斯坦福、微软的一批研究者，用 OpenHands 跑了 SWE-bench Verified 全部 500 个真实 GitHub issue。</p>
+
+<p>8 个前沿模型，每个任务独立跑 4 次。同一道题，四次成本最多差 30 倍。平均下来，最贵那次约是最便宜的两倍。</p>
+
+<p>更关键的是他们怎么分组。把同一道题的四次运行按 token 花费从低到高排，分成最低、次低、次高、最高四档，再看各档的准确率。</p>
+
+<p>从最低到次低，准确率小幅上升。再往上，平了。最贵那档，没有更高。</p>
+
+<p>论文摘要写得很克制：准确率常常在中等成本处见顶，更高成本处饱和。引言里说得更直白——在最贵的成本档位会退化。</p>
+
+<p>这不是”贵一点更稳”。是过了某个点之后，钱不买正确率。</p>
+
+<p><img src="/imgs/202611/2026-11-20-agent-token-cost-curve-diagram-1.png" alt="成本与准确率的倒 U 曲线" /></p>
+
+<h2 id="钱花在哪了">钱花在哪了</h2>
+
+<p>如果多花的钱不是买推理，那买的是什么？</p>
+
+<p>那篇算钱的论文里，有张行为分布图。它统计每个 run 里”重复查看文件”和”重复修改同一文件”的次数。贵的 run，这两个数字急剧上升。</p>
+
+<p>换成话讲：模型在同一个文件上反复来回，改了又看，看了又改，上下文越来越长，进展没有。</p>
+
+<p>论文的原话是，这反映低效的搜索动态，把上下文和 token 撑大，却没有相称的进展。</p>
+
+<p>这个场景做后端的人应该很熟。线上任务卡住，你不停重启、加日志、再试一次，日志越堆越高，问题还在原地。这不是想得更深，是在同一个地方打转。</p>
+
+<h2 id="想太多动太少">想太多，动太少</h2>
+
+<p>另一组研究把这个结论推得更远。伯克利、UIUC、ETH 的一批人分析了 4018 条 SWE-bench 轨迹，同样是 OpenHands。</p>
+
+<p>他们给每条轨迹打一个”过度思考分”：模型是在跟环境交互，还是在脑子里空想。分数越高，解决的问题越少。</p>
+
+<p>他们把这种打转归成三类：分析瘫痪、越界行动、过早退出。</p>
+
+<p>分析瘫痪，是反复推演而不去跑一下测试。越界行动，是不等反馈连着做几步。过早退出，是凭想象中的结果就收工。</p>
+
+<p>三条都不是”想得不够”，是”想得太多、动得太少”。</p>
+
+<p><img src="/imgs/202611/2026-11-20-agent-token-cost-curve-infographic-1.jpg" alt="三个场景，同一种浪费" /></p>
+
+<h2 id="失败反而更贵">失败反而更贵</h2>
+
+<p>回到那篇算钱的论文。还有一组更扎人的数字：模型在”全部模型都失败”和”全部模型都成功”这两个子集上的花费差多少？</p>
+
+<p>GPT-5 差不到 50 万 token，Kimi-K2 差约 200 万。</p>
+
+<p>失败本该更便宜——没解决就该早停。实际是更贵，而且贵得很有规律。</p>
+
+<p>论文的推断是：模型缺少识别”这题解不了”并及早停下的可靠机制。它会继续探索、重试、重读上下文，把成本堆上去，进度不涨。</p>
+
+<h2 id="它其实早就答对了">它其实早就答对了</h2>
+
+<p>推理模型那边还有一批更早的研究，把事情说得更清楚。</p>
+
+<p>有个叫 ThinkBrake 的实验做得挺狠：拿模型的推理轨迹，在每一个句子边界试着插入停止信号，事后挑最好的那个。</p>
+
+<p>结果平均准确率提升 8%，思考 token 砍掉 72%。</p>
+
+<p>也就是说，模型在轨迹中途就已经到了正确答案，后面那一大段全是白走。原文的说法是，模型常常到达一个正确的中间解，继续推理，然后把它覆盖成一个错误答案。</p>
+
+<p>还有一篇论文标题就叫《别为 2+3 想那么多了》。在答对的那些样本里，第一轮就已经正确的超过 92%。</p>
+
+<p>同一个”2+3”，o1 类模型比传统模型多花了约 19.5 倍的 token。</p>
+
+<h2 id="你看到的提升可能是假象">你看到的提升可能是假象</h2>
+
+<p>还有一篇叫《测试时扩展的幻象》的研究，把整件事解释得更彻底。</p>
+
+<p>它说：想得越久，输出的方差越大。方差变大，在某些评估口径下会显得”更可能对”，但精度其实在掉。</p>
+
+<p>也就是说，你看到的提升，有相当一部分是统计假象。</p>
+
+<h2 id="那该怎么办">那该怎么办</h2>
+
+<p>听到这里容易走偏：那是不是越少越好、能停就停？</p>
+
+<p>不是。曲线是倒 U，不是单调下降。开头那段爬升是真的——有些任务确实需要更多步去探索、读代码、试错。你要找的是拐点，不是起点。</p>
+
+<p>讲过度思考的那篇论文给了一个可操作的办法，比任何调参都实在：别挑想得最久的那个，挑过度思考最少的那个。</p>
+
+<p>他们从同一批候选解里选”过度思考分最低”的，而不是选”烧 token 最多”的。</p>
+
+<p>性能提升近 30%，计算成本降 43%。取 3 个候选时，性能超过高推理配置，成本还少 15%。</p>
+
+<h2 id="我会先看三个信号">我会先看三个信号</h2>
+
+<p>先看它在不在原地转。重复读同一个文件、反复改同一处，连续出现，就是拐点信号。这时候加预算等于给打转加速。</p>
+
+<p>再看失败有没有早停。失败集的花费是成功集的几倍，模型不会自己认输。重试次数必须有硬上限。</p>
+
+<p>还有一条容易忽略：别用人类难度估预算。人类专家标的任务难度，和实际 token 花费只有弱相关（Kendall τb 约 0.32）。</p>
+
+<p>有 6.7% 标着”15 分钟内”的任务，实际花的 token 比平均”1 小时以上”的还多。你觉得简单的活，模型可能正在里面绕圈。</p>
+
+<h2 id="那次账单是正常水平的好几倍">那次账单是正常水平的好几倍</h2>
+
+<p>把”停”做成明确判据，别指望模型自己判断够了。这是我踩过之后才改的习惯。</p>
+
+<p>我在一个 Spring Boot 的审批服务上接过 agent。不设上限的时候，它改一个状态流转的 bug，会在同一个 Service 类上来回读。</p>
+
+<p>每读一遍，整个文件重新塞回上下文。活最后是干完了，账单是正常水平的好几倍。</p>
+
+<p>后来加了三条约束：同一个文件连续读超过三次就中断，单任务 token 设硬上限，重试超过两轮直接转人工。</p>
+
+<p>写 <code class="language-plaintext highlighter-rouge">max_iterations</code>、写重试上限、写连续重复检测，比在 Prompt 里写一句”想清楚再答”有用得多。前者是确定的，后者全靠它心情。</p>
+
+<h2 id="回到那个问题">回到那个问题</h2>
+
+<p>所以那位读者的问题，答案不在”加多少”，在”加在什么时候”。</p>
+
+<p>加在爬升段，是投资。加在饱和段，是给一场已经在打转的搜索付加班费。</p>
+
+<p>下次账单涨了，先别急着安慰自己”它在深入思考”。打开 trace 看一眼：它是在读新东西，还是在读同一个文件第四遍。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li><a href="https://arxiv.org/abs/2604.22750">How Do AI Agents Spend Your Money? Analyzing and Predicting Token Consumption in Agentic Coding Tasks</a>，Bai 等，arXiv:2604.22750</li>
+  <li><a href="https://arxiv.org/abs/2502.08235">The Danger of Overthinking: Examining the Reasoning-Action Dilemma in Agentic Tasks</a>，Cuadron 等，arXiv:2502.08235</li>
+  <li><a href="https://arxiv.org/abs/2506.04210">Does Thinking More always Help? Mirage of Test-Time Scaling in Reasoning Models</a>，Ghosal 等，arXiv:2506.04210</li>
+  <li><a href="https://arxiv.org/abs/2510.00546">ThinkBrake: Efficient Reasoning via Log-Probability Margin Guided Decoding</a>，Song 等，arXiv:2510.00546</li>
+  <li><a href="https://arxiv.org/abs/2412.21187">Do NOT Think That Much for 2+3=? On the Overthinking of o1-Like LLMs</a>，Chen 等，arXiv:2412.21187</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI Agent" /><category term="Token成本" /><category term="测试时计算" /><category term="过度思考" /><category term="准确率" /><category term="工程实践" /><summary type="html"><![CDATA[摘要：效果不达标，第一反应是调高推理档位、加预算。几份实测研究给出同一个反证：同一道题跑四遍，最贵那次准确率并不更高，钱花在了反复读同一个文件上。]]></summary></entry><entry><title type="html">SSE 老在 ALB 上断，问题在哪</title><link href="https://tangyuewei.com/posts/streamable-http-sse-alb/" rel="alternate" type="text/html" title="SSE 老在 ALB 上断，问题在哪" /><published>2026-11-19T10:45:00+08:00</published><updated>2026-11-19T10:45:00+08:00</updated><id>https://tangyuewei.com/posts/streamable-http-sse-alb</id><content type="html" xml:base="https://tangyuewei.com/posts/streamable-http-sse-alb/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：MCP 服务一挂到 ALB 后面就断连，多数人先调超时、加心跳，没用。问题不在配置：SSE 把会话绑在一条长连接上，负载均衡器却天生要把请求分到不同实例。得换传输模型。</p>
+</blockquote>
+
+<p>你大概也遇到过这个场景。</p>
+
+<p>MCP Server 本地跑得好好的，客户端一连就上。</p>
+
+<p>一部署到 K8s，前面挂个 ALB，怪事来了：连上几分钟，工具调用到一半，连接悄悄断了。</p>
+
+<p>客户端以为活干完了，服务端还在等一个永远不会来的请求。</p>
+
+<p>翻日志，ALB 那边是 60 秒空闲超时。</p>
+
+<h2 id="先说结论">先说结论</h2>
+
+<p>调超时没用，加心跳也没用。至少在”多个副本”的场景下没用。</p>
+
+<p>问题不在 ALB 的配置。ALB 只是照规矩办事：一条连接闲够 60 秒，它就掐掉。你把它调到 300 秒，只是把断的时间点往后推，断还是会断。</p>
+
+<p>真正在作怪的是 SSE 这个传输模型本身。它要求客户端和服务端之间维持一条长连接，会话状态就挂在这条连接上。</p>
+
+<p>而负载均衡器的天性，是把请求分散到后端不同实例。一个要粘，一个要散，这俩从根上就对不上。</p>
+
+<p><img src="/imgs/202611/2026-11-19-streamable-http-sse-alb-infographic-1.jpg" alt="三种传输部署在同一负载均衡后，只有无状态方案请求能落到任意实例" /></p>
+
+<h2 id="天线和开关">天线和开关</h2>
+
+<p>把这套东西想成一个老式对讲机。</p>
+
+<p>SSE 是天线。你喊第一句话的时候接通了一个人，后面所有话都得顺着这条天线传。中间换个接线员，这条线就断了，对方不知道你说到哪。</p>
+
+<p>负载均衡器是个总机。它的工作就是把打进来的电话转给空闲的分机。它不知道哪通电话该转给哪个接线员，于是随机分配。</p>
+
+<p>于是事故是这样发生的：客户端的初始化请求落到实例 A，会话建在 A 的内存里。下一次工具请求被总机转到了实例 B。B 翻遍自己的内存，没有这个会话。</p>
+
+<p>日志里那句 <code class="language-plaintext highlighter-rouge">Could not find session for ID</code> 就是这么来的。</p>
+
+<p>我在一个开源项目的踩坑记录里看到过一模一样的报错，多 gunicorn worker、多 Pod 的场景下反复出现。</p>
+
+<p>到这一步你就明白了：这不是配置问题，是架构和基础设施的日常行为对撞。</p>
+
+<p>多副本、自动扩缩容、滚动发布——这三件事任一发生，有状态的长连接就会被打断。心跳只能保住连接别闲着，保不住它落到哪个实例。</p>
+
+<h2 id="出路一粘住它">出路一：粘住它</h2>
+
+<p>最直接的办法，是让总机记住：这通电话以后都转给 A。</p>
+
+<p>这就是粘滞会话。ALB 上叫 stickiness，Nginx 上叫 ip_hash。按客户端 IP 或者 session ID 做哈希，保证同一个会话的请求都落到同一个实例。</p>
+
+<p>配置不难，代价在后面。</p>
+
+<p>第一个代价是扩缩容。实例一缩，钉在它上面的所有会话全部重连。你的自动扩缩容会变得束手束脚：每个实例都有活会话，谁也不敢先走。</p>
+
+<p>第二个代价是滚动发布。发布时旧实例被摘掉，长在它上面的 SSE 连接被强制中断。客户端得自己学会重连，不然用户就看到一个断掉的画面。</p>
+
+<p>第三个代价更隐蔽：如果你按客户端 IP 做哈希，而你的客户端都躲在同一个 NAT 或 API 网关后面，它们会被算成同一个人，全挤到一个实例上。哈希等于没做。</p>
+
+<p>粘滞会话能用，但它是拿扩展性换稳定。你得清楚自己换出去了什么。</p>
+
+<h2 id="出路二把状态搬走">出路二：把状态搬走</h2>
+
+<p>第二个办法，是别把会话存在实例内存里，存到一个大家都够得着的地方。Redis 是常见选择。</p>
+
+<p>这样每个请求自带会话 ID，哪个实例拿到都能去共享存储里查到状态。总机随便转，转给谁都行。</p>
+
+<p>代价是多一跳网络。每次工具调用都要先去 Redis 取一次会话状态，请求延迟涨一点。你还得维护一套 Redis，多一个可能故障的组件。</p>
+
+<p>对大多数内网里的 MCP 服务，这一跳可以接受。真正要想清楚的是会话里存什么：如果只是几个参数，搬走很轻；如果存了工具注册表的上下文，搬的就是一份不小的状态。</p>
+
+<h2 id="出路三不要会话">出路三：不要会话</h2>
+
+<p>第三个办法最狠：干脆取消会话。</p>
+
+<p>MCP 在 2025 年的规范修订里，把 Streamable HTTP 定为标准传输，用来替代早期的 HTTP+SSE。官方规范里的说法是，它”replaces the HTTP+SSE transport from protocol version 2024-11-05”。</p>
+
+<p>做法很朴素。客户端每次发消息，都是一次独立的新 HTTP POST。</p>
+
+<p>服务端可以把它当成普通的请求-响应处理，也可以在这个 POST 上升级成 SSE 流做进度推送。总之不再需要一条常驻的双向通道。</p>
+
+<p>没有常驻通道，就没有必须粘住的会话。请求散给谁都行，负载均衡器终于能做它擅长的事。</p>
+
+<h2 id="坑换了名字没换状态">坑：换了名字，没换状态</h2>
+
+<p>这里有个坑要提醒你。</p>
+
+<p>规范里的 Streamable HTTP 仍然允许带 <code class="language-plaintext highlighter-rouge">Mcp-Session-Id</code>，它本身不等于无状态。</p>
+
+<p>要做到真正随意分发，你得在实现层面选无状态模式——社区里的做法是起服务时打开无状态开关，或者关掉 SSE 响应，让每个 POST 自成一体。</p>
+
+<p>换了协议名不等于换了架构。你要的是”无状态”这个性质，不是”Streamable”这个词。</p>
+
+<p><img src="/imgs/202611/2026-11-19-streamable-http-sse-alb-diagram-1.png" alt="会话状态的三种放置方案：粘住、外置、无状态，各有代价" /></p>
+
+<h2 id="别急着拆天线">别急着拆天线</h2>
+
+<p>写到这里，我得给 SSE 说句公道话。</p>
+
+<p>如果你的服务只有一个实例，跑在内网，客户端数量可控，SSE 用得好好的，那就别动它。引入 Redis 或者改无状态，都是有成本的。为不存在的问题付成本，不划算。</p>
+
+<p>决定要不要换的，不是”新协议更时髦”，是三个具体问题：你会不会扩到多个副本？会不会用自动扩缩容？会不会频繁滚动发布？</p>
+
+<p>三个里有一个答案是”会”，你就该认真考虑让会话别待在实例内存里。三个都是”不会”，SSE 没什么不好。</p>
+
+<h2 id="回到配置这件事">回到配置这件事</h2>
+
+<p>所以，SSE 老在 ALB 上断，问题真不在配置。</p>
+
+<p>调超时、加心跳，能缓解，但都是在跟基础设施的日常行为对抗。只要你的会话还绑在一条长连接、一个实例的内存上，多副本和滚动发布就会一次次把它打断。</p>
+
+<p>真正的解法是换个思路：要么把会话粘住并接受扩展性的损失，要么把状态搬出去，要么让请求彻底无状态。三条路没有高下，取决于你的规模和对延迟的容忍度。</p>
+
+<p>下次看到 <code class="language-plaintext highlighter-rouge">Could not find session for ID</code>，先别去翻 ALB 的超时参数。问自己一个问题：这个会话，现在存在哪台机器的内存里？</p>
+
+<p>答案出来，路线也就定了。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li><a href="https://modelcontextprotocol.io/specification/2025-06-18/basic/transports">Transports - Model Context Protocol 官方规范</a></li>
+  <li><a href="https://github.com/laozhangzzz/agent-pitbook/blob/main/pits/mcp/mcp-sse-session-lost-multi-worker.md">MCP SSE session lost across workers/pods</a></li>
+  <li><a href="https://alivemcp.com/seo/mcp-server-load-balancing">MCP server load balancing</a></li>
+  <li><a href="https://yaw.sh/mcp-in-production/mcp-server-hosting">Deployment and Hosting - MCP in Production</a></li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="MCP" /><category term="Streamable HTTP" /><category term="SSE" /><category term="负载均衡" /><category term="会话管理" /><category term="云原生部署" /><summary type="html"><![CDATA[摘要：MCP 服务一挂到 ALB 后面就断连，多数人先调超时、加心跳，没用。问题不在配置：SSE 把会话绑在一条长连接上，负载均衡器却天生要把请求分到不同实例。得换传输模型。]]></summary></entry><entry><title type="html">AI 落地难，锅不在技术也不在业务</title><link href="https://tangyuewei.com/posts/ai-business-translation/" rel="alternate" type="text/html" title="AI 落地难，锅不在技术也不在业务" /><published>2026-11-18T20:36:00+08:00</published><updated>2026-11-18T20:36:00+08:00</updated><id>https://tangyuewei.com/posts/ai-business-translation</id><content type="html" xml:base="https://tangyuewei.com/posts/ai-business-translation/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：AI 落不了地，先别甩锅给技术或业务。卡住的是中间那层翻译：把说不清的业务约束，变成 AI 能执行的规则。德勤报告里 71% 的企业部署了 AI，只有 7% 进领先组，差的就是它。</p>
+</blockquote>
+
+<p>你大概开过这样的评审会。</p>
+
+<p>AI 写的 demo 特别惊艳，一放到真实业务里就翻车。</p>
+
+<p>会上分成两派：一派说模型不够强，换个更贵的；一派说业务没讲清，需求写得太粗。两派都能举出例子，可换完模型、补完文档，同样的坑还会再踩一遍。</p>
+
+<p>锅到底在谁头上？都不在。</p>
+
+<p>真正卡住落地的，是技术和业务中间那层翻译——把那些说不清、但人人都懂的约束，变成 AI 能看懂、能执行的规则。这层没人做，再强的模型也只是把错误执行得更快。</p>
+
+<p>这就是那组让 CEO 们焦虑的数字背后的事。</p>
+
+<h2 id="那组数字把锅分成了两半">那组数字，把锅分成了两半</h2>
+
+<p>2026 年 11 月，德勤在深圳的 APEC 工商领导人峰会上抛了一组数。它刚做完一份亚太 CEO 的 AI 调查：71% 的受访企业已大范围部署 AI，只有 7% 进入它定义的转型领先组。</p>
+
+<p>进了领先组的，64% 说 AI 带来了显著价值；没进的普通组，这个数字是 13%。</p>
+
+<p>数字一出来，最常见的两个反应是：技术还不够，或者业务太保守。</p>
+
+<p>德勤全球 CEO 乔德明在会上的原话，把这两种反应都堵了回去。他说问题不在技术本身，真正的挑战在于「把用例嵌入大型复杂组织的心脏」。</p>
+
+<p>谈到应用层谁来负责，他反问：谁来拥有应用层、开发可规模化的用例？「不能简单交给技术人员。」</p>
+
+<p>这句话在程序员群里被转成了另一种味道：看，AI 落地失败，怪我们技术？</p>
+
+<p>其实他批评的也不是技术能力。他后面补的那句才是重点：技术人员闭门造车，做出来的东西「POC 阶段很漂亮、但过于简单、没考虑真实世界复杂性」。</p>
+
+<p>真实世界复杂性。这几个字，说的就是那层翻译没做。</p>
+
+<h2 id="换模型没用因为约束不在模型里">换模型没用，因为约束不在模型里</h2>
+
+<p>先说换模型这条路为什么走不通。</p>
+
+<p>我第一次让 AI 生成一个支付回调的处理逻辑，它写得干净利落：收到通知，更新状态，返回成功。我盯着看了半天，挑不出毛病。直到测试同学问了一句：第三方重复通知怎么办？</p>
+
+<p>那一刻我发现，AI 不是写得不好，是它根本不知道有重复通知这回事。</p>
+
+<p>这条约束不在它拿到的需求里，也不在任何一份文档里。它在风控同事的脑子里，在他讲过的那句「第三方可能重试，你别扣两次钱」里。</p>
+
+<p>你让 AI 通读需求文档，它能读到什么？读到的是「收到支付通知后更新订单状态」。读不到的是「同一次支付可能通知三次，第三次不能重复入账」。</p>
+
+<p>前者是需求，后者是约束，而需求文档天然只写前者。</p>
+
+<p>补文档补不上，换模型也换不出来。因为约束从来就不在那两层里。</p>
+
+<h2 id="那就让业务方把约束写清楚">那就让业务方把约束写清楚？</h2>
+
+<p>有人说，那让业务方把规则写详细点，写成一份完整的业务规则清单。</p>
+
+<p>这条路听着靠谱，做起来会散架。业务方能告诉你「重点客户的审批要优先处理」，但他没法告诉你这条规则落到代码里，是加一个优先级字段，还是要单独排一条队列。</p>
+
+<p>更不会告诉你，加了优先级之后，普通客户的单子会不会被饿死。</p>
+
+<p>这就是「都重要」这句话最滑头的地方。它把问题说成技术和业务各占一半，然后各打五十大板。但真实情况不是五五开，是中间缺了一层，两边都够不着。</p>
+
+<p>技术这边看不到业务约束，业务那边说不出技术后果。</p>
+
+<p>中间这层，得有人把「优先处理」翻译成「带权重的队列加一条饥饿阈值」，并且能回头告诉业务方：这么改之后，普通单子最多等多久。</p>
+
+<p>不是把技术和业务两个人拉来合影，是一个人脑子里同时装得下两边。</p>
+
+<h2 id="那层翻译长什么样先写进测试">那层翻译长什么样：先写进测试</h2>
+
+<p>它是三件事。最要紧的一件：把约束写成测试，别写成注释。</p>
+
+<p>注释是写给人看的，AI 读不读全看它状态。测试是能跑的，你把它接进 CI，AI 每次生成完代码都得过这一关。</p>
+
+<p>我在做智能审批那套东西时，把「同一条审批不能重复通过」「撤回之后不能再审批」这类规则，全写成了用例。后面不管谁来生成代码，跑一遍测试就知道有没有踩线。</p>
+
+<p>等等，写这些测试不是又多了一道活吗？</p>
+
+<p>是，而且这道活短期不产生任何业务价值。你的排期里不会有一项叫「把隐性约束显性化」。</p>
+
+<p>所以它被跳过的概率极高——直到某次翻车之后，才有人想起来补。这笔账得算进交付速度里，我不能只讲收益不讲代价。</p>
+
+<h2 id="把规则做成确定性门禁">把规则做成确定性门禁</h2>
+
+<p>还有一件常被忽略的：把领域规则做成门禁，而不是提示词里的一句叮嘱。</p>
+
+<p>你在 Prompt 里写「注意幂等」，模型可能听，可能不听。</p>
+
+<p>你把规则做成一个确定性检查——提交前扫一遍，发现扣款逻辑没挂幂等键就直接拦下——它就一定会生效。</p>
+
+<p>这不是信不信 AI 的问题，是把不确定的东西，换成确定的东西。</p>
+
+<p>最后一件容易漏的：让约束进上下文，别让它留在人脑子里。</p>
+
+<p>AI 读不到你的生产事故记录，也读不到老员工离职时带走的那句「这个接口不能并发调」。这些得由你写进它每次都能看到的地方。</p>
+
+<p>你给仓库写的那些规则文件、Agent 的边界说明，本质都在干这件事。</p>
+
+<p><img src="/imgs/202611/2026-11-18-ai-business-translation-diagram-1.png" alt="业务约束从隐性到可执行的三层落点" /></p>
+
+<h2 id="换个场景还是这层活">换个场景，还是这层活</h2>
+
+<p>这套东西不只用在 AI 落地。</p>
+
+<p>你带过新人吧。你跟他说「把审批状态改一下」，他改完，线上出问题——因为「改一下」里藏着十几个你没说的约束。</p>
+
+<p>你说的是动作，他要的是边界。新人会回头问你，AI 不会，它直接照着字面执行。</p>
+
+<p>所以这层翻译从来都在，只是以前由人在口头补齐。AI 把执行速度提上去之后，补不齐的代价被放大了：以前一个新人一天犯一个错，现在一个 Agent 一分钟能犯一百个。</p>
+
+<p>这也是为什么德勤开的药方是配对——让有工程能力的人和懂业务的人坐在一起。</p>
+
+<p>配对能补一部分，但它有个隐含前提：两个人得有一门共同语言，能把「优先处理」翻译成可执行的规则。这门语言，就是那层翻译。</p>
+
+<p><img src="/imgs/202611/2026-11-18-ai-business-translation-infographic-1.jpg" alt="三个场景里，缺的都是同一层" /></p>
+
+<h2 id="最后">最后</h2>
+
+<p>回到开头那场评审会。</p>
+
+<p>锅不在技术，模型够强了。锅不在业务，需求也写得很厚了。锅在中间那层：那些人人以为对方知道、结果谁都没写下来的约束。</p>
+
+<p>懂 AI 和懂业务都重要，这话没错。但更准确的说法是：你得能把业务里说不清的东西，翻成 AI 能执行的规则。这个能力不会因为模型升级而过时，只会越来越值钱。</p>
+
+<p>下次 demo 又翻车，先别急着换模型。翻出那条被省掉的约束，写成测试，跑一遍。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+  <li><a href="https://news.qq.com/rain/a/20261117A0CT7H00">71% 的受访企业已广泛部署 AI，德勤全球 CEO：真正获得财务回报的仍很少</a>：腾讯新闻</li>
+  <li><a href="https://finance.sina.com.cn/hy/hyjz/2026-11-17/doc-iniyzswf2185918.shtml">德勤全球首席执行官乔德明：CEO 们几乎都在用 AI，但很少有人真正赚到钱</a>：新浪财经</li>
+</ol>]]></content><author><name>唐悦玮</name></author><category term="AI编程" /><category term="工程实践" /><category term="AI落地" /><category term="业务理解" /><category term="工程判断" /><category term="幂等" /><category term="企业应用" /><summary type="html"><![CDATA[摘要：AI 落不了地，先别甩锅给技术或业务。卡住的是中间那层翻译：把说不清的业务约束，变成 AI 能执行的规则。德勤报告里 71% 的企业部署了 AI，只有 7% 进领先组，差的就是它。]]></summary></entry><entry><title type="html">RAG 的向量库，Redis 8 想让你删掉</title><link href="https://tangyuewei.com/posts/redis-8-vector-set-vs-vector-db/" rel="alternate" type="text/html" title="RAG 的向量库，Redis 8 想让你删掉" /><published>2026-11-17T09:12:00+08:00</published><updated>2026-11-17T09:12:00+08:00</updated><id>https://tangyuewei.com/posts/redis-8-vector-set-vs-vector-db</id><content type="html" xml:base="https://tangyuewei.com/posts/redis-8-vector-set-vs-vector-db/"><![CDATA[<blockquote>
+  <p><strong>摘要</strong>：别急着删向量库：Redis 8 能替你删掉同步管线和语义缓存，但全量向量和极致召回还得留给专用库。看清哪半能删、哪半不能，再决定动不动手。</p>
+</blockquote>
+
+<h2 id="一个进程想装下四套东西">一个进程，想装下四套东西</h2>
+
+<p>「你们 RAG 上线三个月，现在维护几套东西？」</p>
+
+<p>被人这么一问，我数了数：一个缓存、一个会话库、一个向量库，还有把它们串起来的那条同步管线。四套。</p>
+
+<p>Redis 8 给的答案很直接：这些，我一个进程就能干。</p>
+
+<p>它不是说说。向量集、查询引擎、语义缓存，全塞进了同一个 Redis。官方那句最诱人的话是——语义缓存能在高重复负载下，把大模型的调用成本砍到七成以下。</p>
+
+<p>于是「删掉向量库」的口号就喊出来了。可你真敢删吗？</p>
+
+<p>先别急。这句话对了一半，也错了一半。今天把两半拆开看。</p>
+
+<p>先把 Redis 能干的活摆清楚。它有两条向量路线，很多人上来就选错。</p>
+
+<p>一条叫向量集（Vector Set），8.0 才进 beta。它像有序集合，只不过每个元素绑的不是分数，是一个向量。加数据用 VADD，查相似用 VSIM，不用建索引，属性直接塞 JSON。</p>
+
+<p>另一条是老的查询引擎（Query Engine），向量存在 hash 或 JSON 里，要先 FT.CREATE 建索引，再用 FT.SEARCH 查。它能同时按全文、标签、数值、地理过滤。</p>
+
+<p>区别很实在：前一条路轻，适合快速上线和实时推荐；后一条路重，适合向量加复杂筛选。选错了要重写——不是改几行，是推倒。</p>
+
+<p>动手前先问自己一句：你要的是「轻量相似搜索」，还是「向量加一堆结构化过滤」？</p>
+
+<h2 id="它真正想删的是那条同步管线">它真正想删的，是那条同步管线</h2>
+
+<p>那「删掉向量库」到底指什么？</p>
+
+<p>我原先以为是「Redis 的性能追上了专用向量库」。翻完官方文档才发现，不是。</p>
+
+<p>Redis 真正想替你删的，是那条没人愿意维护的同步管线——业务库写完，还得把向量再同步一份给向量库；中间一断，就出现「订单写进去了、向量还没更新」的分裂脑。</p>
+
+<p>还有一块更值钱：语义缓存。用户换个说法问同一件事，它认得出意思一样，直接返回缓存答案，不再调一次大模型。官方说高重复场景能省七成 LLM 成本；有个医疗语音助手，命中率做到 70%，账单跟着降，响应快四倍。</p>
+
+<p>这块，专用向量库为什么给不了？因为那些库的本事只在「查得准」，不在「认出重复提问」。它们的对比表里，Pinecone、Milvus、Qdrant、pgvector，语义缓存那一列全是叉。</p>
+
+<p>这才是 Redis 8 的杀招：不是把向量查得更快，是把「向量 + 缓存 + 会话」关进一个进程，省掉中间那层胶水。</p>
+
+<h2 id="全量向量接不住那就删一半">全量向量接不住，那就删一半</h2>
+
+<p>那全量向量也交给它，行不行？</p>
+
+<p>这里就得泼冷水了。向量集有三个坎，官方文档自己写着，绕不过去。</p>
+
+<p>头一个坎，它还是 beta。官方原话是「API 和行为在后续版本可能变化」。你要拿它扛生产主链路，等于把架构押在一个可能改接口的东西上。</p>
+
+<p>再一个是分片——它压根没有内置的。官方的扩展方案是「手动把数据切到多个 key 和节点，把 VSIM 扇到每个分片，客户端自己合并」。写能线性扩，读不能。数据一上亿，这条就卡脖子。</p>
+
+<p>还有召回率，得打个折。第三方对比说 Redis 大约 92%，专用向量库能到 95 到 98%。猜你喜欢这种场景无所谓，法律、医疗检索漏一条都算事故。</p>
+
+<p>那个「十亿向量」的基准，也得看清口径：90% 精度、中位 200 毫秒、50 并发、top-100。而且 Redis 自己在博客里提醒——多数基准是厂商自发布，请用自己的数据验证。这话挺诚实，也说明别拿宣传数字当承诺。</p>
+
+<p>所以全量、冷数据、极致召回，别指望它一个人扛。</p>
+
+<p>把上面的判断画成一张图，大概是这样：</p>
+
+<pre><code class="language-mermaid">flowchart TD
+    A[你要做语义检索] --&gt; B{已在用 Redis 吗}
+    B --&gt;|否| C{数据量过亿 或 要极致召回}
+    C --&gt;|是| D["专用向量库&lt;br/&gt;Milvus / Qdrant · 召回 95%+"]
+    C --&gt;|否| E["向量集 或 pgvector&lt;br/&gt;少一个组件好维护"]
+    B --&gt;|是| F{数据量大不大}
+    F --&gt;|千万级以内| E
+    F --&gt;|上亿 或 冷热分层| G["组合：热点 + 语义缓存进 Redis&lt;br/&gt;全量进专用库"]
+    D --&gt; G
+    E --&gt; G
+    G --&gt; H[删掉的是同步管线&lt;br/&gt;不是向量库本身]
+</code></pre>
+
+<p>所以回到开头那四套东西。我的答案是：删，但删对一半。</p>
+
+<p>能删的，是那条同步管线，和「每次重复提问都要再付一次钱」的语义缓存账单。这两块，Redis 8 确实接得住，而且专用向量库接不了。</p>
+
+<p>不能删的，是全量向量和极致召回。数据上亿、要求 95% 以上召回、还要 GPU 加速索引或私有化部署，专用库仍然是更稳的那一个——Redis 自己都承认，需要专门调优时它可能更合适。</p>
+
+<p>成熟的做法不是二选一，是组合：冷数据、全量进专用库或 pgvector；热点查询和语义缓存留在 Redis。用一个进程接下高频的那部分，把贵的那部分省下来。</p>
+
+<p>Redis 8 喊「删掉向量库」，其实喊错了一个字。它想让你删的，是向量库背后那条没人想维护的同步管线，和那张不断重复付费的账单。</p>
+
+<p>真正该问的不是「要不要删向量库」，是「我的数据，冷的那部分到底有多少」。</p>
+
+<p><img src="/imgs/202611/2026-11-17-redis-8-vector-set-vs-vector-db-infographic-1.jpg" alt="Redis 8 与向量库：一个进程接住缓存与检索，同步管线才是该删的那截" /></p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>
+    <p>Redis 8.0 What’s New（向量集进入 Beta、Redis Open Source 合并、Query Engine 改动）：https://redis.io/docs/staging/DOC-5680/develop/whats-new/8-0</p>
+  </li>
+  <li>
+    <p>Redis 官方博客《Top vector database alternatives for RAG pipelines》（语义缓存最多降 73%、十亿向量基准口径、厂商基准提醒）：https://redis.io/blog/vector-database-alternatives-rag-pipelines</p>
+  </li>
+  <li>
+    <p>Redis 官方教程《Getting started with vector sets》（VADD/VSIM、命令、与 Query Engine 的差异）：https://redis.io/learn/howtos/vector-sets-basics</p>
+  </li>
+  <li>
+    <p>第三方实战笔记（向量集量化档位、无内置分片、字节序与过滤静默排除等边界）：https://www.thakurcoder.com/blog/redis-8-cache-vector-search-semantic-caching</p>
+  </li>
+  <li>
+    <p>第三方评测观点（Redis 召回率约 92% 对专用库 95%–98%、”不取代专用库”的定位）：https://www.cnblogs.com/gloamfox/p/21893909</p>
+  </li>
+  <li>
+    <p>Valkey 与 Redis 现状（Valkey 9.1 性能、AWS 默认引擎与定价差异、许可分歧）：https://devops-daily.com/posts/is-valkey-ready-to-replace-redis-2026</p>
+  </li>
+</ul>
+
+<blockquote>
+  <table>
+    <tbody>
+      <tr>
+        <td>作者：<a href="https://tangyuewei.com">唐悦玮</a></td>
+        <td>从后端出发，用 AI 拓展到全栈的工程师。</td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>]]></content><author><name>唐悦玮</name></author><category term="后端开发" /><category term="数据库" /><category term="AI编程" /><category term="Redis" /><category term="向量数据库" /><category term="RAG" /><category term="语义缓存" /><category term="pgvector" /><category term="数据库选型" /><category term="2026趋势" /><summary type="html"><![CDATA[摘要：别急着删向量库：Redis 8 能替你删掉同步管线和语义缓存，但全量向量和极致召回还得留给专用库。看清哪半能删、哪半不能，再决定动不动手。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-17-redis-8-vector-set-vs-vector-db.png%22%7D" /><media:content medium="image" url="https://tangyuewei.com/%7B%22src%22=%3E%22/imgs/202611/2026-11-17-redis-8-vector-set-vs-vector-db.png%22%7D" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
